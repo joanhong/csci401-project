@@ -41,12 +41,10 @@ public class UserService
 	{
 		if(users.containsKey(id))
 		{
-			System.out.println(id +"was found");
 			return users.get(id);
 		}
 		else
 		{
-			System.out.println(id + "was not found");
 			return null;
 		}
 	}

@@ -14,29 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import model.User;
 import service.UserService;
 
-@RestController
 @Controller
-//@RequestMapping ("/users")
 public class UserController
 {
-	@Autowired
-	UserService us;
-	
-	@RequestMapping ("users/all")
-	@ResponseBody
-	public Hashtable<String, User> getAll()
-	{
-		return us.getAll();
-	}
-	
-	@RequestMapping ("/users/" + "{id}")
-	@ResponseBody
-	public User getUser(@PathVariable("id") String id)
-	{
-		System.out.println(id);
-		System.out.println(us.getUser(id));
-		return us.getUser(id);
-	}
 	
 	@RequestMapping ("/user")
 	public String user (Model model)
