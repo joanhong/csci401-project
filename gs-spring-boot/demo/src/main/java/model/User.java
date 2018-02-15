@@ -3,6 +3,7 @@ package model;
 public class User {
 
 	
+	String id;
 	
 	int userNumber;
 	String userType;
@@ -123,6 +124,14 @@ public class User {
 	public void setSemester(String semester) 
 	{
 		this.semester = semester;
+	}
+	public String getId() 
+	{
+		return id;
+	}
+	public void setId(String id) 
+	{
+		this.id = id;
 	}
 	
 }
