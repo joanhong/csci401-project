@@ -32,7 +32,7 @@ public class UserController
 		u.setSemester("Spring 2018");
 		u.setYear("Senior");
 		model.addAttribute("user", u);
-		return "reactTemp";
+		return "userView";
 	}
 	
 	@ResponseBody
