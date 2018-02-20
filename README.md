@@ -1,7 +1,7 @@
 # csci401-project
 CSCI 401 Project Platform
 
-Instruction on how to run using Spring Boot Suite are included in README.pdf.
+Instructions on how to run the project using Spring Boot Suite are in the file README.pdf.
 
 Anthony Elevathingal elevathi@usc.edu  
 Shantanu Gupta shantang@usc.edu  
