@@ -166,13 +166,12 @@ public class Algorithm {
 	void EliminateProjects() {
 		for (int i=projects.size()-1; i>0; i--) {
 			Project p = projects.elementAt(i);
-			if (p.members.size() < p.minSize
-					&& (GetTotalMaxSpots()-p.maxSize) >= students.size()) {
+			if (p.members.size() < p.minSize && (GetTotalMaxSpots()-p.maxSize) >= students.size()) {
 				writer.println("Eliminated " + p.name);
 				for (Student s: p.members) {
 					unassignedStudents.add(s);
 				}
-				projects.remove(projects.size()-1);
+				projects.remove(i);
 			}
 		}
 		writer.println("");
