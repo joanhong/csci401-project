@@ -35,10 +35,10 @@ public class UserController
 		return "userView";
 	}
 	
-	@ResponseBody
-	@RequestMapping ("/")
-	String entry()
-	{
-		return "Welcome to the CSCI401 Portal!";
-	}
+//	@ResponseBody
+//	@RequestMapping ("/")
+//	String entry()
+//	{
+//		return "Welcome to the CSCI401 Portal!";
+//	}
 }
