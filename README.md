@@ -1,6 +1,8 @@
 # csci401-project
 CSCI 401 Project Platform
 
+Instructions on how to run the project using Spring Boot Suite are in the file README.pdf.
+
 Anthony Elevathingal elevathi@usc.edu  
 Shantanu Gupta shantang@usc.edu  
 Joan Hong joanhong@usc.edu  
@@ -9,3 +11,4 @@ Ingrid Wang ingridwa@usc.edu
 
 #In gs-spring-boot
 mvn package && java -jar target/gs-spring-boot-0.1.0.jar
+

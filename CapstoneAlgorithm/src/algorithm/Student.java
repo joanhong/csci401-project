@@ -16,8 +16,7 @@ public class Student {
 		orderedRankings = new Vector<String>();
 	}
 	
-	public void print() {
-		System.out.println("Student #" + this.studentId + ": '" 
-							+ this.name + "' | " + this.rankings);
+	public String toString() {
+		return ("Student #" + this.studentId + ": '" + this.name + "' | " + this.rankings);
 	}
 }
