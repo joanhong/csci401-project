@@ -1,9 +1,10 @@
 package algorithm;
 
 import java.io.PrintWriter;
+import java.util.Comparator;
 import java.util.Vector;
 
-public class Project {
+public class Project implements Comparable {
 	
 	public int projectId;
 	public String name;
@@ -60,5 +61,32 @@ public class Project {
 		}
 		writer.println("");
 	}
+
+	/* Comparator Stuff */
+
+	@Override
+	public int compareTo(Object o) {
+		if (!(o instanceof Project))
+			throw new ClassCastException();
+
+		Project p = (Project) o;
+
+		return (this.name).compareTo(p.name);
+	}
 	
+	// sorts by popularity in descending order
+	static class popularityComparator implements Comparator {
+		public int compare(Object o1, Object o2) {
+			if (!(o1 instanceof Project) || !(o2 instanceof Project))
+				throw new ClassCastException();
+			
+			Project p1 = (Project) o1;
+			Project p2 = (Project) o2;
+						
+	        if (p1.returnPopularity() > p2.returnPopularity()) return -1;
+	        else if (p1.returnPopularity() < p2.returnPopularity()) return 1;
+	        else return 0;
+		}
+	}
+
 }

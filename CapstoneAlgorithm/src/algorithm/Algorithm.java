@@ -108,18 +108,13 @@ public class Algorithm {
 		
 		// calculate each project's popularity scores
 		writer.println("Project Popularity Scores:");
-		for (int i = 0; i < projects.size(); i++) {
-			writer.println(projects.elementAt(i).returnPopularity());
+		for (Project p : projects) {
+			writer.println(p.name + " " + p.returnPopularity());
 		}
 		writer.println("");
 		
-		// sort projects by popularity (TODO)
-		Vector<Project> sortedProjects = new Vector<Project>();
-		sortedProjects.addElement(projects.elementAt(1));
-		sortedProjects.addElement(projects.elementAt(0));
-		sortedProjects.addElement(projects.elementAt(3));
-		sortedProjects.addElement(projects.elementAt(2));
-		projects = sortedProjects;
+		// sort projects by popularity in descending order
+		Collections.sort(projects, new Project.popularityComparator());
 		
 		AssignInitial();
 		PrintProjects();
@@ -139,7 +134,7 @@ public class Algorithm {
 	}
 	
 	void PrintProjects() {
-		for (Project p: projects) {
+		for (Project p : projects) {
 			writer.print(p.name + " ");
 			p.printMembers(writer);
 		}		
