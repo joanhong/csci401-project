@@ -12,6 +12,7 @@ public class Algorithm {
 	private Vector<Student> unassignedStudents = new Vector<Student>();
 	
 	private static int NUM_RANKED;
+	private static String folder_name;
 	public double algoSatScore = 0; // overall satisfaction of this matching
 	
 	public static int getStudentSatScore(int i) { // i = project's rank
@@ -25,12 +26,12 @@ public class Algorithm {
         
         // projects
         try {
-            BufferedReader projectsBR = new BufferedReader(new FileReader("src/algorithm/projects.txt"));
+            BufferedReader projectsBR = new BufferedReader(new FileReader("src/algorithm/" + folder_name + "/projects.txt"));
 
             while((line = projectsBR.readLine()) != null) {                
                 String[] elements = line.split(" ");
                 
-                Project newProject = new Project();
+                Project newProject = new Project(getStudentSatScore(1));
                 newProject.name = elements[0];
                 newProject.projectId = projects.size();
                 newProject.minSize = Integer.parseInt(elements[1]);
@@ -50,7 +51,7 @@ public class Algorithm {
         
         // rankings
         try {
-            BufferedReader studentsBR = new BufferedReader(new FileReader("src/algorithm/rankings.txt"));
+            BufferedReader studentsBR = new BufferedReader(new FileReader("src/algorithm/" + folder_name + "/rankings.txt"));
 
             while((line = studentsBR.readLine()) != null) {                
                 String[] elements = line.split(" ");
@@ -61,7 +62,7 @@ public class Algorithm {
                 
                 for (int i = 1; i <= NUM_RANKED; i++) { // for the student's Top 3 projects...
             		int projectId = Integer.parseInt(elements[i]);
-            		Project rankedProject = projects.elementAt(projectId - 1); // WE SUBTRACT 1, as the indices in rankings.txt skip 0 for readability with the paper example
+            		Project rankedProject = projects.elementAt(projectId - 1); // !!! SUBTRACT 1, as the ranking's indices skip 0 for readability
                 		
                 		// add rankedProject to the Student data structure:
                     String projectName = rankedProject.name;
@@ -87,12 +88,13 @@ public class Algorithm {
 
 	}
 	
-	public Algorithm(int iteration, int _NUM_RANKED) {
+	public Algorithm(int iteration, int _NUM_RANKED, String _folder_name) {
 		
 		NUM_RANKED = _NUM_RANKED;
+		folder_name = _folder_name;
 		
 		// set up output txt file for this iteration
-		String filename = "src/algorithm/iterations/" + Integer.toString(iteration) + ".txt";
+		String filename = "src/algorithm/" + folder_name + "/iterations/" + Integer.toString(iteration) + ".txt";
 		try {
 			writer = new PrintWriter(filename, "UTF-8");
 		} catch (FileNotFoundException e) {
@@ -119,7 +121,7 @@ public class Algorithm {
 		AssignInitial();
 		PrintProjects();
 		EliminateProjects();
-		Bump();
+//		Bump();
 		PrintProjects();
 		
 		// calculate this iteration's overall sat score:

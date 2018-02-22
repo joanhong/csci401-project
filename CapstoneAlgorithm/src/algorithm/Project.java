@@ -21,10 +21,10 @@ public class Project implements Comparable {
 	
 	public double projSatScore;
 
-	public Project() {
+	public Project(int _p_max) {
 		members = new Vector<Student>();
 		sum_p = 0;
-		p_max = 4;
+		p_max = _p_max;
 		n = 0;
 		c = 10;
 		popularity = 0;
@@ -52,7 +52,7 @@ public class Project implements Comparable {
 	}
 	
 	public String toString() {
-		return ("Project #" + this.projectId + ": '" + this.name + "' | " + this.minSize + "-" + this.maxSize);
+		return ("Project #" + this.projectId + ": '" + this.name + "' | " + this.minSize + "-" + this.maxSize + " " + this.p_max);
 	}
 	
 	public void printMembers(PrintWriter writer) {

@@ -5,18 +5,19 @@ import java.util.*;
 
 public class AlgorithmIterator {
 	
-	private static int NUM_RANKED = 3; // number of projects that each student can rank
+	private static String folder_name = "real_data";
+	private static int NUM_RANKED = 5; // number of projects that each student can rank
 	public static Map<Double, Integer> iterations = new HashMap<Double, Integer>();
 	
 	public static void main(String[] args) {
 
 		// create directory for each iteration's output file
-		File dir = new File("src/algorithm/iterations");
+		File dir = new File("src/algorithm/" + folder_name + "/iterations");
 		dir.mkdir();
 		
 		// run algorithm 30 times
 		for (int iteration = 0; iteration < 30; iteration++) {
-			double groupSatScore = new Algorithm(iteration, NUM_RANKED).algoSatScore;
+			double groupSatScore = new Algorithm(iteration, NUM_RANKED, folder_name).algoSatScore;
 			iterations.put(groupSatScore, iteration);
 		}
 		
