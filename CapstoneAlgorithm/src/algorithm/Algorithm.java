@@ -1,22 +1,21 @@
 package algorithm;
 
 import java.io.*;
-import java.util.Collections;
-import java.util.Random;
-import java.util.Vector;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.*;
 
 public class Algorithm {
 
+	PrintWriter writer;
+	
 	private Vector<Project> projects;
 	private Vector<Student> students;
 	private Vector<Student> unassignedStudents = new Vector<Student>();
-	private static final int NUM_RANKED = 3;
 	
-	// i = project's rank
-	public int getSatisfactionScore(int i) {
-		int n = NUM_RANKED; // number of projects that each student can rank
-		return ( ( (n-i+1) * (n-i)) / 2 ) + 1;
+	private static int NUM_RANKED;
+	public double algoSatScore = 0; // overall satisfaction of this matching
+	
+	public static int getStudentSatScore(int i) { // i = project's rank
+		return ( ( (NUM_RANKED-i+1) * (NUM_RANKED-i)) / 2 ) + 1;
 	}
 	
 	// populates vectors with projects and the students' rankings of those projects
@@ -24,7 +23,7 @@ public class Algorithm {
 
         String line = null;
         
-        // projects.txt
+        // projects
         try {
             BufferedReader projectsBR = new BufferedReader(new FileReader("src/algorithm/projects.txt"));
 
@@ -38,7 +37,7 @@ public class Algorithm {
                 newProject.maxSize = Integer.parseInt(elements[2]);
                 projects.addElement(newProject);
                 
-                newProject.print();
+                writer.println(newProject);
             }
             
             projectsBR.close();         
@@ -47,9 +46,9 @@ public class Algorithm {
             e.printStackTrace();
         }
         
-        System.out.println("");
+        writer.println("");
         
-        // rankings.txt
+        // rankings
         try {
             BufferedReader studentsBR = new BufferedReader(new FileReader("src/algorithm/rankings.txt"));
 
@@ -70,15 +69,16 @@ public class Algorithm {
                     newStudent.orderedRankings.addElement(projectName);
                     
                     // popularity metrics:
-                    Integer p = getSatisfactionScore(i);
+                    Integer p = getStudentSatScore(i);
                     rankedProject.sum_p += p;
                     rankedProject.n += 1;     
                 }
 
                 students.addElement(newStudent);
-                newStudent.print();
+                writer.println(newStudent);
             }
             
+            writer.println("");
             studentsBR.close();         
         }
         catch(Exception e) {
@@ -87,19 +87,33 @@ public class Algorithm {
 
 	}
 	
-	public Algorithm() {
+	public Algorithm(int iteration, int _NUM_RANKED) {
 		
-		// init:
+		NUM_RANKED = _NUM_RANKED;
+		
+		// set up output txt file for this iteration
+		String filename = "src/algorithm/iterations/" + Integer.toString(iteration) + ".txt";
+		try {
+			writer = new PrintWriter(filename, "UTF-8");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		// import data:
 		projects = new Vector<Project>();
 		students = new Vector<Student>();
 		importData();
 		
 		// calculate each project's popularity scores
+		writer.println("Project Popularity Scores:");
 		for (int i = 0; i < projects.size(); i++) {
-			System.out.println(projects.elementAt(i).returnPopularityScore());
+			writer.println(projects.elementAt(i).returnPopularity());
 		}
+		writer.println("");
 		
-		// "sort" projects by popularity (TODO)
+		// sort projects by popularity (TODO)
 		Vector<Project> sortedProjects = new Vector<Project>();
 		sortedProjects.addElement(projects.elementAt(1));
 		sortedProjects.addElement(projects.elementAt(0));
@@ -107,38 +121,29 @@ public class Algorithm {
 		sortedProjects.addElement(projects.elementAt(2));
 		projects = sortedProjects;
 		
-		// assign first, second, and third choices
-/*
-		for (int i = 0; i < sortedProjects.size(); i++) {
-			Project currProject = sortedProjects.elementAt(i);
-			
-			for (int j = 0; j < currProject.maxSize; j++) {
-				Student s = getStudentWithMaxRanking(currProject);
-				if (s!=null) {
-					currProject.members.addElement(s);
-					students.removeElement(s);
-				}
-			}
-			
-			System.out.print(currProject.name + " ");
-			currProject.printMembers();
-		} */
-		
-
 		AssignInitial();
 		PrintProjects();
 		EliminateProjects();
 		Bump();
 		PrintProjects();
-
 		
+		// calculate this iteration's overall sat score:
+		double totalProjSatScores = 0;
+		for (Project p : projects) {
+			totalProjSatScores += p.returnProjSatScore();
+		}
+		algoSatScore = totalProjSatScores / projects.size();
+		
+		writer.println(algoSatScore);
+		writer.close();
 	}
 	
 	void PrintProjects() {
 		for (Project p: projects) {
-			System.out.print(p.name + " ");
-			p.printMembers();
+			writer.print(p.name + " ");
+			p.printMembers(writer);
 		}		
+		writer.println("");
 	}
 	
 	void AssignInitial() {
@@ -166,13 +171,14 @@ public class Algorithm {
 			Project p = projects.elementAt(i);
 			if (p.members.size() < p.minSize
 					&& (GetTotalMaxSpots()-p.maxSize) >= students.size()) {
-				System.out.println("Eliminated " + p.name);
+				writer.println("Eliminated " + p.name);
 				for (Student s: p.members) {
 					unassignedStudents.add(s);
 				}
 				projects.remove(projects.size()-1);
 			}
-		}		
+		}
+		writer.println("");
 	}
 
 	void Bump() {
@@ -208,33 +214,6 @@ public class Algorithm {
 		return true;
 	}
 	
-	Student getStudentWithMaxRanking(Project project) {
-		Vector<Student> possibleStudents = new Vector<Student>();
-	//	int highestRanking = 1; // since students can only rank 3 //why would this make sense??
-		int highestRanking = NUM_RANKED;
-		
-		for (Student student : students) {
-			if ((student.rankings.containsKey(project.name))) { // if the Student ranked the Project at all
-				if (student.rankings.get(project.name) == highestRanking) {
-					possibleStudents.add(student);
-				}
-				else if (student.rankings.get(project.name) < highestRanking) { // better ranking
-					highestRanking = student.rankings.get(project.name);
-					possibleStudents.clear();
-					possibleStudents.add(student);
-				}
-			}
-		}
-
-	//	System.out.println(project.name + " " + possibleStudents.size());
-		if (possibleStudents.size()==0) {
-			return null;
-		}
-		
-		int randomNum = ThreadLocalRandom.current().nextInt(0, possibleStudents.size());
-		return possibleStudents.elementAt(randomNum);
-	}
-	
 	Project GetProjectWithName(String projname) {
 		for (int j=0; j<projects.size(); j++) {
 			if (projects.elementAt(j).name.equals(projname))
@@ -250,7 +229,7 @@ public class Algorithm {
 		return maxspots;
 	}
 	
-	boolean CanStop() { //assignment is satisfactory
+	boolean CanStop() { // assignment is satisfactory
 		int numstudents = 0;
 		for (Project p: projects) {
 			if (!p.members.isEmpty() && 
@@ -264,6 +243,6 @@ public class Algorithm {
 	}
 
 	public static void main(String[] args) {
-		new Algorithm();
+		
 	}
 }
