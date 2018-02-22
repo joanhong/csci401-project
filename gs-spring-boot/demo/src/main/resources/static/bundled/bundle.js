@@ -76,7 +76,7 @@
 				return React.createElement(
 					'h1',
 					null,
-					'Test'
+					'Welcome to the CSCI401 Portal!'
 				);
 			}
 		}]);
