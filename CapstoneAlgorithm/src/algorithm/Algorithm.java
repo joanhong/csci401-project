@@ -3,6 +3,11 @@ package algorithm;
 import java.io.*;
 import java.util.*;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature; 
+
 public class Algorithm {
 
 	PrintWriter writer;
@@ -123,6 +128,7 @@ public class Algorithm {
 		EliminateProjects();
 //		Bump();
 		PrintProjects();
+		JSONOutput();
 		
 		// calculate this iteration's overall sat score:
 		double totalProjSatScores = 0;
@@ -142,6 +148,21 @@ public class Algorithm {
 		}		
 		writer.println("");
 	}
+	
+	void JSONOutput() { //outputs JSON of each project
+	    ObjectMapper mapper = new ObjectMapper();
+
+	    for (int i=0; i<projects.size(); i++) {
+		    try {  
+		        // Writing to a file  
+		    	mapper.writeValue(new File("src/json/project"+i+".json"), projects.elementAt(i));
+		       // String jsonStr = mapper.writeValueAsString(projects.elementAt(i));
+	           // System.out.println(jsonStr);
+		    } catch (IOException e) {  
+		        e.printStackTrace();  
+		    }
+	    }	
+	}	
 	
 	void AssignInitial() {
 		for (Student s: students)
