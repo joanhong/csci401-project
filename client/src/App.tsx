@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './App.css';
-import Navigation from './scenes/admin/Navigation';
+import AdminNavigation from './scenes/admin/AdminNavigation';
 
 const logo = require('./logo.svg');
 
@@ -14,7 +14,7 @@ class App extends React.Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to CSCI 401</h1>
         </header>
-        <Navigation/>
+        <AdminNavigation/>
       </div>
     );
   }

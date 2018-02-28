@@ -10,7 +10,7 @@ import ClassOverview from './ClassOverview/index';
 import Stakeholders from './Stakeholders/index';
 import ProjectMatching from './ProjectMatching/index';
 
-class Navigation extends React.Component {
+class AdminNavigation extends React.Component {
   render() {
     return (
       <HashRouter>
@@ -36,4 +36,4 @@ class Navigation extends React.Component {
   }
 }
 
-export default Navigation;
+export default AdminNavigation;
