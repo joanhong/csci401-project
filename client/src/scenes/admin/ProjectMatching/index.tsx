@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-interface AlgorithmOutputProps {
+interface ProjectMatchingProps {
 }
 
-interface AlgorithmOutputState {
+interface ProjectMatchingState {
   projects: Array<{}>;
   isLoading: boolean;
 }
@@ -22,9 +22,9 @@ interface Project {
   members: Array<StudentInfo>;
 }
 
-class AlgorithmOutput extends React.Component<AlgorithmOutputProps, AlgorithmOutputState> {
+class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatchingState> {
   
-  constructor(props: AlgorithmOutputProps) {
+  constructor(props: ProjectMatchingProps) {
     super(props);
 
     this.state = {
@@ -85,4 +85,4 @@ class AlgorithmOutput extends React.Component<AlgorithmOutputProps, AlgorithmOut
   }
 }
 
-export default AlgorithmOutput;
+export default ProjectMatching;
