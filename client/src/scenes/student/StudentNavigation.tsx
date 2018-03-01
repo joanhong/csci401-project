@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
   Route,
   NavLink,
-  HashRouter
+  BrowserRouter
 } from 'react-router-dom';
 import Profile from './Profile/index';
 import ProjectMatching from './ProjectMatching/index';
@@ -12,7 +12,7 @@ import FinalPresentationReviews from './FinalPresentationReviews/index';
 class StudentNavigation extends React.Component {
   render() {
     return (
-      <HashRouter>
+      <BrowserRouter>
         <div>
             <ul className="header">
               <li><NavLink to="/student/">Home</NavLink></li>
@@ -28,7 +28,7 @@ class StudentNavigation extends React.Component {
             <Route path="/student/finalpresentationreviews" component={FinalPresentationReviews}/>
           </div>
         </div>
-      </HashRouter>
+      </BrowserRouter>
     );
   }
 }
