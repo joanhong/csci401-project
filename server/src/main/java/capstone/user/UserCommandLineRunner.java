@@ -26,17 +26,13 @@ public class UserCommandLineRunner implements CommandLineRunner {
 		driver = new SQLDriver();
 		driver.connect();
 		userVector = driver.getAllUsers();
-//		for(int i=0; i<userVector.size(); i++)
-//		{
-//			repository.save(userVector.iterator().);
-//		}
+
 		
 		for(User u: userVector)
 		{
 			repository.save(u);
 		}
 		
-		// TODO Auto-generated method stub
 //		Stream.of("Joan Hong", "Ingrid Wang").forEach(firstName ->
 //				repository.save(new User(firstName))
 //		);

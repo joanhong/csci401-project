@@ -50,5 +50,4 @@ class UserList extends React.Component<UserListProps, UserListState> {
     );
   }
 }
-
 export default UserList;

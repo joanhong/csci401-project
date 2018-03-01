@@ -129,31 +129,31 @@ iLegal 0.8895622895622896
 LetterOfRecGenerator 0.9636363636363635
 AutonomousDroneControl 0.9135198135198136
 
-MarketingTechnologyPlatform Student24 Student39 Student30 Student19 Student38 Student56 
-LetterOfRecGenerator Student61 Student3 Student36 Student63 
-AIMedicalImaging Student11 Student58 Student7 Student54 
-AutismSocietyApp Student59 Student5 Student55 
-AutonomousDroneControl Student17 Student33 Student60 Student51 
-Prop47Website Student53 Student14 
-iLegal Student8 Student45 Student4 Student46 
-PredictingElections Student49 Student48 Student50 Student31 
-401ProjectPlatform Student16 Student43 Student52 Student69 
-Sigma Student42 Student2 Student1 Student47 
-SchoolOfFishApp Student27 Student29 Student28 
-ProstheticSpinalCord Student21 Student44 Student18 Student13 Student68 Student22 
+MarketingTechnologyPlatform Student19 Student56 Student38 Student30 Student24 Student39 
+LetterOfRecGenerator Student61 Student60 Student36 Student63 
+AIMedicalImaging Student11 Student58 Student54 Student7 
+AutismSocietyApp Student66 Student3 Student12 
+AutonomousDroneControl Student51 Student22 Student68 Student33 
+Prop47Website Student53 Student1 
+iLegal Student45 Student4 Student46 Student8 
+PredictingElections Student50 Student48 Student31 Student49 
+401ProjectPlatform Student43 Student69 Student16 Student52 
+Sigma Student42 Student14 Student47 Student2 
+SchoolOfFishApp Student28 Student27 Student29 
+ProstheticSpinalCord Student44 Student13 Student18 Student21 Student17 
 QuantitativeTrading_DataExtractionPipeline Student26 
-PureFocusiOSApp Student23 Student64 Student25 Student66 
-Quizzly Student10 Student34 Student67 Student62 
-LogoDetection Student12 
-SpoilerAlert Student65 Student57 
+PureFocusiOSApp Student64 Student25 Student23 Student55 
+Quizzly Student34 Student10 Student67 Student62 
+LogoDetection 
+SpoilerAlert Student57 Student65 
 SociallyConsciousMachineLearningBots Student6 
-ChangingTheTutoringSphere 
+ChangingTheTutoringSphere Student5 
 Diabetes Student37 
-PositionControl Student40 Student35 
+PositionControl Student35 Student40 
 QuantitativeTrading_DataScience 
 P2P4Health Student20 
 SummerCampReg 
-AutismSocietyDB Student9 
+AutismSocietyDB Student9 Student59 
 Perfit Student15 Student32 
 TrojanMotors Student41 
 Cosmic-System 
@@ -163,7 +163,6 @@ Eliminated eFormsProject
 Eliminated Cosmic-System
 Eliminated TrojanMotors
 Eliminated Perfit
-Eliminated AutismSocietyDB
 Eliminated SummerCampReg
 Eliminated P2P4Health
 Eliminated QuantitativeTrading_DataScience
@@ -172,5 +171,6 @@ Eliminated Diabetes
 Eliminated ChangingTheTutoringSphere
 Eliminated SociallyConsciousMachineLearningBots
 Eliminated SpoilerAlert
+Eliminated LogoDetection
 
-0.7839015151515153
+0.8028409090909092
