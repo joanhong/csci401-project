@@ -11,6 +11,9 @@ isLoading: boolean;
 interface User {
 id: number;
 fullName: string;
+userType: string;
+year: string;
+email: string;
 }
 
 class UserManagement extends React.Component<UserListProps, UserListState> {
@@ -38,16 +41,26 @@ if (isLoading) {
 return <p>Loading...</p>;
 }
 
-return (
+return(
 <div>
-<h2>User List</h2>
-{users.map((user: User) =>
-<div key={user.id}>
-{user.fullName}
-</div>
-)}
-</div>
-);
+<h2>Project Matching</h2>
+    <table>
+    <tr>
+    <th>Full Name</th>
+    <th>User Type</th>
+    <th>Year</th>
+    <th>Email</th>
+    </tr>
+    {users.map((user: User) =>
+    <tr key={user.id}>
+    <td>{user.fullName}</td>
+    <td>{user.userType}</td>
+    <td>{user.year}</td>
+    <td>{user.email}</td>
+    </tr>
+    )}
+    </table>
+</div>);
 }
 }
 export default UserManagement;

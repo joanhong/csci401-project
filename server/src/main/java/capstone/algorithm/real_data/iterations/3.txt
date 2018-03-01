@@ -129,33 +129,33 @@ iLegal 0.8895622895622896
 LetterOfRecGenerator 0.9636363636363635
 AutonomousDroneControl 0.9135198135198136
 
-MarketingTechnologyPlatform Student19 Student38 Student56 Student30 Student39 Student24 
-LetterOfRecGenerator Student61 Student63 Student3 Student27 
-AIMedicalImaging Student11 Student54 Student7 Student58 
-AutismSocietyApp Student66 Student59 Student36 
-AutonomousDroneControl Student68 Student17 Student33 Student51 
+MarketingTechnologyPlatform Student38 Student56 Student24 Student39 Student19 Student30 
+LetterOfRecGenerator Student61 Student60 Student3 
+AIMedicalImaging Student11 Student54 Student58 Student7 
+AutismSocietyApp Student59 Student12 Student36 
+AutonomousDroneControl Student62 Student33 Student22 Student51 
 Prop47Website Student53 
-iLegal Student4 Student46 Student8 Student45 
-PredictingElections Student48 Student49 Student31 Student50 
-401ProjectPlatform Student69 Student52 Student43 Student16 
-Sigma Student42 Student14 Student1 Student47 
-SchoolOfFishApp Student41 Student29 Student28 
-ProstheticSpinalCord Student18 Student44 Student13 Student21 Student22 
+iLegal Student45 Student8 Student46 Student4 
+PredictingElections Student49 Student31 Student50 Student48 
+401ProjectPlatform Student63 Student43 Student16 Student52 
+Sigma Student1 Student14 Student42 Student47 
+SchoolOfFishApp Student27 Student28 Student29 
+ProstheticSpinalCord Student18 Student44 Student21 Student13 Student17 Student68 
 QuantitativeTrading_DataExtractionPipeline Student26 
 PureFocusiOSApp Student23 Student25 Student64 Student55 
-Quizzly Student34 Student10 Student67 Student60 Student62 
-LogoDetection Student12 
-SpoilerAlert Student57 Student65 
+Quizzly Student34 Student67 Student10 
+LogoDetection 
+SpoilerAlert Student65 Student57 
 SociallyConsciousMachineLearningBots Student6 
 ChangingTheTutoringSphere Student5 
 Diabetes Student37 
-PositionControl Student35 Student40 
+PositionControl Student35 Student40 Student69 
 QuantitativeTrading_DataScience 
 P2P4Health Student20 
 SummerCampReg Student2 
-AutismSocietyDB Student9 
-Perfit Student15 Student32 
-TrojanMotors 
+AutismSocietyDB Student9 Student66 
+Perfit Student32 Student15 
+TrojanMotors Student41 
 Cosmic-System 
 eFormsProject 
 
@@ -163,14 +163,14 @@ Eliminated eFormsProject
 Eliminated Cosmic-System
 Eliminated TrojanMotors
 Eliminated Perfit
-Eliminated AutismSocietyDB
 Eliminated SummerCampReg
 Eliminated P2P4Health
 Eliminated QuantitativeTrading_DataScience
-Eliminated PositionControl
 Eliminated Diabetes
 Eliminated ChangingTheTutoringSphere
 Eliminated SociallyConsciousMachineLearningBots
 Eliminated SpoilerAlert
+Eliminated LogoDetection
+Eliminated QuantitativeTrading_DataExtractionPipeline
 
-0.7668560606060605
+0.8111268939393939
