@@ -126,7 +126,7 @@ public class Algorithm {
 		AssignInitial();
 		PrintProjects();
 		EliminateProjects();
-//		Bump();
+		Bump();
 		PrintProjects();
 		JSONOutput();
 		
@@ -145,8 +145,14 @@ public class Algorithm {
 		for (Project p : projects) {
 			writer.print(p.name + " ");
 			p.printMembers(writer);
-		}		
-		writer.println("");
+		}	
+		
+		writer.print("\nUnassigned students: ");
+		for (Student s: unassignedStudents) {
+			writer.print(s.name + " ");
+		}
+		
+		writer.println("\n");
 	}
 	
 	void JSONOutput() { //outputs JSON of each project
@@ -220,6 +226,10 @@ public class Algorithm {
 		}
 		
 		Project p = GetProjectWithName(s.orderedRankings.elementAt(0));
+		if (p == null) 
+		{
+			return false;
+		}
 		Random rand = new Random();
 		int index = rand.nextInt(p.members.size());
 		Student displaced = p.members.elementAt(index);
