@@ -14,8 +14,7 @@ public class User
 	
 	int userNumber;
 	String userType;
-	String firstName;
-	String lastName;
+	String fullName;
 	
 	String year; //only valid if userType = Student
 	String email;
@@ -29,9 +28,9 @@ public class User
 	
 	public User() {}
 	
-	public User(String firstName) 
+	public User(String fullName) 
 	{
-		this.firstName = firstName;
+		this.fullName = fullName;
 	}
 	
 	@Override
@@ -39,7 +38,7 @@ public class User
 	{
 		return "User{" +
 				"id=" + id +
-				", firstName=" + firstName + '\'' +
+				", firstName=" + fullName + '\'' +
 				'}';
 	}
 	
@@ -62,22 +61,15 @@ public class User
 	{
 		this.userType = userType;
 	}
-	public String getFirstName() 
+	public String getFullName() 
 	{
-		return firstName;
+		return fullName;
 	}
-	public void setFirstName(String firstName) 
+	public void setFullName(String firstName) 
 	{
-		this.firstName = firstName;
+		this.fullName = firstName;
 	}
-	public String getLastName() 
-	{
-		return lastName;
-	}
-	public void setLastName(String lastName) 
-	{
-		this.lastName = lastName;
-	}
+	
 	public String getYear() 
 	{
 		return year;
