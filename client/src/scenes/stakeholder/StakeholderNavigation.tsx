@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
   Route,
   NavLink,
-  HashRouter
+  BrowserRouter
 } from 'react-router-dom';
 import Profile from './Profile/index';
 import ProjectProposal from './ProjectProposal/index';
@@ -10,7 +10,7 @@ import ProjectProposal from './ProjectProposal/index';
 class StakeholderNavigation extends React.Component {
   render() {
     return (
-      <HashRouter>
+      <BrowserRouter>
         <div>
             <ul className="header">
               <li><NavLink to="/stakeholder/">Home</NavLink></li>
@@ -22,7 +22,7 @@ class StakeholderNavigation extends React.Component {
             <Route path="/stakeholder/projectproposal" component={ProjectProposal}/>
           </div>
         </div>
-      </HashRouter>
+      </BrowserRouter>
     );
   }
 }

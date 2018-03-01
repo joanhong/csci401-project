@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Navigation from '../Navigation';
+import Navigation from '../StudentNavigation';
 
 const logo = require('../logo.svg');
 

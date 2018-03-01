@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
   Route,
   NavLink,
-  HashRouter
+  BrowserRouter
 } from 'react-router-dom';
 import UserManagement from './UserManagement/index';
 import ProjectProposals from './ProjectProposals/index';
@@ -13,10 +13,10 @@ import ProjectMatching from './ProjectMatching/index';
 class AdminNavigation extends React.Component {
   render() {
     return (
-      <HashRouter>
+      <BrowserRouter>
         <div>
             <ul className="header">
-              <li><NavLink to="/">Home</NavLink></li>
+              <li><NavLink to="/admin">Home</NavLink></li>
               <li><NavLink to="/users">User Management</NavLink></li>
               <li><NavLink to="/proposals">Project Proposals</NavLink></li>
               <li><NavLink to="/class">Class Overview</NavLink></li>
@@ -31,7 +31,7 @@ class AdminNavigation extends React.Component {
             <Route path="/matching" component={ProjectMatching}/>
           </div>
         </div>
-      </HashRouter>
+      </BrowserRouter>
     );
   }
 }
