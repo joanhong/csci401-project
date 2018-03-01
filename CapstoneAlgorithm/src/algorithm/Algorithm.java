@@ -1,12 +1,19 @@
 package algorithm;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.Collections;
+import java.util.Random;
+import java.util.Vector;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature; 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode; 
 
 public class Algorithm {
 
@@ -159,11 +166,28 @@ public class Algorithm {
 	    ObjectMapper mapper = new ObjectMapper();
 
 	    for (int i=0; i<projects.size(); i++) {
+	    		ObjectNode proj = mapper.createObjectNode();
+	    		proj.put("name", projects.elementAt(i).name);
+	    		proj.put("projectID", projects.elementAt(i).projectId);
+	    		proj.put("minsize", projects.elementAt(i).minSize);
+	    		proj.put("maxsize", projects.elementAt(i).maxSize);
+	    		
+	    		ArrayNode members = mapper.createArrayNode();
+	    		for (Student s: projects.elementAt(i).members) {
+	    			ObjectNode student = mapper.createObjectNode();
+	    			student.put("name", s.name);
+	    			student.put("studentID", s.studentId);
+	    			members.add(student);
+	    		}
+	    		proj.putArray("members").addAll(members);
+	    		
 		    try {  
-		        // Writing to a file  
-		    	mapper.writeValue(new File("src/json/project"+i+".json"), projects.elementAt(i));
-		       // String jsonStr = mapper.writeValueAsString(projects.elementAt(i));
-	           // System.out.println(jsonStr);
+	        		//Writing to a file 
+		    		mapper.writeValue(new File("src/json/project"+i+".json"), proj); 
+		    	
+		    		/*Writing as a string
+		    		String jsonStr = mapper.writeValueAsString(proj);
+		    		System.out.println(jsonStr); */
 		    } catch (IOException e) {  
 		        e.printStackTrace();  
 		    }
