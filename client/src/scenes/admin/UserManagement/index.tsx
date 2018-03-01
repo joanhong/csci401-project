@@ -43,7 +43,7 @@ return <p>Loading...</p>;
 
 return(
 <div>
-<h2>Project Matching</h2>
+<h2>User Management</h2>
     <table>
     <tr>
     <th>Full Name</th>
