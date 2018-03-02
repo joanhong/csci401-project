@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AlgorithmIterator {
 	
-	private static String folder_name = "input_data";
+	private static String folder_name = "real_data";
 	private static int NUM_RANKED = 5; // number of projects that each student can rank
 	public static Map<Double, Integer> iterations = new HashMap<Double, Integer>();
 	
