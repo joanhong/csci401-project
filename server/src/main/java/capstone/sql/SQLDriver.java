@@ -15,18 +15,21 @@ import capstone.user.User;
 
 
 public class SQLDriver {
+	private final static String DATABASE_NAME = "401_Platform";
+	private final static String PASSWORD = "";
+	
 	private Connection con;
-	private final static String confirmLoginAttempt ="SELECT COUNT(*) FROM 401_Platform.Users WHERE USERNAME=? AND PASSWORD=?";
-	private final static String findIfUserExists = "SELECT COUNT(*) FROM 401_Platform.Users WHERE USERNAME=?";
-	private final static String getUserID = "SELECT ID FROM 401_Platform.Users WHERE USERNAME=?";
-	private final static String addUser = "INSERT INTO 401_Platform.Users(USERNAME,PASSWORD) VALUES(?,?)";
-	private final static String getUsername = "SELECT USERNAME FROM 401_Platform.Users WHERE USER_ID=?";
-	private final static String getAllUsers = "SELECT * FROM 401_Platform.Users";
-	private final static String getAllProjects = "SELECT * FROM 401_Platform.Projects";
+	private final static String confirmLoginAttempt ="SELECT COUNT(*) FROM " + DATABASE_NAME + ".Users WHERE USERNAME=? AND PASSWORD=?";
+	private final static String findIfUserExists = "SELECT COUNT(*) FROM " + DATABASE_NAME + ".Users WHERE USERNAME=?";
+	private final static String getUserID = "SELECT ID FROM " + DATABASE_NAME + ".Users WHERE USERNAME=?";
+	private final static String addUser = "INSERT INTO " + DATABASE_NAME + ".Users(USERNAME,PASSWORD) VALUES(?,?)";
+	private final static String getUsername = "SELECT USERNAME FROM " + DATABASE_NAME + ".Users WHERE USER_ID=?";
+	private final static String getAllUsers = "SELECT * FROM " + DATABASE_NAME + ".Users";
+	private final static String getAllProjects = "SELECT * FROM " + DATABASE_NAME + ".Projects";
 
-	private final static String addProjectEntry = "INSERT INTO 401_Platform.Projects(Project_id, Project_number, Project_name, Project_status, Max_size, Min_size) \n" + 
+	private final static String addProjectEntry = "INSERT INTO " + DATABASE_NAME + ".Projects(Project_id, Project_number, Project_name, Project_status, Max_size, Min_size) \n" + 
 			"VALUES (?,?,?,?,?,?)";
-	private final static String addProjectRankingEntry = "INSERT INTO 401_Platform.ProjectRankings(studentNumber, studentName, projectNumber, rank, projectName)\n" + 
+	private final static String addProjectRankingEntry = "INSERT INTO " + DATABASE_NAME + ".ProjectRankings(studentNumber, studentName, projectNumber, rank, projectName)\n" + 
 			"VALUES (?,?,?,?,?)";
 	
 	public SQLDriver(){
@@ -37,14 +40,11 @@ public class SQLDriver {
 		}
 	}
 	private String getSQLPassword(){
-		
-		String password = "password";
-		
-		return password;
+		return PASSWORD;
 	}
 	public void connect(){
 		try{
-			String DBpass = "jdbc:mysql://localhost:3306/401_Platform?user=root&password=";
+			String DBpass = "jdbc:mysql://localhost:3306/" + DATABASE_NAME + "?user=root&password=";
 			String password = getSQLPassword();
 			DBpass+= password;
 			con = DriverManager.getConnection(DBpass);
