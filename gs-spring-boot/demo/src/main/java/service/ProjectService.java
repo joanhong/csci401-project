@@ -4,13 +4,13 @@ import java.util.Hashtable;
 
 import org.springframework.stereotype.Service;
 
-import model.Project;
 
 @Service
 public class ProjectService {
 
 	Hashtable<String, Project> projects = new Hashtable<String, Project>();
 
+	
 	public ProjectService()
 	{
 		Project p = new Project();

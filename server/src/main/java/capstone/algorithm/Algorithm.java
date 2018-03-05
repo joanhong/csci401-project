@@ -6,7 +6,9 @@ import java.util.*;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature; 
+import com.fasterxml.jackson.databind.SerializationFeature;
+
+import capstone.sql.SQLDriver; 
 
 public class Algorithm {
 
@@ -19,6 +21,7 @@ public class Algorithm {
 	private static int NUM_RANKED;
 	private static String folder_name;
 	public double algoSatScore = 0; // overall satisfaction of this matching
+	public SQLDriver driver;
 	
 	public static int getStudentSatScore(int i) { // i = project's rank
 		return ( ( (NUM_RANKED-i+1) * (NUM_RANKED-i)) / 2 ) + 1;
@@ -41,6 +44,7 @@ public class Algorithm {
                 newProject.projectId = projects.size();
                 newProject.minSize = Integer.parseInt(elements[1]);
                 newProject.maxSize = Integer.parseInt(elements[2]);
+                
                 projects.addElement(newProject);
                 
                 writer.println(newProject);
@@ -113,6 +117,18 @@ public class Algorithm {
 		students = new Vector<Student>();
 		importData();
 		
+		//init SQL connection
+		driver = new SQLDriver();
+		driver.connect();
+		
+		//populate projects table
+		//commented out once SQL table was populated.
+//		populateProjectTable();
+		
+		//populate rankings table
+		//commented out once SQL table was populated
+//		populateRankingsTable();
+		
 		// calculate each project's popularity scores
 		writer.println("Project Popularity Scores:");
 		for (Project p : projects) {
@@ -141,6 +157,33 @@ public class Algorithm {
 		writer.close();
 	}
 	
+	private void populateRankingsTable() 
+	{
+		for(Student s: students)
+		{
+			System.out.println("Student name" + s.name + " " + s.studentId+1);
+			for (Map.Entry<String, Integer> entry : s.rankings.entrySet()) 
+			{
+				System.out.println("Key : " + entry.getKey() + " Value : " + entry.getValue());
+				Project p  = GetProjectWithName(entry.getKey());
+				int projectNumber = p.projectId;
+				int studentID = s.studentId+1;
+				driver.addProjectRankingEntry(studentID, s.name, projectNumber, entry.getValue(), entry.getKey());
+			}
+		}
+		
+	}
+
+	private void populateProjectTable() 
+	{
+		System.out.println("Number of project entries in vector = "+ projects.size());
+		for(Project p : projects)
+		{
+			System.out.println("ADDED PROJECT "+ p.name);
+			driver.addProjectEntry(p.projectId, p.projectId, p.name, "Pending Approval", p.maxSize, p.minSize);
+		}
+	}
+
 	void PrintProjects() {
 		for (Project p : projects) {
 			writer.print(p.name + " ");

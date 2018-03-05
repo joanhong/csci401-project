@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/react-beautiful-dnd": "^4.0.0",
     "@types/react-bootstrap": "^0.32.4",
+    "@types/react-sortable-hoc": "^0.6.2",
     "react": "^16.2.0",
+    "react-beautiful-dnd": "^5.0.0",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts-ts": "2.13.0"
+    "react-scripts-ts": "2.13.0",
+    "react-sortable-hoc": "^0.6.8"
   },
   "scripts": {
     "start": "react-scripts-ts start",

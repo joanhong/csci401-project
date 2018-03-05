@@ -3,8 +3,16 @@ package capstone.algorithm;
 import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.Vector;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
+@Entity
 public class Project implements Comparable {
+	
+	@Id
+	@GeneratedValue
+	private long id;
 	
 	public int projectId;
 	public String name;
@@ -20,6 +28,189 @@ public class Project implements Comparable {
 	public double popularity;
 	
 	public double projSatScore;
+	
+	//other data variables - SQL
+	int projectNumber;
+	String projectName;
+	int stakeholderNumber;
+	String stakeholderName;
+	String teamLeaderName;
+	int teamLeaderStudentNumber;
+	Vector<String> membersList;
+	String status;
+	String dueDate;
+	String semester;
+	
+	public int getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getMinSize() {
+		return minSize;
+	}
+
+	public void setMinSize(int minSize) {
+		this.minSize = minSize;
+	}
+
+	public int getMaxSize() {
+		return maxSize;
+	}
+
+	public void setMaxSize(int maxSize) {
+		this.maxSize = maxSize;
+	}
+
+	public Vector<Student> getMembers() {
+		return members;
+	}
+
+	public void setMembers(Vector<Student> members) {
+		this.members = members;
+	}
+
+	public double getSum_p() {
+		return sum_p;
+	}
+
+	public void setSum_p(double sum_p) {
+		this.sum_p = sum_p;
+	}
+
+	public double getP_max() {
+		return p_max;
+	}
+
+	public void setP_max(double p_max) {
+		this.p_max = p_max;
+	}
+
+	public double getN() {
+		return n;
+	}
+
+	public void setN(double n) {
+		this.n = n;
+	}
+
+	public double getC() {
+		return c;
+	}
+
+	public void setC(double c) {
+		this.c = c;
+	}
+
+	public double getPopularity() {
+		return popularity;
+	}
+
+	public void setPopularity(double popularity) {
+		this.popularity = popularity;
+	}
+
+	public double getProjSatScore() {
+		return projSatScore;
+	}
+
+	public void setProjSatScore(double projSatScore) {
+		this.projSatScore = projSatScore;
+	}
+
+	public int getProjectNumber() {
+		return projectNumber;
+	}
+
+	public void setProjectNumber(int projectNumber) {
+		this.projectNumber = projectNumber;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	public int getStakeholderNumber() {
+		return stakeholderNumber;
+	}
+
+	public void setStakeholderNumber(int stakeholderNumber) {
+		this.stakeholderNumber = stakeholderNumber;
+	}
+
+	public String getStakeholderName() {
+		return stakeholderName;
+	}
+
+	public void setStakeholderName(String stakeholderName) {
+		this.stakeholderName = stakeholderName;
+	}
+
+	public String getTeamLeaderName() {
+		return teamLeaderName;
+	}
+
+	public void setTeamLeaderName(String teamLeaderName) {
+		this.teamLeaderName = teamLeaderName;
+	}
+
+	public int getTeamLeaderStudentNumber() {
+		return teamLeaderStudentNumber;
+	}
+
+	public void setTeamLeaderStudentNumber(int teamLeaderStudentNumber) {
+		this.teamLeaderStudentNumber = teamLeaderStudentNumber;
+	}
+
+	public Vector<String> getMembersList() {
+		return membersList;
+	}
+
+	public void setMembersList(Vector<String> membersList) {
+		this.membersList = membersList;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(String dueDate) {
+		this.dueDate = dueDate;
+	}
+
+	public String getSemester() {
+		return semester;
+	}
+
+	public void setSemester(String semester) {
+		this.semester = semester;
+	}
+
+	
+	
 
 	public Project(int _p_max) {
 		members = new Vector<Student>();
@@ -28,6 +219,11 @@ public class Project implements Comparable {
 		n = 0;
 		c = 10;
 		popularity = 0;
+	}
+	
+	public Project()
+	{
+		
 	}
 	
 	public double returnProjSatScore() {
