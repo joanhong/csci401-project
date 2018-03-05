@@ -40,7 +40,33 @@ public class Project implements Comparable {
 	String status;
 	String dueDate;
 	String semester;
-	
+	String technologiesExpected;
+	String backgroundRequested;
+	String projectDescription;
+	public String getTechnologiesExpected() {
+		return technologiesExpected;
+	}
+
+	public void setTechnologiesExpected(String technologiesExpected) {
+		this.technologiesExpected = technologiesExpected;
+	}
+
+	public String getBackgroundRequested() {
+		return backgroundRequested;
+	}
+
+	public void setBackgroundRequested(String backgroundRequested) {
+		this.backgroundRequested = backgroundRequested;
+	}
+
+	public String getProjectDescription() {
+		return projectDescription;
+	}
+
+	public void setProjectDescription(String projectDescription) {
+		this.projectDescription = projectDescription;
+	}
+
 	public int getProjectId() {
 		return projectId;
 	}

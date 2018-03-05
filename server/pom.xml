@@ -63,6 +63,18 @@
 			<artifactId>oracle</artifactId>
 			<version>12.2.0.1</version>
 		</dependency>
+		<dependency>
+   			 <groupId>com.fasterxml.jackson.module</groupId>
+   			 <artifactId>jackson-module-parameter-names</artifactId>
+		</dependency>
+		<dependency>
+  		  <groupId>com.fasterxml.jackson.datatype</groupId>
+   		  <artifactId>jackson-datatype-jdk8</artifactId>
+		</dependency>
+		<dependency>
+   		  <groupId>com.fasterxml.jackson.datatype</groupId>
+    		  <artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
