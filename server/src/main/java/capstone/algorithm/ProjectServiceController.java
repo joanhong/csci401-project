@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jasypt.util.password.StrongPasswordEncryptor;
+import org.jasypt.util.text.BasicTextEncryptor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import capstone.sql.SQLDriver;
+import capstone.user.User;
 
 @Entity
 class ProjectData
@@ -153,6 +156,7 @@ public class ProjectServiceController
 		{
 			repository.save(p);
 		}
+//		encryptUserPasswords();
 	}
 	
 	@GetMapping("/projectsrep")
@@ -208,6 +212,7 @@ public class ProjectServiceController
 	@CrossOrigin(origins = "http://localhost:3000")
 	public @ResponseBody LoginData loginAttempt(@RequestBody LoginData logindata)
 	{
+		
 		System.out.println("Received HTTP POST");
 		System.out.println(logindata);
 		System.out.println(logindata.email);
@@ -219,15 +224,18 @@ public class ProjectServiceController
 		{
 			System.out.println("USER EMAIL EXISTS, CHECKING PASSWORD...");
 			//IF IT DOES, CHECK IF USERNAME PASSWORD COMBO IS VALID
-			if(driver.confirmLoginAttempt(logindata.email, logindata.password))
+			String encryptedPassword = driver.getEncryptedPassword(logindata.email);
+			if(checkPassword(logindata.password, encryptedPassword))
 			{
-				System.out.println("LOGIN SUCCESSFUL");
-				return logindata;
-			}
+				if(driver.confirmLoginAttempt(logindata.email, encryptedPassword))
+					{
+						System.out.println("LOGIN SUCCESSFUL");
+						return logindata;
+					}
+			}		
 			else
 			{
 				System.out.println("INVALID PASSWORD");
-				return null;
 			}
 		}
 		else
@@ -246,7 +254,31 @@ public class ProjectServiceController
 //		System.out.println("RECEIVED POST REQUEST!");
 //		return "";
 //	}
-
+	String encryptPassword(String textPassword)
+	{
+		String encryptedPassword;
+		StrongPasswordEncryptor bte = new StrongPasswordEncryptor();
+		encryptedPassword = bte.encryptPassword(textPassword);
+		return encryptedPassword;
+	}
+	Boolean checkPassword(String plainPassword, String encryptedPassword)
+	{
+		StrongPasswordEncryptor bte = new StrongPasswordEncryptor();
+		return bte.checkPassword(plainPassword,encryptedPassword);
+	}
+	void encryptUserPasswords()
+	{
+		Vector<User> allUsers = driver.getAllUsers();
+		for(User u: allUsers)
+		{
+			System.out.println("INITIAL PASSWORD = " + u.getPassword());
+			System.out.println("INITIAL EMAIL = " + u.getEmail());
+			String encryptedPass = encryptPassword(u.getPassword());
+			System.out.println("ENCRYPTEDPASS= " + encryptedPass);
+			driver.updatePassword(u.getEmail(), encryptedPass);
+		}
+	}
+	
 		
 }
 
