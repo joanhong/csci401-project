@@ -142,8 +142,8 @@ public class Algorithm {
 		AssignInitial();
 		PrintProjects();
 		EliminateProjects();
-//		Bump();
-		//PrintProjects();
+		Bump();
+		PrintProjects();
 		//JSONOutput();
 		
 		// calculate this iteration's overall sat score:
@@ -283,6 +283,12 @@ public class Algorithm {
 		}
 		
 		Project p = GetProjectWithName(s.orderedRankings.elementAt(0));
+		
+		if (p == null) 
+		{
+			return false;
+		}
+		
 		Random rand = new Random();
 		int index = rand.nextInt(p.members.size());
 		Student displaced = p.members.elementAt(index);
