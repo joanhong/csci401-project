@@ -33,28 +33,34 @@ public class Algorithm {
         String line = null;
         
         // projects
-        try {
-            BufferedReader projectsBR = new BufferedReader(new FileReader(folder_name + "/projects.txt"));
-
-            while((line = projectsBR.readLine()) != null) {                
-                String[] elements = line.split(" ");
-                
-                Project newProject = new Project(getStudentSatScore(1));
-                newProject.name = elements[0];
-                newProject.projectId = projects.size();
-                newProject.minSize = Integer.parseInt(elements[1]);
-                newProject.maxSize = Integer.parseInt(elements[2]);
-                
-                projects.addElement(newProject);
-                
-                writer.println(newProject);
-            }
-            
-            projectsBR.close();         
+        Vector<Project> projectx = driver.getProjectsTable();
+//        System.out.println("size of projectx talbe = " + projectx.size());
+        for(Project p : projectx)
+        {
+        		projects.addElement(p);
         }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            BufferedReader projectsBR = new BufferedReader(new FileReader(folder_name + "/projects.txt"));
+//
+//            while((line = projectsBR.readLine()) != null) {                
+//                String[] elements = line.split(" ");
+//                
+//                Project newProject = new Project(getStudentSatScore(1));
+//                newProject.name = elements[0];
+//                newProject.projectId = projects.size();
+//                newProject.minSize = Integer.parseInt(elements[1]);
+//                newProject.maxSize = Integer.parseInt(elements[2]);
+//                
+//                projects.addElement(newProject);
+//                
+//                writer.println(newProject);
+//            }
+//            
+//            projectsBR.close();         
+//        }
+//        catch(Exception e) {
+//            e.printStackTrace();
+//        }
         
         writer.println("");
         
@@ -115,12 +121,12 @@ public class Algorithm {
 		// import data:
 		projects = new Vector<Project>();
 		students = new Vector<Student>();
-		importData();
 		
 		//init SQL connection
 		driver = new SQLDriver();
 		driver.connect();
-		
+		importData();
+
 		//populate projects table
 		//commented out once SQL table was populated.
 //		populateProjectTable();

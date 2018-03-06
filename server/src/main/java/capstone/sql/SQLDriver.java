@@ -192,6 +192,8 @@ public class SQLDriver {
 				Project p = new Project(result.getInt(1));
 				p.setProjectNumber(result.getInt(2));
 				p.setProjectName(result.getString("PROJECT_NAME"));
+				p.setName(result.getString("PROJECT_NAME"));
+				p.setProjectId(result.getInt(1));
 				p.setMaxSize(result.getInt(15));
 				p.setMinSize(result.getInt(16));
 				p.setStatus(result.getString("PROJECT_STATUS"));

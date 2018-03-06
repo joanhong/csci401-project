@@ -1,32 +1,3 @@
-Project #0: 'Quizzly' | 6-8 11.0
-Project #1: 'SummerCampReg' | 4-8 11.0
-Project #2: 'Sigma' | 3-4 11.0
-Project #3: 'P2P4Health' | 9-12 11.0
-Project #4: 'SociallyConsciousMachineLearningBots' | 3-4 11.0
-Project #5: 'ChangingTheTutoringSphere' | 3-5 11.0
-Project #6: 'TrojanMotors' | 4-6 11.0
-Project #7: 'AutismSocietyApp' | 2-3 11.0
-Project #8: 'AutismSocietyDB' | 2-3 11.0
-Project #9: 'SchoolOfFishApp' | 2-3 11.0
-Project #10: 'PredictingElections' | 4-5 11.0
-Project #11: 'Perfit' | 4-6 11.0
-Project #12: 'MarketingTechnologyPlatform' | 4-6 11.0
-Project #13: 'PureFocusiOSApp' | 3-4 11.0
-Project #14: 'Cosmic-System' | 3-4 11.0
-Project #15: 'eFormsProject' | 3-4 11.0
-Project #16: 'Prop47Website' | 2-3 11.0
-Project #17: 'ProstheticSpinalCord' | 3-6 11.0
-Project #18: 'QuantitativeTrading_DataScience' | 3-4 11.0
-Project #19: 'QuantitativeTrading_DataExtractionPipeline' | 3-4 11.0
-Project #20: 'PositionControl' | 3-4 11.0
-Project #21: 'SpoilerAlert' | 3-4 11.0
-Project #22: 'LogoDetection' | 3-4 11.0
-Project #23: 'AIMedicalImaging' | 3-4 11.0
-Project #24: 'Diabetes' | 3-5 11.0
-Project #25: 'iLegal' | 3-4 11.0
-Project #26: '401ProjectPlatform' | 3-4 11.0
-Project #27: 'LetterOfRecGenerator' | 3-4 11.0
-Project #28: 'AutonomousDroneControl' | 3-4 11.0
 
 Student #0: 'Student1' | {SummerCampReg=3, PositionControl=4, Sigma=1, Prop47Website=2, eFormsProject=5}
 Student #1: 'Student2' | {SummerCampReg=2, Sigma=1, Prop47Website=5, PredictingElections=3, P2P4Health=4}
@@ -99,78 +70,101 @@ Student #67: 'Student68' | {AutismSocietyApp=4, ProstheticSpinalCord=2, SchoolOf
 Student #68: 'Student69' | {MarketingTechnologyPlatform=3, 401ProjectPlatform=1, PositionControl=2, QuantitativeTrading_DataExtractionPipeline=5, QuantitativeTrading_DataScience=4}
 
 Project Popularity Scores:
-Quizzly 0.6617715617715617
-SummerCampReg 0.5166666666666667
-Sigma 0.8062937062937063
-P2P4Health 0.5212121212121211
-SociallyConsciousMachineLearningBots 0.6090909090909091
-ChangingTheTutoringSphere 0.5705234159779614
-TrojanMotors 0.43333333333333335
-AutismSocietyApp 0.9515151515151515
-AutismSocietyDB 0.5154882154882156
-SchoolOfFishApp 0.7969696969696969
-PredictingElections 0.8704545454545455
+Quizzly Infinity
+SummerCampReg 3.016666666666667
+Sigma 2.4846153846153847
+P2P4Health 1.0222222222222224
+SociallyConsciousMachineLearningBots 1.0333333333333334
+ChangingTheTutoringSphere 0.8151515151515151
+TrojanMotors 0.6555555555555556
+AutismSocietyApp 1.2285714285714284
+AutismSocietyDB 0.5962962962962962
+SchoolOfFishApp 0.8777777777777778
+PredictingElections 0.9041666666666668
 Perfit 0.5121212121212122
-MarketingTechnologyPlatform 1.1509090909090909
-PureFocusiOSApp 0.6969696969696969
-Cosmic-System 0.32857142857142857
-eFormsProject 0.1272727272727273
-Prop47Website 0.8929292929292929
-ProstheticSpinalCord 0.7818181818181819
-QuantitativeTrading_DataScience 0.5242424242424243
-QuantitativeTrading_DataExtractionPipeline 0.7134199134199134
-PositionControl 0.5450216450216451
-SpoilerAlert 0.6291375291375291
-LogoDetection 0.6524475524475525
-AIMedicalImaging 0.9606060606060606
-Diabetes 0.5696969696969697
-iLegal 0.8895622895622896
-401ProjectPlatform 0.8444444444444444
-LetterOfRecGenerator 0.9636363636363635
-AutonomousDroneControl 0.9135198135198136
+MarketingTechnologyPlatform 1.1244444444444444
+PureFocusiOSApp 0.6410256410256411
+Cosmic-System 0.3081632653061224
+eFormsProject 0.11111111111111112
+Prop47Website 0.8013888888888889
+ProstheticSpinalCord 0.6235294117647059
+QuantitativeTrading_DataScience 0.42407407407407405
+QuantitativeTrading_DataExtractionPipeline 0.6095238095238095
+PositionControl 0.4047619047619047
+SpoilerAlert 0.5358974358974359
+LogoDetection 0.5428904428904429
+AIMedicalImaging 0.8072463768115942
+Diabetes 0.4055555555555556
+iLegal 0.7274074074074074
+401ProjectPlatform 0.588034188034188
+LetterOfRecGenerator 0.7876543209876544
+AutonomousDroneControl 0.621978021978022
+The Cyborg Project NaN
+TIME MACHINE NaN
 
-MarketingTechnologyPlatform Student39 Student24 Student19 Student56 Student38 Student30 
-LetterOfRecGenerator Student61 Student36 
-AIMedicalImaging Student7 Student11 Student54 Student58 
-AutismSocietyApp Student20 Student3 Student5 
-AutonomousDroneControl Student68 Student60 Student51 Student33 
-Prop47Website Student53 Student14 
-iLegal Student45 Student8 Student4 Student46 
-PredictingElections Student50 Student31 Student49 Student48 
-401ProjectPlatform Student43 Student16 Student52 Student63 
-Sigma Student42 Student1 Student2 Student47 
-SchoolOfFishApp Student28 Student29 Student27 
-ProstheticSpinalCord Student18 Student44 Student13 Student21 Student17 Student22 
-QuantitativeTrading_DataExtractionPipeline Student26 
-PureFocusiOSApp Student25 Student64 Student23 Student59 
-Quizzly Student67 Student34 Student10 Student62 
-LogoDetection Student12 
-SpoilerAlert Student65 Student57 
-SociallyConsciousMachineLearningBots Student6 
-ChangingTheTutoringSphere 
-Diabetes Student37 
-PositionControl Student40 Student35 Student69 
-QuantitativeTrading_DataScience 
-P2P4Health 
+Quizzly Student10 Student67 Student34 Student62 
 SummerCampReg 
-AutismSocietyDB Student9 Student66 Student55 
-Perfit Student32 Student15 
+Sigma Student42 Student47 Student14 Student2 
+AutismSocietyApp Student55 Student66 Student3 
+MarketingTechnologyPlatform Student19 Student24 Student30 Student38 Student39 Student56 
+SociallyConsciousMachineLearningBots Student6 
+P2P4Health Student20 
+PredictingElections Student48 Student31 Student50 Student49 
+SchoolOfFishApp Student27 Student29 Student28 
+ChangingTheTutoringSphere Student5 
+AIMedicalImaging Student7 Student54 Student11 Student58 
+Prop47Website Student53 Student1 
+LetterOfRecGenerator Student61 Student36 Student43 
+iLegal Student8 Student4 Student46 Student45 
 TrojanMotors Student41 
+PureFocusiOSApp Student25 Student23 Student64 Student59 
+ProstheticSpinalCord Student21 Student13 Student18 Student44 Student68 Student22 
+AutonomousDroneControl Student51 Student17 Student60 Student33 
+QuantitativeTrading_DataExtractionPipeline Student26 
+AutismSocietyDB Student9 
+401ProjectPlatform Student69 Student52 Student16 Student63 
+LogoDetection Student12 
+SpoilerAlert Student57 Student65 
+Perfit Student15 Student32 
+QuantitativeTrading_DataScience 
+Diabetes Student37 
+PositionControl Student35 Student40 
 Cosmic-System 
 eFormsProject 
+The Cyborg Project 
+TIME MACHINE 
 
+Eliminated TIME MACHINE
+Eliminated The Cyborg Project
 Eliminated eFormsProject
 Eliminated Cosmic-System
-Eliminated TrojanMotors
-Eliminated Perfit
-Eliminated SummerCampReg
-Eliminated P2P4Health
-Eliminated QuantitativeTrading_DataScience
+Eliminated PositionControl
 Eliminated Diabetes
-Eliminated ChangingTheTutoringSphere
-Eliminated SociallyConsciousMachineLearningBots
+Eliminated QuantitativeTrading_DataScience
+Eliminated Perfit
 Eliminated SpoilerAlert
 Eliminated LogoDetection
+Eliminated AutismSocietyDB
 Eliminated QuantitativeTrading_DataExtractionPipeline
+Eliminated TrojanMotors
+Eliminated ChangingTheTutoringSphere
+Eliminated P2P4Health
+Eliminated SociallyConsciousMachineLearningBots
 
-0.8198863636363636
+Quizzly Student10 Student67 Student34 Student62 Student15 Student57 Student5 
+SummerCampReg Student35 Student65 
+Sigma Student42 Student47 Student14 Student2 
+AutismSocietyApp Student55 Student66 Student12 
+MarketingTechnologyPlatform Student19 Student24 Student30 Student38 Student39 Student56 
+PredictingElections Student48 Student31 Student50 Student49 Student26 
+SchoolOfFishApp Student27 Student29 Student41 
+AIMedicalImaging Student7 Student54 Student11 Student58 
+Prop47Website Student53 Student1 Student9 
+LetterOfRecGenerator Student61 Student36 Student43 Student28 
+iLegal Student8 Student4 Student46 Student45 
+PureFocusiOSApp Student25 Student23 Student64 Student59 
+ProstheticSpinalCord Student21 Student13 Student18 Student44 Student68 Student22 
+AutonomousDroneControl Student51 Student17 Student60 Student33 
+401ProjectPlatform Student69 Student52 Student16 Student63 
+
+Infinity

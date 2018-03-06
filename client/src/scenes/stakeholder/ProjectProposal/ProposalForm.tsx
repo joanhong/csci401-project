@@ -45,7 +45,6 @@ constructor(props: ProjectProps) {
         projectDescription: this.state.projectDescription,
         });
         request.setRequestHeader('Cache-Control', 'no-cache');
-        request.setRequestHeader('Postman-Token', '2c948bb5-d03f-452f-b461-08be7729a537');
         request.send(data);
         /*
         fetch('http://localhost:8080/projectData/', {
