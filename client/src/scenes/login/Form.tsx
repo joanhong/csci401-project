@@ -60,7 +60,6 @@ this.setState({ [e.target.id]: e.target.value });
     render() {
         return (
             <div>
-            <h2 id="status">X</h2>
             <Form horizontal={true} >
             <FormGroup controlId="formHorizontalEmail">
                 <Col componentClass={ControlLabel} sm={2}>
