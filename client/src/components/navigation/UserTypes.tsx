@@ -1,18 +1,46 @@
 import * as React from 'react';
 import {
-  Link
-} from 'react-router-dom';
+  Navbar,
+  Nav,
+  NavItem
+} from 'react-bootstrap';
+import {
+  LinkContainer
+} from 'react-router-bootstrap';
 import LoginForm from '../../scenes/login/Form';
+const logo = require('../../logo.svg');
 
 class Navigation extends React.Component {
   render() {
     return (
       <div>
-          <ul className="header">
-            <li><Link to="/admin">Admin</Link></li>
-            <li><Link to="/stakeholder">Stakeholder</Link></li>
-            <li><Link to="/student">Student</Link></li>
-          </ul>
+          <Navbar>
+            <Navbar.Header>
+              <Navbar.Brand>
+                <img src={logo} className="App-logo" alt="logo" />
+              </Navbar.Brand>
+              <Navbar.Brand>
+                <a href="">CSCI 401</a>
+              </Navbar.Brand> 
+            </Navbar.Header>
+            <Nav>
+              <LinkContainer to="admin">
+                <NavItem eventKey={1}>
+                  Admin
+                </NavItem>
+              </LinkContainer>
+              <LinkContainer to="stakeholder">
+                <NavItem eventKey={2}>
+                  Stakeholder
+                </NavItem>
+              </LinkContainer>
+              <LinkContainer to="student">
+                <NavItem eventKey={2}>
+                  Student
+                </NavItem>
+              </LinkContainer>
+            </Nav>
+          </Navbar>
           <LoginForm/>
       </div>
     );

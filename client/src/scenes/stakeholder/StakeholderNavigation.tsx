@@ -1,25 +1,54 @@
 import * as React from 'react';
 import {
   Route,
-  NavLink,
   BrowserRouter
 } from 'react-router-dom';
+import {
+  Navbar,
+  Nav,
+  NavItem
+} from 'react-bootstrap';
+import {
+  LinkContainer
+} from 'react-router-bootstrap';
 import Profile from './Profile/index';
 import ProjectProposal from './ProjectProposal/index';
+const logo = require('../../logo.svg');
 
 class StakeholderNavigation extends React.Component {
   render() {
     return (
       <BrowserRouter>
         <div>
-            <ul className="header">
-              <li><NavLink to="/stakeholder/">Home</NavLink></li>
-              <li><NavLink to="/stakeholder/profile">Profile</NavLink></li>
-              <li><NavLink to="/stakeholder/projectproposal">Project Proposal</NavLink></li>
-            </ul>
+          <Navbar>
+            <Navbar.Header>
+              <Navbar.Brand>
+                <img src={logo} className="App-logo" alt="logo" />
+              </Navbar.Brand>
+              
+              <Navbar.Brand>
+                <LinkContainer to="/stakeholder">
+                  <a>CSCI 401</a>
+                </LinkContainer>
+              </Navbar.Brand> 
+            </Navbar.Header>
+            <Nav>
+              <LinkContainer to="/stakeholder/profile">
+                <NavItem eventKey={1}>
+                  Profile
+                </NavItem>
+              </LinkContainer>
+              
+              <LinkContainer to="/stakeholder/proposals">
+                <NavItem eventKey={2}>
+                  ProjectProposal
+                </NavItem>
+              </LinkContainer>
+            </Nav>
+          </Navbar>
           <div className="content">
             <Route path="/stakeholder/profile" component={Profile}/>
-            <Route path="/stakeholder/projectproposal" component={ProjectProposal}/>
+            <Route path="/stakeholder/proposals" component={ProjectProposal}/>
           </div>
         </div>
       </BrowserRouter>
