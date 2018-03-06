@@ -75,7 +75,7 @@ this.setState({ [e.target.id]: e.target.value });
                 </Col>
                 <Col sm={10}>
                 <FormControl
-                    type="text"
+                    type="password"
                     placeholder="Password"
                     id="password"
                     value={this.state.password}
