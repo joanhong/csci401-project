@@ -1,5 +1,9 @@
 import * as React from 'react';
 
+import {
+  Table
+} from 'react-bootstrap';
+
 interface ProjectMatchingProps {
 }
 
@@ -44,13 +48,16 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
   createProjectsTable() {
     const projects = this.state.projects;
     return(
-    <table>
+    <Table bordered={true}>
+      <thead>
       <tr>
         <th>Project Name</th>
         <th>Min Size</th>
         <th>Max Size</th>
         <th>Members</th>
       </tr>
+      </thead>
+      <tbody>
     {projects.map((project: Project) =>
       <tr key={project.projectId}>
         <td>{project.name}</td>
@@ -65,7 +72,8 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
         </td>
       </tr>      
       )}
-     </table>
+      </tbody>
+     </Table>
      );
   }
   
