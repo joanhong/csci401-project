@@ -16,7 +16,7 @@ import capstone.user.User;
 
 public class SQLDriver {
 	private final static String DATABASE_NAME = "401_Platform";
-	private final static String PASSWORD = "";
+	private final static String PASSWORD = "password";
 	
 	private Connection con;
 	private final static String confirmLoginAttempt ="SELECT COUNT(*) FROM " + DATABASE_NAME + ".Users WHERE USERNAME=? AND PASSWORD=?";
