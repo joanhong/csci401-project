@@ -12,7 +12,7 @@ import capstone.sql.SQLDriver;
 
 public class Algorithm {
 
-	//PrintWriter writer;
+	PrintWriter writer;
 	
 	private Vector<Project> projects;
 	private Vector<Student> students;
@@ -33,30 +33,36 @@ public class Algorithm {
         String line = null;
         
         // projects
-        try {
-            BufferedReader projectsBR = new BufferedReader(new FileReader(folder_name + "/projects.txt"));
-
-            while((line = projectsBR.readLine()) != null) {                
-                String[] elements = line.split(" ");
-                
-                Project newProject = new Project(getStudentSatScore(1));
-                newProject.name = elements[0];
-                newProject.projectId = projects.size();
-                newProject.minSize = Integer.parseInt(elements[1]);
-                newProject.maxSize = Integer.parseInt(elements[2]);
-                
-                projects.addElement(newProject);
-                
-                //writer.println(newProject);
-            }
-            
-            projectsBR.close();         
+        Vector<Project> projectx = driver.getProjectsTable();
+//        System.out.println("size of projectx talbe = " + projectx.size());
+        for(Project p : projectx)
+        {
+        		projects.addElement(p);
         }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            BufferedReader projectsBR = new BufferedReader(new FileReader(folder_name + "/projects.txt"));
+//
+//            while((line = projectsBR.readLine()) != null) {                
+//                String[] elements = line.split(" ");
+//                
+//                Project newProject = new Project(getStudentSatScore(1));
+//                newProject.name = elements[0];
+//                newProject.projectId = projects.size();
+//                newProject.minSize = Integer.parseInt(elements[1]);
+//                newProject.maxSize = Integer.parseInt(elements[2]);
+//                
+//                projects.addElement(newProject);
+//                
+//                writer.println(newProject);
+//            }
+//            
+//            projectsBR.close();         
+//        }
+//        catch(Exception e) {
+//            e.printStackTrace();
+//        }
         
-        //writer.println("");
+        writer.println("");
         
         // rankings
         try {
@@ -85,10 +91,10 @@ public class Algorithm {
                 }
 
                 students.addElement(newStudent);
-                //writer.println(newStudent);
+                writer.println(newStudent);
             }
             
-            //writer.println("");
+            writer.println("");
             studentsBR.close();         
         }
         catch(Exception e) {
@@ -103,24 +109,24 @@ public class Algorithm {
 		folder_name = _folder_name;
 		
 		// set up output txt file for this iteration
-		/*String filename = folder_name + "/iterations/" + Integer.toString(iteration) + ".txt";
+		String filename = folder_name + "/iterations/" + Integer.toString(iteration) + ".txt";
 		try {
 			writer = new PrintWriter(filename, "UTF-8");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
-		}*/
+		}
 		
 		// import data:
 		projects = new Vector<Project>();
 		students = new Vector<Student>();
-		importData();
 		
 		//init SQL connection
 		driver = new SQLDriver();
 		driver.connect();
-		
+		importData();
+
 		//populate projects table
 		//commented out once SQL table was populated.
 //		populateProjectTable();
@@ -130,11 +136,11 @@ public class Algorithm {
 //		populateRankingsTable();
 		
 		// calculate each project's popularity scores
-		/*writer.println("Project Popularity Scores:");
+		writer.println("Project Popularity Scores:");
 		for (Project p : projects) {
 			writer.println(p.name + " " + p.returnPopularity());
 		}
-		writer.println("");*/
+		writer.println("");
 		
 		// sort projects by popularity in descending order
 		Collections.sort(projects, new Project.popularityComparator());
@@ -153,8 +159,8 @@ public class Algorithm {
 		}
 		algoSatScore = totalProjSatScores / projects.size();
 		
-		//writer.println(algoSatScore);
-		//writer.close();
+		writer.println(algoSatScore);
+		writer.close();
 	}
 	
 	private void populateRankingsTable() 
@@ -185,16 +191,15 @@ public class Algorithm {
 	}
 
 	void PrintProjects() {
-		/*for (Project p : projects) {
+		for (Project p : projects) {
 			writer.print(p.name + " ");
 			p.printMembers(writer);
 		}		
-		writer.println("");*/
+		writer.println("");
 	}
 	
 	/*void JSONOutput() { //outputs JSON of each project
 	    ObjectMapper mapper = new ObjectMapper();
-
 	    for (int i=0; i<projects.size(); i++) {
 		    try {  
 		        // Writing to a file  
@@ -251,14 +256,14 @@ public class Algorithm {
 		for (int i=projects.size()-1; i>0; i--) {
 			Project p = projects.elementAt(i);
 			if (p.members.size() < p.minSize && (GetTotalMaxSpots()-p.maxSize) >= students.size()) {
-				//writer.println("Eliminated " + p.name);
+				writer.println("Eliminated " + p.name);
 				for (Student s: p.members) {
 					unassignedStudents.add(s);
 				}
 				projects.remove(i);
 			}
 		}
-		//writer.println("");
+		writer.println("");
 	}
 
 	void Bump() {

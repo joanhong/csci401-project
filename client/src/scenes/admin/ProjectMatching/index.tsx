@@ -3,6 +3,10 @@ import {
   Table
 } from 'react-bootstrap';
 
+import {
+  Table
+} from 'react-bootstrap';
+
 interface ProjectMatchingProps {
 }
 
@@ -47,31 +51,31 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
   createProjectsTable() {
     const projects = this.state.projects;
     return(
-    <Table striped={true} bordered={true} condensed={true} hover={true}>
+    <Table bordered={true}>
       <thead>
-        <tr>
-          <th>Project Name</th>
-          <th>Min Size</th>
-          <th>Max Size</th>
-          <th>Members</th>
-        </tr>
+      <tr>
+        <th>Project Name</th>
+        <th>Min Size</th>
+        <th>Max Size</th>
+        <th>Members</th>
+      </tr>
       </thead>
       <tbody>
-      {projects.map((project: Project) =>
-        <tr key={project.projectId}>
-          <td>{project.name}</td>
-          <td>{project.minSize}</td>
-          <td>{project.maxSize}</td>
-          <td>
-          {project.members.map((student: StudentInfo) =>
-            <div key={student.studentId}>
-              {student.name}
-            </div>
-          )}
-          </td>
-        </tr> 
+    {projects.map((project: Project) =>
+      <tr key={project.projectId}>
+        <td>{project.name}</td>
+        <td>{project.minSize}</td>
+        <td>{project.maxSize}</td>
+        <td>
+        {project.members.map((student: StudentInfo) =>
+          <div key={student.studentId}>
+            {student.name}
+          </div>
+        )}
+        </td>
+      </tr>      
       )}
-      </tbody> 
+      </tbody>
      </Table>
      );
   }
