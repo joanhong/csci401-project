@@ -222,10 +222,12 @@ public class ProjectServiceController
 			if(driver.confirmLoginAttempt(logindata.email, logindata.password))
 			{
 				System.out.println("LOGIN SUCCESSFUL");
+				return logindata;
 			}
 			else
 			{
 				System.out.println("INVALID PASSWORD");
+				return null;
 			}
 		}
 		else
@@ -234,7 +236,7 @@ public class ProjectServiceController
 		}
 		
 
-		return logindata; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
+		return null; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
 	}
 	
 	

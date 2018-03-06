@@ -14,7 +14,6 @@ interface LoginState {
 email: string;
 password: string;
 }
-let cont = document.getElementById('status');
 class LoginForm extends React.Component<LoginProps, LoginState> {
 constructor(props: LoginProps) {
 super(props);
@@ -32,9 +31,9 @@ request.open('POST', 'http://localhost:8080/loginAttempt/');
 request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 if (request.readyState === 4) {
 if (request.status === 200) {
-if (cont) {
-cont.innerText = request.responseText;
-}
+window.alert('LOGIN SUCCESSFUL!');
+} else {
+window.alert('LOGIN FAILED.');
 }
 }
 var data = JSON.stringify({
@@ -43,7 +42,16 @@ password: this.state.password
 });
 request.setRequestHeader('Cache-Control', 'no-cache');
 request.send(data);
+request.onreadystatechange = function() {
+if (request.readyState === 4) {
 
+        if (request.responseText.length > 4) {
+            alert('LOGIN SUCCESSFUL!');
+        } else {
+alert('LOGIN FAILED.');
+}
+}
+};
 }
 handleChange(e: any) {
 this.setState({ [e.target.id]: e.target.value });
