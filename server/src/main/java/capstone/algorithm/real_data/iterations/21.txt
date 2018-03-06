@@ -102,72 +102,78 @@ AutonomousDroneControl 0.621978021978022
 The Cyborg Project NaN
 TIME MACHINE NaN
 MINORITY REPORT NaN
+SATURN RANGERS NaN
+dgbdgb NaN
 
-Quizzly Student34 Student10 Student67 
-SummerCampReg Student2 
-Sigma Student1 Student42 Student14 Student47 
-AutismSocietyApp Student12 Student3 Student5 
-MarketingTechnologyPlatform Student39 Student30 Student56 Student19 Student38 Student24 
+Quizzly Student67 Student10 Student34 
+SummerCampReg 
+Sigma Student42 Student2 Student1 Student47 
+AutismSocietyApp Student66 Student59 Student36 
+MarketingTechnologyPlatform Student19 Student56 Student39 Student30 Student24 Student38 
 SociallyConsciousMachineLearningBots Student6 
 P2P4Health Student20 
-PredictingElections Student31 Student50 Student49 Student48 Student22 
-SchoolOfFishApp Student41 Student28 Student29 
-ChangingTheTutoringSphere 
-AIMedicalImaging Student7 Student54 Student11 Student58 
-Prop47Website Student53 
-LetterOfRecGenerator Student61 Student36 Student27 
-iLegal Student46 Student45 Student8 Student4 
-TrojanMotors 
-PureFocusiOSApp Student23 Student25 Student64 Student66 
-ProstheticSpinalCord Student18 Student44 Student13 Student21 Student17 Student33 
-AutonomousDroneControl Student51 Student60 Student62 Student68 
+PredictingElections Student49 Student31 Student48 Student50 
+SchoolOfFishApp Student29 Student27 Student28 
+ChangingTheTutoringSphere Student5 
+AIMedicalImaging Student58 Student11 Student7 Student54 
+Prop47Website Student53 Student51 Student14 
+LetterOfRecGenerator Student61 Student3 
+iLegal Student4 Student46 Student8 Student45 
+TrojanMotors Student41 
+PureFocusiOSApp Student23 Student25 Student64 Student55 
+ProstheticSpinalCord Student18 Student44 Student13 Student21 Student68 Student22 
+AutonomousDroneControl Student17 Student33 Student60 Student62 
 QuantitativeTrading_DataExtractionPipeline Student26 
-AutismSocietyDB Student9 Student59 Student55 
-401ProjectPlatform Student43 Student63 Student52 Student69 
-LogoDetection 
+AutismSocietyDB Student9 
+401ProjectPlatform Student52 Student43 Student63 Student16 
+LogoDetection Student12 
 SpoilerAlert Student65 Student57 
 Perfit Student32 Student15 
-QuantitativeTrading_DataScience Student16 
+QuantitativeTrading_DataScience 
 Diabetes Student37 
-PositionControl Student35 Student40 
+PositionControl Student40 Student35 Student69 
 Cosmic-System 
 eFormsProject 
 The Cyborg Project 
 TIME MACHINE 
 MINORITY REPORT 
+SATURN RANGERS 
+dgbdgb 
 
+Eliminated dgbdgb
+Eliminated SATURN RANGERS
 Eliminated MINORITY REPORT
 Eliminated TIME MACHINE
 Eliminated The Cyborg Project
 Eliminated eFormsProject
 Eliminated Cosmic-System
-Eliminated PositionControl
 Eliminated Diabetes
 Eliminated QuantitativeTrading_DataScience
 Eliminated Perfit
 Eliminated SpoilerAlert
 Eliminated LogoDetection
+Eliminated AutismSocietyDB
 Eliminated QuantitativeTrading_DataExtractionPipeline
 Eliminated TrojanMotors
-Eliminated Prop47Website
+Eliminated LetterOfRecGenerator
 Eliminated ChangingTheTutoringSphere
 Eliminated P2P4Health
 Eliminated SociallyConsciousMachineLearningBots
 
-Quizzly Student34 Student10 Student67 Student57 Student15 
-SummerCampReg Student2 Student65 Student35 
-Sigma Student1 Student42 Student14 Student47 
-AutismSocietyApp Student5 Student12 Student20 
-MarketingTechnologyPlatform Student39 Student30 Student56 Student19 Student38 Student24 
-PredictingElections Student31 Student50 Student49 Student48 Student22 
-SchoolOfFishApp Student41 Student28 Student29 
-AIMedicalImaging Student7 Student54 Student11 Student58 
-LetterOfRecGenerator Student61 Student36 Student27 Student3 
-iLegal Student46 Student45 Student8 Student4 
-PureFocusiOSApp Student23 Student25 Student64 Student66 
-ProstheticSpinalCord Student18 Student44 Student13 Student21 Student17 Student33 
-AutonomousDroneControl Student51 Student60 Student62 Student68 
-AutismSocietyDB Student9 Student59 Student55 
-401ProjectPlatform Student63 Student43 Student63 Student16 
+Quizzly Student67 Student10 Student34 Student57 Student15 Student3 Student5 
+SummerCampReg Student65 
+Sigma Student42 Student2 Student1 Student47 
+AutismSocietyApp Student36 Student59 Student12 
+MarketingTechnologyPlatform Student19 Student56 Student39 Student30 Student24 Student38 
+PredictingElections Student49 Student31 Student48 Student50 Student26 
+SchoolOfFishApp Student28 Student29 Student41 
+AIMedicalImaging Student58 Student11 Student7 Student54 
+Prop47Website Student53 Student51 Student14 
+iLegal Student4 Student46 Student8 Student45 
+PureFocusiOSApp Student23 Student25 Student64 Student55 
+ProstheticSpinalCord Student18 Student44 Student13 Student21 Student68 Student22 
+AutonomousDroneControl Student17 Student33 Student60 Student62 
+401ProjectPlatform Student52 Student43 Student63 Student16 
+PositionControl Student40 Student35 Student69 
 
 Infinity

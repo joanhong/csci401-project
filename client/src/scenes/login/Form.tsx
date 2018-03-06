@@ -8,16 +8,64 @@ import {
     ControlLabel
 } from 'react-bootstrap';
 
-class LoginForm extends React.Component {
+interface LoginProps {
+}
+interface LoginState {
+email: string;
+password: string;
+}
+let cont = document.getElementById('status');
+class LoginForm extends React.Component<LoginProps, LoginState> {
+constructor(props: LoginProps) {
+super(props);
+this.state = {
+email: '',
+password: ''
+};
+this.submitClicked = this.submitClicked.bind(this);
+this.handleChange = this.handleChange.bind(this);
+}
+submitClicked() {
+var request = new XMLHttpRequest();
+request.withCredentials = true;
+request.open('POST', 'http://localhost:8080/loginAttempt/');
+request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+if (request.readyState === 4) {
+if (request.status === 200) {
+if (cont) {
+cont.innerText = request.responseText;
+}
+}
+}
+var data = JSON.stringify({
+email: this.state.email,
+password: this.state.password
+});
+request.setRequestHeader('Cache-Control', 'no-cache');
+request.send(data);
+
+}
+handleChange(e: any) {
+this.setState({ [e.target.id]: e.target.value });
+}
+
     render() {
         return (
+            <div>
+            <h2 id="status">X</h2>
             <Form horizontal={true} >
             <FormGroup controlId="formHorizontalEmail">
                 <Col componentClass={ControlLabel} sm={2}>
                 Email
                 </Col>
                 <Col sm={10}>
-                <FormControl type="email" placeholder="Email" />
+                <FormControl
+                    type="text"
+                    id="email"
+                    value={this.state.email}
+                    placeholder="Email"
+                    onChange={e => this.handleChange(e)}
+                />
                 </Col>
             </FormGroup>
 
@@ -26,16 +74,23 @@ class LoginForm extends React.Component {
                 Password
                 </Col>
                 <Col sm={10}>
-                <FormControl type="password" placeholder="Password" />
+                <FormControl
+                    type="text"
+                    placeholder="Password"
+                    id="password"
+                    value={this.state.password}
+                    onChange={e => this.handleChange(e)}
+                />
                 </Col>
             </FormGroup>
 
             <FormGroup>
                 <Col smOffset={2} sm={10}>
-                <Button type="submit">Sign in</Button>
+                <Button type="submit" onClick={this.submitClicked}>Sign in</Button>
                 </Col>
             </FormGroup>
         </Form>
+        </div>
         );
     }
 }

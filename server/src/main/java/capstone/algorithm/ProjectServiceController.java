@@ -90,6 +90,52 @@ class ProjectData
 	
 }
 
+@Entity
+class LoginData
+{
+	@Id
+	@GeneratedValue
+	private long id;
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	String email;
+	String password;
+	
+	public LoginData(String email, String password) 
+	{
+		super();
+		this.email = email;
+		this.password = password;
+	}
+	public LoginData()
+	{
+		
+	}
+	
+}
+
 
 @RestController
 public class ProjectServiceController 
@@ -157,6 +203,40 @@ public class ProjectServiceController
 	   
 		return projectdata; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/loginAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody LoginData loginAttempt(@RequestBody LoginData logindata)
+	{
+		System.out.println("Received HTTP POST");
+		System.out.println(logindata);
+		System.out.println(logindata.email);
+		System.out.println(logindata.password);
+		
+		//CASE 1
+		//DOES USERNAME EXIST?
+		if(driver.doesExist(logindata.email))
+		{
+			System.out.println("USER EMAIL EXISTS, CHECKING PASSWORD...");
+			//IF IT DOES, CHECK IF USERNAME PASSWORD COMBO IS VALID
+			if(driver.confirmLoginAttempt(logindata.email, logindata.password))
+			{
+				System.out.println("LOGIN SUCCESSFUL");
+			}
+			else
+			{
+				System.out.println("INVALID PASSWORD");
+			}
+		}
+		else
+		{
+			System.out.println("INVALID USERNAME : DOES NOT EXIST");
+		}
+		
+
+		return logindata; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
+	}
+	
 	
 //	@RequestMapping(value = "/projectData", method = RequestMethod.POST, headers="content-type=application/json")
 //	public String post(@ModelAttribute("Project") Project project, ModelMap modelMap) 
