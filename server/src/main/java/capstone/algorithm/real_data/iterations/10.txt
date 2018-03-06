@@ -102,27 +102,27 @@ AutonomousDroneControl 0.621978021978022
 The Cyborg Project NaN
 TIME MACHINE NaN
 
-Quizzly Student10 Student67 Student34 Student62 
+Quizzly Student67 Student10 Student34 Student62 
 SummerCampReg 
-Sigma Student42 Student47 Student14 Student2 
-AutismSocietyApp Student55 Student66 Student3 
-MarketingTechnologyPlatform Student19 Student24 Student30 Student38 Student39 Student56 
+Sigma Student2 Student42 Student1 Student14 
+AutismSocietyApp Student36 Student5 Student59 
+MarketingTechnologyPlatform Student39 Student56 Student38 Student30 Student24 Student19 
 SociallyConsciousMachineLearningBots Student6 
 P2P4Health Student20 
-PredictingElections Student48 Student31 Student50 Student49 
-SchoolOfFishApp Student27 Student29 Student28 
-ChangingTheTutoringSphere Student5 
-AIMedicalImaging Student7 Student54 Student11 Student58 
-Prop47Website Student53 Student1 
-LetterOfRecGenerator Student61 Student36 Student43 
+PredictingElections Student31 Student50 Student49 Student48 
+SchoolOfFishApp Student41 Student27 Student29 
+ChangingTheTutoringSphere 
+AIMedicalImaging Student7 Student11 Student54 Student58 
+Prop47Website Student53 Student47 Student63 
+LetterOfRecGenerator Student61 Student3 Student60 Student28 
 iLegal Student8 Student4 Student46 Student45 
-TrojanMotors Student41 
-PureFocusiOSApp Student25 Student23 Student64 Student59 
-ProstheticSpinalCord Student21 Student13 Student18 Student44 Student68 Student22 
-AutonomousDroneControl Student51 Student17 Student60 Student33 
+TrojanMotors 
+PureFocusiOSApp Student64 Student25 Student23 Student55 
+ProstheticSpinalCord Student18 Student44 Student13 Student21 Student22 
+AutonomousDroneControl Student51 Student33 Student17 Student68 
 QuantitativeTrading_DataExtractionPipeline Student26 
-AutismSocietyDB Student9 
-401ProjectPlatform Student69 Student52 Student16 Student63 
+AutismSocietyDB Student9 Student66 
+401ProjectPlatform Student16 Student43 Student52 Student69 
 LogoDetection Student12 
 SpoilerAlert Student57 Student65 
 Perfit Student15 Student32 
@@ -144,27 +144,27 @@ Eliminated QuantitativeTrading_DataScience
 Eliminated Perfit
 Eliminated SpoilerAlert
 Eliminated LogoDetection
-Eliminated AutismSocietyDB
 Eliminated QuantitativeTrading_DataExtractionPipeline
 Eliminated TrojanMotors
 Eliminated ChangingTheTutoringSphere
 Eliminated P2P4Health
 Eliminated SociallyConsciousMachineLearningBots
 
-Quizzly Student10 Student67 Student34 Student62 Student15 Student57 Student5 
+Quizzly Student67 Student10 Student34 Student62 Student57 Student15 
 SummerCampReg Student35 Student65 
-Sigma Student42 Student47 Student14 Student2 
-AutismSocietyApp Student55 Student66 Student12 
-MarketingTechnologyPlatform Student19 Student24 Student30 Student38 Student39 Student56 
-PredictingElections Student48 Student31 Student50 Student49 Student26 
-SchoolOfFishApp Student27 Student29 Student41 
-AIMedicalImaging Student7 Student54 Student11 Student58 
-Prop47Website Student53 Student1 Student9 
-LetterOfRecGenerator Student61 Student36 Student43 Student28 
+Sigma Student2 Student42 Student1 Student14 
+AutismSocietyApp Student59 Student36 Student12 
+MarketingTechnologyPlatform Student39 Student56 Student38 Student30 Student24 Student19 
+PredictingElections Student31 Student50 Student49 Student48 Student26 
+SchoolOfFishApp Student41 Student27 Student29 
+AIMedicalImaging Student7 Student11 Student54 Student58 
+Prop47Website Student53 Student47 Student63 
+LetterOfRecGenerator Student61 Student3 Student60 Student28 
 iLegal Student8 Student4 Student46 Student45 
-PureFocusiOSApp Student25 Student23 Student64 Student59 
-ProstheticSpinalCord Student21 Student13 Student18 Student44 Student68 Student22 
-AutonomousDroneControl Student51 Student17 Student60 Student33 
-401ProjectPlatform Student69 Student52 Student16 Student63 
+PureFocusiOSApp Student64 Student25 Student23 Student55 
+ProstheticSpinalCord Student18 Student44 Student13 Student21 Student22 
+AutonomousDroneControl Student51 Student33 Student17 Student68 
+AutismSocietyDB Student9 Student66 Student20 
+401ProjectPlatform Student16 Student43 Student52 Student69 
 
 Infinity

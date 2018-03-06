@@ -1,5 +1,9 @@
 import * as React from 'react';
 
+import {
+  Table
+} from 'react-bootstrap';
+
 interface UserListProps {
 }
 
@@ -44,13 +48,16 @@ return <p>Loading...</p>;
 return(
 <div>
 <h2>User Management</h2>
-    <table>
+    <Table bordered={true}>
+    <thead>
     <tr>
     <th>Full Name</th>
     <th>User Type</th>
     <th>Year</th>
     <th>Email</th>
     </tr>
+    </thead>
+    <tbody>
     {users.map((user: User) =>
     <tr key={user.id}>
     <td>{user.fullName}</td>
@@ -59,7 +66,8 @@ return(
     <td>{user.email}</td>
     </tr>
     )}
-    </table>
+    </tbody>
+    </Table>
 </div>);
 }
 }

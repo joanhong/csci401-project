@@ -1,5 +1,9 @@
 import * as React from 'react';
 
+import {
+  Table
+} from 'react-bootstrap';
+
 interface ProjectListProps {
 }
 
@@ -44,7 +48,8 @@ return <p>Loading...</p>;
 return(
 <div>
 <h2>Project Proposals</h2>
-<table>
+<Table bordered={true}>
+<thead>
 <tr>
 <th>Project Name</th>
 <th>Project Number</th>
@@ -52,6 +57,8 @@ return(
 <th>Min Size</th>
 <th>Max Size</th>
 </tr>
+</thead>
+<tbody>
 {projects.map((project: Project) =>
 <tr key={project.id}>
 <td>{project.projectName}</td>
@@ -61,7 +68,8 @@ return(
 <td>{project.maxSize}</td>
 </tr>
 )}
-</table>
+</tbody>
+</Table>
 </div>);
 }
 }

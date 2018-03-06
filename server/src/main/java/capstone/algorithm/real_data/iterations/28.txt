@@ -102,28 +102,28 @@ AutonomousDroneControl 0.621978021978022
 The Cyborg Project NaN
 TIME MACHINE NaN
 
-Quizzly Student67 Student34 Student10 Student62 
-SummerCampReg 
-Sigma Student14 Student47 Student2 Student42 
-AutismSocietyApp Student3 Student36 Student12 
-MarketingTechnologyPlatform Student56 Student38 Student39 Student24 Student30 Student19 
+Quizzly Student34 Student10 Student67 
+SummerCampReg Student2 
+Sigma Student47 Student42 Student14 Student1 
+AutismSocietyApp Student3 Student36 Student59 
+MarketingTechnologyPlatform Student39 Student24 Student19 Student38 Student56 Student30 
 SociallyConsciousMachineLearningBots Student6 
 P2P4Health Student20 
-PredictingElections Student31 Student50 Student48 Student49 
-SchoolOfFishApp Student28 Student29 Student27 
+PredictingElections Student31 Student48 Student49 Student50 
+SchoolOfFishApp Student27 Student41 Student28 
 ChangingTheTutoringSphere Student5 
-AIMedicalImaging Student7 Student54 Student58 Student11 
-Prop47Website Student53 Student1 Student51 
-LetterOfRecGenerator Student61 
-iLegal Student46 Student4 Student45 Student8 
-TrojanMotors Student41 
+AIMedicalImaging Student58 Student7 Student54 Student11 
+Prop47Website Student53 Student51 
+LetterOfRecGenerator Student61 Student29 Student60 
+iLegal Student8 Student46 Student45 Student4 
+TrojanMotors 
 PureFocusiOSApp Student25 Student64 Student23 Student66 
-ProstheticSpinalCord Student21 Student13 Student44 Student18 Student17 
-AutonomousDroneControl Student33 Student22 Student68 Student60 
+ProstheticSpinalCord Student13 Student44 Student18 Student21 Student68 
+AutonomousDroneControl Student17 Student62 Student33 Student22 
 QuantitativeTrading_DataExtractionPipeline Student26 
-AutismSocietyDB Student9 Student59 Student55 
-401ProjectPlatform Student63 Student69 Student43 Student52 
-LogoDetection 
+AutismSocietyDB Student9 Student55 
+401ProjectPlatform Student52 Student63 Student43 Student69 
+LogoDetection Student12 
 SpoilerAlert Student65 Student57 
 Perfit Student15 Student32 
 QuantitativeTrading_DataScience Student16 
@@ -146,25 +146,25 @@ Eliminated SpoilerAlert
 Eliminated LogoDetection
 Eliminated QuantitativeTrading_DataExtractionPipeline
 Eliminated TrojanMotors
-Eliminated LetterOfRecGenerator
 Eliminated ChangingTheTutoringSphere
 Eliminated P2P4Health
 Eliminated SociallyConsciousMachineLearningBots
 
-Quizzly Student67 Student34 Student10 Student62 Student15 Student5 Student57 
-SummerCampReg Student35 Student65 
-Sigma Student14 Student47 Student2 Student42 
-AutismSocietyApp Student3 Student36 Student20 
-MarketingTechnologyPlatform Student56 Student38 Student39 Student24 Student30 Student19 
-PredictingElections Student31 Student50 Student48 Student49 Student61 
-SchoolOfFishApp Student28 Student29 Student41 
-AIMedicalImaging Student7 Student54 Student58 Student11 
-Prop47Website Student53 Student1 Student51 
-iLegal Student46 Student4 Student45 Student8 
+Quizzly Student34 Student10 Student67 Student52 Student57 Student3 Student5 
+SummerCampReg Student2 Student35 
+Sigma Student47 Student42 Student14 Student1 
+AutismSocietyApp Student36 Student59 Student12 
+MarketingTechnologyPlatform Student39 Student24 Student19 Student38 Student56 Student30 
+PredictingElections Student31 Student48 Student49 Student50 Student26 
+SchoolOfFishApp Student27 Student41 Student28 
+AIMedicalImaging Student58 Student7 Student54 Student11 
+Prop47Website Student53 Student51 Student65 
+LetterOfRecGenerator Student61 Student29 Student60 Student15 
+iLegal Student8 Student46 Student45 Student4 
 PureFocusiOSApp Student25 Student64 Student23 Student66 
-ProstheticSpinalCord Student21 Student13 Student44 Student18 Student17 
-AutonomousDroneControl Student33 Student22 Student68 Student60 
-AutismSocietyDB Student9 Student59 Student55 
+ProstheticSpinalCord Student13 Student44 Student18 Student21 Student68 
+AutonomousDroneControl Student17 Student62 Student33 Student22 
+AutismSocietyDB Student9 Student55 Student20 
 401ProjectPlatform Student63 Student43 Student69 Student16 
 
 Infinity
