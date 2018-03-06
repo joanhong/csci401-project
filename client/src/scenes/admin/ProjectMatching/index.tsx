@@ -3,10 +3,6 @@ import {
   Table
 } from 'react-bootstrap';
 
-import {
-  Table
-} from 'react-bootstrap';
-
 interface ProjectMatchingProps {
 }
 
