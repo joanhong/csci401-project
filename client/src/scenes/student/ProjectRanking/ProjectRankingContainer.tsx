@@ -11,7 +11,7 @@ const style = {
 
 const cardTarget = {
     drop() {
-        return null;
+        return undefined;
     },
 };
 
@@ -21,7 +21,15 @@ interface Props {
 
 interface State {
     isLoading: boolean;
-    projectCards: Array<any>;
+    projectCards: Array<Project>;
+}
+
+interface Project {
+    projectNumber: number;
+    projectName: string;
+    status: string;
+    minSize: number;
+    maxSize: number;
 }
 
 @DragDropContext(HTML5Backend)
@@ -49,7 +57,7 @@ class ProjectRankingContainer extends React.Component<Props, State> {
             .then(data => this.setState({projectCards: data, isLoading: false}));
     }
 
-    moveCard(id: any, atIndex: any) {
+    moveCard(id: number, atIndex: number) {
         const { projectCard, index } = this.findCard(id);
         this.setState(
             update(this.state, {
@@ -60,9 +68,9 @@ class ProjectRankingContainer extends React.Component<Props, State> {
         );
     }
 
-    findCard(id: any) {
+    findCard(id: number) {
         const { projectCards } = this.state;
-        const projectCard = projectCards.filter(c => c.id === id)[0];
+        const projectCard = projectCards.filter(c => c.projectNumber === id)[0];
 
         return {
             projectCard,
@@ -80,16 +88,18 @@ class ProjectRankingContainer extends React.Component<Props, State> {
 
         return connectDropTarget(
             <div style={style}>
-                {projectCards.map(projectCard => (
+                {projectCards.map((projectCard: Project) => (
                     <ProjectCard
-                        key={projectCard.id}
-                        id={projectCard.id}
-                        text={projectCard.projectName}
+                        key={projectCard.projectNumber}
+                        id={projectCard.projectNumber}
+                        name={projectCard.projectName}
+                        minSize={projectCard.minSize}
+                        maxSize={projectCard.maxSize}
                         moveCard={this.moveCard}
                         findCard={this.findCard}
                     />
                 ))}
-            </div>,
+            </div>
         );
     }
 }

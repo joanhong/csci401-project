@@ -50,7 +50,9 @@ interface Props {
     connectDropTarget?: PropTypes.func.isRequired;
     isDragging?: PropTypes.bool.isRequired;
     id: PropTypes.any.isRequired;
-    text: PropTypes.string.isRequired;
+    name: PropTypes.string.isRequired;
+    minSize: PropTypes.any.isRequired;
+    maxSize: PropTypes.any.isRequired;
     moveCard: PropTypes.func.isRequired;
     findCard: PropTypes.func.isRequired;
 }
@@ -70,7 +72,10 @@ class ProjectCard extends React.Component<Props> {
 
     render() {
         const {
-            text,
+            id,
+            name,
+            minSize,
+            maxSize,
             isDragging,
             connectDragSource,
             connectDropTarget,
@@ -78,7 +83,11 @@ class ProjectCard extends React.Component<Props> {
         const opacity = isDragging ? 0 : 1;
 
         return connectDragSource(
-            connectDropTarget(<div style={{ ...style, opacity }}>{text}</div>),
+            connectDropTarget(
+                <div style={{ ...style, opacity }}>
+                    {id + '. ' + name + ' (' + minSize + '-' + maxSize + ' students)'}
+                </div>
+            ),
         );
     }
 }

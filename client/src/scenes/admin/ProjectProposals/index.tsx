@@ -60,7 +60,7 @@ class ProjectProposals extends React.Component<ProjectListProps, ProjectListStat
                     </thead>
                     <tbody>
                         {projects.map((project: Project) =>
-                            <tr key={project.id}>
+                            <tr key={project.projectNumber}>
                                 <td>{project.projectName}</td>
                                 <td>{project.projectNumber}</td>
                                 <td>{project.status}</td>
