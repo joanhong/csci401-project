@@ -9,9 +9,9 @@ import java.util.Vector;
 
 import com.mysql.jdbc.Driver;
 
-import capstone.algorithm.Project;
-import capstone.algorithm.Student;
-import capstone.user.User;
+import capstone.model.Project;
+import capstone.model.Student;
+import capstone.model.User;
 
 public class SQLDriver {
 	private final static String DATABASE_NAME = "401_Platform";
@@ -230,12 +230,12 @@ public class SQLDriver {
 	            		int rank = result.getInt(4);
 	            		
 	            		// add rankedProject:
-	            		Project rankedProject = projects.elementAt(projectId - 1); // !!! SUBTRACT 1, as the ranking's indices skip 0 for readability
+            			Project rankedProject = projects.elementAt(projectId - 1); // !!! SUBTRACT 1, as the ranking's indices skip 0 for readability
 	            		String projectName = rankedProject.getName();
 	            		newStudent.rankings.put(projectName, rank);
 	            		newStudent.orderedRankings.addElement(projectName);
 				
-					students.addElement(newStudent);	
+					students.addElement(newStudent);
 				}
 	    			
 			} catch (SQLException e){e.printStackTrace();}

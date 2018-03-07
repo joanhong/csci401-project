@@ -1,4 +1,4 @@
-package capstone.algorithm;
+package capstone.controller;
 
 
 
@@ -27,8 +27,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import capstone.model.Project;
+import capstone.model.User;
+import capstone.repository.ProjectsRepository;
 import capstone.sql.SQLDriver;
-import capstone.user.User;
 
 @Entity
 class ProjectData
@@ -203,7 +205,7 @@ public class ProjectServiceController
 	   
 //	   System.out.println("Received HTTP POST, saved to REPO");
 	   //add project to SQL table using driver.addProject();
-	   driver.addProjectEntry(p.projectNumber, p.projectNumber, p.projectName, p.status, p.maxSize, p.minSize);
+	   driver.addProjectEntry(p.getProjectNumber(), p.getProjectNumber(), p.getProjectName(), p.getStatus(), p.getMaxSize(), p.getMinSize());
 	   
 		return projectdata; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
 	}
