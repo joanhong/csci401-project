@@ -7,7 +7,6 @@ import {
 import {
   LinkContainer
 } from 'react-router-bootstrap';
-import LoginForm from '../../scenes/login/Form';
 const logo = require('../../svg/logo.svg');
 
 class Navigation extends React.Component {
@@ -41,7 +40,6 @@ class Navigation extends React.Component {
               </LinkContainer>
             </Nav>
           </Navbar>
-          <LoginForm/>
       </div>
     );
   }
