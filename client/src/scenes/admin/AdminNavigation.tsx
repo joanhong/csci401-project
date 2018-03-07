@@ -66,7 +66,7 @@ class AdminNavigation extends React.Component {
             </Nav>
           </Navbar>
           <div className="content">
-            <Route path="/admin" component={AdminHome}/>
+            <Route exact={true} path="/admin" component={AdminHome}/>
             <Route path="/admin/users" component={UserManagement}/>
             <Route path="/admin/proposals" component={ProjectProposals}/>
             <Route path="/admin/class" component={ClassOverview}/>

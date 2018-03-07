@@ -48,7 +48,7 @@ class StakeholderNavigation extends React.Component {
             </Nav>
           </Navbar>
           <div className="content">
-            <Route path="/stakeholder" component={Home}/>
+            <Route exact={true} path="/stakeholder" component={Home}/>
             <Route path="/stakeholder/profile" component={Profile}/>
             <Route path="/stakeholder/proposals" component={ProjectProposal}/>
           </div>
