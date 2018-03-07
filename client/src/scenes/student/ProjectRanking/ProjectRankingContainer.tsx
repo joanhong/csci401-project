@@ -92,12 +92,14 @@ class ProjectRankingContainer extends React.Component<Props, State> {
                     <ProjectCard
                         key={projectCard.projectNumber}
                         id={projectCard.projectNumber}
-                        text={projectCard.projectName}
+                        name={projectCard.projectName}
+                        minSize={projectCard.minSize}
+                        maxSize={projectCard.maxSize}
                         moveCard={this.moveCard}
                         findCard={this.findCard}
                     />
                 ))}
-            </div>,
+            </div>
         );
     }
 }
