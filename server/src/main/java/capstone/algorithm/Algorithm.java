@@ -1,6 +1,9 @@
 package capstone.algorithm;
 
 import java.io.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -30,15 +33,14 @@ public class Algorithm {
 	// populates vectors with projects and the students' rankings of those projects
 	public void importData() {
 
-        String line = null;
-        
         // projects
-        Vector<Project> projectx = driver.getProjectsTable();
-//        System.out.println("size of projectx talbe = " + projectx.size());
-        for(Project p : projectx)
-        {
-        		projects.addElement(p);
-        }
+		Vector<Project> projectx = driver.getProjectsTable();
+		for(Project p : projectx)
+		{
+			projects.addElement(p);
+		}
+
+//        String line = null;
 //        try {
 //            BufferedReader projectsBR = new BufferedReader(new FileReader(folder_name + "/projects.txt"));
 //
@@ -61,46 +63,63 @@ public class Algorithm {
 //        catch(Exception e) {
 //            e.printStackTrace();
 //        }
-        
-        writer.println("");
+//        writer.println("");
         
         // rankings
-        try {
-            BufferedReader studentsBR = new BufferedReader(new FileReader(folder_name + "/rankings.txt"));
 
-            while((line = studentsBR.readLine()) != null) {                
-                String[] elements = line.split(" ");
-                
-                Student newStudent = new Student();
-                newStudent.name = elements[0];
-                newStudent.studentId = students.size();
-                
-                for (int i = 1; i <= NUM_RANKED; i++) { // for the student's Top 3 projects...
-            		int projectId = Integer.parseInt(elements[i]);
-            		Project rankedProject = projects.elementAt(projectId - 1); // !!! SUBTRACT 1, as the ranking's indices skip 0 for readability
-                		
-                		// add rankedProject to the Student data structure:
-                    String projectName = rankedProject.name;
-                    newStudent.rankings.put(projectName, i);
-                    newStudent.orderedRankings.addElement(projectName);
-                    
-                    // popularity metrics:
-                    Integer p = getStudentSatScore(i);
-                    rankedProject.sum_p += p;
-                    rankedProject.n += 1;     
-                }
-
-                students.addElement(newStudent);
-                writer.println(newStudent);
-            }
-            
-            writer.println("");
-            studentsBR.close();         
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-
+		students = driver.getUsersWithRankings(projectx);
+//		
+		// calculate out popularity metrics:
+		for (Student s : students) {
+		    Iterator it = s.rankings.entrySet().iterator();
+		    while (it.hasNext()) {
+		        Map.Entry pair = (Map.Entry)it.next();
+		        String projectName = (String) pair.getKey();
+		        int rank = (int) pair.getValue();
+		        
+		        Project rankedProject = GetProjectWithName(projectName);
+	            Integer p = getStudentSatScore(rank);
+	            rankedProject.sum_p += p;
+	            rankedProject.n += 1;
+		    }
+		}
+		
+//        try {
+//            BufferedReader studentsBR = new BufferedReader(new FileReader(folder_name + "/rankings.txt"));
+//
+//            while((line = studentsBR.readLine()) != null) {                
+//                String[] elements = line.split(" ");
+//                
+//                Student newStudent = new Student();
+//                newStudent.name = elements[0];
+//                newStudent.studentId = students.size();
+//                
+//                for (int i = 1; i <= NUM_RANKED; i++) { // for the student's Top 3 projects...
+//            		int projectId = Integer.parseInt(elements[i]);
+//            		Project rankedProject = projects.elementAt(projectId - 1); // !!! SUBTRACT 1, as the ranking's indices skip 0 for readability
+//                		
+//                		// add rankedProject to the Student data structure:
+//                    String projectName = rankedProject.name;
+//                    newStudent.rankings.put(projectName, i);
+//                    newStudent.orderedRankings.addElement(projectName);
+//                    
+//                    // popularity metrics:
+//                    Integer p = getStudentSatScore(i);
+//                    rankedProject.sum_p += p;
+//                    rankedProject.n += 1;     
+//                }
+//
+//                students.addElement(newStudent);
+//                writer.println(newStudent);
+//            }
+//            
+//            writer.println("");
+//            studentsBR.close();         
+//        }
+//        catch(Exception e) {
+//            e.printStackTrace();
+//        }
+        
 	}
 	
 	public Algorithm(int iteration, int _NUM_RANKED, String _folder_name) {

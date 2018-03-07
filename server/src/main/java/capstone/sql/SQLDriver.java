@@ -10,9 +10,8 @@ import java.util.Vector;
 import com.mysql.jdbc.Driver;
 
 import capstone.algorithm.Project;
+import capstone.algorithm.Student;
 import capstone.user.User;
-
-
 
 public class SQLDriver {
 	private final static String DATABASE_NAME = "401_Platform";
@@ -26,6 +25,7 @@ public class SQLDriver {
 	private final static String getUsername = "SELECT USERNAME FROM " + DATABASE_NAME + ".Users WHERE USER_ID=?";
 	private final static String getAllUsers = "SELECT * FROM " + DATABASE_NAME + ".Users";
 	private final static String getAllProjects = "SELECT * FROM " + DATABASE_NAME + ".Projects";
+	private final static String getUserProjectRankings = "SELECT * FROM " + DATABASE_NAME + ".ProjectRankings WHERE STUDENTNUMBER=?";
 	private final static String updatePassword = "UPDATE " + DATABASE_NAME + ".USERS SET PASSWORD=? WHERE EMAIL=?";
 	private final static String getEncryptedPassword = "SELECT * FROM 401_Platform.USERS WHERE EMAIL=?";
 	
@@ -54,7 +54,7 @@ public class SQLDriver {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public int getUserID(String Username){
 		int ID = 0;
 		try{
@@ -185,7 +185,6 @@ public class SQLDriver {
 	
 	public Vector<Project> getProjectsTable()
 	{
-		String projectname = null;
 		Vector<Project> returnVector = new Vector<Project>();
 		try{
 			PreparedStatement ps = con.prepareStatement(getAllProjects);
@@ -205,6 +204,44 @@ public class SQLDriver {
 			}		
 		}catch (SQLException e){e.printStackTrace();}
 		return returnVector; //returns true if the user name is in use in the DB
+	}
+	
+	// returns vector of all Students and their rankings
+	// requires vector of existing Projects
+	public Vector<Student> getUsersWithRankings(Vector<Project> projects)
+	{ 
+		Vector<Student> students = new Vector<Student>();
+		
+		for (int studentId = 1; studentId <= 62; studentId++) { // for each student
+
+			try {		
+	    			
+	    			PreparedStatement ps = con.prepareStatement(getUserProjectRankings);
+	    			ps.setInt(1, studentId);
+	    			ResultSet result = ps.executeQuery();
+				
+	    			Student newStudent = new Student();
+	    			newStudent.studentId = studentId;
+	    			
+	    			while(result.next()) { // for each ranking...
+	                
+		    			newStudent.name = result.getString("STUDENTNAME");
+	            		int projectId = result.getInt(3);
+	            		int rank = result.getInt(4);
+	            		
+	            		// add rankedProject:
+	            		Project rankedProject = projects.elementAt(projectId); // !!! SUBTRACT 1, as the ranking's indices skip 0 for readability
+	            		String projectName = rankedProject.getName();
+	            		newStudent.rankings.put(projectName, rank);
+	            		newStudent.orderedRankings.addElement(projectName);
+				
+					students.addElement(newStudent);	
+				}
+	    			
+			} catch (SQLException e){e.printStackTrace();}
+		}	
+		
+		return students;
 	}
 	
 	public void updatePassword(String email, String password)
