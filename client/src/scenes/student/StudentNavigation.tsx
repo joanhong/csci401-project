@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {
   Route,
-  NavLink,
   BrowserRouter
 } from 'react-router-dom';
 import {
@@ -13,7 +12,7 @@ import {
   LinkContainer
 } from 'react-router-bootstrap';
 import Profile from './Profile/index';
-import ProjectMatching from './ProjectMatching/index';
+import ProjectRanking from './ProjectRanking/index';
 import YourProject from './YourProject/index';
 import FinalPresentationReviews from './FinalPresentationReviews/index';
 const logo = require('../../logo.svg');
@@ -23,13 +22,6 @@ class StudentNavigation extends React.Component {
     return (
       <BrowserRouter>
         <div>
-            <ul className="header">
-              <li><NavLink to="/student/">Home</NavLink></li>
-              <li><NavLink to="/student/profile">Profile</NavLink></li>
-              <li><NavLink to="/student/projectmatching">Project Matching</NavLink></li>
-              <li><NavLink to="/student/project">Your Project</NavLink></li>
-              <li><NavLink to="/student/finalpresentationreviews">Final Presentation Reviews</NavLink></li>
-            </ul>
             <Navbar>
               <Navbar.Header>
                 <Navbar.Brand>
@@ -49,26 +41,26 @@ class StudentNavigation extends React.Component {
                   </NavItem>
                 </LinkContainer>
                 
-                <LinkContainer to="/student/matching">
+                <LinkContainer to="/student/ranking">
                   <NavItem eventKey={2}>
-                    ProjectProposal
+                    Project Ranking
                   </NavItem>
                 </LinkContainer>
                 <LinkContainer to="/student/project">
-                  <NavItem eventKey={2}>
-                    ProjectProposal
+                  <NavItem eventKey={3}>
+                    Your Project
                   </NavItem>
                 </LinkContainer>
                 <LinkContainer to="/student/reviews">
-                  <NavItem eventKey={2}>
-                    ProjectProposal
+                  <NavItem eventKey={4}>
+                    Final Presentation Reviews
                   </NavItem>
                 </LinkContainer>
               </Nav>
             </Navbar>
             <div className="content">
               <Route path="/student/profile" component={Profile}/>
-              <Route path="/student/matching" component={ProjectMatching}/>
+              <Route path="/student/ranking" component={ProjectRanking}/>
               <Route path="/student/project" component={YourProject}/>
               <Route path="/student/reviews" component={FinalPresentationReviews}/>
             </div>
