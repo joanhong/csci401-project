@@ -1,9 +1,50 @@
 import * as React from 'react';
+import {
+    Panel,
+    Table, 
+    Alert
+} from 'react-bootstrap';
+const viewIcon = require('../../../svg/viewIcon.svg');
 
 class StakeholderHome extends React.Component {
     render() {
         return (
-            <h1>To Do</h1>
+            <div>
+            <Panel>
+                <Panel.Heading>
+                    <Panel.Title componentClass="h3">Notifications</Panel.Title>
+                </Panel.Heading>
+                <Panel.Body>
+                    <Alert bsStyle="info">
+                        Notification 1.
+                    </Alert>
+                </Panel.Body>
+            </Panel>
+
+            <Panel>
+                <Panel.Heading>
+                    <Panel.Title componentClass="h3">Projects</Panel.Title>
+                </Panel.Heading>
+                <Panel.Body>
+                    <Table>
+                        <thead>
+                            <th>Name</th>
+                            <th>Submission Date</th>
+                            <th>Status</th>
+                            <th>View/Edit</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Project1</td>
+                                <td>Jan 2, 2018</td>
+                                <td>Approved</td>
+                                <td><img src={viewIcon}/></td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                </Panel.Body>
+            </Panel>
+            </div>
         );
     }
 }

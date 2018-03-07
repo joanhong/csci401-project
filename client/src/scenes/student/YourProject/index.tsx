@@ -1,9 +1,45 @@
 import * as React from 'react';
+import {
+    Panel,
+    Button
+} from 'react-bootstrap';
 
 class StudentProject extends React.Component {
     render() {
         return (
-            <h1>To Do</h1>
+            <div>
+            <Panel>
+            <Panel.Heading>
+                <Panel.Title componentClass="h3">Overview</Panel.Title>
+            </Panel.Heading>
+            <Panel.Body>
+                <Panel>
+                    <Panel.Heading>
+                        Team Contact Information
+                    </Panel.Heading>
+                    <Panel.Body/>
+                </Panel>
+                <Panel>
+                    <Panel.Heading>
+                        Stakeholder Contact Information
+                    </Panel.Heading>
+                    <Panel.Body/>
+                </Panel>
+            </Panel.Body>
+            </Panel>
+
+            <Panel>
+              <Panel.Heading>
+                  Actions
+              </Panel.Heading>
+              <Panel.Body>
+                  <Button>Submit Deliverable</Button>
+                  <Button>Submit Weekly Status Report</Button>
+                  <Button>Submit Peer Review Form</Button>
+                  <Button>Submit Stakeholder Review Form</Button>
+              </Panel.Body>
+          </Panel>
+        </div>
         );
     }
 }

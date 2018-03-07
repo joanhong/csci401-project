@@ -8,7 +8,7 @@ import {
   LinkContainer
 } from 'react-router-bootstrap';
 import LoginForm from '../../scenes/login/Form';
-const logo = require('../../logo.svg');
+const logo = require('../../svg/logo.svg');
 
 class Navigation extends React.Component {
   render() {
