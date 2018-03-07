@@ -208,11 +208,11 @@ public class SQLDriver {
 	
 	// returns vector of all Students and their rankings
 	// requires vector of existing Projects
-	public Vector<Student> getUsersWithRankings(Vector<Project> projects)
+	public Vector<Student> getUsersWithRankings(Vector<Project> projects, int numStudents)
 	{ 
 		Vector<Student> students = new Vector<Student>();
 		
-		for (int studentId = 1; studentId <= 62; studentId++) { // for each student
+		for (int studentId = 1; studentId <= numStudents; studentId++) { // for each student
 
 			try {		
 	    			
@@ -230,7 +230,7 @@ public class SQLDriver {
 	            		int rank = result.getInt(4);
 	            		
 	            		// add rankedProject:
-	            		Project rankedProject = projects.elementAt(projectId); // !!! SUBTRACT 1, as the ranking's indices skip 0 for readability
+	            		Project rankedProject = projects.elementAt(projectId - 1); // !!! SUBTRACT 1, as the ranking's indices skip 0 for readability
 	            		String projectName = rankedProject.getName();
 	            		newStudent.rankings.put(projectName, rank);
 	            		newStudent.orderedRankings.addElement(projectName);

@@ -1,16 +1,9 @@
 package capstone.algorithm;
 
 import java.io.*;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.*;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
 import capstone.sql.SQLDriver; 
 
 public class Algorithm {
@@ -30,8 +23,78 @@ public class Algorithm {
 		return ( ( (NUM_RANKED-i+1) * (NUM_RANKED-i)) / 2 ) + 1;
 	}
 	
-	// populates vectors with projects and the students' rankings of those projects
-	public void importData() {
+	// populates vectors from text file data
+	public void importDataLocally() {
+		
+		// projects
+        String line = null;
+        try {
+            BufferedReader projectsBR = new BufferedReader(new FileReader(folder_name + "/projects.txt"));
+
+            while((line = projectsBR.readLine()) != null) {                
+                String[] elements = line.split(" ");
+                
+                Project newProject = new Project(getStudentSatScore(1));
+                newProject.name = elements[0];
+                newProject.projectId = projects.size();
+                newProject.minSize = Integer.parseInt(elements[1]);
+                newProject.maxSize = Integer.parseInt(elements[2]);
+                
+                projects.addElement(newProject);
+                
+                writer.println(newProject);
+            }
+            
+            projectsBR.close();         
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        writer.println("");
+        
+        // rankings
+        try {
+            BufferedReader studentsBR = new BufferedReader(new FileReader(folder_name + "/rankings.txt"));
+
+            while((line = studentsBR.readLine()) != null) {                
+                String[] elements = line.split(" ");
+                
+                Student newStudent = new Student();
+                newStudent.name = elements[0];
+                newStudent.studentId = students.size();
+                
+                for (int i = 1; i <= NUM_RANKED; i++) { // for the student's Top 3 projects...
+            		int projectId = Integer.parseInt(elements[i]);
+            		Project rankedProject = projects.elementAt(projectId - 1); // !!! SUBTRACT 1, as the ranking's indices skip 0 for readability
+                		
+                		// add rankedProject to the Student data structure:
+                    String projectName = rankedProject.name;
+                    newStudent.rankings.put(projectName, i);
+                    newStudent.orderedRankings.addElement(projectName);
+                    
+                    // popularity metrics:
+                    Integer p = getStudentSatScore(i);
+                    rankedProject.sum_p += p;
+                    rankedProject.n += 1;     
+                }
+
+                students.addElement(newStudent);
+                writer.println(newStudent);
+            }
+            
+            writer.println("");
+            studentsBR.close();         
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+		
+	}
+	
+	// populates vectors from SQL DB
+	public void importDataFromDatabase() {
 
         // projects
 		Vector<Project> projectx = driver.getProjectsTable();
@@ -39,37 +102,12 @@ public class Algorithm {
 		{
 			projects.addElement(p);
 		}
-
-//        String line = null;
-//        try {
-//            BufferedReader projectsBR = new BufferedReader(new FileReader(folder_name + "/projects.txt"));
-//
-//            while((line = projectsBR.readLine()) != null) {                
-//                String[] elements = line.split(" ");
-//                
-//                Project newProject = new Project(getStudentSatScore(1));
-//                newProject.name = elements[0];
-//                newProject.projectId = projects.size();
-//                newProject.minSize = Integer.parseInt(elements[1]);
-//                newProject.maxSize = Integer.parseInt(elements[2]);
-//                
-//                projects.addElement(newProject);
-//                
-//                writer.println(newProject);
-//            }
-//            
-//            projectsBR.close();         
-//        }
-//        catch(Exception e) {
-//            e.printStackTrace();
-//        }
-//        writer.println("");
         
         // rankings
+		int num_students = 69; // TODO: figure out more intuitive way to configure this
+		students = driver.getUsersWithRankings(projectx, num_students);
 
-		students = driver.getUsersWithRankings(projectx);
-//		
-		// calculate out popularity metrics:
+		// calculate popularity metrics:
 		for (Student s : students) {
 		    Iterator it = s.rankings.entrySet().iterator();
 		    while (it.hasNext()) {
@@ -83,42 +121,6 @@ public class Algorithm {
 	            rankedProject.n += 1;
 		    }
 		}
-		
-//        try {
-//            BufferedReader studentsBR = new BufferedReader(new FileReader(folder_name + "/rankings.txt"));
-//
-//            while((line = studentsBR.readLine()) != null) {                
-//                String[] elements = line.split(" ");
-//                
-//                Student newStudent = new Student();
-//                newStudent.name = elements[0];
-//                newStudent.studentId = students.size();
-//                
-//                for (int i = 1; i <= NUM_RANKED; i++) { // for the student's Top 3 projects...
-//            		int projectId = Integer.parseInt(elements[i]);
-//            		Project rankedProject = projects.elementAt(projectId - 1); // !!! SUBTRACT 1, as the ranking's indices skip 0 for readability
-//                		
-//                		// add rankedProject to the Student data structure:
-//                    String projectName = rankedProject.name;
-//                    newStudent.rankings.put(projectName, i);
-//                    newStudent.orderedRankings.addElement(projectName);
-//                    
-//                    // popularity metrics:
-//                    Integer p = getStudentSatScore(i);
-//                    rankedProject.sum_p += p;
-//                    rankedProject.n += 1;     
-//                }
-//
-//                students.addElement(newStudent);
-//                writer.println(newStudent);
-//            }
-//            
-//            writer.println("");
-//            studentsBR.close();         
-//        }
-//        catch(Exception e) {
-//            e.printStackTrace();
-//        }
         
 	}
 	
@@ -127,7 +129,7 @@ public class Algorithm {
 		NUM_RANKED = _NUM_RANKED;
 		folder_name = _folder_name;
 		
-		// set up output txt file for this iteration
+		// set up output text file for this iteration
 		String filename = folder_name + "/iterations/" + Integer.toString(iteration) + ".txt";
 		try {
 			writer = new PrintWriter(filename, "UTF-8");
@@ -137,21 +139,20 @@ public class Algorithm {
 			e.printStackTrace();
 		}
 		
-		// import data:
-		projects = new Vector<Project>();
-		students = new Vector<Student>();
-		
-		//init SQL connection
+		// init SQL connection
 		driver = new SQLDriver();
 		driver.connect();
-		importData();
+				
+		// import data
+		projects = new Vector<Project>();
+		students = new Vector<Student>();
+//		importDataLocally();
+		importDataFromDatabase();
 
-		//populate projects table
-		//commented out once SQL table was populated.
+		// commented out once SQL table was populated
 //		populateProjectTable();
 		
-		//populate rankings table
-		//commented out once SQL table was populated
+		// commented out once SQL table was populated
 //		populateRankingsTable();
 		
 		// calculate each project's popularity scores
@@ -191,12 +192,11 @@ public class Algorithm {
 			{
 				System.out.println("Key : " + entry.getKey() + " Value : " + entry.getValue());
 				Project p  = GetProjectWithName(entry.getKey());
-				int projectNumber = p.projectId;
+				int projectNumber = p.projectId+1;
 				int studentID = s.studentId+1;
 				driver.addProjectRankingEntry(studentID, s.name, projectNumber, entry.getValue(), entry.getKey());
 			}
-		}
-		
+		}		
 	}
 
 	private void populateProjectTable() 
