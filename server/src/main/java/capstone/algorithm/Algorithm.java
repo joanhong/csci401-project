@@ -3,11 +3,7 @@ package capstone.algorithm;
 import java.io.*;
 import java.util.*;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
 import capstone.sql.SQLDriver; 
 
 public class Algorithm {
@@ -27,12 +23,11 @@ public class Algorithm {
 		return ( ( (NUM_RANKED-i+1) * (NUM_RANKED-i)) / 2 ) + 1;
 	}
 	
-	// populates vectors with projects and the students' rankings of those projects
-	public void importData() {
-
+	// populates vectors from text file data
+	public void importDataLocally() {
+		
+		// projects
         String line = null;
-        
-        // projects
         try {
             BufferedReader projectsBR = new BufferedReader(new FileReader(folder_name + "/projects.txt"));
 
@@ -94,7 +89,39 @@ public class Algorithm {
         catch(Exception e) {
             e.printStackTrace();
         }
+        
+		
+	}
+	
+	// populates vectors from SQL DB
+	public void importDataFromDatabase() {
 
+        // projects
+		Vector<Project> projectx = driver.getProjectsTable();
+		for(Project p : projectx)
+		{
+			projects.addElement(p);
+		}
+        
+        // rankings
+		int num_students = 69; // TODO: figure out more intuitive way to configure this
+		students = driver.getUsersWithRankings(projectx, num_students);
+
+		// calculate popularity metrics:
+		for (Student s : students) {
+		    Iterator it = s.rankings.entrySet().iterator();
+		    while (it.hasNext()) {
+		        Map.Entry pair = (Map.Entry)it.next();
+		        String projectName = (String) pair.getKey();
+		        int rank = (int) pair.getValue();
+		        
+		        Project rankedProject = GetProjectWithName(projectName);
+	            Integer p = getStudentSatScore(rank);
+	            rankedProject.sum_p += p;
+	            rankedProject.n += 1;
+		    }
+		}
+        
 	}
 	
 	public Algorithm(int iteration, int _NUM_RANKED, String _folder_name) {
@@ -102,7 +129,7 @@ public class Algorithm {
 		NUM_RANKED = _NUM_RANKED;
 		folder_name = _folder_name;
 		
-		// set up output txt file for this iteration
+		// set up output text file for this iteration
 		String filename = folder_name + "/iterations/" + Integer.toString(iteration) + ".txt";
 		try {
 			writer = new PrintWriter(filename, "UTF-8");
@@ -112,21 +139,20 @@ public class Algorithm {
 			e.printStackTrace();
 		}
 		
-		// import data:
-		projects = new Vector<Project>();
-		students = new Vector<Student>();
-		importData();
-		
-		//init SQL connection
+		// init SQL connection
 		driver = new SQLDriver();
 		driver.connect();
-		
-		//populate projects table
-		//commented out once SQL table was populated.
+				
+		// import data
+		projects = new Vector<Project>();
+		students = new Vector<Student>();
+//		importDataLocally();
+		importDataFromDatabase();
+
+		// commented out once SQL table was populated
 //		populateProjectTable();
 		
-		//populate rankings table
-		//commented out once SQL table was populated
+		// commented out once SQL table was populated
 //		populateRankingsTable();
 		
 		// calculate each project's popularity scores
@@ -166,12 +192,11 @@ public class Algorithm {
 			{
 				System.out.println("Key : " + entry.getKey() + " Value : " + entry.getValue());
 				Project p  = GetProjectWithName(entry.getKey());
-				int projectNumber = p.projectId;
+				int projectNumber = p.projectId+1;
 				int studentID = s.studentId+1;
 				driver.addProjectRankingEntry(studentID, s.name, projectNumber, entry.getValue(), entry.getKey());
 			}
-		}
-		
+		}		
 	}
 
 	private void populateProjectTable() 
@@ -194,7 +219,6 @@ public class Algorithm {
 	
 	/*void JSONOutput() { //outputs JSON of each project
 	    ObjectMapper mapper = new ObjectMapper();
-
 	    for (int i=0; i<projects.size(); i++) {
 		    try {  
 		        // Writing to a file  

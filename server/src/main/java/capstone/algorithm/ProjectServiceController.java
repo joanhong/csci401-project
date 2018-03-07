@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jasypt.util.password.StrongPasswordEncryptor;
+import org.jasypt.util.text.BasicTextEncryptor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import capstone.sql.SQLDriver;
+import capstone.user.User;
 
 @Entity
 class ProjectData
@@ -90,6 +93,52 @@ class ProjectData
 	
 }
 
+@Entity
+class LoginData
+{
+	@Id
+	@GeneratedValue
+	private long id;
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	String email;
+	String password;
+	
+	public LoginData(String email, String password) 
+	{
+		super();
+		this.email = email;
+		this.password = password;
+	}
+	public LoginData()
+	{
+		
+	}
+	
+}
+
 
 @RestController
 public class ProjectServiceController 
@@ -107,6 +156,7 @@ public class ProjectServiceController
 		{
 			repository.save(p);
 		}
+//		encryptUserPasswords();
 	}
 	
 	@GetMapping("/projectsrep")
@@ -158,13 +208,77 @@ public class ProjectServiceController
 		return projectdata; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/loginAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody LoginData loginAttempt(@RequestBody LoginData logindata)
+	{
+		
+		System.out.println("Received HTTP POST");
+		System.out.println(logindata);
+		System.out.println(logindata.email);
+		System.out.println(logindata.password);
+		
+		//CASE 1
+		//DOES USERNAME EXIST?
+		if(driver.doesExist(logindata.email))
+		{
+			System.out.println("USER EMAIL EXISTS, CHECKING PASSWORD...");
+			//IF IT DOES, CHECK IF USERNAME PASSWORD COMBO IS VALID
+			String encryptedPassword = driver.getEncryptedPassword(logindata.email);
+			if(checkPassword(logindata.password, encryptedPassword))
+			{
+				if(driver.confirmLoginAttempt(logindata.email, encryptedPassword))
+					{
+						System.out.println("LOGIN SUCCESSFUL");
+						return logindata;
+					}
+			}		
+			else
+			{
+				System.out.println("INVALID PASSWORD");
+			}
+		}
+		else
+		{
+			System.out.println("INVALID USERNAME : DOES NOT EXIST");
+		}
+		
+
+		return null; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
+	}
+	
+	
 //	@RequestMapping(value = "/projectData", method = RequestMethod.POST, headers="content-type=application/json")
 //	public String post(@ModelAttribute("Project") Project project, ModelMap modelMap) 
 //	{
 //		System.out.println("RECEIVED POST REQUEST!");
 //		return "";
 //	}
-
+	String encryptPassword(String textPassword)
+	{
+		String encryptedPassword;
+		StrongPasswordEncryptor bte = new StrongPasswordEncryptor();
+		encryptedPassword = bte.encryptPassword(textPassword);
+		return encryptedPassword;
+	}
+	Boolean checkPassword(String plainPassword, String encryptedPassword)
+	{
+		StrongPasswordEncryptor bte = new StrongPasswordEncryptor();
+		return bte.checkPassword(plainPassword,encryptedPassword);
+	}
+	void encryptUserPasswords()
+	{
+		Vector<User> allUsers = driver.getAllUsers();
+		for(User u: allUsers)
+		{
+			System.out.println("INITIAL PASSWORD = " + u.getPassword());
+			System.out.println("INITIAL EMAIL = " + u.getEmail());
+			String encryptedPass = encryptPassword(u.getPassword());
+			System.out.println("ENCRYPTEDPASS= " + encryptedPass);
+			driver.updatePassword(u.getEmail(), encryptedPass);
+		}
+	}
+	
 		
 }
 
