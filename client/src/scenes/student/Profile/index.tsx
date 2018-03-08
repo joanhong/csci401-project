@@ -31,7 +31,7 @@ class StudentProfile extends React.Component {
                 
                 <FormGroup controlId="formHorizontalStudentEmail">
                     <Col componentClass={ControlLabel} sm={2}>
-                        Name:
+                        Email:
                     </Col>
                     <Col sm={10}>
                         <FormControl type="email" value="studentname@usc.edu" />
