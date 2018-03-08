@@ -3,7 +3,8 @@ import {
   Route, BrowserRouter, Switch
 } from 'react-router-dom';
 import './App.css';
-import Navigation from './components/navigation/UserTypes';
+import LandingPage from './scenes/login/index';
+import RegisterPage from './scenes/register/index';
 import AdminHome from './scenes/admin/AdminNavigation';
 import StakeholderHome from './scenes/stakeholder/StakeholderNavigation';
 import StudentHome from './scenes/student/StudentNavigation';
@@ -15,7 +16,8 @@ class App extends React.Component {
       <div className="App">
         <BrowserRouter>
           <Switch>
-            <Route exact={true} path="/" component={Navigation}/>
+            <Route exact={true} path="/" component={LandingPage}/>
+            <Route path="/register" component={RegisterPage}/>
             <Route path="/admin" component={AdminHome}/>
             <Route path="/stakeholder" component={StakeholderHome}/>
             <Route path="/student" component={StudentHome}/>

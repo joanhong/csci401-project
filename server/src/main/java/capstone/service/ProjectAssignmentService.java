@@ -1,12 +1,18 @@
-package capstone.algorithm;
+package capstone.service;
 
 import java.io.*;
 import java.util.*;
 
+import org.springframework.stereotype.Service;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import capstone.model.Project;
+import capstone.model.Student;
 import capstone.sql.SQLDriver; 
 
-public class Algorithm {
+@Service
+public class ProjectAssignmentService {
 
 	PrintWriter writer;
 	
@@ -123,8 +129,11 @@ public class Algorithm {
 		}
         
 	}
+	public ProjectAssignmentService() {
+		
+	}
 	
-	public Algorithm(int iteration, int _NUM_RANKED, String _folder_name) {
+	public void run(int iteration, int _NUM_RANKED, String _folder_name) {
 		
 		NUM_RANKED = _NUM_RANKED;
 		folder_name = _folder_name;
@@ -350,9 +359,5 @@ public class Algorithm {
 		if (numstudents != students.size())
 			return false;
 		return true;
-	}
-
-	public static void main(String[] args) {
-		
 	}
 }

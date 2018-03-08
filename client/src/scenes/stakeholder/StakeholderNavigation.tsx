@@ -11,9 +11,10 @@ import {
 import {
   LinkContainer
 } from 'react-router-bootstrap';
+import Home from './Home/index';
 import Profile from './Profile/index';
 import ProjectProposal from './ProjectProposal/index';
-const logo = require('../../logo.svg');
+const logo = require('../../svg/logo.svg');
 
 class StakeholderNavigation extends React.Component {
   render() {
@@ -47,6 +48,7 @@ class StakeholderNavigation extends React.Component {
             </Nav>
           </Navbar>
           <div className="content">
+            <Route exact={true} path="/stakeholder" component={Home}/>
             <Route path="/stakeholder/profile" component={Profile}/>
             <Route path="/stakeholder/proposals" component={ProjectProposal}/>
           </div>

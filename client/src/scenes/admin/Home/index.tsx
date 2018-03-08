@@ -4,7 +4,7 @@ import {
   Alert
 } from 'react-bootstrap';
 
-class StudentHome extends React.Component {
+class AdminHome extends React.Component {
   
   render() {
     return (
@@ -24,4 +24,4 @@ class StudentHome extends React.Component {
   }
 }
 
-export default StudentHome;
+export default AdminHome;

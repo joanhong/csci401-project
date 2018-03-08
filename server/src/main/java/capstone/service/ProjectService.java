@@ -1,10 +1,11 @@
-package capstone.algorithm;
+package capstone.service;
 
 import java.util.Hashtable;
 import java.util.Vector;
 
 import org.springframework.stereotype.Service;
 
+import capstone.model.Project;
 import capstone.sql.SQLDriver;
 
 

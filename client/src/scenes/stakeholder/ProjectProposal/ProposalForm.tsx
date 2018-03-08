@@ -137,6 +137,7 @@ constructor(props: ProjectProps) {
                 </Col>
                 <Col sm={10}>
                 <FormControl
+                    componentClass="textarea"
                     type="text"
                     id="projectDescription"
                     value={this.state.projectDescription}

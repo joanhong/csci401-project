@@ -1,4 +1,4 @@
-package capstone.algorithm;
+package capstone.model;
 
 import java.io.PrintWriter;
 import java.util.Comparator;
@@ -6,6 +6,8 @@ import java.util.Vector;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import capstone.service.ProjectAssignmentService;
 
 @Entity
 public class Project implements Comparable {
@@ -258,7 +260,7 @@ public class Project implements Comparable {
 		double totalScore = 0;
 		for (Student student : members) {
 			int ranking = student.rankings.get(this.name);
-			totalScore += Algorithm.getStudentSatScore(ranking);
+			totalScore += ProjectAssignmentService.getStudentSatScore(ranking);
 		}
 		
 		this.projSatScore = totalScore / maxScore;
@@ -297,7 +299,7 @@ public class Project implements Comparable {
 	}
 	
 	// sorts by popularity in descending order
-	static class popularityComparator implements Comparator {
+	public static class popularityComparator implements Comparator {
 		public int compare(Object o1, Object o2) {
 			if (!(o1 instanceof Project) || !(o2 instanceof Project))
 				throw new ClassCastException();

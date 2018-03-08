@@ -11,11 +11,12 @@ import {
 import {
   LinkContainer
 } from 'react-router-bootstrap';
+import Home from './Home/index';
 import Profile from './Profile/index';
 import ProjectRanking from './ProjectRanking/index';
 import YourProject from './YourProject/index';
 import FinalPresentationReviews from './FinalPresentationReviews/index';
-const logo = require('../../logo.svg');
+const logo = require('../../svg/logo.svg');
 
 class StudentNavigation extends React.Component {
   render() {
@@ -59,6 +60,7 @@ class StudentNavigation extends React.Component {
               </Nav>
             </Navbar>
             <div className="content">
+              <Route exact={true} path="/student" component={Home}/>
               <Route path="/student/profile" component={Profile}/>
               <Route path="/student/ranking" component={ProjectRanking}/>
               <Route path="/student/project" component={YourProject}/>

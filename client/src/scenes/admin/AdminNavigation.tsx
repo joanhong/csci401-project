@@ -11,12 +11,13 @@ import {
 import {
   LinkContainer
 } from 'react-router-bootstrap';
+import AdminHome from './Home/index';
 import UserManagement from './UserManagement/index';
 import ProjectProposals from './ProjectProposals/index';
 import ClassOverview from './ClassOverview/index';
 import Stakeholders from './Stakeholders/index';
 import ProjectMatching from './ProjectMatching/index';
-const logo = require('../../logo.svg');
+const logo = require('../../svg/logo.svg');
 
 class AdminNavigation extends React.Component {
   render() {
@@ -65,6 +66,7 @@ class AdminNavigation extends React.Component {
             </Nav>
           </Navbar>
           <div className="content">
+            <Route exact={true} path="/admin" component={AdminHome}/>
             <Route path="/admin/users" component={UserManagement}/>
             <Route path="/admin/proposals" component={ProjectProposals}/>
             <Route path="/admin/class" component={ClassOverview}/>

@@ -1,4 +1,4 @@
-package capstone.algorithm;
+package capstone.model;
 
 import java.util.HashMap;
 import java.util.Map;

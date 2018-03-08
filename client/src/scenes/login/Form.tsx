@@ -46,6 +46,7 @@ if (request.readyState === 4) {
 }
 };
 }
+
 handleChange(e: any) {
 this.setState({ [e.target.id]: e.target.value });
 }
@@ -87,6 +88,12 @@ this.setState({ [e.target.id]: e.target.value });
             <FormGroup>
                 <Col smOffset={2} sm={10}>
                 <Button type="submit" onClick={this.submitClicked}>Sign in</Button>
+                </Col>
+            </FormGroup>
+
+            <FormGroup>
+                <Col smOffset={2} sm={10}>
+                <Button href="/register">Register</Button>
                 </Col>
             </FormGroup>
         </Form>
