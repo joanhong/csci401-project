@@ -46,6 +46,7 @@ constructor(props: ProjectProps) {
         });
         request.setRequestHeader('Cache-Control', 'no-cache');
         request.send(data);
+        alert('Your project proposal has been submitted!');
         /*
         fetch('http://localhost:8080/projectData/', {
         method: 'POST',
