@@ -95,23 +95,27 @@ public class ProjectAssignmentService {
         catch(Exception e) {
             e.printStackTrace();
         }
-        
-		
 	}
 	
 	// populates vectors from SQL DB
 	public void importDataFromDatabase() {
 
         // projects
-		Vector<Project> projectx = driver.getProjectsTable();
-		for(Project p : projectx)
-		{
-			projects.addElement(p);
+		projects = driver.getProjectsTable();
+		
+		for(Project p : projects) {
+			writer.print(p);
 		}
+		writer.println("");
         
         // rankings
 		int num_students = 69; // TODO: figure out more intuitive way to configure this
-		students = driver.getUsersWithRankings(projectx, num_students);
+		students = driver.getUsersWithRankings(projects, num_students);
+		
+		for(Student s : students) {
+			writer.print(s);
+		}
+		writer.println("");
 
 		// calculate popularity metrics:
 		for (Student s : students) {
@@ -149,7 +153,7 @@ public class ProjectAssignmentService {
 		}
 		
 		// init SQL connection
-		driver = new SQLDriver();
+		driver = new SQLDriver(NUM_RANKED);
 		driver.connect();
 				
 		// import data

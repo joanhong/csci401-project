@@ -31,7 +31,7 @@ public class ProjectServiceController
 	public ProjectServiceController(ProjectsRepository repository)
 	{
 		this.repository = repository;
-		driver = new SQLDriver();
+		driver = new SQLDriver(5); // TODO: have this be configured as NUM_RANKED, not hard-coded
 		driver.connect();
 		Vector<Project> projectsVector = driver.getProjectsTable(); 
 		for (Project p: projectsVector)

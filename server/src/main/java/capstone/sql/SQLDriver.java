@@ -14,8 +14,8 @@ import capstone.model.Student;
 import capstone.model.User;
 
 public class SQLDriver {
-	private final static String DATABASE_NAME = "401_Platform";
-	private final static String PASSWORD = "password";
+	private final static String DATABASE_NAME = "401_platform";
+	private final static String PASSWORD = "";
 	
 	private Connection con;
 	private final static String confirmLoginAttempt ="SELECT COUNT(*) FROM " + DATABASE_NAME + ".Users WHERE EMAIL=? AND PASSWORD=?";
@@ -34,7 +34,12 @@ public class SQLDriver {
 	private final static String addProjectRankingEntry = "INSERT INTO " + DATABASE_NAME + ".ProjectRankings(studentNumber, studentName, projectNumber, rank, projectName)\n" + 
 			"VALUES (?,?,?,?,?)";
 	
-	public SQLDriver(){
+	private static int NUM_RANKED;
+	
+	public SQLDriver(int _NUM_RANKED){
+		
+		NUM_RANKED = _NUM_RANKED;
+
 		try{
 			new Driver();
 		} catch(SQLException e){
@@ -53,6 +58,10 @@ public class SQLDriver {
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
+	}
+	
+	public static int getStudentSatScore(int i) { // i = project's rank
+		return ( ( (NUM_RANKED-i+1) * (NUM_RANKED-i)) / 2 ) + 1;
 	}
 	
 	public int getUserID(String Username){
@@ -191,16 +200,17 @@ public class SQLDriver {
 			ResultSet result = ps.executeQuery();
 			while(result.next())
 			{
-				Project p = new Project(result.getInt(1));
+				Project p = new Project(getStudentSatScore(1));
+				
+				p.setProjectId(result.getInt(1));
 				p.setProjectNumber(result.getInt(2));
 				p.setProjectName(result.getString("PROJECT_NAME"));
 				p.setName(result.getString("PROJECT_NAME"));
-				p.setProjectId(result.getInt(1));
 				p.setMaxSize(result.getInt(15));
 				p.setMinSize(result.getInt(16));
 				p.setStatus(result.getString("PROJECT_STATUS"));
 				
-				returnVector.addElement(p);	
+				returnVector.addElement(p);				
 			}		
 		}catch (SQLException e){e.printStackTrace();}
 		return returnVector; //returns true if the user name is in use in the DB
@@ -214,14 +224,14 @@ public class SQLDriver {
 		
 		for (int studentId = 1; studentId <= numStudents; studentId++) { // for each student
 
+			Student newStudent = new Student();
+			newStudent.studentId = studentId;
+			
 			try {		
 	    			
 	    			PreparedStatement ps = con.prepareStatement(getUserProjectRankings);
 	    			ps.setInt(1, studentId);
 	    			ResultSet result = ps.executeQuery();
-				
-	    			Student newStudent = new Student();
-	    			newStudent.studentId = studentId;
 	    			
 	    			while(result.next()) { // for each ranking...
 	                
@@ -239,6 +249,8 @@ public class SQLDriver {
 				}
 	    			
 			} catch (SQLException e){e.printStackTrace();}
+			
+			students.addElement(newStudent);
 		}	
 		
 		return students;

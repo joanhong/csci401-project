@@ -21,7 +21,7 @@ public class UserController
 	public UserController(UserRepository repository)
 	{
 		this.repository = repository;
-		driver = new SQLDriver();
+		driver = new SQLDriver(5);  // TODO: have this be configured as NUM_RANKED, not hard-coded
 		driver.connect();
 		Vector<User> userVector = driver.getAllUsers();
 		for(User u: userVector)
