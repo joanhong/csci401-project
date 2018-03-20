@@ -392,6 +392,216 @@ this.setState({ [e.target.id]: e.target.value });
                 </Col>
             </FormGroup>
             
+            <FormGroup controlId="formHorizontalNWH1">
+                <Col componentClass={ControlLabel} sm={2}>
+                    <b>Next Week Task 1 Hours</b>
+                </Col>
+                <Col sm={10}>
+                <FormControl
+                    type="number"
+                    id="nwtaskh1"
+                    value={this.state.nextWeekTasksH1}
+                    placeholder="4"
+                    onChange={e => this.handleChange(e)}
+                />
+                </Col>
+            </FormGroup>
+            
+            <FormGroup controlId="formHorizontalNWD1">
+                <Col componentClass={ControlLabel} sm={2}>
+                    <b>Task 1 Description</b>
+                </Col>
+                <Col sm={10}>
+                <FormControl
+                    type="text"
+                    id="nwtaskd1"
+                    value={this.state.nextWeekTasksD1}
+                    placeholder="4"
+                    onChange={e => this.handleChange(e)}
+                />
+                </Col>
+            </FormGroup>
+            
+            <FormGroup controlId="formHorizontalNWH2">
+                <Col componentClass={ControlLabel} sm={2}>
+                    <b>Next Week Task 2 Hours</b>
+                </Col>
+                <Col sm={10}>
+                <FormControl
+                    type="number"
+                    id="nwtaskh2"
+                    value={this.state.nextWeekTasksH2}
+                    placeholder="4"
+                    onChange={e => this.handleChange(e)}
+                />
+                </Col>
+            </FormGroup>
+            
+            <FormGroup controlId="formHorizontalNWD2">
+                <Col componentClass={ControlLabel} sm={2}>
+                    <b>Task 2 Description</b>
+                </Col>
+                <Col sm={10}>
+                <FormControl
+                    type="text"
+                    id="nwtaskd2"
+                    value={this.state.nextWeekTasksD2}
+                    placeholder="4"
+                    onChange={e => this.handleChange(e)}
+                />
+                </Col>
+            </FormGroup>
+            
+            <FormGroup controlId="formHorizontalNWH3">
+                <Col componentClass={ControlLabel} sm={2}>
+                    <b>Next Week Task 3 Hours</b>
+                </Col>
+                <Col sm={10}>
+                <FormControl
+                    type="number"
+                    id="nwtaskh3"
+                    value={this.state.nextWeekTasksH3}
+                    placeholder="4"
+                    onChange={e => this.handleChange(e)}
+                />
+                </Col>
+            </FormGroup>
+            
+            <FormGroup controlId="formHorizontalNWD3">
+                <Col componentClass={ControlLabel} sm={2}>
+                    <b>Task 3 Description</b>
+                </Col>
+                <Col sm={10}>
+                <FormControl
+                    type="text"
+                    id="nwtaskd3"
+                    value={this.state.nextWeekTasksD3}
+                    placeholder="4"
+                    onChange={e => this.handleChange(e)}
+                />
+                </Col>
+            </FormGroup>
+            
+            <FormGroup controlId="formHorizontalNWH4">
+                <Col componentClass={ControlLabel} sm={2}>
+                    <b>Next Week Task 4 Hours</b>
+                </Col>
+                <Col sm={10}>
+                <FormControl
+                    type="number"
+                    id="nwtaskh4"
+                    value={this.state.nextWeekTasksH4}
+                    placeholder="4"
+                    onChange={e => this.handleChange(e)}
+                />
+                </Col>
+            </FormGroup>
+            
+            <FormGroup controlId="formHorizontalNWD4">
+                <Col componentClass={ControlLabel} sm={2}>
+                    <b>Task 4 Description</b>
+                </Col>
+                <Col sm={10}>
+                <FormControl
+                    type="text"
+                    id="nwtaskd4"
+                    value={this.state.nextWeekTasksD4}
+                    placeholder="4"
+                    onChange={e => this.handleChange(e)}
+                />
+                </Col>
+            </FormGroup>
+            
+            <FormGroup controlId="formHorizontalNWH5">
+                <Col componentClass={ControlLabel} sm={2}>
+                    <b>Next Week Task 5 Hours</b>
+                </Col>
+                <Col sm={10}>
+                <FormControl
+                    type="number"
+                    id="nwtaskh5"
+                    value={this.state.nextWeekTasksH5}
+                    placeholder="4"
+                    onChange={e => this.handleChange(e)}
+                />
+                </Col>
+            </FormGroup>
+            
+            <FormGroup controlId="formHorizontalNWD5">
+                <Col componentClass={ControlLabel} sm={2}>
+                    <b>Task 5 Description</b>
+                </Col>
+                <Col sm={10}>
+                <FormControl
+                    type="text"
+                    id="nwtaskd5"
+                    value={this.state.nextWeekTasksD5}
+                    placeholder="4"
+                    onChange={e => this.handleChange(e)}
+                />
+                </Col>
+            </FormGroup>
+            
+             <FormGroup controlId="formHorizontalNWH6">
+                <Col componentClass={ControlLabel} sm={2}>
+                    <b>Next Week Task 6 Hours</b>
+                </Col>
+                <Col sm={10}>
+                <FormControl
+                    type="number"
+                    id="nwtaskh6"
+                    value={this.state.nextWeekTasksH6}
+                    placeholder="4"
+                    onChange={e => this.handleChange(e)}
+                />
+                </Col>
+            </FormGroup>
+            
+            <FormGroup controlId="formHorizontalNWD6">
+                <Col componentClass={ControlLabel} sm={2}>
+                    <b>Task 6 Description</b>
+                </Col>
+                <Col sm={10}>
+                <FormControl
+                    type="text"
+                    id="nwtaskd6"
+                    value={this.state.nextWeekTasksD6}
+                    placeholder="4"
+                    onChange={e => this.handleChange(e)}
+                />
+                </Col>
+            </FormGroup>
+            
+             <FormGroup controlId="formHorizontalNWH7">
+                <Col componentClass={ControlLabel} sm={2}>
+                    <b>Next Week Task 7 Hours</b>
+                </Col>
+                <Col sm={10}>
+                <FormControl
+                    type="number"
+                    id="nwtaskh7"
+                    value={this.state.nextWeekTasksH7}
+                    placeholder="4"
+                    onChange={e => this.handleChange(e)}
+                />
+                </Col>
+            </FormGroup>
+            
+            <FormGroup controlId="formHorizontalNWD7">
+                <Col componentClass={ControlLabel} sm={2}>
+                    <b>Task 7 Description</b>
+                </Col>
+                <Col sm={10}>
+                <FormControl
+                    type="text"
+                    id="nwtaskd7"
+                    value={this.state.nextWeekTasksD7}
+                    placeholder="4"
+                    onChange={e => this.handleChange(e)}
+                />
+                </Col>
+            </FormGroup>
+            
             <FormGroup>
                 <Col smOffset={2} sm={10}>
                 <Button type="submit" onClick={this.submitClicked}>Submit</Button>
