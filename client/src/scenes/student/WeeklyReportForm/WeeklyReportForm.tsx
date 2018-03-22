@@ -16,13 +16,13 @@ name: string;
 uscusername: string;
 project: string;
 reportdate: string;
-lastWeekTasksH1: number;
-lastWeekTasksH2: number;
-lastWeekTasksH3: number;
-lastWeekTasksH4: number;
-lastWeekTasksH5: number;
-lastWeekTasksH6: number;
-lastWeekTasksH7: number;
+lastWeekTasksH1: string;
+lastWeekTasksH2: string;
+lastWeekTasksH3: string;
+lastWeekTasksH4: string;
+lastWeekTasksH5: string;
+lastWeekTasksH6: string;
+lastWeekTasksH7: string;
 
 lastWeekTasksD1: string;
 lastWeekTasksD2: string;
@@ -32,13 +32,13 @@ lastWeekTasksD5: string;
 lastWeekTasksD6: string;
 lastWeekTasksD7: string;
 
-nextWeekTasksH1: number;
-nextWeekTasksH2: number;
-nextWeekTasksH3: number;
-nextWeekTasksH4: number;
-nextWeekTasksH5: number;
-nextWeekTasksH6: number;
-nextWeekTasksH7: number;
+nextWeekTasksH1: string;
+nextWeekTasksH2: string;
+nextWeekTasksH3: string;
+nextWeekTasksH4: string;
+nextWeekTasksH5: string;
+nextWeekTasksH6: string;
+nextWeekTasksH7: string;
 
 nextWeekTasksD1: string;
 nextWeekTasksD2: string;
@@ -57,13 +57,13 @@ name: '',
 uscusername: '',
 project: '',
 reportdate: '',
-lastWeekTasksH1: 0,
-lastWeekTasksH2: 0,
-lastWeekTasksH3: 0,
-lastWeekTasksH4: 0,
-lastWeekTasksH5: 0,
-lastWeekTasksH6: 0,
-lastWeekTasksH7: 0,
+lastWeekTasksH1: '',
+lastWeekTasksH2: '',
+lastWeekTasksH3: '',
+lastWeekTasksH4: '',
+lastWeekTasksH5: '',
+lastWeekTasksH6: '',
+lastWeekTasksH7: '',
 
 lastWeekTasksD1: '',
 lastWeekTasksD2: '',
@@ -73,13 +73,13 @@ lastWeekTasksD5: '',
 lastWeekTasksD6: '',
 lastWeekTasksD7: '',
 
-nextWeekTasksH1: 0,
-nextWeekTasksH2: 0,
-nextWeekTasksH3: 0,
-nextWeekTasksH4: 0,
-nextWeekTasksH5: 0,
-nextWeekTasksH6: 0,
-nextWeekTasksH7: 0,
+nextWeekTasksH1: '',
+nextWeekTasksH2: '',
+nextWeekTasksH3: '',
+nextWeekTasksH4: '',
+nextWeekTasksH5: '',
+nextWeekTasksH6: '',
+nextWeekTasksH7: '',
 
 nextWeekTasksD1: '',
 nextWeekTasksD2: '',
@@ -93,14 +93,44 @@ this.submitClicked = this.submitClicked.bind(this);
 this.handleChange = this.handleChange.bind(this);
 }
 submitClicked() {
-/*
+
 var request = new XMLHttpRequest();
 request.withCredentials = true;
-request.open('POST', 'http://localhost:8080/WeeklyReportSubmission/');
+request.open('POST', 'http://localhost:8080/weeklyReportForm/');
 request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 var data = JSON.stringify({
-email: this.state.email,
-password: this.state.password
+name: this.state.name,
+uscusername: this.state.uscusername,
+project: this.state.project,
+reportdate: this.state.reportdate,
+lastWeekTasksH1: this.state.lastWeekTasksH1,
+lastWeekTasksH2: this.state.lastWeekTasksH2,
+lastWeekTasksH3: this.state.lastWeekTasksH3,
+lastWeekTasksH4: this.state.lastWeekTasksH4,
+lastWeekTasksH5: this.state.lastWeekTasksH5,
+lastWeekTasksH6: this.state.lastWeekTasksH6,
+lastWeekTasksH7: this.state.lastWeekTasksH7,
+lastWeekTasksD1: this.state.lastWeekTasksD1,
+lastWeekTasksD2: this.state.lastWeekTasksD2,
+lastWeekTasksD3: this.state.lastWeekTasksD3,
+lastWeekTasksD4: this.state.lastWeekTasksD4,
+lastWeekTasksD5: this.state.lastWeekTasksD5,
+lastWeekTasksD6: this.state.lastWeekTasksD6,
+lastWeekTasksD7: this.state.lastWeekTasksD7,
+nextWeekTasksH1: this.state.nextWeekTasksH1,
+nextWeekTasksH2: this.state.nextWeekTasksH2,
+nextWeekTasksH3: this.state.nextWeekTasksH3,
+nextWeekTasksH4: this.state.nextWeekTasksH4,
+nextWeekTasksH5: this.state.nextWeekTasksH5,
+nextWeekTasksH6: this.state.nextWeekTasksH6,
+nextWeekTasksH7: this.state.nextWeekTasksH7,
+nextWeekTasksD1: this.state.nextWeekTasksD1,
+nextWeekTasksD2: this.state.nextWeekTasksD2,
+nextWeekTasksD3: this.state.nextWeekTasksD3,
+nextWeekTasksD4: this.state.nextWeekTasksD4,
+nextWeekTasksD5: this.state.nextWeekTasksD5,
+nextWeekTasksD6: this.state.nextWeekTasksD6,
+nextWeekTasksD7: this.state.nextWeekTasksD7
 });
 request.setRequestHeader('Cache-Control', 'no-cache');
 request.send(data);
@@ -108,19 +138,20 @@ alert(request.responseText + 'Your request has been submitted!');
 request.onreadystatechange = function() {
 if (request.readyState === 4) {
         if (request.responseText.length > 4) {
-            alert('Admin registration SUCCESSFUL!');
+            alert('Weekly Report submission SUCCESSFUL!');
         } else {
-            alert('Admin registration FAILED.');
+            alert('Weekly Report submission FAILED.');
 }
 }
 };
-*/
+
 }
 
 handleChange(e: any) {
 this.setState({ [e.target.id]: e.target.value });
 }
-    render() {
+
+render() {
         return (
             <Form horizontal={true} >
             <FormGroup controlId="formHorizontalStudentName">
@@ -131,8 +162,8 @@ this.setState({ [e.target.id]: e.target.value });
                 <FormControl
                     type="text"
                     id="name"
-                    value={this.state.name}
                     onChange={e => this.handleChange(e)}
+                    value={this.state.name}
                     placeholder="Student Name"
                 />
                 </Col>
@@ -145,10 +176,10 @@ this.setState({ [e.target.id]: e.target.value });
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="USCUsername"
-                    placeholder="ttrojan@usc.edu"
+                    id="uscusername"
                     onChange={e => this.handleChange(e)}
                     value={this.state.uscusername}
+                    placeholder="ttrojan@usc.edu"
                 />
                 </Col>
             </FormGroup>
@@ -160,10 +191,10 @@ this.setState({ [e.target.id]: e.target.value });
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="projectName"
+                    id="project"
+                    onChange={e => this.handleChange(e)}
                     value={this.state.project}
                     placeholder="Project name"
-                    onChange={e => this.handleChange(e)}
                 />
                 </Col>
             </FormGroup>
@@ -174,7 +205,7 @@ this.setState({ [e.target.id]: e.target.value });
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="reportDate"
+                    id="reportdate"
                     value={this.state.reportdate}
                     placeholder="MM/DD/YYYY"
                     onChange={e => this.handleChange(e)}
@@ -182,17 +213,16 @@ this.setState({ [e.target.id]: e.target.value });
                 </Col>
             </FormGroup>
             
-            <FormGroup controlId="formHorizontalLWH1">
+            <FormGroup controlId="formHorizontalLastWeekTasksH1">
                 <Col componentClass={ControlLabel} sm={2}>
                     <b>Last Week Task 1 Hours</b>
                 </Col>
                 <Col sm={10}>
                 <FormControl
-                    type="number"
-                    id="lwtaskh1"
-                    value={this.state.lastWeekTasksH1}
-                    placeholder="4"
+                    type="text"
                     onChange={e => this.handleChange(e)}
+                    placeholder="5"
+                    value={this.state.lastWeekTasksH1}
                 />
                 </Col>
             </FormGroup>
@@ -204,9 +234,8 @@ this.setState({ [e.target.id]: e.target.value });
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="lwtaskd1"
                     value={this.state.lastWeekTasksD1}
-                    placeholder="4"
+                    placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
                 />
                 </Col>
@@ -218,8 +247,7 @@ this.setState({ [e.target.id]: e.target.value });
                 </Col>
                 <Col sm={10}>
                 <FormControl
-                    type="number"
-                    id="lwtaskh2"
+                    type="text"
                     value={this.state.lastWeekTasksH2}
                     placeholder="4"
                     onChange={e => this.handleChange(e)}
@@ -234,9 +262,8 @@ this.setState({ [e.target.id]: e.target.value });
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="lwtaskd2"
                     value={this.state.lastWeekTasksD2}
-                    placeholder="4"
+                    placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
                 />
                 </Col>
@@ -248,8 +275,7 @@ this.setState({ [e.target.id]: e.target.value });
                 </Col>
                 <Col sm={10}>
                 <FormControl
-                    type="number"
-                    id="lwtaskh3"
+                    type="text"
                     value={this.state.lastWeekTasksH3}
                     placeholder="4"
                     onChange={e => this.handleChange(e)}
@@ -264,9 +290,8 @@ this.setState({ [e.target.id]: e.target.value });
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="lwtaskd3"
                     value={this.state.lastWeekTasksD3}
-                    placeholder="4"
+                    placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
                 />
                 </Col>
@@ -278,8 +303,7 @@ this.setState({ [e.target.id]: e.target.value });
                 </Col>
                 <Col sm={10}>
                 <FormControl
-                    type="number"
-                    id="lwtaskh4"
+                    type="text"
                     value={this.state.lastWeekTasksH4}
                     placeholder="4"
                     onChange={e => this.handleChange(e)}
@@ -294,9 +318,8 @@ this.setState({ [e.target.id]: e.target.value });
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="lwtaskd4"
                     value={this.state.lastWeekTasksD4}
-                    placeholder="4"
+                    placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
                 />
                 </Col>
@@ -308,8 +331,7 @@ this.setState({ [e.target.id]: e.target.value });
                 </Col>
                 <Col sm={10}>
                 <FormControl
-                    type="number"
-                    id="lwtaskh4"
+                    type="text"
                     value={this.state.lastWeekTasksH5}
                     placeholder="4"
                     onChange={e => this.handleChange(e)}
@@ -324,9 +346,8 @@ this.setState({ [e.target.id]: e.target.value });
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="lwtaskd5"
                     value={this.state.lastWeekTasksD5}
-                    placeholder="4"
+                    placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
                 />
                 </Col>
@@ -338,7 +359,7 @@ this.setState({ [e.target.id]: e.target.value });
                 </Col>
                 <Col sm={10}>
                 <FormControl
-                    type="number"
+                    type="text"
                     id="lwtaskh6"
                     value={this.state.lastWeekTasksH6}
                     placeholder="4"
@@ -356,7 +377,7 @@ this.setState({ [e.target.id]: e.target.value });
                     type="text"
                     id="lwtaskd6"
                     value={this.state.lastWeekTasksD6}
-                    placeholder="4"
+                    placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
                 />
                 </Col>
@@ -368,7 +389,7 @@ this.setState({ [e.target.id]: e.target.value });
                 </Col>
                 <Col sm={10}>
                 <FormControl
-                    type="number"
+                    type="text"
                     id="lwtaskh7"
                     value={this.state.lastWeekTasksH7}
                     placeholder="4"
@@ -386,7 +407,7 @@ this.setState({ [e.target.id]: e.target.value });
                     type="text"
                     id="lwtaskd7"
                     value={this.state.lastWeekTasksD7}
-                    placeholder="4"
+                    placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
                 />
                 </Col>
@@ -398,7 +419,7 @@ this.setState({ [e.target.id]: e.target.value });
                 </Col>
                 <Col sm={10}>
                 <FormControl
-                    type="number"
+                    type="text"
                     id="nwtaskh1"
                     value={this.state.nextWeekTasksH1}
                     placeholder="4"
@@ -416,7 +437,7 @@ this.setState({ [e.target.id]: e.target.value });
                     type="text"
                     id="nwtaskd1"
                     value={this.state.nextWeekTasksD1}
-                    placeholder="4"
+                    placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
                 />
                 </Col>
@@ -428,7 +449,7 @@ this.setState({ [e.target.id]: e.target.value });
                 </Col>
                 <Col sm={10}>
                 <FormControl
-                    type="number"
+                    type="text"
                     id="nwtaskh2"
                     value={this.state.nextWeekTasksH2}
                     placeholder="4"
@@ -446,7 +467,7 @@ this.setState({ [e.target.id]: e.target.value });
                     type="text"
                     id="nwtaskd2"
                     value={this.state.nextWeekTasksD2}
-                    placeholder="4"
+                    placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
                 />
                 </Col>
@@ -458,7 +479,7 @@ this.setState({ [e.target.id]: e.target.value });
                 </Col>
                 <Col sm={10}>
                 <FormControl
-                    type="number"
+                    type="text"
                     id="nwtaskh3"
                     value={this.state.nextWeekTasksH3}
                     placeholder="4"
@@ -476,7 +497,7 @@ this.setState({ [e.target.id]: e.target.value });
                     type="text"
                     id="nwtaskd3"
                     value={this.state.nextWeekTasksD3}
-                    placeholder="4"
+                    placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
                 />
                 </Col>
@@ -488,7 +509,7 @@ this.setState({ [e.target.id]: e.target.value });
                 </Col>
                 <Col sm={10}>
                 <FormControl
-                    type="number"
+                    type="text"
                     id="nwtaskh4"
                     value={this.state.nextWeekTasksH4}
                     placeholder="4"
@@ -506,7 +527,7 @@ this.setState({ [e.target.id]: e.target.value });
                     type="text"
                     id="nwtaskd4"
                     value={this.state.nextWeekTasksD4}
-                    placeholder="4"
+                    placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
                 />
                 </Col>
@@ -518,7 +539,7 @@ this.setState({ [e.target.id]: e.target.value });
                 </Col>
                 <Col sm={10}>
                 <FormControl
-                    type="number"
+                    type="text"
                     id="nwtaskh5"
                     value={this.state.nextWeekTasksH5}
                     placeholder="4"
@@ -536,7 +557,7 @@ this.setState({ [e.target.id]: e.target.value });
                     type="text"
                     id="nwtaskd5"
                     value={this.state.nextWeekTasksD5}
-                    placeholder="4"
+                    placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
                 />
                 </Col>
@@ -548,7 +569,7 @@ this.setState({ [e.target.id]: e.target.value });
                 </Col>
                 <Col sm={10}>
                 <FormControl
-                    type="number"
+                    type="text"
                     id="nwtaskh6"
                     value={this.state.nextWeekTasksH6}
                     placeholder="4"
@@ -566,7 +587,7 @@ this.setState({ [e.target.id]: e.target.value });
                     type="text"
                     id="nwtaskd6"
                     value={this.state.nextWeekTasksD6}
-                    placeholder="4"
+                    placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
                 />
                 </Col>
@@ -578,7 +599,7 @@ this.setState({ [e.target.id]: e.target.value });
                 </Col>
                 <Col sm={10}>
                 <FormControl
-                    type="number"
+                    type="text"
                     id="nwtaskh7"
                     value={this.state.nextWeekTasksH7}
                     placeholder="4"
@@ -596,7 +617,7 @@ this.setState({ [e.target.id]: e.target.value });
                     type="text"
                     id="nwtaskd7"
                     value={this.state.nextWeekTasksD7}
-                    placeholder="4"
+                    placeholder="Describe the task"
                     onChange={e => this.handleChange(e)}
                 />
                 </Col>

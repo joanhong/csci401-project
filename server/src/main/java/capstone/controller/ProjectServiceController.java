@@ -19,6 +19,7 @@ import capstone.model.LoginData;
 import capstone.model.Project;
 import capstone.model.ProjectData;
 import capstone.model.User;
+import capstone.model.WeeklyReportData;
 import capstone.repository.ProjectsRepository;
 import capstone.sql.SQLDriver;
 
@@ -89,6 +90,26 @@ public class ProjectServiceController
 	   
 		return projectdata; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
 	}
+	
+	
+	@RequestMapping(value = "/weeklyReportForm",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody WeeklyReportData weeklyReportSubmissionAttempt(@RequestBody WeeklyReportData weeklyreportdata)
+	{
+		System.out.println("Received HTTP POST");
+		System.out.println(weeklyreportdata.getId());
+		System.out.println(weeklyreportdata.getName());
+		System.out.println(weeklyreportdata.getUscusername());
+		
+		//use sql to send this data to weeklyreportstable
+		driver.addWeeklyReportEntry(weeklyreportdata);
+		
+		
+		return weeklyreportdata;
+	}
+
+	
+	
 	
 	@RequestMapping(value = "/loginAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:3000")
