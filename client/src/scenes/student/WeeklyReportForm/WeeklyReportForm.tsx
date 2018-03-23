@@ -220,6 +220,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
+                    id="lastWeekTasksH1"
                     onChange={e => this.handleChange(e)}
                     placeholder="5"
                     value={this.state.lastWeekTasksH1}
@@ -234,6 +235,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
+                    id="lastWeekTasksD1"
                     value={this.state.lastWeekTasksD1}
                     placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
@@ -248,6 +250,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
+                    id="lastWeekTasksH2"
                     value={this.state.lastWeekTasksH2}
                     placeholder="4"
                     onChange={e => this.handleChange(e)}
@@ -262,6 +265,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
+                    id="lastWeekTasksD2"
                     value={this.state.lastWeekTasksD2}
                     placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
@@ -276,6 +280,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
+                    id="lastWeekTasksH3"
                     value={this.state.lastWeekTasksH3}
                     placeholder="4"
                     onChange={e => this.handleChange(e)}
@@ -290,6 +295,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
+                    id="lastWeekTasksD3"
                     value={this.state.lastWeekTasksD3}
                     placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
@@ -304,6 +310,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
+                    id="lastWeekTasksH4"
                     value={this.state.lastWeekTasksH4}
                     placeholder="4"
                     onChange={e => this.handleChange(e)}
@@ -318,6 +325,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
+                    id="lastWeekTasksD4"
                     value={this.state.lastWeekTasksD4}
                     placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
@@ -332,6 +340,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
+                    id="lastWeekTasksH5"
                     value={this.state.lastWeekTasksH5}
                     placeholder="4"
                     onChange={e => this.handleChange(e)}
@@ -346,6 +355,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
+                    id="lastWeekTasksD5"
                     value={this.state.lastWeekTasksD5}
                     placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
@@ -360,7 +370,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="lwtaskh6"
+                    id="lastWeekTasksH6"
                     value={this.state.lastWeekTasksH6}
                     placeholder="4"
                     onChange={e => this.handleChange(e)}
@@ -375,7 +385,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="lwtaskd6"
+                    id="lastWeekTasksD6"
                     value={this.state.lastWeekTasksD6}
                     placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
@@ -390,7 +400,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="lwtaskh7"
+                    id="lastWeekTasksH7"
                     value={this.state.lastWeekTasksH7}
                     placeholder="4"
                     onChange={e => this.handleChange(e)}
@@ -405,7 +415,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="lwtaskd7"
+                    id="lastWeekTasksD7"
                     value={this.state.lastWeekTasksD7}
                     placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
@@ -420,7 +430,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="nwtaskh1"
+                    id="nextWeekTasksH1"
                     value={this.state.nextWeekTasksH1}
                     placeholder="4"
                     onChange={e => this.handleChange(e)}
@@ -435,7 +445,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="nwtaskd1"
+                    id="nextWeekTasksD1"
                     value={this.state.nextWeekTasksD1}
                     placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
@@ -450,7 +460,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="nwtaskh2"
+                    id="nextWeekTasksH2"
                     value={this.state.nextWeekTasksH2}
                     placeholder="4"
                     onChange={e => this.handleChange(e)}
@@ -465,7 +475,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="nwtaskd2"
+                    id="nextWeekTasksD2"
                     value={this.state.nextWeekTasksD2}
                     placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
@@ -480,7 +490,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="nwtaskh3"
+                    id="nextWeekTasksH3"
                     value={this.state.nextWeekTasksH3}
                     placeholder="4"
                     onChange={e => this.handleChange(e)}
@@ -495,7 +505,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="nwtaskd3"
+                    id="nextWeekTasksD3"
                     value={this.state.nextWeekTasksD3}
                     placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
@@ -510,7 +520,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="nwtaskh4"
+                    id="nextWeekTasksH4"
                     value={this.state.nextWeekTasksH4}
                     placeholder="4"
                     onChange={e => this.handleChange(e)}
@@ -525,7 +535,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="nwtaskd4"
+                    id="nextWeekTasksD4"
                     value={this.state.nextWeekTasksD4}
                     placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
@@ -540,7 +550,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="nwtaskh5"
+                    id="nextWeekTasksH5"
                     value={this.state.nextWeekTasksH5}
                     placeholder="4"
                     onChange={e => this.handleChange(e)}
@@ -555,7 +565,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="nwtaskd5"
+                    id="nextWeekTasksD5"
                     value={this.state.nextWeekTasksD5}
                     placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
@@ -570,7 +580,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="nwtaskh6"
+                    id="nextWeekTasksH6"
                     value={this.state.nextWeekTasksH6}
                     placeholder="4"
                     onChange={e => this.handleChange(e)}
@@ -585,7 +595,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="nwtaskd6"
+                    id="nextWeekTasksD6"
                     value={this.state.nextWeekTasksD6}
                     placeholder="Describe the task."
                     onChange={e => this.handleChange(e)}
@@ -600,7 +610,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="nwtaskh7"
+                    id="nextWeekTasksH7"
                     value={this.state.nextWeekTasksH7}
                     placeholder="4"
                     onChange={e => this.handleChange(e)}
@@ -615,7 +625,7 @@ render() {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="nwtaskd7"
+                    id="nextWeekTasksD7"
                     value={this.state.nextWeekTasksD7}
                     placeholder="Describe the task"
                     onChange={e => this.handleChange(e)}

@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import {
-  Table
+  Table,
+  Button
 } from 'react-bootstrap';
 
 interface UserListProps {
@@ -68,6 +69,7 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
                         )}
                     </tbody>
                 </Table>
+                <Button type="submit">Add New User</Button>
             </div>);
     }
 }
