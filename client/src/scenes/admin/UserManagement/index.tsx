@@ -69,7 +69,7 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
                         )}
                     </tbody>
                 </Table>
-                <Button type="submit">Add New User</Button>
+                <Button href="/register">Add New User</Button>
             </div>);
     }
 }

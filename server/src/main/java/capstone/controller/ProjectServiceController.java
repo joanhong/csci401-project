@@ -19,9 +19,11 @@ import capstone.model.LoginData;
 import capstone.model.Project;
 import capstone.model.ProjectData;
 import capstone.model.User;
+import capstone.model.UserEmailsData;
 import capstone.model.WeeklyReportData;
 import capstone.repository.ProjectsRepository;
 import capstone.sql.SQLDriver;
+import mail.mailDriver;
 
 @RestController
 public class ProjectServiceController 
@@ -109,6 +111,30 @@ public class ProjectServiceController
 	}
 
 	
+	
+	@RequestMapping(value = "/StudentRegistrationAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody UserEmailsData weeklyReportSubmissionAttempt(@RequestBody UserEmailsData emailsdata)
+	{
+		System.out.println("Received HTTP POST");
+//		System.out.println(emailsdata.getEmails());
+		
+		String[] emailsArray = emailsdata.getEmails().split("\n");
+		
+		mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
+		
+		for(String e : emailsArray)
+		{
+			maildriver.sendEmail("401 Platform Invite", "Congratulations! \nPlease sign up using the following link. \n \nlocalhost:3000/register/", e);
+			System.out.println("Sent invite to: " + e);
+		}
+		
+//		use sql to send this data to users table
+//		driver.adduser(user email); //preferably do this when the user goes to the link in the email
+		
+		
+		return emailsdata;
+	}
 	
 	
 	@RequestMapping(value = "/loginAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)

@@ -14,7 +14,7 @@ import javax.mail.internet.MimeMessage;
 public class mailDriver 
 {
 	
-	public String email; //Preferably your gmail account
+	public String email; //Your gmail username
 	public String password;
 	
 	
