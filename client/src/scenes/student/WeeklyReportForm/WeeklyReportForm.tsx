@@ -137,11 +137,7 @@ request.send(data);
 alert(request.responseText + 'Your request has been submitted!');
 request.onreadystatechange = function() {
 if (request.readyState === 4) {
-        if (request.responseText.length > 4) {
-            alert('Weekly Report submission SUCCESSFUL!');
-        } else {
-            alert('Weekly Report submission FAILED.');
-}
+    alert('Weekly Report submission SUCCESSFUL!');
 }
 };
 
@@ -179,7 +175,7 @@ render() {
                     id="uscusername"
                     onChange={e => this.handleChange(e)}
                     value={this.state.uscusername}
-                    placeholder="ttrojan@usc.edu"
+                    placeholder="ttrojan"
                 />
                 </Col>
             </FormGroup>

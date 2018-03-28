@@ -115,9 +115,9 @@ public class ProjectServiceController
 		mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
 		
 		String reportConfirmation = weeklyreportdata.getName() + " submitted a weekly report.\n\n"
-															  + "Time: " + timeStamp + "\n"
-															  + "USC Username: " + weeklyreportdata.getUscusername() + "\n"
-															  + "Project Name: " + weeklyreportdata.getProject() + "\n\n"
+															  + "TIME: " + timeStamp + "\n"
+															  + "USC USERNAME: " + weeklyreportdata.getUscusername() + "\n"
+															  + "PROJECT NAME: " + weeklyreportdata.getProject() + "\n\n"
 															  + "For more information, visit the CSCI401 website or reply to this email.";
 																
 		maildriver.sendEmail("Weekly Report Submitted by " + weeklyreportdata.getName(), reportConfirmation, "csci401server@gmail.com");
