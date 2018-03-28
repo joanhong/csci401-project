@@ -2,7 +2,9 @@ package capstone.controller;
 
 
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
@@ -99,13 +101,28 @@ public class ProjectServiceController
 	public @ResponseBody WeeklyReportData weeklyReportSubmissionAttempt(@RequestBody WeeklyReportData weeklyreportdata)
 	{
 		System.out.println("Received HTTP POST");
+		String timeStamp = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss").format(new Date());
+		String timeCode = new SimpleDateFormat("MMddHHmmss").format(new Date());
+//		timeCode.replaceAll(".", "");
+		
+		weeklyreportdata.setId(Integer.parseInt(timeCode));
 		System.out.println(weeklyreportdata.getId());
 		System.out.println(weeklyreportdata.getName());
 		System.out.println(weeklyreportdata.getUscusername());
 		
 		//use sql to send this data to weeklyreportstable
 		driver.addWeeklyReportEntry(weeklyreportdata);
+		mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
 		
+		String reportConfirmation = weeklyreportdata.getName() + " submitted a weekly report.\n\n"
+															  + "Time: " + timeStamp + "\n"
+															  + "USC Username: " + weeklyreportdata.getUscusername() + "\n"
+															  + "Project Name: " + weeklyreportdata.getProject() + "\n\n"
+															  + "For more information, visit the CSCI401 website or reply to this email.";
+																
+		maildriver.sendEmail("Weekly Report Submitted by " + weeklyreportdata.getName(), reportConfirmation, "csci401server@gmail.com");
+		maildriver.sendEmail("Weekly Report Confirmation", reportConfirmation, weeklyreportdata.getUscusername()+"@usc.edu");
+
 		
 		return weeklyreportdata;
 	}
