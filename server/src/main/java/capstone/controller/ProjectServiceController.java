@@ -92,6 +92,22 @@ public class ProjectServiceController
 //	   System.out.println("Received HTTP POST, saved to REPO");
 	   //add project to SQL table using driver.addProject();
 	   driver.addProjectEntry(p.getProjectNumber(), p.getProjectNumber(), p.getProjectName(), p.getStatus(), p.getMaxSize(), p.getMinSize());
+		String timeStamp = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss").format(new Date());
+	   mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
+		
+		String reportConfirmation = "A new project proposal was submitted for " + projectdata.getProjectName() +".\n\n"
+															  + "TIME: " + timeStamp + "\n"
+															  + "PROJECT NAME: " + projectdata.getProjectName() + "\n"
+															  + "PROJECT DESCRIPTION: " + projectdata.getProjectDescription() + "\n"
+															  + "TEAM MEMBER NAME: " + projectdata.getProjectSize() + "\n"
+															  + "TECHNOLOGIES EXPECTED: "+ projectdata.getTechnologiesExpected() + "\n"
+															  + "BACKGROUND REQUESTED: " + projectdata.getBackgroundRequested() + "\n\n"
+															  + "For more information, visit the CSCI401 website or reply to this email.";
+																
+		maildriver.sendEmail("New Project Proposal Submitted for " + projectdata.getProjectName(), reportConfirmation, "csci401server@gmail.com");
+
+	   
+	   
 	   
 		return projectdata; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
 	}
