@@ -9,6 +9,7 @@ import java.util.Vector;
 
 import com.mysql.jdbc.Driver;
 
+import capstone.model.PeerReviewData;
 import capstone.model.Project;
 import capstone.model.Student;
 import capstone.model.User;
@@ -36,6 +37,10 @@ public class SQLDriver {
 			+ "thisWeeksTasksH1, thisWeeksTasksH2, thisWeeksTasksH3, thisWeeksTasksH4, thisWeeksTasksH5, thisWeeksTasksH6, thisWeeksTasksH7, "
 			+ "nextWeeksTasksD1, nextWeeksTasksD2, nextWeeksTasksD3, nextWeeksTasksD4, nextWeeksTasksD5, nextWeeksTasksD6, nextWeeksTasksD7,"
 			+ "nextWeeksTasksH1, nextWeeksTasksH2, nextWeeksTasksH3, nextWeeksTasksH4, nextWeeksTasksH5, nextWeeksTasksH6, nextWeeksTasksH7 ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+	private final static String addPeerReview = "INSERT INTO " + DATABASE_NAME + 
+			".PeerReviewsTable(id, uscusername, uscidnumber, teammateaddress, teamcount, positivefeedback, negativefeedback)"
+			+ "VALUES(?,?,?,?,?,?,?)";
 
 	
 	
@@ -206,11 +211,36 @@ public class SQLDriver {
 			ps.setString(33, weeklyreportdata.getLastWeekTasksH7());
 
 			ps.executeUpdate();
-			System.out.println("Added WEEKLYREPORTENTRY to SQL!");
+			System.out.println("Added WEEKLYREPORTENTRY to SQL DATABASE!");
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
 	}
+	
+	//XXXXXXXXXXXXXX
+	public void addPeerReviewEntry(PeerReviewData peerreviewdata)
+	{
+		try
+		{
+			PreparedStatement ps = con.prepareStatement(addPeerReview);
+			ps.setInt(1,  (int)peerreviewdata.getId());
+			ps.setString(2, peerreviewdata.getUscusername());
+			ps.setString(3, peerreviewdata.getUscidnumber());
+			ps.setString(4,  peerreviewdata.getTeammateaddress());
+			ps.setString(5, peerreviewdata.getTeamcount());
+			ps.setString(6, peerreviewdata.getPositivefeedback());
+			ps.setString(7, peerreviewdata.getNegativefeedback());
+			
+			ps.executeUpdate();
+			System.out.println("Added PEERREVIEWENTRY to SQL DATABASE!");
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	//XXXXXXXXXXXXXX
 	
 	public void addProjectEntry(int project_id, int project_number, String project_name, String project_status, int max_size, int min_size)
 	{

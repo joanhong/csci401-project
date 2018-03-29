@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import capstone.model.LoginData;
+import capstone.model.PeerReviewData;
 import capstone.model.Project;
 import capstone.model.ProjectData;
 import capstone.model.User;
@@ -94,7 +95,41 @@ public class ProjectServiceController
 	   
 		return projectdata; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
 	}
-	
+	//XXXXXXXXXXXX
+	@RequestMapping(value = "/peerReviewForm",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody PeerReviewData peerReviewSubmissionAttempt(@RequestBody PeerReviewData peerreviewdata)
+	{
+		System.out.println("Received HTTP POST");
+		String timeStamp = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss").format(new Date());
+		String timeCode = new SimpleDateFormat("MMddHHmmss").format(new Date());
+//		timeCode.replaceAll(".", "");
+		
+		peerreviewdata.setId(Integer.parseInt(timeCode));
+		System.out.println(peerreviewdata.getId());
+		System.out.println(peerreviewdata.getUscidnumber());
+		System.out.println(peerreviewdata.getUscusername());
+		
+		//use sql to send this data to weeklyreportstable
+		driver.addPeerReviewEntry(peerreviewdata);
+		mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
+		
+		String reportConfirmation = "A peer review was submitted for " + peerreviewdata.getTeammateaddress() +".\n\n"
+															  + "TIME: " + timeStamp + "\n"
+															  + "USC USERNAME: " + peerreviewdata.getUscusername() + "\n"
+															  + "USC ID: " + peerreviewdata.getUscidnumber() + "\n"
+															  + "TEAM MEMBER NAME: " + peerreviewdata.getTeammateaddress() + "\n"
+															  + "POSITIVE FEEDBACK: "+ peerreviewdata.getPositivefeedback() + "\n"
+															  + "NEED IMPROVEMENT: " + peerreviewdata.getNegativefeedback() + "\n\n"
+															  + "For more information, visit the CSCI401 website or reply to this email.";
+																
+		maildriver.sendEmail("Peer Review Submitted for " + peerreviewdata.getTeammateaddress(), reportConfirmation, "csci401server@gmail.com");
+		maildriver.sendEmail("Peer Review Confirmation", reportConfirmation, peerreviewdata.getUscusername()+"@usc.edu");
+
+		
+		return peerreviewdata;
+	}
+	//XXXXXXXXXX
 	
 	@RequestMapping(value = "/weeklyReportForm",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:3000")
