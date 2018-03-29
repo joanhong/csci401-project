@@ -29,7 +29,6 @@ negativefeedback: '',
 uscidnumber: '',
 teamcount: '',
 positivefeedback: '',
-
 };
 this.submitClicked = this.submitClicked.bind(this);
 this.handleChange = this.handleChange.bind(this);
@@ -84,7 +83,7 @@ render() {
 
             <FormGroup controlId="formHorizontalUscidnumber">
                 <Col componentClass={ControlLabel} sm={2}>
-                    <b>USC ID Number</b>
+                <b>USC ID Number</b>
                 </Col>
                 <Col sm={10}>
                 <FormControl
@@ -126,7 +125,8 @@ render() {
                 />
                 </Col>
             </FormGroup>
-            <FormGroup controlId="formHorizontalDate">
+
+            <FormGroup controlId="formHorizontalPositiveFeedback">
                 <Col componentClass={ControlLabel} sm={2}>
                     <b>Positive Feedback</b>
                 </Col>
@@ -141,9 +141,9 @@ render() {
                 </Col>
             </FormGroup>
 
-            <FormGroup controlId="formHorizontalStudentnegativefeedback">
+            <FormGroup controlId="formHorizontalNegativeFeedback">
                 <Col componentClass={ControlLabel} sm={2}>
-                    <b>Needs Improvement</b>
+                    <b>Negative Feedback</b>
                 </Col>
                 <Col sm={10}>
                 <FormControl

@@ -334,16 +334,14 @@ public class SQLDriver {
             			Project rankedProject = projects.elementAt(projectId - 1); // !!! SUBTRACT 1, as the ranking's indices skip 0 for readability
 	            		String projectName = rankedProject.getName();
 	            		newStudent.rankings.put(projectName, rank);
-	            		newStudent.orderedRankings.addElement(projectName);
-				
-					students.addElement(newStudent);
+	            		newStudent.orderedRankings.addElement(projectName);				
 				}
 	    			
 			} catch (SQLException e){e.printStackTrace();}
 			
 			students.addElement(newStudent);
 		}	
-		
+				
 		return students;
 	}
 	
