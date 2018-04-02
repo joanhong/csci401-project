@@ -33,7 +33,7 @@ class ProjectProposals extends React.Component<ProjectListProps, ProjectListStat
     componentDidMount() {
         this.setState({isLoading: true});
         
-        fetch('http://localhost:8080/projectsrep')
+        fetch('http://localhost:8080/proposals/')
             .then(response => response.json())
             .then(data => this.setState({projects: data, isLoading: false}));
     }

@@ -15,6 +15,7 @@ import Home from './Home/index';
 import Profile from './Profile/index';
 import ProjectRanking from './ProjectRanking/index';
 import YourProject from './YourProject/index';
+import SubmitDeliverable from './YourProject/Deliverable/index';
 import FinalPresentationReviews from './FinalPresentationReviews/index';
 import WeeklyReportForm from './WeeklyReportForm/index';
 const logo = require('../../svg/logo.svg');
@@ -64,7 +65,8 @@ class StudentNavigation extends React.Component {
               <Route exact={true} path="/student" component={Home}/>
               <Route path="/student/profile" component={Profile}/>
               <Route path="/student/ranking" component={ProjectRanking}/>
-              <Route path="/student/project" component={YourProject}/>
+              <Route exact={true} path="/student/project" component={YourProject}/>
+              <Route path="/student/project/deliverable" component={SubmitDeliverable}/>
               <Route path="/student/reviews" component={FinalPresentationReviews}/>
               <Route path="/student/weeklyreport/" component={WeeklyReportForm}/>
             </div>

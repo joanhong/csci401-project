@@ -1,5 +1,6 @@
-package capstone.sql;
+/*package capstone.sql;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -33,6 +34,8 @@ public class SQLDriver {
 			"VALUES (?,?,?,?,?,?)";
 	private final static String addProjectRankingEntry = "INSERT INTO " + DATABASE_NAME + ".ProjectRankings(studentNumber, studentName, projectNumber, rank, projectName)\n" + 
 			"VALUES (?,?,?,?,?)";
+	//private final static String addDeliverableEntry = "INSERT INTO" + DATABASE_NAME + ".Deliverables(deliverable_number, name, description, due_date, status, date_submitted, project_number)";
+	private final static String addDeliverableEntry = "INSERT INTO" + DATABASE_NAME + ".Deliverables(deliverable_number, deliverable_file, name, description)";
 	
 	private static int NUM_RANKED;
 	
@@ -60,6 +63,30 @@ public class SQLDriver {
 		}
 	}
 	
+	// Deliverable
+	
+	public void addDeliverableEntry(int deliverable_number, InputStream deliverable_file, String name, String description, String due_date, String status, String date_submitted, int project_number) {
+		try
+		{
+			PreparedStatement ps = con.prepareStatement(addDeliverableEntry);
+			ps.setInt(1, deliverable_number);
+			ps.setBlob(2, deliverable_file);
+			ps.setString(3, name);
+			ps.setString(4, description);
+			ps.setString(5,  due_date);
+			ps.setString(6, status);
+			ps.setString(7, date_submitted);
+			ps.setInt(8, project_number);
+
+			ps.executeUpdate();
+			System.out.println("Added deliverableEntry to SQL!");
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
 	public static int getStudentSatScore(int i) { // i = project's rank
 		return ( ( (NUM_RANKED-i+1) * (NUM_RANKED-i)) / 2 ) + 1;
 	}
@@ -76,6 +103,7 @@ public class SQLDriver {
 		}catch (SQLException e){e.printStackTrace();}
 		return ID; //returns true if the user name is in use in the DB
 	}
+	
 	public String getUsername(int userID){
 		String username = null;
 		try{
@@ -113,8 +141,6 @@ public class SQLDriver {
 		}catch (SQLException e){e.printStackTrace();}
 		return returnVector; //returns true if the user name is in use in the DB
 	}
-	
-	
 	
 	public boolean doesExist(String Username){
 		int count = 0;
@@ -283,4 +309,4 @@ public class SQLDriver {
 			return null;
 	}
 	
-}
+}*/

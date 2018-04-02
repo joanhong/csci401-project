@@ -10,6 +10,9 @@ public class LoginData
 	@Id
 	@GeneratedValue
 	private long id;
+	String email;
+	String password;
+	
 	public long getId() {
 		return id;
 	}
@@ -32,20 +35,6 @@ public class LoginData
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	String email;
-	String password;
-	
-	public LoginData(String email, String password) 
-	{
-		super();
-		this.email = email;
-		this.password = password;
-	}
-	public LoginData()
-	{
-		
 	}
 	
 }

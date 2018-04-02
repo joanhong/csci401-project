@@ -14,6 +14,7 @@ import {
 import Home from './Home/index';
 import Profile from './Profile/index';
 import ProjectProposal from './ProjectProposal/index';
+import ProjectPage from './Project/index';
 const logo = require('../../svg/logo.svg');
 
 class StakeholderNavigation extends React.Component {
@@ -51,6 +52,7 @@ class StakeholderNavigation extends React.Component {
             <Route exact={true} path="/stakeholder" component={Home}/>
             <Route path="/stakeholder/profile" component={Profile}/>
             <Route path="/stakeholder/proposals" component={ProjectProposal}/>
+            <Route exact={true} path="/stakeholder/project" component={ProjectPage}/>
           </div>
         </div>
       </BrowserRouter>
