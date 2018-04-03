@@ -61,7 +61,7 @@ class AdminHome extends React.Component<AdminProps, AdminState> {
   saveConfigurations() {
     var request = new XMLHttpRequest();
     request.withCredentials = true;
-    request.open('POST', 'http://localhost:8080/admin/configuration/save');
+    request.open('POST', 'http://localhost:8080/admin/configurations/save');
     request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     var data = JSON.stringify({
       deliverableOneDate: this.state.deliverableOneDate,

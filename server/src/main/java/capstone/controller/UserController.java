@@ -43,16 +43,16 @@ public class UserController
 	public Collection<User> getUsers()
 	{
 		Collection<User> users = new Vector<>();
-		users.addAll(studentRepo.findAll());
-		users.addAll(stakeholderRepo.findAll());
-		users.addAll(adminRepo.findAll());
+		users.addAll((Collection<? extends User>) studentRepo.findAll());
+		users.addAll((Collection<? extends User>) stakeholderRepo.findAll());
+		users.addAll((Collection<? extends User>) adminRepo.findAll());
 		return users;
 	}
 	
 	@GetMapping("/students")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public Collection<Student> getStudents() {
-		return studentRepo.findAll();
+		return (Collection<Student>) studentRepo.findAll();
 	}
 	
 	/* Login */

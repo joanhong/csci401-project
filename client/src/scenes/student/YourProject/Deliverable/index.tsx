@@ -69,7 +69,7 @@ class SubmitDeliverable extends React.Component<DeliverableProps, DeliverableSta
     uploadFile(file: File) {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/deliverable/upload');
+        request.open('POST', 'http://localhost:8080/deliverables/upload');
         // request.setRequestHeader('Content-Type', 'multipart/form-data; charset=UTF-8');
         request.setRequestHeader('Cache-Control', 'no-cache');
         const formData = new FormData();
@@ -81,7 +81,7 @@ class SubmitDeliverable extends React.Component<DeliverableProps, DeliverableSta
     submitClicked() {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/deliverable/info');
+        request.open('POST', 'http://localhost:8080/deliverables/info');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
             deliverableNumber: this.state.deliverableNumber,

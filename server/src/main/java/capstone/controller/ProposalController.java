@@ -28,7 +28,7 @@ public class ProposalController {
 	@GetMapping("/")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public Collection<Proposal> getProposals() {
-		return proposalRepo.findAll();
+		return (Collection<Proposal>) proposalRepo.findAll();
 	}
 	
  	@RequestMapping(value = "/save",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
