@@ -16,6 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `PeerReviewsTable`
+--
+
+DROP TABLE IF EXISTS `PeerReviewsTable`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `PeerReviewsTable` (
+  `id` int(11) NOT NULL,
+  `uscusername` varchar(45) DEFAULT NULL,
+  `uscidnumber` varchar(45) DEFAULT NULL,
+  `teammateaddress` varchar(45) DEFAULT NULL,
+  `teamcount` varchar(4) DEFAULT NULL,
+  `positivefeedback` varchar(900) DEFAULT NULL,
+  `negativefeedback` varchar(900) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PeerReviewsTable`
+--
+
+LOCK TABLES `PeerReviewsTable` WRITE;
+/*!40000 ALTER TABLE `PeerReviewsTable` DISABLE KEYS */;
+/*!40000 ALTER TABLE `PeerReviewsTable` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `ProjectAssignmentsTable`
 --
 
@@ -100,7 +128,7 @@ CREATE TABLE `Projects` (
 
 LOCK TABLES `Projects` WRITE;
 /*!40000 ALTER TABLE `Projects` DISABLE KEYS */;
-INSERT INTO `Projects` VALUES (0,0,'Quizzly',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,8,6),(1,1,'SummerCampReg',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,8,4),(2,2,'Sigma',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(3,3,'P2P4Health',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,12,9),(4,4,'SociallyConsciousMachineLearningBots',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(5,5,'ChangingTheTutoringSphere',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,3),(6,6,'TrojanMotors',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(7,7,'AutismSocietyApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(8,8,'AutismSocietyDB',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(9,9,'SchoolOfFishApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(10,10,'PredictingElections',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,4),(11,11,'Perfit',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(12,12,'MarketingTechnologyPlatform',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(13,13,'PureFocusiOSApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(14,14,'Cosmic-System',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(15,15,'eFormsProject',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(16,16,'Prop47Website',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(17,17,'ProstheticSpinalCord',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,3),(18,18,'QuantitativeTrading_DataScience',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(19,19,'QuantitativeTrading_DataExtractionPipeline',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(20,20,'PositionControl',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(21,21,'SpoilerAlert',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(22,22,'LogoDetection',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(23,23,'AIMedicalImaging',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(24,24,'Diabetes',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,3),(25,25,'iLegal',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(26,26,'401ProjectPlatform',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(27,27,'LetterOfRecGenerator',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(28,28,'AutonomousDroneControl',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(29,29,'The Cyborg Project',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,3),(30,30,'Supermassive Blackholes ',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,12,3),(31,31,'Hack the Matrix ',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,3),(32,32,'TIME MACHINE',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,3);
+INSERT INTO `Projects` VALUES (0,0,'Quizzly',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,8,6),(1,1,'SummerCampReg',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,8,4),(2,2,'Sigma',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(3,3,'P2P4Health',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,12,9),(4,4,'SociallyConsciousMachineLearningBots',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(5,5,'ChangingTheTutoringSphere',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,3),(6,6,'TrojanMotors',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(7,7,'AutismSocietyApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(8,8,'AutismSocietyDB',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(9,9,'SchoolOfFishApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(10,10,'PredictingElections',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,4),(11,11,'Perfit',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(12,12,'MarketingTechnologyPlatform',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(13,13,'PureFocusiOSApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(14,14,'Cosmic-System',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(15,15,'eFormsProject',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(16,16,'Prop47Website',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(17,17,'ProstheticSpinalCord',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,3),(18,18,'QuantitativeTrading_DataScience',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(19,19,'QuantitativeTrading_DataExtractionPipeline',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(20,20,'PositionControl',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(21,21,'SpoilerAlert',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(22,22,'LogoDetection',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(23,23,'AIMedicalImaging',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(24,24,'Diabetes',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,3),(25,25,'iLegal',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(26,26,'401ProjectPlatform',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(27,27,'LetterOfRecGenerator',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(28,28,'AutonomousDroneControl',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(29,29,'The Cyborg Project',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,3),(30,30,'Supermassive Blackholes ',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,12,3),(31,31,'Hack the Matrix ',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,3),(32,32,'Time Machine',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,3),(33,33,'Space Time Distorter',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,3);
 /*!40000 ALTER TABLE `Projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,4 +261,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-28 16:13:00
+-- Dump completed on 2018-03-29 17:15:13
