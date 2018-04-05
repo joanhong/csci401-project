@@ -11,6 +11,7 @@ interface UserListProps {
 interface UserListState {
     users: Array<{}>;
     isLoading: boolean;
+    userIndexToEdit: number;
 }
 
 interface User {
@@ -27,7 +28,8 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         
         this.state = {
             users: [],
-            isLoading: false
+            isLoading: false,
+            userIndexToEdit: -1,
         };
     }
     
@@ -38,7 +40,7 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
             .then(response => response.json())
             .then(data => this.setState({users: data, isLoading: false}));
     }
-    
+
     render() {
         const {users, isLoading} = this.state;
         
@@ -49,27 +51,34 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         return(
             <div>
                 <h2>User Management</h2>
-                <Table bordered={true}>
-                    <thead>
-                        <tr>
-                            <th>Full Name</th>
-                            <th>User Type</th>
-                            <th>Year</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users.map((user: User) =>
-                            <tr key={user.id}>
-                                <td>{user.fullName}</td>
-                                <td>{user.userType}</td>
-                                <td>{user.year}</td>
-                                <td>{user.email}</td>
-                            </tr>
-                        )}
-                    </tbody>
-                </Table>
-                <Button href="/register">Add New User</Button>
+                <Button bsStyle="primary" href="/register" style={{margin: 10}}>Add New User</Button>
+                        <Table bordered={true} condensed={true}>
+                            <thead>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>User Type</th>
+                                    <th>Year</th>
+                                    <th>Email</th>
+                                    <th>Edit/Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {users.map((user: User, index: number) =>
+                                    <tr key={user.id}>
+                                        <td>{user.fullName}</td>
+                                        <td>{user.userType}</td>
+                                        <td>{user.year}</td>
+                                        <td>{user.email}</td>
+                                        <td>
+                                            <Button style={{margin: 3}} bsSize="small" onClick={() => this.setState({userIndexToEdit: index})}>
+                                                Edit User
+                                            </Button>
+                                            <Button bsStyle="warning" bsSize="small">Delete User</Button>
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </Table>
             </div>);
     }
 }
