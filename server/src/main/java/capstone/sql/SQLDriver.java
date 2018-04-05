@@ -9,9 +9,11 @@ import java.util.Vector;
 
 import com.mysql.jdbc.Driver;
 
+import capstone.model.PeerReviewData;
 import capstone.model.Project;
 import capstone.model.Student;
 import capstone.model.User;
+import capstone.model.WeeklyReportData;
 
 public class SQLDriver {
 	private final static String DATABASE_NAME = "401_Platform";
@@ -28,6 +30,19 @@ public class SQLDriver {
 	private final static String getUserProjectRankings = "SELECT * FROM " + DATABASE_NAME + ".ProjectRankings WHERE STUDENTNUMBER=?";
 	private final static String updatePassword = "UPDATE " + DATABASE_NAME + ".USERS SET PASSWORD=? WHERE EMAIL=?";
 	private final static String getEncryptedPassword = "SELECT * FROM 401_Platform.USERS WHERE EMAIL=?";
+	
+	private final static String addWeeklyReport = "INSERT INTO " + DATABASE_NAME + 
+			".WeeklyReportsTable(idWeeklyReportsTable, studentName, studentuscusername, projectNumber, date, "
+			+ "thisWeeksTasksD1,thisWeeksTasksD2, thisWeeksTasksD3, thisWeeksTasksD4, thisWeeksTasksD5, thisWeeksTasksD6, thisWeeksTasksD7, "
+			+ "thisWeeksTasksH1, thisWeeksTasksH2, thisWeeksTasksH3, thisWeeksTasksH4, thisWeeksTasksH5, thisWeeksTasksH6, thisWeeksTasksH7, "
+			+ "nextWeeksTasksD1, nextWeeksTasksD2, nextWeeksTasksD3, nextWeeksTasksD4, nextWeeksTasksD5, nextWeeksTasksD6, nextWeeksTasksD7,"
+			+ "nextWeeksTasksH1, nextWeeksTasksH2, nextWeeksTasksH3, nextWeeksTasksH4, nextWeeksTasksH5, nextWeeksTasksH6, nextWeeksTasksH7 ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+	private final static String addPeerReview = "INSERT INTO " + DATABASE_NAME + 
+			".PeerReviewsTable(id, uscusername, uscidnumber, teammateaddress, teamcount, positivefeedback, negativefeedback)"
+			+ "VALUES(?,?,?,?,?,?,?)";
+
+	
 	
 	private final static String addProjectEntry = "INSERT INTO " + DATABASE_NAME + ".Projects(Project_id, Project_number, Project_name, Project_status, Max_size, Min_size) \n" + 
 			"VALUES (?,?,?,?,?,?)";
@@ -153,6 +168,80 @@ public class SQLDriver {
 		}
 	}
 	
+	public void addWeeklyReportEntry(WeeklyReportData weeklyreportdata)
+	{
+		try
+		{
+			PreparedStatement ps = con.prepareStatement(addWeeklyReport);
+			ps.setInt(1,  (int)weeklyreportdata.getId());
+			ps.setString(2, weeklyreportdata.getName());
+			ps.setString(3, weeklyreportdata.getUscusername());
+			ps.setString(4,  weeklyreportdata.getProject());
+			ps.setString(5, weeklyreportdata.getReportdate());
+			ps.setString(6, weeklyreportdata.getLastWeekTasksD1());
+			ps.setString(7, weeklyreportdata.getLastWeekTasksD2());
+			ps.setString(8, weeklyreportdata.getLastWeekTasksD3());
+			ps.setString(9, weeklyreportdata.getLastWeekTasksD4());
+			ps.setString(10, weeklyreportdata.getLastWeekTasksD5());
+			ps.setString(11, weeklyreportdata.getLastWeekTasksD6());
+			ps.setString(12, weeklyreportdata.getLastWeekTasksD7());
+			
+			ps.setString(13, weeklyreportdata.getLastWeekTasksH1());
+			ps.setString(14, weeklyreportdata.getLastWeekTasksH2());
+			ps.setString(15, weeklyreportdata.getLastWeekTasksH3());
+			ps.setString(16, weeklyreportdata.getLastWeekTasksH4());
+			ps.setString(17, weeklyreportdata.getLastWeekTasksH5());
+			ps.setString(18, weeklyreportdata.getLastWeekTasksH6());
+			ps.setString(19, weeklyreportdata.getLastWeekTasksH7());
+			
+			ps.setString(20, weeklyreportdata.getNextWeekTasksD1());
+			ps.setString(21, weeklyreportdata.getNextWeekTasksD2());
+			ps.setString(22, weeklyreportdata.getLastWeekTasksD3());
+			ps.setString(23, weeklyreportdata.getLastWeekTasksD4());
+			ps.setString(24, weeklyreportdata.getLastWeekTasksD5());
+			ps.setString(25, weeklyreportdata.getLastWeekTasksD6());
+			ps.setString(26, weeklyreportdata.getLastWeekTasksD7());
+			
+			ps.setString(27, weeklyreportdata.getLastWeekTasksH1());
+			ps.setString(28, weeklyreportdata.getLastWeekTasksH2());
+			ps.setString(29, weeklyreportdata.getLastWeekTasksH3());
+			ps.setString(30, weeklyreportdata.getLastWeekTasksH4());
+			ps.setString(31, weeklyreportdata.getLastWeekTasksH5());
+			ps.setString(32, weeklyreportdata.getLastWeekTasksH6());
+			ps.setString(33, weeklyreportdata.getLastWeekTasksH7());
+
+			ps.executeUpdate();
+			System.out.println("Added WEEKLYREPORTENTRY to SQL DATABASE!");
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
+	//XXXXXXXXXXXXXX
+	public void addPeerReviewEntry(PeerReviewData peerreviewdata)
+	{
+		try
+		{
+			PreparedStatement ps = con.prepareStatement(addPeerReview);
+			ps.setInt(1,  (int)peerreviewdata.getId());
+			ps.setString(2, peerreviewdata.getUscusername());
+			ps.setString(3, peerreviewdata.getUscidnumber());
+			ps.setString(4,  peerreviewdata.getTeammateaddress());
+			ps.setString(5, peerreviewdata.getTeamcount());
+			ps.setString(6, peerreviewdata.getPositivefeedback());
+			ps.setString(7, peerreviewdata.getNegativefeedback());
+			
+			ps.executeUpdate();
+			System.out.println("Added PEERREVIEWENTRY to SQL DATABASE!");
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	//XXXXXXXXXXXXXX
+	
 	public void addProjectEntry(int project_id, int project_number, String project_name, String project_status, int max_size, int min_size)
 	{
 		try
@@ -216,6 +305,8 @@ public class SQLDriver {
 		return returnVector; //returns true if the user name is in use in the DB
 	}
 	
+	
+	
 	// returns vector of all Students and their rankings
 	// requires vector of existing Projects
 	public Vector<Student> getUsersWithRankings(Vector<Project> projects, int numStudents)
@@ -243,16 +334,14 @@ public class SQLDriver {
             			Project rankedProject = projects.elementAt(projectId - 1); // !!! SUBTRACT 1, as the ranking's indices skip 0 for readability
 	            		String projectName = rankedProject.getName();
 	            		newStudent.rankings.put(projectName, rank);
-	            		newStudent.orderedRankings.addElement(projectName);
-				
-					students.addElement(newStudent);
+	            		newStudent.orderedRankings.addElement(projectName);				
 				}
 	    			
 			} catch (SQLException e){e.printStackTrace();}
 			
 			students.addElement(newStudent);
 		}	
-		
+				
 		return students;
 	}
 	

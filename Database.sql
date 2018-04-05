@@ -16,6 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `PeerReviewsTable`
+--
+
+DROP TABLE IF EXISTS `PeerReviewsTable`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `PeerReviewsTable` (
+  `id` int(11) NOT NULL,
+  `uscusername` varchar(45) DEFAULT NULL,
+  `uscidnumber` varchar(45) DEFAULT NULL,
+  `teammateaddress` varchar(45) DEFAULT NULL,
+  `teamcount` varchar(4) DEFAULT NULL,
+  `positivefeedback` varchar(900) DEFAULT NULL,
+  `negativefeedback` varchar(900) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PeerReviewsTable`
+--
+
+LOCK TABLES `PeerReviewsTable` WRITE;
+/*!40000 ALTER TABLE `PeerReviewsTable` DISABLE KEYS */;
+/*!40000 ALTER TABLE `PeerReviewsTable` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `ProjectAssignmentsTable`
 --
 
@@ -100,7 +128,7 @@ CREATE TABLE `Projects` (
 
 LOCK TABLES `Projects` WRITE;
 /*!40000 ALTER TABLE `Projects` DISABLE KEYS */;
-INSERT INTO `Projects` VALUES (0,0,'Quizzly',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,8,6),(1,1,'SummerCampReg',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,8,4),(2,2,'Sigma',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(3,3,'P2P4Health',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,12,9),(4,4,'SociallyConsciousMachineLearningBots',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(5,5,'ChangingTheTutoringSphere',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,3),(6,6,'TrojanMotors',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(7,7,'AutismSocietyApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(8,8,'AutismSocietyDB',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(9,9,'SchoolOfFishApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(10,10,'PredictingElections',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,4),(11,11,'Perfit',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(12,12,'MarketingTechnologyPlatform',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(13,13,'PureFocusiOSApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(14,14,'Cosmic-System',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(15,15,'eFormsProject',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(16,16,'Prop47Website',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(17,17,'ProstheticSpinalCord',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,3),(18,18,'QuantitativeTrading_DataScience',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(19,19,'QuantitativeTrading_DataExtractionPipeline',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(20,20,'PositionControl',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(21,21,'SpoilerAlert',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(22,22,'LogoDetection',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(23,23,'AIMedicalImaging',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(24,24,'Diabetes',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,3),(25,25,'iLegal',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(26,26,'401ProjectPlatform',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(27,27,'LetterOfRecGenerator',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(28,28,'AutonomousDroneControl',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(29,29,'The Cyborg Project',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,3),(30,30,'Supermassive Blackholes ',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,12,3),(31,31,'Hack the Matrix ',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,3);
+INSERT INTO `Projects` VALUES (0,0,'Quizzly',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,8,6),(1,1,'SummerCampReg',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,8,4),(2,2,'Sigma',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(3,3,'P2P4Health',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,12,9),(4,4,'SociallyConsciousMachineLearningBots',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(5,5,'ChangingTheTutoringSphere',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,3),(6,6,'TrojanMotors',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(7,7,'AutismSocietyApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(8,8,'AutismSocietyDB',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(9,9,'SchoolOfFishApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(10,10,'PredictingElections',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,4),(11,11,'Perfit',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(12,12,'MarketingTechnologyPlatform',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(13,13,'PureFocusiOSApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(14,14,'Cosmic-System',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(15,15,'eFormsProject',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(16,16,'Prop47Website',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(17,17,'ProstheticSpinalCord',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,3),(18,18,'QuantitativeTrading_DataScience',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(19,19,'QuantitativeTrading_DataExtractionPipeline',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(20,20,'PositionControl',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(21,21,'SpoilerAlert',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(22,22,'LogoDetection',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(23,23,'AIMedicalImaging',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(24,24,'Diabetes',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,3),(25,25,'iLegal',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(26,26,'401ProjectPlatform',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(27,27,'LetterOfRecGenerator',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(28,28,'AutonomousDroneControl',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(29,29,'The Cyborg Project',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,3),(30,30,'Supermassive Blackholes ',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,12,3),(31,31,'Hack the Matrix ',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,3),(32,32,'Time Machine',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,3),(33,33,'Space Time Distorter',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,3);
 /*!40000 ALTER TABLE `Projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,6 +196,61 @@ LOCK TABLES `Users` WRITE;
 INSERT INTO `Users` VALUES (1,1,'Student','Joan Hong','Senior','joanhong@usc.edu','joanhong','4SijzIycJP4IFedhwJuoPIUJ0BFsRQAoqcuXZE83bKd56IUc94/XcIMf6JHS5XdM',NULL,27,NULL,NULL,'Spring 2018'),(2,2,'Student','Tony Elevathingal','Senior','elevathi@usc.edu','elevathi','G/BtUAuXCd1dxbDsT3ZcYIXv4c4CH1kP9emoAXLDyazGK2QpjWO5CJU8jcx15ht9',NULL,27,NULL,NULL,NULL),(3,3,'Student','Shantanu Gupta','Senior','shantang@usc.edu','shantang','WSKpM7zmtpOhMrb5geDkBTpKXsOIV+jeDK0eQmKwl8AT4gtY/Gk9fJPB05SMVOci','2132455631',27,NULL,NULL,'Spring 2018'),(4,4,'Student','Ingrid Wang','Senior','ingridwa@usc.edu','ingridwa','eMHqYTKW9IumN8TyLX+eW8OWGXuJq+eQdZYgQiZg9j1G1IICbeIfEYWEiHkU3HWP',NULL,27,NULL,NULL,'Spring 2018'),(5,5,'Student','Navneeth Pillai','Senior','ndpillai@usc.edu','ndpillai','X9oPYaDjy/w619OD3d4VIzGSpT/Oe1hsGVptBNgQNx4mG92Q9TXvPU1qpUD6rB2f',NULL,27,NULL,NULL,'Spring 2018'),(6,6,'Admin','Jeffrey Miller',NULL,'jeffrey.miller@usc.edu','jeffrey.miller','MiUj3X2narRMJ33BZBNyrALbw4Kl78R7rs1gxPhr7zONIb7s95gZWPG1FoYAWHtK',NULL,NULL,'USC',NULL,NULL);
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `WeeklyReportsTable`
+--
+
+DROP TABLE IF EXISTS `WeeklyReportsTable`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `WeeklyReportsTable` (
+  `idWeeklyReportsTable` int(11) NOT NULL,
+  `studentName` varchar(45) DEFAULT NULL,
+  `studentuscusername` varchar(45) DEFAULT NULL,
+  `projectNumber` varchar(60) DEFAULT NULL,
+  `date` varchar(45) DEFAULT NULL,
+  `thisWeeksTasksD1` varchar(500) DEFAULT NULL,
+  `thisWeeksTasksD2` varchar(500) DEFAULT NULL,
+  `thisWeeksTasksD3` varchar(500) DEFAULT NULL,
+  `thisWeeksTasksD4` varchar(500) DEFAULT NULL,
+  `thisWeeksTasksD5` varchar(500) DEFAULT NULL,
+  `thisWeeksTasksD6` varchar(500) DEFAULT NULL,
+  `thisWeeksTasksD7` varchar(500) DEFAULT NULL,
+  `thisWeeksTasksH1` varchar(5) DEFAULT NULL,
+  `thisWeeksTasksH2` varchar(5) DEFAULT NULL,
+  `thisWeeksTasksH3` varchar(5) DEFAULT NULL,
+  `thisWeeksTasksH4` varchar(5) DEFAULT NULL,
+  `thisWeeksTasksH5` varchar(5) DEFAULT NULL,
+  `thisWeeksTasksH6` varchar(5) DEFAULT NULL,
+  `thisWeeksTasksH7` varchar(5) DEFAULT NULL,
+  `nextWeeksTasksD1` varchar(500) DEFAULT NULL,
+  `nextWeeksTasksD2` varchar(500) DEFAULT NULL,
+  `nextWeeksTasksD3` varchar(500) DEFAULT NULL,
+  `nextWeeksTasksD4` varchar(500) DEFAULT NULL,
+  `nextWeeksTasksD5` varchar(500) DEFAULT NULL,
+  `nextWeeksTasksD6` varchar(500) DEFAULT NULL,
+  `nextWeeksTasksD7` varchar(500) DEFAULT NULL,
+  `nextWeeksTasksH1` varchar(5) DEFAULT NULL,
+  `nextWeeksTasksH2` varchar(5) DEFAULT NULL,
+  `nextWeeksTasksH3` varchar(5) DEFAULT NULL,
+  `nextWeeksTasksH4` varchar(5) DEFAULT NULL,
+  `nextWeeksTasksH5` varchar(5) DEFAULT NULL,
+  `nextWeeksTasksH6` varchar(5) DEFAULT NULL,
+  `nextWeeksTasksH7` varchar(5) DEFAULT NULL,
+  PRIMARY KEY (`idWeeklyReportsTable`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `WeeklyReportsTable`
+--
+
+LOCK TABLES `WeeklyReportsTable` WRITE;
+/*!40000 ALTER TABLE `WeeklyReportsTable` DISABLE KEYS */;
+INSERT INTO `WeeklyReportsTable` VALUES (328150505,'Shantanu Gupta','shantang','401 Platform','03/28/2018','DDG','CJFCJ','jk','CF','jk','jk','jk','5','K','1','jk','jk','jk','FCF','CF','jk','jk','CF','jk','jk','jk','5','K','1','jk','jk','jk','FCF'),(328150820,'Tommy Trojan','shantang','BEAT THE BRUINS','03/28/2018','kjn','kjn','kjn','kjn','kj','jn','kj','5','kjn','kjn','kjn','kjn','nk','kjn','jn','k','kjn','kjn','kj','jn','kj','5','kjn','kjn','kjn','kjn','nk','kjn'),(328152503,'Traveler the Horse','shantang','401 Platform','03/28/2018','DDG','jk','jk','jk','jk','jk','jk','5','jk','jk','jk','jk','jk','jk','jk','kj','jk','jk','jk','jk','jk','5','jk','jk','jk','jk','jk','jk'),(328152837,'Shantanu Gupta','shantang','401 Platform','03/28/2018','DDG','CJFCJ','jk','CF','C','jk','jk','5','K','1','CF','jk','jk','FCF','CF','jk','jk','CF','C','jk','jk','5','K','1','CF','jk','jk','FCF'),(328153128,'The Batman','shantang','Gotham City','03/28/2018','DDG','CJFCJ','CF','CF','jk','jk','CF','5','K','1','jk','jk','FC','n','CF','C','CF','CF','jk','jk','CF','5','K','1','jk','jk','FC','n');
+/*!40000 ALTER TABLE `WeeklyReportsTable` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -178,4 +261,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-08 17:18:00
+-- Dump completed on 2018-03-29 17:15:13

@@ -11,21 +11,13 @@ import {
 interface StudentRegistrationProps {
 }
 interface StudentRegistrationState {
-name: string;
-email: string;
-phone: string;
-password: string;
-confirm: string;
+emails: string;
 }
 class StudentRegistrationForm extends React.Component<StudentRegistrationProps, StudentRegistrationState> {
 constructor(props: StudentRegistrationProps) {
 super(props);
 this.state = {
-name: '',
-email: '',
-phone: '',
-password: '',
-confirm: ''
+emails: ''
 };
 this.submitClicked = this.submitClicked.bind(this);
 this.handleChange = this.handleChange.bind(this);
@@ -36,19 +28,14 @@ request.withCredentials = true;
 request.open('POST', 'http://localhost:8080/StudentRegistrationAttempt/');
 request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 var data = JSON.stringify({
-email: this.state.email,
-password: this.state.password
+emails: this.state.emails,
 });
 request.setRequestHeader('Cache-Control', 'no-cache');
 request.send(data);
-alert(request.responseText + 'Logging you in...');
+alert(request.responseText + 'Sending out invites...');
 request.onreadystatechange = function() {
 if (request.readyState === 4) {
-        if (request.responseText.length > 4) {
-            alert('Admin registration SUCCESSFUL!');
-        } else {
-            alert('Admin registration FAILED.');
-}
+    alert('Invites sent succesfully!');
 }
 };
 }
@@ -81,15 +68,25 @@ formGroup(controlId: string, id: string, placeholder: string, value: any) {
         return (
             <div>
             <Form horizontal={true} >
-            {this.formGroup('formHorizontalName', 'name', 'Name', this.state.name)}
-            {this.formGroup('formHorizontalEmail', 'email', 'Email', this.state.email)}
-            {this.formGroup('formHorizontalPhone', 'phone', 'Phone', this.state.phone)}
-            {this.formGroup('formHorizontalPassword', 'password', 'Password', this.state.password)}
-            {this.formGroup('formHorizontalConfirm', 'confirm', 'Confirm Password', this.state.confirm)}
-
+            <FormGroup controlId="formHorizontalEmails">
+            <Col componentClass={ControlLabel} sm={2}>
+            Emails
+            </Col>
+            <Col sm={10}>
+            <FormControl
+                type="text"
+                id="emails"
+                value={this.state.emails}
+                placeholder="Emails"
+                onChange={e => this.handleChange(e)}
+                componentClass="textarea"
+                style={{height: '500px', width: '750px'}}
+            />
+            </Col>
+            </FormGroup>
             <FormGroup>
                 <Col smOffset={2} sm={10}>
-                <Button type="submit" onClick={this.submitClicked}>Register</Button>
+                <Button type="submit" onClick={this.submitClicked}>Send Invites</Button>
                 </Col>
             </FormGroup>
         </Form>
