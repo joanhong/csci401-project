@@ -41,7 +41,7 @@ public class Student extends User {
 	}
 	
 	public String toString() {
-		return ("Student #" + this.USC_ID + ": '" + this.firstName + "' | " + this.getRankings());
+		return ("Student #" + this.USC_ID + ": '" + this.getFirstName() + "' | " + this.getRankings());
 	}
 
 	public Map<String, Integer> getRankings() {

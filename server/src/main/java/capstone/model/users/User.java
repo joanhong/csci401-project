@@ -1,11 +1,12 @@
 package capstone.model.users;
 
-import java.util.Map;
-import java.util.Vector;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.Transient;
 
 @Entity
 public abstract class User 
@@ -15,14 +16,17 @@ public abstract class User
 	private long id;
 	
 	// Basic information
-	String firstName;
-	String lastName;
-	String email;
-	String phone;
+	private String firstName;
+	private String lastName;
+	@Email(message = "Please provide a valid e-mail")
+	@NotEmpty(message = "Please provide an e-mail")
+	private String email;
+	private String phone;
 	
 	// Login
-	String username;
-	String password; //encrypted
+	private String username;
+	@Transient
+	private String password; //encrypted
 	
 	public long getId() 
 	{
@@ -31,6 +35,18 @@ public abstract class User
 	public void setId(long id) 
 	{
 		this.id = id;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 	public String getEmail() 
 	{

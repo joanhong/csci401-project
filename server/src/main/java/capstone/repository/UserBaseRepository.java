@@ -10,5 +10,4 @@ import capstone.model.users.User;
 public interface UserBaseRepository<T extends User> extends CrudRepository<T, Long> {
 
   public T findByEmail(String email);
-
 }

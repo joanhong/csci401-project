@@ -59,6 +59,12 @@ public class DeliverableController {
 		return deliverableRepository.findAllByProjectNumber(projectNumber);
 	}
 	
+	@PostMapping("/{project_number}/{deliverable_number}/approve")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public void approveDeliverable() {
+		
+	}
+	
 	private void saveFile(List<MultipartFile> files) throws IOException {
         for (MultipartFile file : files) {
         		System.out.println("File received " + file.getOriginalFilename());
