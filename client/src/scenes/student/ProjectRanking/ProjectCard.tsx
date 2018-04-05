@@ -65,6 +65,7 @@ interface Props {
     connectDragSource?: PropTypes.func.isRequired;
     connectDropTarget?: PropTypes.func.isRequired;
     isDragging?: PropTypes.bool.isRequired;
+    rank: PropTypes.any.isRequired;
     id: PropTypes.any.isRequired;
     name: PropTypes.string.isRequired;
     minSize: PropTypes.any.isRequired;
@@ -95,6 +96,7 @@ class ProjectCard extends React.Component<Props, State> {
 
     render() {
         const {
+            rank,
             name,
             minSize,
             maxSize,
@@ -105,12 +107,17 @@ class ProjectCard extends React.Component<Props, State> {
         const opacity = isDragging ? 0 : 1;
         const padding = 5;
 
+        const title = name + ' (' + minSize + '-' + maxSize + ' students)';
+
         return connectDragSource(
             connectDropTarget(
                 <div style={{ opacity }}>
                     <Button onClick={() => this.setState({ open: !this.state.open })} style={cardStyle}>
                         <Glyphicon glyph="menu-hamburger" style={glyphStyle}/>
-                        {name + ' (' + minSize + '-' + maxSize + ' students)'}
+                        {rank <= 5
+                            ? <strong>{rank + '. ' + title}</strong>
+                            : <small>{title}</small>
+                        }
                         <Glyphicon glyph={this.state.open ? 'menu-up' : 'menu-down'} style={{padding}}/>
                     </Button>
                     <br />

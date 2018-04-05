@@ -105,6 +105,7 @@ class ProjectRankingContainer extends React.Component<Props, State> {
                         <Row>
                             <Col lg={4}>
                                 Drag to reorder projects by priority. 
+                                Your first 5 preferences will be considered.
                                 Click "Submit Rankings" when finished. 
                                 Rankings can only be submitted once.
                             </Col>
@@ -117,9 +118,10 @@ class ProjectRankingContainer extends React.Component<Props, State> {
                     </Grid>
                 </div>
                 <br />
-                {projectCards.map((projectCard: Project) => (
+                {projectCards.map((projectCard: Project, index: number) => (
                     <ProjectCard
                         key={projectCard.projectNumber}
+                        rank={index + 1}
                         id={projectCard.projectNumber}
                         name={projectCard.projectName}
                         minSize={projectCard.minSize}
