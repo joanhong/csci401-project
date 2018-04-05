@@ -30,6 +30,7 @@ interface Props {
 interface State {
     isLoading: boolean;
     projectCards: Array<Project>;
+    submitted: boolean;
 }
 
 interface Project {
@@ -57,6 +58,7 @@ class ProjectRankingContainer extends React.Component<Props, State> {
         this.state = {
             isLoading: false,
             projectCards: [],
+            submitted: false,
         };
     }
     
@@ -89,9 +91,27 @@ class ProjectRankingContainer extends React.Component<Props, State> {
         };
     }
 
+    submitRankings = () => {
+        var submit = confirm('Are you sure you want to submit rankings?');
+        if (submit) {
+            // submit here!!
+            this.setState({submitted: true});
+        }
+    }
+
     render() {
         const { connectDropTarget } = this.props;
-        const {projectCards, isLoading} = this.state;
+        const {projectCards, isLoading, submitted} = this.state;
+
+        if (submitted) {
+            return (
+                <div style={style}>
+                    <div style={{width: 600}}>
+                        You have already submitted your rankings.
+                    </div>
+                </div>
+            );
+        }
 
         if (isLoading) {
             return <p>Loading...</p>;
@@ -110,7 +130,7 @@ class ProjectRankingContainer extends React.Component<Props, State> {
                                 Rankings can only be submitted once.
                             </Col>
                             <Col lg={2}>
-                                <Button bsStyle="primary">
+                                <Button bsStyle="primary" onClick={this.submitRankings}>
                                     Submit Rankings
                                 </Button>
                             </Col>
