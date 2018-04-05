@@ -4,9 +4,17 @@ import { DropTarget, DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import ProjectCard from './ProjectCard';
 import ItemTypes from './ItemTypes';
+import {
+    Button,
+    Grid,
+    Row,
+    Col,
+} from 'react-bootstrap';
 
 const style = {
-    width: 400,
+    width: 600,
+    float: 'none',
+    margin: 'auto',
 };
 
 const cardTarget = {
@@ -30,6 +38,9 @@ interface Project {
     status: string;
     minSize: number;
     maxSize: number;
+    technologiesExpected: string;
+    backgroundRequested: string;
+    projectDescription: string;
 }
 
 @DragDropContext(HTML5Backend)
@@ -88,6 +99,24 @@ class ProjectRankingContainer extends React.Component<Props, State> {
 
         return connectDropTarget(
             <div style={style}>
+                <div style={{width: 600}}>
+                    <h3>Rank Projects</h3>
+                    <Grid>
+                        <Row>
+                            <Col lg={4}>
+                                Drag to reorder projects by priority. 
+                                Click "Submit Rankings" when finished. 
+                                Rankings can only be submitted once.
+                            </Col>
+                            <Col lg={2}>
+                                <Button bsStyle="primary">
+                                    Submit Rankings
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Grid>
+                </div>
+                <br />
                 {projectCards.map((projectCard: Project) => (
                     <ProjectCard
                         key={projectCard.projectNumber}
@@ -95,6 +124,9 @@ class ProjectRankingContainer extends React.Component<Props, State> {
                         name={projectCard.projectName}
                         minSize={projectCard.minSize}
                         maxSize={projectCard.maxSize}
+                        technologiesExpected={projectCard.technologiesExpected}
+                        backgroundRequested={projectCard.backgroundRequested}
+                        projectDescription={projectCard.projectDescription}
                         moveCard={this.moveCard}
                         findCard={this.findCard}
                     />
