@@ -95,7 +95,7 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         return(
             <div>
                 <h2>User Management</h2>
-                <Button bsStyle="primary" href="/register" style={{margin: 10}}>Add New User</Button>
+                <Button bsStyle="primary" href="/register/student" style={{margin: 10}}>Add New User</Button>
                 <Table bordered={true} condensed={true}>
                     <thead>
                         <tr>
