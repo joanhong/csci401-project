@@ -22,6 +22,7 @@ import capstone.model.PeerReviewData;
 import capstone.model.Project;
 import capstone.model.ProjectData;
 import capstone.model.User;
+import capstone.model.UserData;
 import capstone.model.UserEmailsData;
 import capstone.model.WeeklyReportData;
 import capstone.repository.ProjectsRepository;
@@ -146,6 +147,33 @@ public class ProjectServiceController
 		return peerreviewdata;
 	}
 	//XXXXXXXXXX
+	
+	//XXXXXXXXXXXX
+		@RequestMapping(value = "/userInfoUpdate",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+		@CrossOrigin(origins = "http://localhost:3000")
+		public @ResponseBody UserData userInfoUpdateAttempt(@RequestBody UserData userdata)
+		{
+			System.out.println("Received HTTP POST");
+			String timeStamp = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss").format(new Date());
+			String timeCode = new SimpleDateFormat("MMddHHmmss").format(new Date());
+//			timeCode.replaceAll(".", "");
+			
+			userdata.setId(Integer.parseInt(timeCode));
+			System.out.println(userdata.getId());
+			System.out.println(userdata.getName());
+			System.out.println(userdata.getYear());
+			System.out.println(userdata.getEmail());
+			System.out.println(userdata.getUserType());
+			
+			//use sql to send this data to weeklyreportstable
+			driver.addUserInfoUpdate(userdata);
+//			mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
+			return userdata;
+		}
+		//XXXXXXXXXX
+	
+	
+	
 	
 	@RequestMapping(value = "/weeklyReportForm",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:3000")

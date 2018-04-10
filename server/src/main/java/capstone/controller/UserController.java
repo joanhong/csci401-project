@@ -23,17 +23,18 @@ public class UserController
 		this.repository = repository;
 		driver = new SQLDriver(5);  // TODO: have this be configured as NUM_RANKED, not hard-coded
 		driver.connect();
-		Vector<User> userVector = driver.getAllUsers();
-		for(User u: userVector)
-		{
-			repository.save(u);
-		}
+		
 	}
 	
 	@GetMapping("/users")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public Collection<User> users()
 	{
+		Vector<User> userVector = driver.getAllUsers();
+		for(User u: userVector)
+		{
+			repository.save(u);
+		}
 		return repository.findAll().stream()
 				.collect(Collectors.toList());
 	}

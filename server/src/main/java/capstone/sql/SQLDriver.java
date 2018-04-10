@@ -13,6 +13,7 @@ import capstone.model.PeerReviewData;
 import capstone.model.Project;
 import capstone.model.Student;
 import capstone.model.User;
+import capstone.model.UserData;
 import capstone.model.WeeklyReportData;
 
 public class SQLDriver {
@@ -30,6 +31,7 @@ public class SQLDriver {
 	private final static String getUserProjectRankings = "SELECT * FROM " + DATABASE_NAME + ".ProjectRankings WHERE STUDENTNUMBER=?";
 	private final static String updatePassword = "UPDATE " + DATABASE_NAME + ".USERS SET PASSWORD=? WHERE EMAIL=?";
 	private final static String getEncryptedPassword = "SELECT * FROM 401_Platform.USERS WHERE EMAIL=?";
+	private final static String updateUserEntry = "UPDATE 401_Platform.USERS SET Full_name = ?, year = ?, email =?, user_type=? WHERE Full_name=?";
 	
 	private final static String addWeeklyReport = "INSERT INTO " + DATABASE_NAME + 
 			".WeeklyReportsTable(idWeeklyReportsTable, studentName, studentuscusername, projectNumber, date, "
@@ -358,6 +360,27 @@ public class SQLDriver {
 			e.printStackTrace();
 		}
 	}
+	
+	///
+	public void addUserInfoUpdate(UserData userdata)
+	{
+		//UPDATE 401_Platform.USERS SET Full_name = ?, year = ?, email =?, user_type=? WHERE Full_name=?;
+		//If name was updated then how will you find it? BUG
+		try
+		{
+			PreparedStatement ps = con.prepareStatement(updateUserEntry);
+			ps.setString(1, userdata.getName());
+			ps.setString(2, userdata.getYear());
+			ps.setString(3, userdata.getEmail());
+			ps.setString(4, userdata.getUserType());
+			ps.setString(5, userdata.getName());
+			ps.executeUpdate();
+			System.out.println("Updated info for user: "+ userdata.getName());
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	///
 	
 	public String getEncryptedPassword(String email)
 	{

@@ -58,7 +58,21 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
     }
 
     submitEdit = () => {
-        // interact w db
+
+        var request = new XMLHttpRequest();
+        request.withCredentials = true;
+        request.open('POST', 'http://localhost:8080/userInfoUpdate/');
+        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        var data = JSON.stringify({
+        name: this.state.editName,
+        userType: this.state.editUserType,
+        year: this.state.editYear,
+        email: this.state.editEmail
+        });
+        request.setRequestHeader('Cache-Control', 'no-cache');
+        request.send(data);
+        alert('User has been updated succesfully!');
+
         this.setState({userIndexToEdit: -1});
     }
 
