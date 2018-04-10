@@ -40,6 +40,15 @@ class LoginForm extends React.Component<LoginProps, LoginState> {
             if (request.readyState === 4) {
                 if (request.responseText.length > 4) {
                     alert('LOGIN SUCCESSFUL!');
+                    if (request.responseText === 'Student') {
+                        window.location.href = '/student';
+                    }
+                    if (request.responseText === 'Admin') {
+                        window.location.href = '/admin';
+                    }
+                    if (request.responseText === 'Stakeholder') {
+                        window.location.href = '/stakeholder';
+                    }
                 } else {
                         alert('LOGIN FAILED.');
                 }

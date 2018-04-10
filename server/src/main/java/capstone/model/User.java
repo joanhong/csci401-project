@@ -43,6 +43,18 @@ public class User
 		this.fullName = fullName;
 	}
 	
+	public User(User u)
+	{
+		this.id = u.getId();
+		this.userNumber = u.getUserNumber();
+		this.userType = u.getUserType();
+		this.fullName = u.getFullName();
+		this.year = u.getYear();
+		this.email = u.getEmail();
+		this.username = u.getUsername();
+		this.password = u.getPassword();
+	}
+	
 	@Override
 	public String toString()
 	{

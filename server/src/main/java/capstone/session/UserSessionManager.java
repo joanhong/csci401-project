@@ -21,6 +21,7 @@ public class UserSessionManager
 	
 	public Boolean loginUser(String email, String ip)
 	{
+//		System.out.println("EMAIL = " + email + " IP ADDR = " + ip);
 		if(!activeUsersEmails.contains(email))
 		{
 			User newactive = new User();
@@ -29,15 +30,22 @@ public class UserSessionManager
 			//returns a vector of all users, from that pick out the one with this email
 			//and then populate all his info in the currentUser object.
 			Vector<User> allUsers = driver.getAllUsers();
+//			System.out.println("SIZE OF ALL USERS "+ allUsers.size());
 			for(User u: allUsers)
 			{
-				if(u.getEmail() == email)
+//				System.out.println("U's EMAIL WAS  = "+ u.getEmail());
+				if(u.getEmail().equals(email))
 				{
-					newactive = u;
+//					System.out.println("EMAILS MATCHED!");
+					newactive.setId(u.getId());
+					newactive.setYear(u.getYear());
+					newactive.setFullName(u.getFullName());
+					newactive.setUserType(u.getUserType());
 					newactive.setEmail(email);
 					newactive.setIpaddress(ip);
 				}
 			}
+//			System.out.println("NEW ACTIVE ADDRESS = " + newactive.getIpaddress());
 			activeUsers.addElement(newactive);
 			activeUsersEmails.addElement(email);
 			return true;
@@ -70,15 +78,13 @@ public class UserSessionManager
 	
 	public User getUser(String address)
 	{
+		System.out.println(address);
 		for(User u: activeUsers)
 		{
+			System.out.println(u.getIpaddress());
 			if(u.getIpaddress().equals(address))
 			{
 				return u;
-			}
-			else
-			{
-				return null;
 			}
 		}
 		return null;

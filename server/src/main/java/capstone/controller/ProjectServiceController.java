@@ -244,13 +244,14 @@ public class ProjectServiceController
 	
 	@RequestMapping(value = "/loginAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody LoginData loginAttempt(@RequestBody LoginData logindata, HttpServletRequest request)
+	public @ResponseBody String loginAttempt(@RequestBody LoginData logindata, HttpServletRequest request)
 	{
 		
 		System.out.println("Received HTTP POST");
 		System.out.println(logindata);
 		System.out.println(logindata.getEmail());
-		System.out.println(request.getHeader(HttpHeaders.ORIGIN));
+		String addr = request.getHeader(HttpHeaders.ORIGIN);
+		System.out.println(addr);
 		//CASE 1
 		//DOES USERNAME EXIST?
 		if(driver.doesExist(logindata.getEmail()))
@@ -265,8 +266,10 @@ public class ProjectServiceController
 						System.out.println("LOGIN SUCCESSFUL");
 						//NOTE: hardcoded localhost and 3000 for now, it should actually 
 						//get that from the POST request.
-						usm.loginUser(logindata.getEmail(), request.getHeader(HttpHeaders.ORIGIN));
-						return logindata;
+						usm.loginUser(logindata.getEmail(), addr);
+						User u1 = usm.getUser(addr);
+						System.out.println("RETURNING USERTYPE = " + u1.getUserType());
+						return u1.getUserType();
 					}
 			}		
 			else
