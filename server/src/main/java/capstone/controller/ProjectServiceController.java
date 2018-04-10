@@ -241,7 +241,27 @@ public class ProjectServiceController
 		return emailsdata;
 	}
 	
+	//////
 	
+	@RequestMapping(value = "/logoutAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody String logoutAttempt(@RequestBody String email, HttpServletRequest request)
+	{
+		String addr = request.getHeader(HttpHeaders.ORIGIN);
+		System.out.println("Received HTTP POST");
+		System.out.println(email);
+		System.out.println(addr);
+		if(usm.logoutUser(addr))
+		{
+			return "LoggedOut";
+		}
+		else
+		{
+			return "Failed";
+		}
+	}
+	
+	//////
 	@RequestMapping(value = "/loginAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:3000")
 	public @ResponseBody String loginAttempt(@RequestBody LoginData logindata, HttpServletRequest request)
@@ -263,6 +283,15 @@ public class ProjectServiceController
 			{
 				if(driver.confirmLoginAttempt(logindata.getEmail(), encryptedPassword))
 					{
+						for(User ux : usm.getActiveUsers())
+						{
+							System.out.println("IP WAS = "+ ux.getIpaddress());
+							if(ux.getIpaddress().equals(addr))
+							{
+								System.out.println("A login already exists from this origin.");
+								return "MultipleLogins";
+							}
+						}
 						System.out.println("LOGIN SUCCESSFUL");
 						//NOTE: hardcoded localhost and 3000 for now, it should actually 
 						//get that from the POST request.

@@ -9,6 +9,22 @@ public class UserSessionManager
 {
 	//Addresses in userAddresses correspond to the loggedInUsers' indices.
 	Vector<User> activeUsers = new Vector<User>();
+	public Vector<User> getActiveUsers() {
+		return activeUsers;
+	}
+
+	public void setActiveUsers(Vector<User> activeUsers) {
+		this.activeUsers = activeUsers;
+	}
+
+	public Vector<String> getActiveUsersEmails() {
+		return activeUsersEmails;
+	}
+
+	public void setActiveUsersEmails(Vector<String> activeUsersEmails) {
+		this.activeUsersEmails = activeUsersEmails;
+	}
+
 	Vector<String> activeUsersEmails = new Vector<String>();
 	SQLDriver driver;
 	
@@ -57,23 +73,18 @@ public class UserSessionManager
 		}
 	}
 	
-	public void logoutUser(String email)
+	public Boolean logoutUser(String addr)
 	{
-		if(activeUsersEmails.contains(email))
+		for(User u: activeUsers)
 		{
-			activeUsersEmails.removeElement(email);
-			for(User u: activeUsers)
+			if(u.getIpaddress().equals(addr))
 			{
-				if(u.getEmail() == email)
-				{
-					activeUsers.remove(u);
-				}
+				activeUsersEmails.remove(u.getEmail());
+				activeUsers.remove(u);
+				return true;
 			}
 		}
-		else
-		{
-			System.out.println("User is already logged out.");
-		}
+		return false;
 	}
 	
 	public User getUser(String address)

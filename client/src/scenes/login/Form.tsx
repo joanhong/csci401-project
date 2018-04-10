@@ -39,6 +39,10 @@ class LoginForm extends React.Component<LoginProps, LoginState> {
         request.onreadystatechange = function() {
             if (request.readyState === 4) {
                 if (request.responseText.length > 4) {
+                    if (request.responseText === 'MultipleLogins') {
+                    alert('Please log out of existing login.');
+                    return;
+                    }
                     alert('LOGIN SUCCESSFUL!');
                     if (request.responseText === 'Student') {
                         window.location.href = '/student';
@@ -51,6 +55,32 @@ class LoginForm extends React.Component<LoginProps, LoginState> {
                     }
                 } else {
                         alert('LOGIN FAILED.');
+                }
+            }
+        };
+    }
+    
+    logOutClicked() {
+        var request = new XMLHttpRequest();
+        request.withCredentials = true;
+        request.open('POST', 'http://localhost:8080/logoutAttempt/');
+        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        var data = 'logout';
+        request.setRequestHeader('Cache-Control', 'no-cache');
+        request.send(data);
+        alert(request.responseText + 'Logging you out...');
+        request.onreadystatechange = function() {
+            if (request.readyState === 4) {
+                if (request.responseText.length > 4) {
+                    if (request.responseText === 'LoggedOut') {
+                        alert('Logged out succesfully!');
+                        return;
+                    }
+                    if (request.responseText === 'Failed') {
+                        alert('No one is logged in.');
+                    }
+                } else {
+                        alert('Error communicating with server.');
                 }
             }
         };
@@ -99,6 +129,12 @@ class LoginForm extends React.Component<LoginProps, LoginState> {
                 <Button type="submit" onClick={this.submitClicked}>Sign in</Button>
                 </Col>
             </FormGroup>
+            <FormGroup>
+                <Col smOffset={2} sm={10}>
+                <Button type="submit" onClick={this.logOutClicked}>Log Out</Button>
+                </Col>
+            </FormGroup>
+
         </Form>
         </div>
         );
