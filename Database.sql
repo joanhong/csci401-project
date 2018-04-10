@@ -40,6 +40,7 @@ CREATE TABLE `PeerReviewsTable` (
 
 LOCK TABLES `PeerReviewsTable` WRITE;
 /*!40000 ALTER TABLE `PeerReviewsTable` DISABLE KEYS */;
+INSERT INTO `PeerReviewsTable` VALUES (329172656,'shantang','157653342','ttrojan','5','hgrwejhghgefwgj','fghgsfhggrrjgefjy');
 /*!40000 ALTER TABLE `PeerReviewsTable` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,37 +129,8 @@ CREATE TABLE `Projects` (
 
 LOCK TABLES `Projects` WRITE;
 /*!40000 ALTER TABLE `Projects` DISABLE KEYS */;
-INSERT INTO `Projects` VALUES (0,0,'Quizzly',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,8,6),(1,1,'SummerCampReg',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,8,4),(2,2,'Sigma',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(3,3,'P2P4Health',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,12,9),(4,4,'SociallyConsciousMachineLearningBots',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(5,5,'ChangingTheTutoringSphere',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,3),(6,6,'TrojanMotors',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(7,7,'AutismSocietyApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(8,8,'AutismSocietyDB',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(9,9,'SchoolOfFishApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(10,10,'PredictingElections',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,4),(11,11,'Perfit',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(12,12,'MarketingTechnologyPlatform',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(13,13,'PureFocusiOSApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(14,14,'Cosmic-System',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(15,15,'eFormsProject',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(16,16,'Prop47Website',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(17,17,'ProstheticSpinalCord',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,3),(18,18,'QuantitativeTrading_DataScience',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(19,19,'QuantitativeTrading_DataExtractionPipeline',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(20,20,'PositionControl',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(21,21,'SpoilerAlert',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(22,22,'LogoDetection',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(23,23,'AIMedicalImaging',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(24,24,'Diabetes',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,3),(25,25,'iLegal',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(26,26,'401ProjectPlatform',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(27,27,'LetterOfRecGenerator',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(28,28,'AutonomousDroneControl',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(29,29,'The Cyborg Project',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,3),(30,30,'Supermassive Blackholes ',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,12,3),(31,31,'Hack the Matrix ',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,3),(32,32,'Time Machine',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,3),(33,33,'Space Time Distorter',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,3);
+INSERT INTO `Projects` VALUES (0,0,'Quizzly',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,8,6),(1,1,'SummerCampReg',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,8,4),(2,2,'Sigma',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(3,3,'P2P4Health',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,12,9),(4,4,'SociallyConsciousMachineLearningBots',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(5,5,'ChangingTheTutoringSphere',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,3),(6,6,'TrojanMotors',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(7,7,'AutismSocietyApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(8,8,'AutismSocietyDB',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(9,9,'SchoolOfFishApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(10,10,'PredictingElections',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,4),(11,11,'Perfit',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(12,12,'MarketingTechnologyPlatform',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,4),(13,13,'PureFocusiOSApp',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(14,14,'Cosmic-System',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(15,15,'eFormsProject',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(16,16,'Prop47Website',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,2),(17,17,'ProstheticSpinalCord',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,3),(18,18,'QuantitativeTrading_DataScience',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(19,19,'QuantitativeTrading_DataExtractionPipeline',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(20,20,'PositionControl',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(21,21,'SpoilerAlert',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(22,22,'LogoDetection',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(23,23,'AIMedicalImaging',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(24,24,'Diabetes',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,3),(25,25,'iLegal',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(26,26,'401ProjectPlatform',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(27,27,'LetterOfRecGenerator',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(28,28,'AutonomousDroneControl',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,4,3),(29,29,'The Cyborg Project',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,3),(30,30,'Supermassive Blackholes ',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,12,3),(31,31,'Hack the Matrix ',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,3),(32,32,'Time Machine',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,6,3),(33,33,'Space Time Distorter',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,3,3),(34,34,'ANYTHING',NULL,NULL,NULL,NULL,'Pending Approval',NULL,NULL,NULL,NULL,NULL,NULL,5,3);
 /*!40000 ALTER TABLE `Projects` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `RankingData`
---
-
-DROP TABLE IF EXISTS `RankingData`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `RankingData` (
-  `projectNumber` int(11) NOT NULL,
-  `projectName` varchar(45) DEFAULT NULL,
-  `sum_p` varchar(45) DEFAULT NULL,
-  `p_max` varchar(45) DEFAULT NULL,
-  `n_interested` varchar(45) DEFAULT NULL,
-  `cutoff` varchar(45) DEFAULT NULL,
-  `popularity` varchar(45) DEFAULT NULL,
-  `projectSatScore` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`projectNumber`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `RankingData`
---
-
-LOCK TABLES `RankingData` WRITE;
-/*!40000 ALTER TABLE `RankingData` DISABLE KEYS */;
-/*!40000 ALTER TABLE `RankingData` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -183,7 +155,8 @@ CREATE TABLE `Users` (
   `USC_ID` varchar(45) DEFAULT NULL,
   `Semester` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`User_id`,`Email`),
-  UNIQUE KEY `User_number_UNIQUE` (`User_number`)
+  UNIQUE KEY `User_number_UNIQUE` (`User_number`),
+  UNIQUE KEY `User_id_UNIQUE` (`User_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -193,7 +166,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (1,1,'Student','Joan Hong','Senior','joanhong@usc.edu','joanhong','4SijzIycJP4IFedhwJuoPIUJ0BFsRQAoqcuXZE83bKd56IUc94/XcIMf6JHS5XdM',NULL,27,NULL,NULL,'Spring 2018'),(2,2,'Student','Tony Elevathingal','Senior','elevathi@usc.edu','elevathi','G/BtUAuXCd1dxbDsT3ZcYIXv4c4CH1kP9emoAXLDyazGK2QpjWO5CJU8jcx15ht9',NULL,27,NULL,NULL,NULL),(3,3,'Student','Shantanu Gupta','Senior','shantang@usc.edu','shantang','WSKpM7zmtpOhMrb5geDkBTpKXsOIV+jeDK0eQmKwl8AT4gtY/Gk9fJPB05SMVOci','2132455631',27,NULL,NULL,'Spring 2018'),(4,4,'Student','Ingrid Wang','Senior','ingridwa@usc.edu','ingridwa','eMHqYTKW9IumN8TyLX+eW8OWGXuJq+eQdZYgQiZg9j1G1IICbeIfEYWEiHkU3HWP',NULL,27,NULL,NULL,'Spring 2018'),(5,5,'Student','Navneeth Pillai','Senior','ndpillai@usc.edu','ndpillai','X9oPYaDjy/w619OD3d4VIzGSpT/Oe1hsGVptBNgQNx4mG92Q9TXvPU1qpUD6rB2f',NULL,27,NULL,NULL,'Spring 2018'),(6,6,'Admin','Jeffrey Miller',NULL,'jeffrey.miller@usc.edu','jeffrey.miller','MiUj3X2narRMJ33BZBNyrALbw4Kl78R7rs1gxPhr7zONIb7s95gZWPG1FoYAWHtK',NULL,NULL,'USC',NULL,NULL);
+INSERT INTO `Users` VALUES (1,1,'Student','Joan Hong','Senior','joanhong@usc.edu','joanhong','4SijzIycJP4IFedhwJuoPIUJ0BFsRQAoqcuXZE83bKd56IUc94/XcIMf6JHS5XdM',NULL,27,NULL,NULL,'Spring 2018'),(2,2,'Student','Tony Elevathingal','Senior','elevathi@usc.edu','elevathi','G/BtUAuXCd1dxbDsT3ZcYIXv4c4CH1kP9emoAXLDyazGK2QpjWO5CJU8jcx15ht9',NULL,27,NULL,NULL,NULL),(3,3,'Student','Shantanu Gupta','Senior','shantang@usc.edu','shantang','WSKpM7zmtpOhMrb5geDkBTpKXsOIV+jeDK0eQmKwl8AT4gtY/Gk9fJPB05SMVOci','2132455631',27,NULL,NULL,'Spring 2018'),(4,4,'Student','Ingrid Wang','Senior','ingridwa@usc.edu','ingridwa','eMHqYTKW9IumN8TyLX+eW8OWGXuJq+eQdZYgQiZg9j1G1IICbeIfEYWEiHkU3HWP',NULL,27,NULL,NULL,'Spring 2018'),(5,5,'Student','Navneeth Pillai','Senior','ndpillai@usc.edu','ndpillai','X9oPYaDjy/w619OD3d4VIzGSpT/Oe1hsGVptBNgQNx4mG92Q9TXvPU1qpUD6rB2f',NULL,27,NULL,NULL,'Spring 2018'),(6,6,'Admin','Jeffrey Miller',NULL,'jeffrey.miller@usc.edu','jeffrey.miller','MiUj3X2narRMJ33BZBNyrALbw4Kl78R7rs1gxPhr7zONIb7s95gZWPG1FoYAWHtK',NULL,NULL,'USC',NULL,NULL),(7,7,'Stakeholder','Stakey Holderson',NULL,'stakey@gmail.com','stakey.holderson','9IsRK3eft1M2YtNCFSN/p8U8tk14kGr02GC6rQV1Bq78AksANSVoLcb1tnV+brI3',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -261,4 +234,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-29 17:15:13
+-- Dump completed on 2018-04-10  3:40:12

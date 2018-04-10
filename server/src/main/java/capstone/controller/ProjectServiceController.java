@@ -266,7 +266,11 @@ public class ProjectServiceController
 	@CrossOrigin(origins = "http://localhost:3000")
 	public @ResponseBody String loginAttempt(@RequestBody LoginData logindata, HttpServletRequest request)
 	{
-		
+		///REMOVE LATER!
+		String xpass = encryptPassword("S123");
+		System.out.println("ENCRYPTED = " + xpass);
+		driver.registerUser("stakey@gmail.com", xpass);
+		////////////////
 		System.out.println("Received HTTP POST");
 		System.out.println(logindata);
 		System.out.println(logindata.getEmail());
