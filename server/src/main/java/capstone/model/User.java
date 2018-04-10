@@ -26,6 +26,16 @@ public class User
 	String USC_ID; // only valid if userType = Student
 	String semester;
 	
+	String ipaddress;
+	
+	public String getIpaddress() {
+		return ipaddress;
+	}
+
+	public void setIpaddress(String ipaddress) {
+		this.ipaddress = ipaddress;
+	}
+
 	public User() {}
 	
 	public User(String fullName) 

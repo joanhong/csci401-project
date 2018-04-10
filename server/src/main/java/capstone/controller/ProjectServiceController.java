@@ -8,7 +8,10 @@ import java.util.Date;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.jasypt.util.password.StrongPasswordEncryptor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +29,7 @@ import capstone.model.UserData;
 import capstone.model.UserEmailsData;
 import capstone.model.WeeklyReportData;
 import capstone.repository.ProjectsRepository;
+import capstone.session.UserSessionManager;
 import capstone.sql.SQLDriver;
 import mail.mailDriver;
 
@@ -34,6 +38,7 @@ public class ProjectServiceController
 {
 	private ProjectsRepository repository;
 	private SQLDriver driver;
+	public UserSessionManager usm;
 	
 	public ProjectServiceController(ProjectsRepository repository)
 	{
@@ -45,6 +50,10 @@ public class ProjectServiceController
 		{
 			repository.save(p);
 		}
+		
+		usm = new UserSessionManager();
+		
+		
 //		encryptUserPasswords();
 	}
 	
@@ -235,14 +244,13 @@ public class ProjectServiceController
 	
 	@RequestMapping(value = "/loginAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody LoginData loginAttempt(@RequestBody LoginData logindata)
+	public @ResponseBody LoginData loginAttempt(@RequestBody LoginData logindata, HttpServletRequest request)
 	{
 		
 		System.out.println("Received HTTP POST");
 		System.out.println(logindata);
 		System.out.println(logindata.getEmail());
-		System.out.println(logindata.getPassword());
-		
+		System.out.println(request.getHeader(HttpHeaders.ORIGIN));
 		//CASE 1
 		//DOES USERNAME EXIST?
 		if(driver.doesExist(logindata.getEmail()))
@@ -255,6 +263,9 @@ public class ProjectServiceController
 				if(driver.confirmLoginAttempt(logindata.getEmail(), encryptedPassword))
 					{
 						System.out.println("LOGIN SUCCESSFUL");
+						//NOTE: hardcoded localhost and 3000 for now, it should actually 
+						//get that from the POST request.
+						usm.loginUser(logindata.getEmail(), request.getHeader(HttpHeaders.ORIGIN));
 						return logindata;
 					}
 			}		

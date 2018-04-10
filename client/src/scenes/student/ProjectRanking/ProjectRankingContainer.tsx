@@ -31,6 +31,7 @@ interface State {
     isLoading: boolean;
     projectCards: Array<Project>;
     submitted: boolean;
+    email: string;
 }
 
 interface Project {
@@ -59,9 +60,28 @@ class ProjectRankingContainer extends React.Component<Props, State> {
             isLoading: false,
             projectCards: [],
             submitted: false,
+            email: ''
         };
     }
-    
+    submitClicked() {
+    var request = new XMLHttpRequest();
+    request.withCredentials = true;
+    request.open('POST', 'http://localhost:8080/projectRankingsSubmitAttempt/');
+    request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+    var data = JSON.stringify({
+    studentEmail: this.state.email,
+    project1: this.state.projectCards[0].projectName,
+    project2: this.state.projectCards[1].projectName,
+    project3: this.state.projectCards[2].projectName,
+    project4: this.state.projectCards[3].projectName,
+    project5: this.state.projectCards[4].projectName
+    });
+    request.setRequestHeader('Cache-Control', 'no-cache');
+    request.send(data);
+    alert('Project rankings have been submitted!');
+
+    }
+
     componentDidMount() {
         this.setState({isLoading: true});
    

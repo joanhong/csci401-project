@@ -90,12 +90,6 @@ class LoginForm extends React.Component<LoginProps, LoginState> {
                 <Button type="submit" onClick={this.submitClicked}>Sign in</Button>
                 </Col>
             </FormGroup>
-
-            <FormGroup>
-                <Col smOffset={2} sm={10}>
-                <Button href="/register">Register</Button>
-                </Col>
-            </FormGroup>
         </Form>
         </div>
         );
