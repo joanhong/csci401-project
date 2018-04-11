@@ -190,10 +190,11 @@ public class ProjectAssignmentService {
 		for (Project p : projects) {
 			totalProjSatScores += p.returnProjSatScore();
 		}
-		algoSatScore = totalProjSatScores / projects.size();
-		
+		algoSatScore = totalProjSatScores / projects.size();		
 		writer.println(algoSatScore);
 		writer.close();
+
+		PlaceUnassignedStudents();
 	}
 	
 	private void populateRankingsTable() 
@@ -363,5 +364,17 @@ public class ProjectAssignmentService {
 		if (numstudents != students.size())
 			return false;
 		return true;
+	}
+	
+	void PlaceUnassignedStudents() {
+		if (!unassignedStudents.isEmpty()) {
+			Project unassignedProj = new Project();
+			unassignedProj.setName("Unassigned");
+			for (Student s: unassignedStudents) {
+				unassignedProj.members = new Vector<Student>();
+				unassignedProj.members.add(s);
+			}
+			projects.add(unassignedProj);
+		}		
 	}
 }
