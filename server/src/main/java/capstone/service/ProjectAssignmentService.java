@@ -109,7 +109,7 @@ public class ProjectAssignmentService {
 		writer.println("");
         
         // rankings
-		//HARDCODING 5 (for now)
+		// HARDCODING 5 (for now)
 		int num_students = (driver.getRankingsTableCount()/5); // TODO: figure out more intuitive way to configure this
 		students = driver.getUsersWithRankings(projects, num_students);
 		
