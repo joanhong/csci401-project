@@ -32,6 +32,7 @@ public class SQLDriver {
 	private final static String updatePassword = "UPDATE " + DATABASE_NAME + ".USERS SET PASSWORD=? WHERE EMAIL=?";
 	private final static String getEncryptedPassword = "SELECT * FROM 401_Platform.USERS WHERE EMAIL=?";
 	private final static String updateUserEntry = "UPDATE 401_Platform.USERS SET Full_name = ?, year = ?, email =?, user_type=? WHERE Full_name=?";
+	private final static String getRankingsCount = "SELECT COUNT(*) FROM 401_Platform.ProjectRankings";
 	
 	private final static String addWeeklyReport = "INSERT INTO " + DATABASE_NAME + 
 			".WeeklyReportsTable(idWeeklyReportsTable, studentName, studentuscusername, projectNumber, date, "
@@ -131,6 +132,30 @@ public class SQLDriver {
 		return returnVector; //returns true if the user name is in use in the DB
 	}
 	
+	////
+	public Vector<Project> getAllProjects()
+	{
+		Vector<Project> returnVector = new Vector<Project>();
+		try{
+			PreparedStatement ps = con.prepareStatement(getAllProjects);
+			ResultSet result = ps.executeQuery();
+			while(result.next())
+			{
+				Project u = new Project();
+				u.setProjectId(result.getInt(1));
+				u.setProjectNumber(result.getInt(2));
+				u.setProjectName(result.getString("Project_name"));
+				u.setMaxSize(result.getInt(15));
+				u.setMinSize(result.getInt(16));
+				System.out.println(u.getMaxSize());
+				//do more u.set for other columns in the table.
+				
+				returnVector.addElement(u);	
+			}		
+		}catch (SQLException e){e.printStackTrace();}
+		return returnVector; //returns true if the user name is in use in the DB
+	}
+	////
 	
 	
 	public boolean doesExist(String Username){
@@ -145,6 +170,19 @@ public class SQLDriver {
 		}catch (SQLException e){e.printStackTrace();}
 		return count == 1; //returns true if the user name is in use in the DB
 	}
+	
+	public int getRankingsTableCount(){
+		int count = 0;
+		try{
+			PreparedStatement ps = con.prepareStatement(getRankingsCount);
+			ResultSet result = ps.executeQuery();			
+			while(result.next()){
+				count = result.getInt(1);	
+			}		
+		}catch (SQLException e){e.printStackTrace();}
+		return count; //returns true if the user name is in use in the DB
+	}
+	
 
 	public boolean confirmLoginAttempt(String Username, String Password){
 		int count = 0;

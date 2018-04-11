@@ -24,6 +24,7 @@ import capstone.model.LoginData;
 import capstone.model.PeerReviewData;
 import capstone.model.Project;
 import capstone.model.ProjectData;
+import capstone.model.RankingData;
 import capstone.model.User;
 import capstone.model.UserData;
 import capstone.model.UserEmailsData;
@@ -240,6 +241,67 @@ public class ProjectServiceController
 		
 		return emailsdata;
 	}
+	
+	//////
+	@RequestMapping(value = "/projectRankingsSubmitAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:3000")
+	
+	public @ResponseBody RankingData projectRankingsSubmitAttempt(@RequestBody RankingData rankingdata, HttpServletRequest request)
+	{
+		System.out.println("Received HTTP POST");
+		System.out.println(rankingdata.getProject1());
+		String addr = request.getHeader(HttpHeaders.ORIGIN);
+		User u1 = usm.getUser(addr);
+		//get user from addr using usm
+		//find projects from sqldriver and then populate projectRankings table with 5 entries
+		Vector<Project> allProjects = driver.getAllProjects();
+
+		int studentNumber = driver.getRankingsTableCount();
+		studentNumber = studentNumber/5;
+		studentNumber++;
+		System.out.println("STUDENT NUMBER ADDED= "+ studentNumber);
+		//find rankingtable count divide by 5 and add 1 to get next student number
+
+		for(Project p : allProjects)
+		{
+			if(p.getProjectName().equals(rankingdata.getProject1()))
+			{
+				driver.addProjectRankingEntry(studentNumber, u1.getFullName(), p.getProjectNumber()+1, 1, p.getProjectName());
+			}
+			if(p.getProjectName().equals(rankingdata.getProject2()))
+			{
+				driver.addProjectRankingEntry(studentNumber, u1.getFullName(), p.getProjectNumber()+1, 2, p.getProjectName());
+			}
+			if(p.getProjectName().equals(rankingdata.getProject3()))
+			{
+				driver.addProjectRankingEntry(studentNumber, u1.getFullName(), p.getProjectNumber()+1, 3, p.getProjectName());
+			}
+			if(p.getProjectName().equals(rankingdata.getProject4()))
+			{
+				driver.addProjectRankingEntry(studentNumber, u1.getFullName(), p.getProjectNumber()+1, 4, p.getProjectName());
+			}
+			if(p.getProjectName().equals(rankingdata.getProject5()))
+			{
+				driver.addProjectRankingEntry(studentNumber, u1.getFullName(), p.getProjectNumber()+1, 5, p.getProjectName());
+			}
+		}
+		
+		
+		mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
+		
+		
+		maildriver.sendEmail("Project Rankings Submitted!", "Hi "+ u1.getFullName() + ", \nWe have received your project rankings. \n\nYou will be assigned a project shortly.", u1.getEmail());
+		
+//		use sql to send this data to users table
+//		driver.adduser(user email); //preferably do this when the user goes to the link in the email
+		//get all projects as a vector using driver
+		//and then get values for 5 proper entries and then send them in through a function
+		//in driver which you should call 5 times.
+		
+		return rankingdata;
+	}
+	
+	//////
 	
 	//////
 	
