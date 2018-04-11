@@ -23,4 +23,4 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-/src/main/java/capstone/algorithm/real_data/iterations/
+/src/main/java/capstone/algorithm/real_data/iterations/*
