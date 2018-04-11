@@ -72,7 +72,7 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         request.setRequestHeader('Cache-Control', 'no-cache');
         request.send(data);
         alert('User has been updated succesfully!');
-
+        window.location.reload();
         this.setState({userIndexToEdit: -1});
     }
 
