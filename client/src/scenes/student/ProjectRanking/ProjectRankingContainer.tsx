@@ -56,6 +56,7 @@ class ProjectRankingContainer extends React.Component<Props, State> {
         super(props);
         this.moveCard = this.moveCard.bind(this);
         this.findCard = this.findCard.bind(this);
+        this.submitClicked = this.submitClicked.bind(this);
         this.state = {
             isLoading: false,
             projectCards: [],
@@ -64,22 +65,24 @@ class ProjectRankingContainer extends React.Component<Props, State> {
         };
     }
     submitClicked() {
-    var request = new XMLHttpRequest();
-    request.withCredentials = true;
-    request.open('POST', 'http://localhost:8080/projectRankingsSubmitAttempt/');
-    request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-    var data = JSON.stringify({
-    studentEmail: this.state.email,
-    project1: this.state.projectCards[0].projectName,
-    project2: this.state.projectCards[1].projectName,
-    project3: this.state.projectCards[2].projectName,
-    project4: this.state.projectCards[3].projectName,
-    project5: this.state.projectCards[4].projectName
-    });
-    request.setRequestHeader('Cache-Control', 'no-cache');
-    request.send(data);
-    alert('Project rankings have been submitted!');
-
+    var submit = confirm('Are you sure you want to submit rankings?');
+    if (submit) {
+        var request = new XMLHttpRequest();
+        request.withCredentials = true;
+        request.open('POST', 'http://localhost:8080/projectRankingsSubmitAttempt/');
+        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        var data = JSON.stringify({
+        project1: this.state.projectCards[0].projectName,
+        project2: this.state.projectCards[1].projectName,
+        project3: this.state.projectCards[2].projectName,
+        project4: this.state.projectCards[3].projectName,
+        project5: this.state.projectCards[4].projectName
+        });
+        request.setRequestHeader('Cache-Control', 'no-cache');
+        request.send(data);
+        alert('Project rankings have been submitted!');
+        this.setState({submitted: true});
+    }
     }
 
     componentDidMount() {
@@ -150,7 +153,7 @@ class ProjectRankingContainer extends React.Component<Props, State> {
                                 Rankings can only be submitted once.
                             </Col>
                             <Col lg={2}>
-                                <Button bsStyle="primary" onClick={this.submitRankings}>
+                                <Button bsStyle="primary" onClick={this.submitClicked}>
                                     Submit Rankings
                                 </Button>
                             </Col>
