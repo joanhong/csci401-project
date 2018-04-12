@@ -3,12 +3,17 @@ import * as React from 'react';
 import {
   Table,
   Button,
+  ButtonGroup,
   Modal,
   Form,
   FormGroup,
   Col,
   FormControl,
-  ControlLabel
+  ControlLabel,
+  ButtonToolbar,
+  ToggleButtonGroup,
+  ToggleButton
+
 } from 'react-bootstrap';
 
 interface UserListProps {
@@ -16,7 +21,6 @@ interface UserListProps {
 
 interface UserListState {
     users: Array<{}>;
-    isLoading: boolean;
     userIndexToEdit: number;
     userToEdit?: User;
     userToDelete?: User;
@@ -24,6 +28,8 @@ interface UserListState {
     editUserType?: string;
     editYear?: string;
     editEmail?: string;
+    isLoading: boolean;
+    userFilter: boolean;
 }
 
 interface User {
@@ -40,8 +46,9 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         
         this.state = {
             users: [],
-            isLoading: false,
             userIndexToEdit: -1,
+            isLoading: false,
+            userFilter: false
         };
     }
     
@@ -80,6 +87,10 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         this.setState({ [e.target.id]: e.target.value });
     }
 
+    handleUserFilterChange() {
+        this.setState({userFilter: true});
+    }
+
     editUser(index: number, user: User) {
         this.setState({
             userIndexToEdit: index,
@@ -109,7 +120,27 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         return(
             <div>
                 <h2>User Management</h2>
+                
+                <div>
                 <Button bsStyle="primary" href="/register/student" style={{margin: 10}}>Add New User</Button>
+                </div>
+
+                <div>
+                <ButtonToolbar>
+                    <ToggleButtonGroup
+                        onChange={this.handleUserFilterChange}
+                        type="radio"
+                        name="userFilter"
+                        defaultValue={1}
+                    >
+                    <ToggleButton value={1}>All</ToggleButton>
+                    <ToggleButton value={2}>Student</ToggleButton>
+                    <ToggleButton value={3}>Stakeholder</ToggleButton>
+                    <ToggleButton value={4}>Admin</ToggleButton>
+                    </ToggleButtonGroup>
+                </ButtonToolbar>
+                </div>
+
                 <Table bordered={true} condensed={true}>
                     <thead>
                         <tr>
