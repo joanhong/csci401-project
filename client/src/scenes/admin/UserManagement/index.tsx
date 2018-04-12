@@ -20,7 +20,8 @@ interface UserListProps {
 }
 
 interface UserListState {
-    users: Array<{}>;
+    allUsers: Array<{}>;
+    usersToDisplay: Array<{}>;
     userIndexToEdit: number;
     userToEdit?: User;
     userToDelete?: User;
@@ -29,7 +30,6 @@ interface UserListState {
     editYear?: string;
     editEmail?: string;
     isLoading: boolean;
-    userFilter: boolean;
 }
 
 interface User {
@@ -45,10 +45,10 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         super(props);
         
         this.state = {
-            users: [],
+            allUsers: [],
+            usersToDisplay: [],
             userIndexToEdit: -1,
             isLoading: false,
-            userFilter: false
         };
     }
     
@@ -57,7 +57,7 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         
         fetch('http://localhost:8080/users')
             .then(response => response.json())
-            .then(data => this.setState({users: data, isLoading: false}));
+            .then(data => this.setState({allUsers: data, usersToDisplay: data, isLoading: false}));
     }
 
     cancelEdit = () => {
@@ -65,7 +65,6 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
     }
 
     submitEdit = () => {
-
         var request = new XMLHttpRequest();
         request.withCredentials = true;
         request.open('POST', 'http://localhost:8080/userInfoUpdate/');
@@ -87,8 +86,30 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         this.setState({ [e.target.id]: e.target.value });
     }
 
-    handleUserFilterChange() {
-        this.setState({userFilter: true});
+    handleUserFilterChange = (e: any) => {
+        var _usersToDisplay: User[] = [];
+        const {allUsers} = this.state;
+        var userFilterType = '';
+
+        if (e === 1) {
+            userFilterType = 'All';
+        } else if (e === 2) {
+            userFilterType = 'Student';
+        } else if (e === 3) {
+            userFilterType = 'Stakeholder';
+        } else if (e === 4) {
+            userFilterType = 'Admin';
+        }
+
+        allUsers.forEach((user: User) => {
+            if (user.userType === userFilterType) {
+                _usersToDisplay.push(user);
+            } else if (userFilterType === 'All') {
+                _usersToDisplay.push(user);
+            }
+        });
+
+        this.setState({usersToDisplay: _usersToDisplay});
     }
 
     editUser(index: number, user: User) {
@@ -111,7 +132,7 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
     }
 
     render() {
-        const {users, isLoading, userIndexToEdit, userToEdit} = this.state;
+        const {allUsers, usersToDisplay, isLoading, userIndexToEdit, userToEdit} = this.state;
         
         if (isLoading) {
             return <p>Loading...</p>;
@@ -152,7 +173,7 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user: User, index: number) =>
+                        {usersToDisplay.map((user: User, index: number) =>
                             <tr key={user.id}>
                                 <td>{user.fullName}</td>
                                 <td>{user.userType}</td>
