@@ -26,6 +26,10 @@ public class ProjectAssignmentController
 	@CrossOrigin(origins = "http://localhost:3000")
 	public String projects()
 	{
+		// create directory for each iteration's output file
+		File dir = new File(folder_name + "/iterations");
+		dir.mkdir();
+		
 		//if (maxIteration == null) {
 			// run algorithm 30 times
 			for (int iteration = 0; iteration < 30; iteration++) {
