@@ -163,7 +163,7 @@ public class ProjectAssignment {
 		// calculate each project's popularity scores
 		writer.println("Project Popularity Scores:");
 		for (Project p : projects) {
-			writer.println(p.name + " " + p.returnPopularity());
+			writer.println(p.getName() + " " + p.returnPopularity());
 		}
 		writer.println("");
 		
@@ -257,8 +257,8 @@ public class ProjectAssignment {
 			for (Student s: unassignedStudents) {
 				String projname = s.getOrderedRankings().get(choice); //elementAt(choice);
 				Project p = GetProjectWithName(projname);
-				if (p.members.size() < p.maxSize) {
-					p.members.addElement(s);
+				if (p.getMembers().size() < p.getMaxSize()) {
+					p.getMembers().addElement(s);
 					toRemove.add(s);
 				}
 			}
@@ -269,9 +269,9 @@ public class ProjectAssignment {
 	void EliminateProjects() {
 		for (int i=projects.size()-1; i>0; i--) {
 			Project p = projects.elementAt(i);
-			if (p.members.size() < p.minSize && (GetTotalMaxSpots()-p.maxSize) >= students.size()) {
-				writer.println("Eliminated " + p.name);
-				for (Student s: p.members) {
+			if (p.getMembers().size() < p.getMinSize() && (GetTotalMaxSpots()-p.getMaxSize()) >= students.size()) {
+				writer.println("Eliminated " + p.getName());
+				for (Student s: p.getMembers()) {
 					unassignedStudents.add(s);
 				}
 				projects.remove(i);
@@ -295,8 +295,8 @@ public class ProjectAssignment {
 			return false;
 		for (int i=0; i<s.getOrderedRankings().size(); i++) {
 			Project p = GetProjectWithName(s.getOrderedRankings().get(i));
-			if (p!=null && p.members.size() < p.maxSize) { //found a spot for them
-				p.members.add(s);
+			if (p!=null && p.getMembers().size() < p.getMaxSize()) { //found a spot for them
+				p.getMembers().add(s);
 				return true;
 			}
 		}
@@ -309,11 +309,11 @@ public class ProjectAssignment {
 		}
 		
 		Random rand = new Random();
-		int index = rand.nextInt(p.members.size());
-		Student displaced = p.members.elementAt(index);
+		int index = rand.nextInt(p.getMembers().size());
+		Student displaced = p.getMembers().elementAt(index);
 		if (BumpHelper(displaced, level+1)) {
-			p.members.remove(index);
-			p.members.add(s);
+			p.getMembers().remove(index);
+			p.getMembers().add(s);
 		}
 		
 		return true;
@@ -321,7 +321,7 @@ public class ProjectAssignment {
 	
 	Project GetProjectWithName(String projname) {
 		for (int j=0; j<projects.size(); j++) {
-			if (projects.elementAt(j).name.equals(projname))
+			if (projects.elementAt(j).getName().equals(projname))
 				return projects.elementAt(j);
 		}
 		return null;
@@ -330,17 +330,17 @@ public class ProjectAssignment {
 	int GetTotalMaxSpots() {
 		int maxspots = 0;
 		for (Project p: projects)
-			maxspots+= p.maxSize;
+			maxspots+= p.getMaxSize();
 		return maxspots;
 	}
 	
 	boolean CanStop() { // assignment is satisfactory
 		int numstudents = 0;
 		for (Project p: projects) {
-			if (!p.members.isEmpty() && 
-				(p.members.size() < p.minSize || p.members.size() > p.maxSize))
+			if (!p.getMembers().isEmpty() && 
+				(p.getMembers().size() < p.getMinSize() || p.getMembers().size() > p.getMaxSize()))
 				return false;
-			numstudents+= p.members.size();
+			numstudents+= p.getMembers().size();
 		}
 		if (numstudents != students.size())
 			return false;

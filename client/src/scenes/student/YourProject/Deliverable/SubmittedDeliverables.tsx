@@ -7,16 +7,24 @@ import {
 
 interface Deliverable {
     deliverableNumber: number;
+    deliverableFile: File;
     name: string;
     description: string;
+    dueDate: Date;
+    status: string;
+    dateSubmitted: Date;
     projectNumber: number;
+    fileName: string;
 }
+
 interface DeliverableProps {
 }
 
 interface DeliverableState {
     deliverables: Array<{}>;
     isLoading: boolean;
+    deliverableFile: File;
+    reload: boolean;
 }
 
 class SubmittedDeliverables extends React.Component<DeliverableProps, DeliverableState> {
@@ -26,8 +34,26 @@ class SubmittedDeliverables extends React.Component<DeliverableProps, Deliverabl
         
         this.state = {
             deliverables: [],
-            isLoading: false
+            isLoading: false,
+            deliverableFile: new File([], ''),
+            reload: true
         };
+    }
+
+    handleFileChange(e: any) {
+        this.setState({ deliverableFile: e.target.files[0] });
+    }
+
+    uploadFile(deliverableNumber: number) {
+        var request = new XMLHttpRequest();
+        request.withCredentials = true;
+        request.open('POST', 'http://localhost:8080/upload');
+        // request.setRequestHeader('Content-Type', 'multipart/form-data; charset=UTF-8');
+        request.setRequestHeader('Cache-Control', 'no-cache');
+        const formData = new FormData();
+        formData.append('file', this.state.deliverableFile);
+        request.send(formData);
+        alert(request.responseText + 'Uploaded file');
     }
 
     componentDidMount() {
@@ -65,10 +91,13 @@ class SubmittedDeliverables extends React.Component<DeliverableProps, Deliverabl
                             {deliverables.map((deliverable: Deliverable) =>
                                 <tr key={deliverable.projectNumber}>
                                     <td>{deliverable.deliverableNumber}</td>
-                                    <td>Date</td>
-                                    <td>{deliverable.name}</td>
-                                    <td>Status</td>
-                                    <td><Button>Resubmit</Button></td>
+                                    <td>{deliverable.dateSubmitted}</td>
+                                    <td><Button>{deliverable.fileName}</Button></td>
+                                    <td>{deliverable.status}</td>
+                                    <td>
+                                        <input type="file" onChange={e => this.handleFileChange(e)} />
+                                        <Button onClick={() => this.uploadFile(deliverable.deliverableNumber)}>Save</Button>
+                                    </td>
                                 </tr>
                             )}
                         </tbody>

@@ -28,7 +28,8 @@ public class DeliverableController {
 	public DeliverableController() {
 	}
 	
-	@RequestMapping(value = "/info",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+	// @RequestMapping(value = "/info",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+	@PostMapping("/info")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public void createDeliverableInfo(@RequestBody Deliverable deliverable) {
 		System.out.println(deliverable.name + " " + deliverable.description);
@@ -56,13 +57,21 @@ public class DeliverableController {
 	@GetMapping("/{project_number}")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public Iterable<Deliverable> getDeliverable(@PathVariable("project_number") Long projectNumber) {
-		return deliverableRepository.findAllByProjectNumber(projectNumber);
+		return deliverableRepository.findAllByProjectId(projectNumber);
 	}
 	
 	@PostMapping("/{project_number}/{deliverable_number}/approve")
 	@CrossOrigin(origins = "http://localhost:3000")
-	public void approveDeliverable() {
-		
+	public void approveDeliverable(@PathVariable("project_number") Long projectNumber, @PathVariable("deliverable_number") Long deliverableNumber) {
+		deliverableRepository.setStatusForId("Approved", deliverableNumber);
+		System.out.println("Approved!");
+	}
+	
+	@PostMapping("/{project_number}/{deliverable_number}/reject")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public void rejectDeliverable(@PathVariable("project_number") Long projectNumber, @PathVariable("deliverable_number") Long deliverableNumber) {
+		deliverableRepository.setStatusForId("Rejected", deliverableNumber);
+		System.out.println("Rejected :(");
 	}
 	
 	private void saveFile(List<MultipartFile> files) throws IOException {

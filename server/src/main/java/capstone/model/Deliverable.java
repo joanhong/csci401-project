@@ -1,42 +1,30 @@
 package capstone.model;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "deliverables")
-public class Deliverable {
+public class Deliverable extends Assignment {
 	
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer id;
+	Long id;
 	
-	public Long deliverableNumber;
 	public String name;
 	public String description;
-	public Date dueDate;
 	public String status;
-	public Date dateSubmitted;
-	public Long projectNumber;
 	
+	@MapsId("project_id")
+	@OneToOne(fetch = FetchType.LAZY)
+	public Project project;
 	
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public Long getDeliverableNumber() {
-		return deliverableNumber;
-	}
-	public void setDeliverableNumber(Long deliverableNumber) {
-		this.deliverableNumber = deliverableNumber;
-	}
+	public String fileName;
+	
 	public String getName() {
 		return name;
 	}
@@ -49,28 +37,22 @@ public class Deliverable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Long getProjectNumber() {
-		return projectNumber;
-	}
-	public void setProjectNumber(Long projectNumber) {
-		this.projectNumber = projectNumber;
-	}
-	public Date getDueDate() {
-		return dueDate;
-	}
-	public void setDueDate(Date dueDate) {
-		this.dueDate = dueDate;
-	}
 	public String getStatus() {
 		return status;
 	}
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public Date getDateSubmitted() {
-		return dateSubmitted;
+	public Project getProject() {
+		return project;
 	}
-	public void setDateSubmitted(Date dateSubmitted) {
-		this.dateSubmitted = dateSubmitted;
+	public void setProject(Project project) {
+		this.project = project;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 }

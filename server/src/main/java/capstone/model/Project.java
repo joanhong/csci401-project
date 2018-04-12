@@ -4,9 +4,14 @@ import java.util.Comparator;
 import java.util.Vector;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
+import capstone.model.users.Stakeholder;
 import capstone.model.users.Student;
 import capstone.util.ProjectAssignment;
 
@@ -16,26 +21,41 @@ public class Project implements Comparable<Object> {
 	@Id
 	@GeneratedValue
 	private long id;
-	String status;
-	String semester;
-	int teamLeaderId;
-	public Vector<Student> members;
+	
+	@MapsId("leader_id")
+	@OneToOne(fetch = FetchType.LAZY)
+	private Student teamLeader;
+	
+	//@MapsId("member_id")
+	//@OneToMany(fetch = FetchType.LAZY)
+	private Vector<Student> members;
+	
+	private String status;
+	private String semester;
 	
 	// From proposal
-	int stakeholderId;
-	public String name;
-	String technologiesExpected;
-	String backgroundRequested;
-	String projectDescription;
-	public int minSize;
-	public int maxSize;
+	@MapsId("stakeholder_id")
+	@OneToOne(fetch = FetchType.LAZY)
+	private Stakeholder stakeholder;
+	private String name;
+	private String technologiesExpected;
+	private String backgroundRequested;
+	private String projectDescription;
+	private int minSize;
+	private int maxSize;
 	
 	// popularity metrics:
+	@Transient
 	private double sum_p; // sum of all students' satisfaction scores
+	@Transient
 	private double p_max; // maximum satisfaction score for a single student (if NUM_RANKED = 3, this is 4)
+	@Transient
 	private double n; // number of students interested in this project
+	@Transient
 	private double c; // cutoff
+	@Transient
 	private double popularity;
+	@Transient
 	private double projSatScore;
 	
 	public String getTechnologiesExpected() {
@@ -164,7 +184,7 @@ public class Project implements Comparable<Object> {
 		
 		double totalScore = 0;
 		for (Student student : members) {
-			int ranking = student.getRankings().get(this.name);
+			int ranking = student.getRankings().get(this.getName());
 			totalScore += ProjectAssignment.getStudentSatScore(ranking);
 		}
 		
@@ -181,7 +201,7 @@ public class Project implements Comparable<Object> {
 	}
 	
 	public String toString() {
-		return ("Project #" + this.id + ": '" + this.name + "' | " + this.minSize + "-" + this.maxSize + " " + this.p_max);
+		return ("Project #" + this.id + ": '" + this.getName() + "' | " + this.minSize + "-" + this.maxSize + " " + this.p_max);
 	}
 	
 	/* Comparator Stuff */
@@ -193,9 +213,17 @@ public class Project implements Comparable<Object> {
 
 		Project p = (Project) o;
 
-		return (this.name).compareTo(p.name);
+		return (this.getName()).compareTo(p.getName());
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	// sorts by popularity in descending order
 	public static class popularityComparator implements Comparator<Object> {
 		public int compare(Object o1, Object o2) {

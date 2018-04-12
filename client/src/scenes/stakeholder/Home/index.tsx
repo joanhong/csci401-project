@@ -1,8 +1,7 @@
 import * as React from 'react';
 import {
     Panel,
-    Table, 
-    Alert
+    Table
 } from 'react-bootstrap';
 import { 
     LinkContainer
@@ -14,16 +13,6 @@ class StakeholderHome extends React.Component {
     render() {
         return (
             <div>
-            <Panel>
-                <Panel.Heading>
-                    <Panel.Title componentClass="h3">Notifications</Panel.Title>
-                </Panel.Heading>
-                <Panel.Body>
-                    <Alert bsStyle="info">
-                        Notification 1.
-                    </Alert>
-                </Panel.Body>
-            </Panel>
             <Panel>
                 <Panel.Heading>
                     <Panel.Title componentClass="h3">Projects</Panel.Title>

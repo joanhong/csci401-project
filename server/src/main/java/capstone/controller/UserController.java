@@ -1,6 +1,7 @@
 package capstone.controller;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Vector;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import capstone.model.LoginData;
 import capstone.model.users.Student;
 import capstone.model.users.User;
 import capstone.repository.AdminRepository;
@@ -59,15 +59,14 @@ public class UserController
 	
 	@RequestMapping(value = "/login",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody String loginAttempt(@RequestBody LoginData logindata)
-	{
+	public @ResponseBody String loginAttempt(@RequestBody Map<String, String> loginData) {
 		
 		System.out.println("Received HTTP POST");
-		System.out.println(logindata);
-		System.out.println(logindata.getEmail());
-		System.out.println(logindata.getPassword());
+		System.out.println(loginData);
+		System.out.println(loginData.get(Constants.EMAIL_KEY));
+		System.out.println(loginData.get(Constants.PASSWORD_KEY));
 		
-		String email = logindata.getEmail();
+		String email = loginData.get("email");
 		return "student";
 		/*if (studentRepo.findByEmail(email) != null) {
 			return Constants.STUDENT;

@@ -17,7 +17,6 @@ interface DeliverableProps {
 interface DeliverableState {
     deliverables: Array<{}>;
     isLoading: boolean;
-    deliverableNumber: number;
 }
 
 class DeliverableList extends React.Component<DeliverableProps, DeliverableState> {
@@ -27,15 +26,14 @@ class DeliverableList extends React.Component<DeliverableProps, DeliverableState
         
         this.state = {
             deliverables: [],
-            isLoading: false,
-            deliverableNumber: 0
+            isLoading: false
         };
     }
 
-    approveDeliverable(name) {
+    approveDeliverable(deliverableNumber: number) {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/deliverables/0/'+ name + '/approve');
+        request.open('POST', 'http://localhost:8080/deliverables/0/' + deliverableNumber + '/approve');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
             status: 'Approved'
@@ -44,10 +42,10 @@ class DeliverableList extends React.Component<DeliverableProps, DeliverableState
         request.send(data);
     }
 
-    rejectDeliverable(name) {
+    rejectDeliverable(deliverableNumber: number) {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/deliverables/0/'+ name + '/reject');
+        request.open('POST', 'http://localhost:8080/deliverables/0/' + deliverableNumber + '/reject');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
             status: 'Rejected'
@@ -90,8 +88,8 @@ class DeliverableList extends React.Component<DeliverableProps, DeliverableState
                                     <td>Date</td>
                                     <td><Button>Download</Button></td>
                                     <td>
-                                        <input type="Button" name="'{deliverable.deliverableNumber}'" onClick={this.approveDeliverable(this)}>Approve</input>
-                                        <Button onClick={this.rejectDeliverable}>Reject</Button>
+                                        <Button onClick={() => this.approveDeliverable(deliverable.deliverableNumber)}>Approve</Button>
+                                        <Button onClick={() => this.rejectDeliverable(deliverable.deliverableNumber)}>Reject</Button>
                                     </td>
                                 </tr>
                             )}
