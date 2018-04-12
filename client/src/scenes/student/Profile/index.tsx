@@ -49,8 +49,13 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
                 var jsonResponse = JSON.parse(response);
                 var fullNameLiteral = 'fullName';
                 var emailLiteral = 'email';
-                that.setState({name: jsonResponse[fullNameLiteral], 
-                    email: jsonResponse[emailLiteral]});
+                var phoneLiteral = 'phone';
+                that.setState({
+                    name: jsonResponse[fullNameLiteral], 
+                    email: jsonResponse[emailLiteral],
+                    phone: jsonResponse[phoneLiteral],
+                    isLoading: false
+                });
             }
         };
     }
@@ -76,6 +81,10 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
         this.setState({ [e.target.id]: e.target.value });
     }
     render() {
+        if (this.state.isLoading) {
+            return <p>Loading...</p>;
+        }
+
         return (
             <div>
             <Panel>
@@ -122,7 +131,6 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
                             id="phone"
                             value={this.state.phone}
                             onChange={e => this.handleChange(e)} 
-                            placeholder="(###)-###-###"
                         />
                     </Col>             
                 </FormGroup> 
