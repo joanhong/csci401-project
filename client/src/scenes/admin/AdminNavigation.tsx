@@ -48,11 +48,11 @@ class AdminNavigation extends React.Component {
                   Project Proposals
                 </NavItem>
               </LinkContainer>
-              <LinkContainer to="/admin/class">
+              {/* <LinkContainer to="/admin/class">
                 <NavItem eventKey={3}>
                   Class Overview
                 </NavItem>
-              </LinkContainer>
+              </LinkContainer> */}
               <LinkContainer to="/admin/stakeholders">
                 <NavItem eventKey={4}>
                   Stakeholders

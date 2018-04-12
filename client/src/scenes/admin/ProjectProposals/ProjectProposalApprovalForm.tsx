@@ -43,7 +43,7 @@ class ProjectProposalApprovalForm extends React.Component<ProjectListProps, Proj
     submitClicked() {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/projectsrep/');
+        request.open('POST', 'http://localhost:8080/projectApprovalAttempt/');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
         projects: this.state.projects,
