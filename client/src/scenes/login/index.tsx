@@ -10,7 +10,7 @@ class Login extends React.Component {
     render() {
         return (
             <div>
-            <UserNav/>
+            <UserNav showTabs={false}/>
 
             <Col mdOffset={1} lg={5} md={5} sm={5}>
             <Panel>

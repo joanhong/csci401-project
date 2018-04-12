@@ -9,7 +9,15 @@ import {
 } from 'react-router-bootstrap';
 const logo = require('../../svg/logo.svg');
 
-class Navigation extends React.Component {
+interface NavigationProps {
+  showTabs?: boolean;
+}
+
+interface NavigationState {
+
+}
+
+class Navigation extends React.Component<NavigationProps, NavigationState> {
   render() {
     return (
       <div>
@@ -22,23 +30,26 @@ class Navigation extends React.Component {
                 <a href="">CSCI 401</a>
               </Navbar.Brand> 
             </Navbar.Header>
-            <Nav>
-              <LinkContainer to="admin">
-                <NavItem eventKey={1}>
-                  Admin
-                </NavItem>
-              </LinkContainer>
-              <LinkContainer to="stakeholder">
-                <NavItem eventKey={2}>
-                  Stakeholder
-                </NavItem>
-              </LinkContainer>
-              <LinkContainer to="student">
-                <NavItem eventKey={2}>
-                  Student
-                </NavItem>
-              </LinkContainer>
-            </Nav>
+            { this.props.showTabs
+              ? <Nav>
+                  <LinkContainer to="admin">
+                    <NavItem eventKey={1}>
+                      Admin
+                    </NavItem>
+                  </LinkContainer>
+                  <LinkContainer to="stakeholder">
+                    <NavItem eventKey={2}>
+                      Stakeholder
+                    </NavItem>
+                  </LinkContainer>
+                  <LinkContainer to="student">
+                    <NavItem eventKey={2}>
+                      Student
+                    </NavItem>
+                  </LinkContainer>
+                </Nav>
+              : null
+            }
           </Navbar>
       </div>
     );
