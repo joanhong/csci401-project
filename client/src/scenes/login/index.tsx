@@ -1,22 +1,36 @@
 import * as React from 'react';
 import {
     Panel,
-    Col
+    Col,
+    Row
 } from 'react-bootstrap';
 import LoginForm from './Form';
-import UserNav from '../../components/navigation/UserTypes';
+
+const style = {
+    width: 600,
+    float: 'none',
+    margin: 'auto',
+};
 
 class Login extends React.Component {
     render() {
         return (
-            <div>
-            <UserNav/>
+            <div style={style}>
+                <h3> Welcome to CSCI 401</h3>
+                <Row>
+                    <Col>
+                        <Panel>
+                            <LoginForm/>
+                        </Panel>
+                    </Col>
+                </Row>
 
-            <Col mdOffset={1} lg={5} md={5} sm={5}>
-            <Panel>
-                <LoginForm/>
-            </Panel>
-            </Col>
+                <Row>
+                    <Col>
+                        Interested in being a stakeholder for a project?
+                        <a href="/register/stakeholder"> Register here. </a>
+                    </Col>
+                </Row>
             </div>
         );
     }

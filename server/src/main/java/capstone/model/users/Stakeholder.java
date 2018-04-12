@@ -6,12 +6,16 @@ import javax.persistence.Id;
 
 @Entity
 public class Stakeholder extends User {
-	@Id
-	@GeneratedValue
-	Long id;
-	String companyName; //only valid if userType = Stakeholder
-	int projectNumber;
 	
+	private String companyName; //only valid if userType = Stakeholder
+	private int projectNumber;
+	
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
 	public int getProjectNumber() 
 	{
 		return projectNumber;

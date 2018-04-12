@@ -35,7 +35,7 @@ constructor(props: ProjectProps) {
     submitClicked() {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/projectData/');
+        request.open('POST', 'http://localhost:8080/proposals/save');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
         projectName: this.state.projectName,

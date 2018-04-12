@@ -40,7 +40,7 @@ class StudentProject extends React.Component {
                     <Button>Submit Deliverable</Button>
                   </LinkContainer>
                   <Button href="./weeklyreport">Submit Weekly Status Report</Button>
-                  <Button>Submit Peer Review Form</Button>
+                  <Button href="./peerreview">Submit Peer Review Form</Button>
                   <Button>Submit Stakeholder Review Form</Button>
               </Panel.Body>
             </Panel>

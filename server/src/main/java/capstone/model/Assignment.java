@@ -1,12 +1,17 @@
 package capstone.model;
 
-import java.time.*;
+import java.time.LocalDateTime;
 
-import org.springframework.data.annotation.Id;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-public class Assignment {
+@Entity
+public abstract class Assignment {
 	@Id
-	long id;
+	@GeneratedValue
+	Long id;
+	
 	LocalDateTime dueDate;
 	LocalDateTime submitDateTime;
 }

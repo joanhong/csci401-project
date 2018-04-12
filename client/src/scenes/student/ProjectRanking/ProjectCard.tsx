@@ -2,13 +2,25 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { DragSource, DropTarget } from 'react-dnd';
 import ItemTypes from './ItemTypes';
+import {
+    Button,
+    Glyphicon,
+    Panel,
+} from 'react-bootstrap';
 
-const style = {
-    border: '1px dashed gray',
-    padding: '0.5rem 1rem',
-    marginBottom: '.5rem',
-    backgroundColor: 'white',
+const panelStyle = {
+    width: 600,
+};
+
+const glyphStyle = {
+    padding: '5px',
     cursor: 'move',
+    opacity: 0.5,
+};
+
+const cardStyle = {
+    textAlign: 'left',
+    width: 600,
 };
 
 const cardSource = {
@@ -45,14 +57,22 @@ const cardTarget = {
     },
 };
 
+interface State {
+    open: boolean;
+}
+
 interface Props {
     connectDragSource?: PropTypes.func.isRequired;
     connectDropTarget?: PropTypes.func.isRequired;
     isDragging?: PropTypes.bool.isRequired;
+    rank: PropTypes.any.isRequired;
     id: PropTypes.any.isRequired;
     name: PropTypes.string.isRequired;
     minSize: PropTypes.any.isRequired;
     maxSize: PropTypes.any.isRequired;
+    technologiesExpected: PropTypes.any.isRequired;
+    backgroundRequested: PropTypes.any.isRequired;
+    projectDescription: PropTypes.any.isRequired;
     moveCard: PropTypes.func.isRequired;
     findCard: PropTypes.func.isRequired;
 }
@@ -65,14 +85,18 @@ interface Props {
     isDragging: monitor.isDragging(),
 }))
 
-class ProjectCard extends React.Component<Props> {
+class ProjectCard extends React.Component<Props, State> {
     constructor(props: Props) {
-       super(props);
+        super(props);
+
+        this.state = {
+            open: false,
+        };
     }
 
     render() {
         const {
-            id,
+            rank,
             name,
             minSize,
             maxSize,
@@ -81,11 +105,36 @@ class ProjectCard extends React.Component<Props> {
             connectDropTarget,
         } = this.props;
         const opacity = isDragging ? 0 : 1;
+        const padding = 5;
+
+        const title = name + ' (' + minSize + '-' + maxSize + ' students)';
 
         return connectDragSource(
             connectDropTarget(
-                <div style={{ ...style, opacity }}>
-                    {id + '. ' + name + ' (' + minSize + '-' + maxSize + ' students)'}
+                <div style={{ opacity }}>
+                    <Button onClick={() => this.setState({ open: !this.state.open })} style={cardStyle}>
+                        <Glyphicon glyph="menu-hamburger" style={glyphStyle}/>
+                        {rank <= 5
+                            ? <strong>{rank + '. ' + title}</strong>
+                            : <small>{title}</small>
+                        }
+                        <Glyphicon glyph={this.state.open ? 'menu-up' : 'menu-down'} style={{padding}}/>
+                    </Button>
+                    <br />
+                    <Panel expanded={this.state.open} style={panelStyle}>
+                        <Panel.Collapse>
+                            <Panel.Body>
+                                <strong>Project Description</strong>
+                                <p>{this.props.projectDescription}</p>
+                                <br/>
+                                <strong>Technologies Expected</strong>
+                                <p>{this.props.technologiesExpected}</p>
+                                <br/>
+                                <strong>Background Requested</strong>
+                                <p>{this.props.backgroundRequested}</p>
+                            </Panel.Body>
+                        </Panel.Collapse>
+                    </Panel>
                 </div>
             ),
         );

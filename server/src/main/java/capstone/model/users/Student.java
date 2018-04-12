@@ -13,9 +13,6 @@ import javax.persistence.Transient;
 @Entity
 public class Student extends User {
 	
-	@Id
-	@GeneratedValue
-	Long id;
 	public String USC_ID; // only valid if userType = Student
 	public String year; //only valid if userType = Student
 	public String semester;
@@ -41,7 +38,7 @@ public class Student extends User {
 	}
 	
 	public String toString() {
-		return ("Student #" + this.USC_ID + ": '" + this.getFirstName() + "' | " + this.getRankings());
+		return ("Student #" + this.USC_ID + ": '" + this.getName() + "' | " + this.getRankings());
 	}
 
 	public Map<String, Integer> getRankings() {

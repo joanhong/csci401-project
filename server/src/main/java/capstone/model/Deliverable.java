@@ -12,9 +12,6 @@ import javax.persistence.Table;
 @Table(name = "deliverables")
 public class Deliverable extends Assignment {
 	
-	@Id
-	Long id;
-	
 	public String name;
 	public String description;
 	public String status;

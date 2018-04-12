@@ -18,64 +18,66 @@ password: string;
 confirm: string;
 }
 class StudentRegistrationForm extends React.Component<StudentRegistrationProps, StudentRegistrationState> {
-constructor(props: StudentRegistrationProps) {
-super(props);
-this.state = {
-name: '',
-email: '',
-phone: '',
-password: '',
-confirm: ''
-};
-this.submitClicked = this.submitClicked.bind(this);
-this.handleChange = this.handleChange.bind(this);
-}
-submitClicked() {
-var request = new XMLHttpRequest();
-request.withCredentials = true;
-request.open('POST', 'http://localhost:8080/StudentRegistrationAttempt/');
-request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-var data = JSON.stringify({
-email: this.state.email,
-password: this.state.password
-});
-request.setRequestHeader('Cache-Control', 'no-cache');
-request.send(data);
-alert(request.responseText + 'Logging you in...');
-request.onreadystatechange = function() {
-if (request.readyState === 4) {
-        if (request.responseText.length > 4) {
-            alert('Admin registration SUCCESSFUL!');
-        } else {
-            alert('Admin registration FAILED.');
-}
-}
-};
-}
+    constructor(props: StudentRegistrationProps) {
+    super(props);
+    this.state = {
+        name: '',
+        email: '',
+        phone: '',
+        password: '',
+        confirm: ''
+    };
+    this.submitClicked = this.submitClicked.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    }
 
-handleChange(e: any) {
-this.setState({ [e.target.id]: e.target.value });
-}
+    submitClicked() {
+        var request = new XMLHttpRequest();
+        request.withCredentials = true;
+        request.open('POST', 'http://localhost:8080/users/studentRegistrationAttempt/');
+        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        var data = JSON.stringify({
+            name: this.state.name,
+            email: this.state.email,
+            phone: this.state.phone,
+            password: this.state.password
+        });
+        request.setRequestHeader('Cache-Control', 'no-cache');
+        request.send(data);
+        request.onreadystatechange = function() {
+        /*if (request.readyState === 4) {
+                if (request.responseText.length > 4) {
+                    alert('Student registration SUCCESSFUL!');
+                } else {
+                    alert('Student registration FAILED.');
+        }
+        }*/
+        };
+    }
 
-formGroup(controlId: string, id: string, placeholder: string, value: any) {
-    return (
-        <FormGroup controlId={controlId}>
-            <Col componentClass={ControlLabel} sm={2}>
-            {placeholder}
-            </Col>
-            <Col sm={10}>
-            <FormControl
-                type="text"
-                id={id}
-                value={value}
-                placeholder={placeholder}
-                onChange={e => this.handleChange(e)}
-            />
-            </Col>
-        </FormGroup>
-    );
-    
-}
+    handleChange(e: any) {
+    this.setState({ [e.target.id]: e.target.value });
+    }
+
+    formGroup(controlId: string, id: string, placeholder: string, value: any) {
+        return (
+            <FormGroup controlId={controlId}>
+                <Col componentClass={ControlLabel} sm={2}>
+                {placeholder}
+                </Col>
+                <Col sm={10}>
+                <FormControl
+                    type="text"
+                    id={id}
+                    value={value}
+                    placeholder={placeholder}
+                    onChange={e => this.handleChange(e)}
+                />
+                </Col>
+            </FormGroup>
+        );
+        
+    }
 
     render() {
         return (

@@ -41,8 +41,8 @@ public class ProposalController {
 		System.out.println(proposal.getProjectSize());
 		System.out.println(proposal.getTechnologiesExpected());
 		System.out.println(proposal.getBackgroundRequested());
-		System.out.println(proposal.getProjectDescription());   
-	   
+		System.out.println(proposal.getProjectDescription());
+
 	    proposalRepo.save(proposal);
 		return proposal; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
 	}

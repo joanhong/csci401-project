@@ -8,8 +8,44 @@ import {
     FormControl,
 } from 'react-bootstrap';
 
-class Stakeholders extends React.Component {
+interface StakeholderListProps {
+}
+
+interface StakeholderListState {
+stakeholders: Array<{}>;
+isLoading: boolean;
+}
+
+interface Stakeholder {
+    name: string;
+    companyName: string;
+    email: string;
+}
+
+class Stakeholders extends React.Component<StakeholderListProps, StakeholderListState> {
+    constructor(props: StakeholderListProps) {
+        super(props);
+        
+        this.state = {
+            stakeholders: [],
+            isLoading: false
+        };
+    }
+    componentDidMount() {
+        this.setState({isLoading: true});
+        
+        fetch('http://localhost:8080/users/stakeholders')
+            .then(response => response.json())
+            .then(data => this.setState({stakeholders: data, isLoading: false}));
+    }
+
     render() {
+        const {stakeholders, isLoading} = this.state;
+
+        if (isLoading) {
+            return <p>Loading...</p>;
+        }
+
         return (
         <div>
             <Panel>
@@ -36,21 +72,16 @@ class Stakeholders extends React.Component {
                           </tr>
                       </thead>
                       <tbody>
-                          <tr>
-                              <td>Bill Smith</td>
-                              <td>USC Computer Science Professor</td>
-                              <td>bjsmith@usc.edu</td>
-                              <td>4.5</td>
-                              <td>View</td>
-                          </tr>
-                            <tr>
-                              <td>LAPD</td>
-                              <td>Los Angeles Police Department</td>
-                              <td>jburns@lapd.la.ca.gov</td>
-                              <td>4.2</td>
-                              <td>View</td>
-                          </tr>
-                      </tbody>
+                        {stakeholders.map((stakeholder: Stakeholder) =>
+                            <tr key={stakeholder.name}>
+                                <td>{stakeholder.name}</td>
+                                <td>{stakeholder.companyName}</td>
+                                <td>{stakeholder.email}</td>
+                                <td>0</td>
+                                <td><Button>View</Button></td>
+                            </tr>
+                        )}
+                    </tbody>
                   </Table>
               </Panel.Body>
           </Panel>

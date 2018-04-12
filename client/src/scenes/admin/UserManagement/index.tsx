@@ -3,6 +3,7 @@ import * as React from 'react';
 import {
   Table
 } from 'react-bootstrap';
+import StudentRegistrationForm from './StudentRegistrationForm';
 
 interface UserListProps {
 }
@@ -33,7 +34,7 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
     componentDidMount() {
         this.setState({isLoading: true});
         
-        fetch('http://localhost:8080/users')
+        fetch('http://localhost:8080/users/all')
             .then(response => response.json())
             .then(data => this.setState({users: data, isLoading: false}));
     }
@@ -48,6 +49,7 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         return(
             <div>
                 <h2>User Management</h2>
+                <StudentRegistrationForm/>
                 <Table bordered={true}>
                     <thead>
                         <tr>

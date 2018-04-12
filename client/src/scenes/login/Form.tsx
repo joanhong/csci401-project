@@ -30,7 +30,7 @@ class LoginForm extends React.Component<LoginProps, LoginState> {
 submitClicked() {
     var request = new XMLHttpRequest();
     request.withCredentials = true;
-    request.open('POST', 'http://localhost:8080/users/login');
+    request.open('POST', 'http://localhost:8080/users/loginAttempt/');
     request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     var data = JSON.stringify({
         email: this.state.email,
@@ -38,12 +38,10 @@ submitClicked() {
     });
     request.setRequestHeader('Cache-Control', 'no-cache');
     request.send(data);
-    alert(request.responseText + 'Logging you in...');
+    alert('Logging you in...');
     request.onreadystatechange = function() {
         if (request.readyState === 4) {
             if (request.responseText.length > 4) {
-                alert('LOGIN SUCCESSFUL!');
-                alert(request.responseText);
                 if (request.responseText === 'student') {
                     window.location.href = '/student';
                 } else if (request.responseText === 'stakeholder') {
@@ -53,6 +51,20 @@ submitClicked() {
                 } 
             } else {
                 alert('LOGIN FAILED.');
+            }
+        }
+    };
+
+    var requestUser = new XMLHttpRequest();
+    requestUser.withCredentials = true;
+    requestUser.open('POST', 'http://localhost:8080/users/loginUser');
+    requestUser.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+    requestUser.setRequestHeader('Cache-Control', 'no-cache');
+    requestUser.send(data);
+    requestUser.onreadystatechange = function() {
+        if (requestUser.readyState === 4) {
+            if (requestUser.responseText.length > 4) {
+                // alert(requestUser.responseText);
             }
         }
     };
@@ -100,12 +112,6 @@ this.setState({ [e.target.id]: e.target.value });
             <FormGroup>
                 <Col smOffset={2} sm={10}>
                 <Button type="reset" onClick={this.submitClicked}>Sign in</Button>
-                </Col>
-            </FormGroup>
-
-            <FormGroup>
-                <Col smOffset={2} sm={10}>
-                <Button href="/register">Register</Button>
                 </Col>
             </FormGroup>
         </Form>

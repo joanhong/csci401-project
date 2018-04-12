@@ -11,9 +11,6 @@ import capstone.model.users.Student;
 
 @Entity
 public class FinalPresentationReview extends Assignment {
-	@Id
-	@GeneratedValue
-	Long id;
 	
 	@MapsId("project_id")
 	@OneToOne(fetch = FetchType.LAZY)

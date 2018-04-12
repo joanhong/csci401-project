@@ -12,9 +12,6 @@ import capstone.model.users.Student;
 
 @Entity
 public class StakeholderReview extends Assignment {
-	@Id
-	@GeneratedValue
-	Long id;
 	
 	@MapsId("student_id")
 	@OneToOne(fetch = FetchType.LAZY)

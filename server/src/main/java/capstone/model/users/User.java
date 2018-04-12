@@ -9,44 +9,51 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Transient;
 
 @Entity
-public abstract class User 
+public class User 
 {	
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+	public String getAddr() {
+		return addr;
+	}
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
 	@Id
 	@GeneratedValue
-	private long id;
+	private Long userId;
 	
 	// Basic information
-	private String firstName;
-	private String lastName;
+	private String name;
 	@Email(message = "Please provide a valid e-mail")
 	@NotEmpty(message = "Please provide an e-mail")
 	private String email;
 	private String phone;
 	
+	// Temporary
+	private String addr;
+	
 	// Login
-	private String username;
 	@Transient
 	private String password; //encrypted
 	
-	public long getId() 
+	public Long getId() 
 	{
-		return id;
+		return userId;
 	}
-	public void setId(long id) 
+	public void setId(Long id) 
 	{
-		this.id = id;
+		this.userId = id;
 	}
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getEmail() 
 	{
@@ -55,14 +62,6 @@ public abstract class User
 	public void setEmail(String email) 
 	{
 		this.email = email;
-	}
-	public String getUsername() 
-	{
-		return username;
-	}
-	public void setUsername(String username) 
-	{
-		this.username = username;
 	}
 	public String getPassword() 
 	{
