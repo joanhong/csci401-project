@@ -10,7 +10,71 @@ import {
     ControlLabel    
 } from 'react-bootstrap';
 
-class StudentProfile extends React.Component {
+interface ProfileProps {
+}
+interface ProfileState {
+    name: string;
+    email: string;
+    phone: string;
+    isLoading: boolean;
+}
+
+class StudentProfile extends React.Component<ProfileProps, ProfileState> {
+    constructor(props: ProfileProps) {
+        super(props);
+        this.state = {
+            name: '',
+            email: '',
+            phone: '',
+            isLoading: false,
+        };
+        this.submitClicked = this.submitClicked.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
+    componentDidMount() {
+        this.setState({isLoading: true});
+
+        var request = new XMLHttpRequest();
+        request.withCredentials = true;
+        request.open('POST', 'http://localhost:8080/loggedInUser/');
+        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        var data = 'loggedIn';
+        request.setRequestHeader('Cache-Control', 'no-cache');
+        request.send(data);
+
+        var that = this;
+        request.onreadystatechange = function() {
+            if (request.readyState === 4) {
+                var response = request.responseText;
+                var jsonResponse = JSON.parse(response);
+                var fullNameLiteral = 'fullName';
+                var emailLiteral = 'email';
+                that.setState({name: jsonResponse[fullNameLiteral], 
+                    email: jsonResponse[emailLiteral]});
+            }
+        };
+    }
+    submitClicked() {
+   /*     var request = new XMLHttpRequest();
+        request.withCredentials = true;
+        request.open('POST', 'http://localhost:8080//');
+        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        var data = JSON.stringify({
+            fullName: this.state.name,
+            email: this.state.email,
+            phone: this.state.phone
+        });
+        request.setRequestHeader('Cache-Control', 'no-cache');
+        request.send(data);
+        alert(request.responseText + 'Logging you in...');
+        request.onreadystatechange = function() {
+            if (request.readyState === 4) {
+            }
+        }; */
+    }
+    handleChange(e: any) {
+        this.setState({ [e.target.id]: e.target.value });
+    }
     render() {
         return (
             <div>
@@ -25,7 +89,12 @@ class StudentProfile extends React.Component {
                         Name:
                     </Col>
                     <Col sm={10}>
-                        <FormControl type="text" value="Student Name" />
+                        <FormControl 
+                            type="text" 
+                            id="name"
+                            value={this.state.name}
+                            onChange={e => this.handleChange(e)} 
+                        />
                     </Col>             
                 </FormGroup>
                 
@@ -34,7 +103,12 @@ class StudentProfile extends React.Component {
                         Email:
                     </Col>
                     <Col sm={10}>
-                        <FormControl type="email" value="studentname@usc.edu" />
+                        <FormControl 
+                            type="email" 
+                            id="email"
+                            value={this.state.email} 
+                            onChange={e => this.handleChange(e)} 
+                        />
                     </Col>             
                 </FormGroup>
                 
@@ -43,43 +117,24 @@ class StudentProfile extends React.Component {
                         Phone:
                     </Col>
                     <Col sm={10}>
-                        <FormControl type="tel" />
+                        <FormControl 
+                            type="tel" 
+                            id="phone"
+                            value={this.state.phone}
+                            onChange={e => this.handleChange(e)} 
+                            placeholder="(###)-###-###"
+                        />
                     </Col>             
                 </FormGroup> 
                 
                 <FormGroup>
                     <Col smOffset={2} sm={10}>
-                        <Button type="submit" bsStyle="primary">Edit/Save Profile</Button>
+                        <Button type="submit" bsStyle="primary" onClick={this.submitClicked}>Edit/Save Profile</Button>
                     </Col>
                 </FormGroup>               
             </Form>    
             </Panel.Body>
             </Panel>
-
-            <Panel>
-              <Panel.Heading>
-                  Course Conflicts
-              </Panel.Heading>
-              <Panel.Body>
-                  <Table>
-                      <thead>
-                          <tr>
-                              <th>Course</th>
-                              <th>Start</th>
-                              <th>End</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr>
-                              <td>Course 1</td>
-                              <td>4:00 PM</td>
-                              <td>5:00 PM</td>
-                          </tr>
-                      </tbody>
-                  </Table>
-                  <Button bsStyle="primary">Add Course Conflict</Button>
-              </Panel.Body>
-          </Panel>
         </div>
         );
     }

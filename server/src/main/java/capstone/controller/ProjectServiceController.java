@@ -375,6 +375,25 @@ public class ProjectServiceController
 
 		return null; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
 	}
+
+	//////
+	@RequestMapping(value = "/loggedInUser",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody User loggedInUser(@RequestBody String name, HttpServletRequest request)
+	{
+		System.out.println("Logged in user");
+		System.out.println("Received HTTP POST");
+		String addr = request.getHeader(HttpHeaders.ORIGIN);
+		System.out.println(addr);
+		User curr = usm.getUser(addr);
+		String[] user = new String[2];
+		user[0] = curr.getFullName();
+		user[1] = curr.getEmail();
+		if (curr != null) {
+			return curr;
+		}
+		return null; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
+	}
 	
 	
 //	@RequestMapping(value = "/projectData", method = RequestMethod.POST, headers="content-type=application/json")
