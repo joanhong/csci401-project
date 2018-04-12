@@ -105,6 +105,79 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         if (isLoading) {
             return <p>Loading...</p>;
         }
+
+        var modalEditUser = <div/>;
+        if (typeof userToEdit !== 'undefined') {
+            modalEditUser = (
+                <Modal show={userIndexToEdit !== -1} onHide={this.cancelEdit}>
+                    <Modal.Header closeButton={true}>
+                        <Modal.Title>Edit User</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form horizontal={true} >
+                            <FormGroup controlId="formHorizontalName">
+                                <Col componentClass={ControlLabel} sm={2}>
+                                Name
+                                </Col>
+                                <Col sm={10}>
+                                <FormControl
+                                    type="text"
+                                    id="editName"
+                                    value={this.state.editName}
+                                    placeholder="Name"
+                                    onChange={e => this.handleChange(e)}
+                                />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup controlId="formHorizontalEmail">
+                                <Col componentClass={ControlLabel} sm={2}>
+                                Year
+                                </Col>
+                                <Col sm={10}>
+                                <FormControl
+                                    type="text"
+                                    placeholder="Email"
+                                    id="editEmail"
+                                    value={this.state.editEmail}
+                                    onChange={e => this.handleChange(e)}
+                                />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup controlId="formHorizontalUserType">
+                                <Col componentClass={ControlLabel} sm={2}>
+                                User Type
+                                </Col>
+                                <Col sm={10}>
+                                <FormControl componentClass="select" placeholder="select" id="editUserType" value={this.state.editUserType} onChange={e => this.handleChange(e)}>
+                                    <option value="Student">Student</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="Stakeholder">Stakeholder</option>
+                                </FormControl>
+                                </Col>
+                            </FormGroup>
+                            <FormGroup controlId="formHorizontalYear">
+                                <Col componentClass={ControlLabel} sm={2}>
+                                Year
+                                </Col>
+                                <Col sm={10}>
+                                <FormControl
+                                    type="text"
+                                    placeholder="Year"
+                                    id="editYear"
+                                    value={this.state.editYear}
+                                    onChange={e => this.handleChange(e)}
+                                />
+                                </Col>
+                            </FormGroup>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.cancelEdit}>Cancel</Button>
+                        <Button onClick={this.submitEdit} bsStyle="primary">Save</Button>
+                    </Modal.Footer>
+                </Modal>
+            );
+        }
         
         return(
             <div>
@@ -137,77 +210,7 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
                         )}
                     </tbody>
                 </Table>
-                {
-                    typeof userToEdit !== 'undefined'
-                    ? <Modal show={userIndexToEdit !== -1} onHide={this.cancelEdit}>
-                        <Modal.Header closeButton={true}>
-                            <Modal.Title>Edit User</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Form horizontal={true} >
-                                <FormGroup controlId="formHorizontalName">
-                                    <Col componentClass={ControlLabel} sm={2}>
-                                    Name
-                                    </Col>
-                                    <Col sm={10}>
-                                    <FormControl
-                                        type="text"
-                                        id="editName"
-                                        value={this.state.editName}
-                                        placeholder="Name"
-                                        onChange={e => this.handleChange(e)}
-                                    />
-                                    </Col>
-                                </FormGroup>
-                                <FormGroup controlId="formHorizontalEmail">
-                                    <Col componentClass={ControlLabel} sm={2}>
-                                    Year
-                                    </Col>
-                                    <Col sm={10}>
-                                    <FormControl
-                                        type="text"
-                                        placeholder="Email"
-                                        id="editEmail"
-                                        value={this.state.editEmail}
-                                        onChange={e => this.handleChange(e)}
-                                    />
-                                    </Col>
-                                </FormGroup>
-                                <FormGroup controlId="formHorizontalUserType">
-                                    <Col componentClass={ControlLabel} sm={2}>
-                                    User Type
-                                    </Col>
-                                    <Col sm={10}>
-                                    <FormControl componentClass="select" placeholder="select" id="editUserType" value={this.state.editUserType} onChange={e => this.handleChange(e)}>
-                                        <option value="Student">Student</option>
-                                        <option value="Admin">Admin</option>
-                                        <option value="Stakeholder">Stakeholder</option>
-                                    </FormControl>
-                                    </Col>
-                                </FormGroup>
-                                <FormGroup controlId="formHorizontalYear">
-                                    <Col componentClass={ControlLabel} sm={2}>
-                                    Year
-                                    </Col>
-                                    <Col sm={10}>
-                                    <FormControl
-                                        type="text"
-                                        placeholder="Year"
-                                        id="editYear"
-                                        value={this.state.editYear}
-                                        onChange={e => this.handleChange(e)}
-                                    />
-                                    </Col>
-                                </FormGroup>
-                            </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button onClick={this.cancelEdit}>Cancel</Button>
-                            <Button onClick={this.submitEdit} bsStyle="primary">Save</Button>
-                        </Modal.Footer>
-                    </Modal>
-                    : <div/>
-                }
+                {modalEditUser}
             </div>);
     }
 }
