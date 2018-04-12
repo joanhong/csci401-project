@@ -18,6 +18,7 @@ interface ProfileState {
     phone: string;
     isLoading: boolean;
 }
+var studentName = '';
 
 class StudentProfile extends React.Component<ProfileProps, ProfileState> {
     constructor(props: ProfileProps) {
@@ -50,6 +51,9 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
                 var fullNameLiteral = 'fullName';
                 var emailLiteral = 'email';
                 var phoneLiteral = 'phone';
+
+                studentName = jsonResponse[fullNameLiteral];
+
                 that.setState({
                     name: jsonResponse[fullNameLiteral], 
                     email: jsonResponse[emailLiteral],
@@ -101,7 +105,7 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
                         <FormControl 
                             type="text" 
                             id="name"
-                            value={this.state.name}
+                            value={studentName}
                             onChange={e => this.handleChange(e)} 
                         />
                     </Col>             
