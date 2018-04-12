@@ -46,11 +46,6 @@ public class ProjectServiceController
 		this.repository = repository;
 		driver = new SQLDriver(5); // TODO: have this be configured as NUM_RANKED, not hard-coded
 		driver.connect();
-		Vector<Project> projectsVector = driver.getProjectsTable(); 
-		for (Project p: projectsVector)
-		{
-			repository.save(p);
-		}
 		
 		usm = new UserSessionManager();
 		
@@ -62,6 +57,12 @@ public class ProjectServiceController
 	@CrossOrigin(origins = "http://localhost:3000")
 	public Collection<Project> projects()
 	{
+		repository.deleteAll();
+		Vector<Project> projectsVector = driver.getProjectsTable(); 
+		for (Project p: projectsVector)
+		{
+			repository.save(p);
+		}
 		return repository.findAll().stream()
 				.collect(Collectors.toList());
 	}
@@ -182,6 +183,82 @@ public class ProjectServiceController
 		}
 		//XXXXXXXXXX
 	
+		//XXXXXXXXXXXX
+		@RequestMapping(value = "/projectApprovalAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+		@CrossOrigin(origins = "http://localhost:3000")
+		public @ResponseBody String projectApprovalAttempt(@RequestBody String projectlist)
+		{
+			System.out.println("Received HTTP POST");
+			System.out.println(projectlist);
+			Vector<String> projectNames = new Vector<String>();
+			Vector<String> approvalStatus = new Vector<String>();
+			
+			while(projectlist.length() > 30)
+			{
+				int startindex = projectlist.indexOf("name");
+				int endindex = projectlist.indexOf("minSize");
+				if(startindex == -1 || endindex == -1)
+				{
+					break;
+				}
+				String dirtyString = projectlist.substring(startindex, endindex);
+				dirtyString = dirtyString.replace('"', ' ');
+				dirtyString = dirtyString.replace(':', ' ');
+				dirtyString = dirtyString.replace(',', ' ');
+				dirtyString = dirtyString.replaceAll("name", " ");
+				dirtyString = dirtyString.trim();
+//				System.out.println(dirtyString);
+				projectNames.add(dirtyString);
+								
+				int startindex2 = projectlist.indexOf("status");
+				int endindex2 = projectlist.indexOf("dueDate");
+				if(startindex2 == -1 || endindex2 == -1)
+				{
+					break;
+				}
+				String dirtyString2 = projectlist.substring(startindex2, endindex2);
+				dirtyString2 = dirtyString2.replace('"', ' ');
+				dirtyString2 = dirtyString2.replace(':', ' ');
+				dirtyString2 = dirtyString2.replace(',', ' ');
+				dirtyString2 = dirtyString2.replaceAll("status", " ");
+				dirtyString2 = dirtyString2.trim();
+//				System.out.println(dirtyString2);
+				approvalStatus.add(dirtyString2);
+				
+				int trimindex = projectlist.indexOf("projectDescription");
+				trimindex = trimindex +30;
+				if(trimindex < projectlist.length())
+				{
+					projectlist = projectlist.substring(trimindex, projectlist.length()-1);
+				}
+				else
+				{
+					break;
+				}
+				
+			}
+			
+			String timeStamp = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss").format(new Date());
+			String timeCode = new SimpleDateFormat("MMddHHmmss").format(new Date());
+//			timeCode.replaceAll(".", "");
+			Vector<String> approvedProjects = new Vector<String>();
+			for(int i=0; i<approvalStatus.size(); i++)
+			{
+				if(approvalStatus.get(i).equals("Approved"))
+				{
+					approvedProjects.add(projectNames.get(i));
+					System.out.println(projectNames.get(i));
+				}
+			}
+			
+			for(String s : approvedProjects)
+			{
+				driver.updateProjectStatus(s, "Approved");
+			}
+
+			return "OK";
+		}
+		//XXXXXXXXXX
 	
 	
 	

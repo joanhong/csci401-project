@@ -12,6 +12,7 @@ public class ProjectData
 	private long id;
 	String projectName;
 	int projectSize;
+	
 	String technologiesExpected;
 	String backgroundRequested;
 	String projectDescription;

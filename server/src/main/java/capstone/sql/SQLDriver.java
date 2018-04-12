@@ -33,6 +33,7 @@ public class SQLDriver {
 	private final static String getEncryptedPassword = "SELECT * FROM 401_Platform.USERS WHERE EMAIL=?";
 	private final static String updateUserEntry = "UPDATE 401_Platform.USERS SET Full_name = ?, year = ?, email =?, user_type=? WHERE Full_name=?";
 	private final static String getRankingsCount = "SELECT COUNT(*) FROM 401_Platform.ProjectRankings";
+	private final static String updateApprovalStatus = "UPDATE " + DATABASE_NAME + ".Projects SET Project_status=? WHERE Project_name=?";
 	
 	private final static String addWeeklyReport = "INSERT INTO " + DATABASE_NAME + 
 			".WeeklyReportsTable(idWeeklyReportsTable, studentName, studentuscusername, projectNumber, date, "
@@ -394,6 +395,20 @@ public class SQLDriver {
 			ps.setString(2, email);
 			ps.executeUpdate();
 			System.out.println("Updated password for user: "+ email);
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateProjectStatus(String projectName, String projectStatus)
+	{
+		try
+		{
+			PreparedStatement ps = con.prepareStatement(updateApprovalStatus);
+			ps.setString(1, projectStatus);
+			ps.setString(2, projectName);
+			ps.executeUpdate();
+			System.out.println("Approved project - "+ projectName);
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
