@@ -3,20 +3,25 @@ import * as React from 'react';
 import {
   Table,
   Button,
+  ButtonGroup,
   Modal,
   Form,
   FormGroup,
   Col,
   FormControl,
-  ControlLabel
+  ControlLabel,
+  ButtonToolbar,
+  ToggleButtonGroup,
+  ToggleButton
+
 } from 'react-bootstrap';
 
 interface UserListProps {
 }
 
 interface UserListState {
-    users: Array<{}>;
-    isLoading: boolean;
+    allUsers: Array<{}>;
+    usersToDisplay: Array<{}>;
     userIndexToEdit: number;
     userToEdit?: User;
     userToDelete?: User;
@@ -24,6 +29,7 @@ interface UserListState {
     editUserType?: string;
     editYear?: string;
     editEmail?: string;
+    isLoading: boolean;
 }
 
 interface User {
@@ -39,9 +45,10 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         super(props);
         
         this.state = {
-            users: [],
-            isLoading: false,
+            allUsers: [],
+            usersToDisplay: [],
             userIndexToEdit: -1,
+            isLoading: false,
         };
     }
     
@@ -50,7 +57,7 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         
         fetch('http://localhost:8080/users')
             .then(response => response.json())
-            .then(data => this.setState({users: data, isLoading: false}));
+            .then(data => this.setState({allUsers: data, usersToDisplay: data, isLoading: false}));
     }
 
     cancelEdit = () => {
@@ -58,7 +65,6 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
     }
 
     submitEdit = () => {
-
         var request = new XMLHttpRequest();
         request.withCredentials = true;
         request.open('POST', 'http://localhost:8080/userInfoUpdate/');
@@ -78,6 +84,32 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
 
     handleChange(e: any) {
         this.setState({ [e.target.id]: e.target.value });
+    }
+
+    handleUserFilterChange = (e: any) => {
+        var _usersToDisplay: User[] = [];
+        const {allUsers} = this.state;
+        var userFilterType = '';
+
+        if (e === 1) {
+            userFilterType = 'All';
+        } else if (e === 2) {
+            userFilterType = 'Student';
+        } else if (e === 3) {
+            userFilterType = 'Stakeholder';
+        } else if (e === 4) {
+            userFilterType = 'Admin';
+        }
+
+        allUsers.forEach((user: User) => {
+            if (user.userType === userFilterType) {
+                _usersToDisplay.push(user);
+            } else if (userFilterType === 'All') {
+                _usersToDisplay.push(user);
+            }
+        });
+
+        this.setState({usersToDisplay: _usersToDisplay});
     }
 
     editUser(index: number, user: User) {
@@ -100,7 +132,7 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
     }
 
     render() {
-        const {users, isLoading, userIndexToEdit, userToEdit} = this.state;
+        const {allUsers, usersToDisplay, isLoading, userIndexToEdit, userToEdit} = this.state;
         
         if (isLoading) {
             return <p>Loading...</p>;
@@ -182,7 +214,27 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         return(
             <div>
                 <h2>User Management</h2>
+                
+                <div>
                 <Button bsStyle="primary" href="/register/student" style={{margin: 10}}>Add New User</Button>
+                </div>
+
+                <div>
+                <ButtonToolbar>
+                    <ToggleButtonGroup
+                        onChange={this.handleUserFilterChange}
+                        type="radio"
+                        name="userFilter"
+                        defaultValue={1}
+                    >
+                    <ToggleButton value={1}>All</ToggleButton>
+                    <ToggleButton value={2}>Student</ToggleButton>
+                    <ToggleButton value={3}>Stakeholder</ToggleButton>
+                    <ToggleButton value={4}>Admin</ToggleButton>
+                    </ToggleButtonGroup>
+                </ButtonToolbar>
+                </div>
+
                 <Table bordered={true} condensed={true}>
                     <thead>
                         <tr>
@@ -194,7 +246,7 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user: User, index: number) =>
+                        {usersToDisplay.map((user: User, index: number) =>
                             <tr key={user.id}>
                                 <td>{user.fullName}</td>
                                 <td>{user.userType}</td>
