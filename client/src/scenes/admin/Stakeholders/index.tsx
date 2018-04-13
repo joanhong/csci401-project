@@ -1,62 +1,100 @@
 import * as React from 'react';
+
 import {
-    Panel,
-    Button,
-    Table,
-    Form,
-    FormGroup,
-    FormControl,
+  Table,
+  Button,
+  ButtonGroup,
+  Modal,
+  Form,
+  FormGroup,
+  Col,
+  FormControl,
+  ControlLabel,
+  ButtonToolbar,
+  ToggleButtonGroup,
+  ToggleButton
+
 } from 'react-bootstrap';
 
-class Stakeholders extends React.Component {
-    render() {
-        return (
-        <div>
-            <Panel>
-            <Form horizontal={true}>
-                <FormGroup controlId="formInlineSearch">
-                    <FormControl type="text" placeholder="Search..." />
-                </FormGroup>
-                <Button type="submit" bsStyle="primary">Search Stakeholders</Button>
-            </Form>
-            </Panel>
-            <Panel>
-              <Panel.Heading>
-                  Stakeholders
-              </Panel.Heading>
-              <Panel.Body>
-                  <Table>
-                      <thead>
-                          <tr>
-                              <th>Name</th>
-                              <th>Company/Organization</th>
-                              <th>Contact Email</th>
-                              <th>Average Rating</th>
-                              <th>Student Reviews</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr>
-                              <td>Bill Smith</td>
-                              <td>USC Computer Science Professor</td>
-                              <td>bjsmith@usc.edu</td>
-                              <td>4.5</td>
-                              <td>View</td>
-                          </tr>
-                            <tr>
-                              <td>LAPD</td>
-                              <td>Los Angeles Police Department</td>
-                              <td>jburns@lapd.la.ca.gov</td>
-                              <td>4.2</td>
-                              <td>View</td>
-                          </tr>
-                      </tbody>
-                  </Table>
-              </Panel.Body>
-          </Panel>
-        </div>
-        );
-    }
+interface UserListProps {
 }
 
+interface UserListState {
+    allUsers: Array<{}>;
+    usersToDisplay: Array<{}>;
+    userIndexToEdit: number;
+    userToEdit?: User;
+    userToDelete?: User;
+    editName?: string;
+    editUserType?: string;
+    editYear?: string;
+    editEmail?: string;
+    isLoading: boolean;
+}
+
+interface User {
+    id: number;
+    fullName: string;
+    companyName: string;
+    email: string;
+}
+
+class Stakeholders extends React.Component<UserListProps, UserListState> {
+    constructor(props: UserListProps) {
+        super(props);
+        
+        this.state = {
+            allUsers: [],
+            usersToDisplay: [],
+            userIndexToEdit: -1,
+            isLoading: false,
+        };
+    }
+    
+    componentDidMount() {
+        this.setState({isLoading: true});
+        
+        fetch('http://localhost:8080/stakeholders')
+            .then(response => response.json())
+            .then(data => this.setState({allUsers: data, usersToDisplay: data, isLoading: false}));
+    }
+
+    handleChange(e: any) {
+        this.setState({ [e.target.id]: e.target.value });
+    }
+
+    render() {
+        const {allUsers, usersToDisplay, isLoading, userIndexToEdit, userToEdit} = this.state;
+        
+        if (isLoading) {
+            return <p>Loading...</p>;
+        }
+        
+        return(
+            <div>
+                <h2>Stakeholders</h2>
+
+                <Table bordered={true} condensed={true}>
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Organization</th>
+                            <th>Email</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {usersToDisplay.map((user: User, index: number) =>
+                            <tr key={user.id}>
+                                <td>{user.fullName}</td>
+                                <td>{user.companyName}</td>
+                                <td>{user.email}</td>
+                            </tr>
+                        )}
+                    </tbody>
+                    
+                </Table>
+            </div>);
+    }
+}
 export default Stakeholders;

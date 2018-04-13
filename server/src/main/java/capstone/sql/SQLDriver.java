@@ -27,6 +27,7 @@ public class SQLDriver {
 	private final static String addUser = "INSERT INTO " + DATABASE_NAME + ".Users(USERNAME,PASSWORD) VALUES(?,?)";
 	private final static String getUsername = "SELECT USERNAME FROM " + DATABASE_NAME + ".Users WHERE USER_ID=?";
 	private final static String getAllUsers = "SELECT * FROM " + DATABASE_NAME + ".Users";
+	private final static String getAllStakeholders = "SELECT * FROM " + DATABASE_NAME + ".Stakeholders";
 	private final static String getAllProjects = "SELECT * FROM " + DATABASE_NAME + ".Projects";
 	private final static String getUserProjectRankings = "SELECT * FROM " + DATABASE_NAME + ".ProjectRankings WHERE STUDENTNUMBER=?";
 	private final static String updatePassword = "UPDATE " + DATABASE_NAME + ".USERS SET PASSWORD=? WHERE EMAIL=?";
@@ -133,7 +134,28 @@ public class SQLDriver {
 		return returnVector; //returns true if the user name is in use in the DB
 	}
 	
-	////
+	public Vector<User> getAllStakeholders()
+	{
+		Vector<User> returnVector = new Vector<User>();
+		try{
+			PreparedStatement ps = con.prepareStatement(getAllStakeholders);
+			ResultSet result = ps.executeQuery();
+			while(result.next())
+			{
+				User u = new User();
+				
+				u.setId(result.getInt(1));
+				u.setFullName(result.getString("FULL_NAME"));
+				u.setCompanyName(result.getString("ORGANIZATION"));
+				u.setUserType("Stakeholder");
+				u.setEmail(result.getString("EMAIL"));
+				
+				returnVector.addElement(u);	
+			}		
+		}catch (SQLException e){e.printStackTrace();}
+		return returnVector; //returns true if the user name is in use in the DB
+	}
+	
 	public Vector<Project> getAllProjects()
 	{
 		Vector<Project> returnVector = new Vector<Project>();

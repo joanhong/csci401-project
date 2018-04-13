@@ -42,7 +42,7 @@ class StakeholderNavigation extends React.Component {
               
               <LinkContainer to="/stakeholder/proposals">
                 <NavItem eventKey={2}>
-                  ProjectProposal
+                  Project Proposal
                 </NavItem>
               </LinkContainer>
             </Nav>
