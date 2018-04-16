@@ -12,7 +12,7 @@ import capstone.model.users.Student;
 @Entity
 public class FinalPresentationReview extends Assignment {
 	
-	@MapsId("project_id")
+	//@MapsId("project_id")
 	@OneToOne(fetch = FetchType.LAZY)
 	private Project project;
 	

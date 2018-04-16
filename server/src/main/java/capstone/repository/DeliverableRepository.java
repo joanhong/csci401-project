@@ -1,5 +1,6 @@
 package capstone.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,7 +11,7 @@ import capstone.model.Deliverable;
 
 @RepositoryRestResource
 @Transactional
-public interface DeliverableRepository extends AssignmentBaseRepository<Deliverable> {
+public interface DeliverableRepository extends JpaRepository<Deliverable, Long> {//AssignmentBaseRepository<Deliverable> {
 
 	Iterable<Deliverable> findAllByProjectId(Long projectId);
 	

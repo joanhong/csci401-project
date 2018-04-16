@@ -10,15 +10,17 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "deliverables")
-public class Deliverable extends Assignment {
-	
+public class Deliverable {//extends Assignment {
+	@Id
+	@GeneratedValue
+	public Long id;
 	public String name;
 	public String description;
 	public String status;
 	
-	@MapsId("project_id")
-	@OneToOne(fetch = FetchType.LAZY)
-	public Project project;
+	//@MapsId("project_id")
+	//@OneToOne(fetch = FetchType.LAZY)
+	public Long projectId;
 	
 	public String fileName;
 	
@@ -40,11 +42,11 @@ public class Deliverable extends Assignment {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public Project getProject() {
-		return project;
+	public Long getProject() {
+		return projectId;
 	}
-	public void setProject(Project project) {
-		this.project = project;
+	public void setProject(Long project) {
+		this.projectId = project;
 	}
 	public String getFileName() {
 		return fileName;

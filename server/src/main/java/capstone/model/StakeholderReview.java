@@ -21,7 +21,7 @@ public class StakeholderReview extends Assignment {
 	@OneToOne(fetch = FetchType.LAZY)
 	private Stakeholder stakeholder;
 	
-	@MapsId("project_id")
+	//@MapsId("project_id")
 	@OneToOne(fetch = FetchType.LAZY)
 	private Project project;
 	

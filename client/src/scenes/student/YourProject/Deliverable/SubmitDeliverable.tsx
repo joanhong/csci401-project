@@ -38,7 +38,7 @@ class SubmitDeliverable extends React.Component<DeliverableProps, DeliverableSta
             dueDate: new Date(),
             status: 'Pending',
             dateSubmitted: new Date(),
-            projectNumber: 0,
+            projectNumber: 1,
             fileName: '',
             reload: true
         };
@@ -93,7 +93,7 @@ class SubmitDeliverable extends React.Component<DeliverableProps, DeliverableSta
             dueDate: this.state.dueDate,
             status: this.state.status,
             dateSubmitted: this.state.dateSubmitted,
-            projectNumber: this.state.projectNumber,
+            projectId: this.state.projectNumber,
             fileName: this.state.fileName
         });
         request.setRequestHeader('Cache-Control', 'no-cache');

@@ -59,7 +59,7 @@ class SubmittedDeliverables extends React.Component<DeliverableProps, Deliverabl
     componentDidMount() {
         this.setState({isLoading: true});
         
-        fetch('http://localhost:8080/deliverables/0')
+        fetch('http://localhost:8080/deliverables/1')
             .then(response => response.json())
             .then(data => this.setState({deliverables: data, isLoading: false}));
     }

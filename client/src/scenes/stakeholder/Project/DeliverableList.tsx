@@ -33,7 +33,7 @@ class DeliverableList extends React.Component<DeliverableProps, DeliverableState
     approveDeliverable(deliverableNumber: number) {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/deliverables/0/' + deliverableNumber + '/approve');
+        request.open('POST', 'http://localhost:8080/deliverables/1/' + deliverableNumber + '/approve');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
             status: 'Approved'
@@ -45,7 +45,7 @@ class DeliverableList extends React.Component<DeliverableProps, DeliverableState
     rejectDeliverable(deliverableNumber: number) {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/deliverables/0/' + deliverableNumber + '/reject');
+        request.open('POST', 'http://localhost:8080/deliverables/1/' + deliverableNumber + '/reject');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
             status: 'Rejected'
@@ -57,7 +57,7 @@ class DeliverableList extends React.Component<DeliverableProps, DeliverableState
     componentDidMount() {
         this.setState({isLoading: true});
         
-        fetch('http://localhost:8080/deliverables/0')
+        fetch('http://localhost:8080/deliverables/1')
             .then(response => response.json())
             .then(data => this.setState({deliverables: data, isLoading: false}));
     }
