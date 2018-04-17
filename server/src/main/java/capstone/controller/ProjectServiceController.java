@@ -153,17 +153,17 @@ public class ProjectServiceController
 	//XXXXXXXXXXXX
 		@RequestMapping(value = "/userInfoUpdate",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
 		@CrossOrigin(origins = "http://localhost:3000")
-		public @ResponseBody UserData userInfoUpdateAttempt(@RequestBody UserData userdata)
+		public @ResponseBody User userInfoUpdateAttempt(@RequestBody User userdata)
 		{
 			System.out.println("Received HTTP POST");
 			String timeStamp = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss").format(new Date());
 			String timeCode = new SimpleDateFormat("MMddHHmmss").format(new Date());
 //			timeCode.replaceAll(".", "");
 			
-			userdata.setId(Integer.parseInt(timeCode));
-			System.out.println(userdata.getId());
-			System.out.println(userdata.getName());
-			System.out.println(userdata.getYear());
+			System.out.println(userdata.getUserId());
+			System.out.println(userdata.getFirstName());
+			System.out.println(userdata.getLastName());
+			System.out.println(userdata.getSemester());
 			System.out.println(userdata.getEmail());
 			System.out.println(userdata.getUserType());
 			

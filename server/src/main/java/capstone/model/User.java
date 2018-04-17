@@ -19,12 +19,29 @@ public class User
 	String password;
 	String phone;	
 	String ipAddress;
+	int semester;
 
 	public User() {}
 	
 	public User(String firstName) 
 	{
 		this.firstName = firstName;
+	}
+
+	public User(int userId, String firstName, String lastName, String userType, int semester, String email) {
+		System.out.println("---------\n" + userId);
+		System.out.println(firstName);
+		System.out.println(lastName);
+		System.out.println(userType);
+		System.out.println(semester);
+		System.out.println(email + "\n---------");
+		
+		this.userId = userId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userType = userType;
+		this.semester = semester;
+		this.email = email;
 	}
 	
 	public User(User u)
@@ -38,12 +55,13 @@ public class User
 		this.password = u.getPassword();
 		this.phone = u.getPhone();
 		this.ipAddress = u.getIpAddress();
+		this.semester = u.getSemester();
 	}
 	
 	@Override
 	public String toString()
 	{
-		return "User: { id=" + this.userId + ", firstName=" + firstName + '\'' + "}";
+		return "User: { id=" + this.userId + ", firstName=" + firstName + ", lastName=" + lastName + '\'' + "}";
 	}
 
 	public int getUserId() {
@@ -57,16 +75,31 @@ public class User
 	public String getUserType() {
 		return userType;
 	}
-
-	public void setUserType(String userType)  {
+	
+	public int getUserTypeWithInt() {
 		switch (userType) {
-			case "1": this.userType = "Admin";
+			case "Admin": return 1;
+			
+			case "Stakeholder": return 2;
+			
+			case "Student": return 3;
+		}		
+		return -1;
+	}
+	
+	public void setUserType(String userType)  {
+		this.userType = userType;
+	}
+	
+	public void setUserTypeWithInt(int userType)  {
+		switch (userType) {
+			case 1: this.userType = "Admin";
 			break;
 			
-			case "2": this.userType = "Stakeholder";
+			case 2: this.userType = "Stakeholder";
 			break;
 			
-			case "3": this.userType = "Student";
+			case 3: this.userType = "Student";
 			break;
 		}
 	}
@@ -125,6 +158,14 @@ public class User
 
 	public void setIpAddress(String ipAddress) {
 		this.ipAddress = ipAddress;
+	}
+	
+	public int getSemester() {
+		return semester;
+	}
+	
+	public void setSemester(int semester) {
+		this.semester = semester;
 	}
 	
 }

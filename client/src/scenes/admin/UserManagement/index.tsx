@@ -25,9 +25,10 @@ interface UserListState {
     userIndexToEdit: number;
     userToEdit?: User;
     userToDelete?: User;
-    editName?: string;
+    editUserId?: number;
+    editFirstName?: string;
+    editLastName?: string;
     editUserType?: string;
-    editYear?: string;
     editEmail?: string;
     isLoading: boolean;
 }
@@ -70,9 +71,10 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         request.open('POST', 'http://localhost:8080/userInfoUpdate/');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
-        name: this.state.editName,
+        userId: this.state.editUserId,
+        firstName: this.state.editFirstName,
+        lastName: this.state.editLastName,
         userType: this.state.editUserType,
-        year: this.state.editYear,
         email: this.state.editEmail
         });
         request.setRequestHeader('Cache-Control', 'no-cache');
@@ -116,7 +118,9 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         this.setState({
             userIndexToEdit: index,
             userToEdit: user,
-            editName: user.firstName,
+            editUserId: user.userId,
+            editFirstName: user.firstName,
+            editLastName: user.lastName,
             editUserType: user.userType,
             editEmail: user.email,
         });
@@ -150,19 +154,28 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
                                 <Col componentClass={ControlLabel} sm={2}>
                                 Name
                                 </Col>
-                                <Col sm={10}>
+                                <Col sm={5}>
                                 <FormControl
                                     type="text"
-                                    id="editName"
-                                    value={this.state.editName}
-                                    placeholder="Name"
+                                    id="editFirstName"
+                                    value={this.state.editFirstName}
+                                    placeholder="First"
+                                    onChange={e => this.handleChange(e)}
+                                />
+                                </Col>
+                                <Col sm={5}>
+                                <FormControl
+                                    type="text"
+                                    id="editLastName"
+                                    value={this.state.editLastName}
+                                    placeholder="Last"
                                     onChange={e => this.handleChange(e)}
                                 />
                                 </Col>
                             </FormGroup>
                             <FormGroup controlId="formHorizontalEmail">
                                 <Col componentClass={ControlLabel} sm={2}>
-                                Year
+                                Email
                                 </Col>
                                 <Col sm={10}>
                                 <FormControl
@@ -184,20 +197,6 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
                                     <option value="Admin">Admin</option>
                                     <option value="Stakeholder">Stakeholder</option>
                                 </FormControl>
-                                </Col>
-                            </FormGroup>
-                            <FormGroup controlId="formHorizontalYear">
-                                <Col componentClass={ControlLabel} sm={2}>
-                                Year
-                                </Col>
-                                <Col sm={10}>
-                                <FormControl
-                                    type="text"
-                                    placeholder="Year"
-                                    id="editYear"
-                                    value={this.state.editYear}
-                                    onChange={e => this.handleChange(e)}
-                                />
                                 </Col>
                             </FormGroup>
                         </Form>
