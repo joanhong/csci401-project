@@ -9,78 +9,56 @@ public class User
 {
 	
 	@Id
-	@GeneratedValue
-	private long id;
-	
-	int userNumber;
+	@GeneratedValue	
+	int userId;
 	String userType;
-	String fullName;
-	
-	String year; //only valid if userType = Student
+	String firstName;
+	String lastName;	
 	String email;
 	String username;
-	String password; //encrypted
-	String phone;
-	int projectNumber;
-	String companyName; //only valid if userType = Stakeholder
-	String USC_ID; // only valid if userType = Student
-	String semester;
-	
-	String ipaddress;
-	
-	public String getIpaddress() {
-		return ipaddress;
-	}
-
-	public void setIpaddress(String ipaddress) {
-		this.ipaddress = ipaddress;
-	}
+	String password;
+	String phone;	
+	String ipAddress;
 
 	public User() {}
 	
-	public User(String fullName) 
+	public User(String firstName) 
 	{
-		this.fullName = fullName;
+		this.firstName = firstName;
 	}
 	
 	public User(User u)
 	{
-		this.id = u.getId();
-		this.userNumber = u.getUserNumber();
+		this.userId = u.getUserId();
 		this.userType = u.getUserType();
-		this.fullName = u.getFullName();
-		this.year = u.getYear();
+		this.firstName = u.getFirstName();
+		this.lastName = u.getLastName();
 		this.email = u.getEmail();
 		this.username = u.getUsername();
 		this.password = u.getPassword();
+		this.phone = u.getPhone();
+		this.ipAddress = u.getIpAddress();
 	}
 	
 	@Override
 	public String toString()
 	{
-		return "User{" +
-				"id=" + id +
-				", firstName=" + fullName + '\'' +
-				'}';
+		return "User: { id=" + this.userId + ", firstName=" + firstName + '\'' + "}";
 	}
-	
-	public int getUserNumber() 
-	{
-		return userNumber;
+
+	public int getUserId() {
+		return userId;
 	}
-	
-	public void setUserNumber(int userNumber) 
-	{
-		this.userNumber = userNumber;
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-	
-	public String getUserType() 
-	{
+
+	public String getUserType() {
 		return userType;
 	}
-	
-	public void setUserType(String userType) 
-	{
+
+	public void setUserType(String userType)  {
 		switch (userType) {
 			case "1": this.userType = "Admin";
 			break;
@@ -92,94 +70,61 @@ public class User
 			break;
 		}
 	}
-	public String getFullName() 
-	{
-		return fullName;
+
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setFullName(String firstName) 
-	{
-		this.fullName = firstName;
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
-	
-	public String getYear() 
-	{
-		return year;
+
+	public String getLastName() {
+		return lastName;
 	}
-	public void setYear(String year) 
-	{
-		this.year = year;
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
-	public String getEmail() 
-	{
+
+	public String getEmail() {
 		return email;
 	}
-	public void setEmail(String email) 
-	{
+
+	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getUsername() 
-	{
+
+	public String getUsername() {
 		return username;
 	}
-	public void setUsername(String username) 
-	{
+
+	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getPassword() 
-	{
+
+	public String getPassword() {
 		return password;
 	}
-	public void setPassword(String password) 
-	{
+
+	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getPhone() 
-	{
+
+	public String getPhone() {
 		return phone;
 	}
-	public void setPhone(String phone) 
-	{
+
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public int getProjectNumber() 
-	{
-		return projectNumber;
+
+	public String getIpAddress() {
+		return ipAddress;
 	}
-	public void setProjectNumber(int projectNumber) 
-	{
-		this.projectNumber = projectNumber;
-	}
-	public String getCompanyName() 
-	{
-		return companyName;
-	}
-	public void setCompanyName(String companyName) 
-	{
-		this.companyName = companyName;
-	}
-	public String getUSC_ID() 
-	{
-		return USC_ID;
-	}
-	public void setUSC_ID(String uSC_ID) 
-	{
-		USC_ID = uSC_ID;
-	}
-	public String getSemester() 
-	{
-		return semester;
-	}
-	public void setSemester(String semester) 
-	{
-		this.semester = semester;
-	}
-	public long getId() 
-	{
-		return id;
-	}
-	public void setId(long id) 
-	{
-		this.id = id;
+
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
 	}
 	
 }

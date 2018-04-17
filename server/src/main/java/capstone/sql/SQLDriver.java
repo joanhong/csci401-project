@@ -17,7 +17,7 @@ import capstone.model.UserData;
 import capstone.model.WeeklyReportData;
 
 public class SQLDriver {
-	private final static String DATABASE_NAME = "401_Platform";
+	private final static String DATABASE_NAME = "401ProjectPlatform";
 	private final static String PASSWORD = "";
 	
 	private Connection con;
@@ -25,17 +25,18 @@ public class SQLDriver {
 	private final static String findIfUserExists = "SELECT COUNT(*) FROM " + DATABASE_NAME + ".Users WHERE EMAIL=?";
 	private final static String getUserID = "SELECT ID FROM " + DATABASE_NAME + ".Users WHERE USERNAME=?";
 	private final static String addUser = "INSERT INTO " + DATABASE_NAME + ".Users(USERNAME,PASSWORD) VALUES(?,?)";
+	private final static String addUserEntry = "INSERT INTO " + DATABASE_NAME + ".Users(USER_TYPE, FIRST_NAME, LAST_NAME) VALUES(?,?,?)";
 	private final static String getUsername = "SELECT USERNAME FROM " + DATABASE_NAME + ".Users WHERE USER_ID=?";
 	private final static String getName = "SELECT FIRST_NAME, LAST_NAME FROM " + DATABASE_NAME + ".Users WHERE USER_ID=?";
 	private final static String getAllUsers = "SELECT * FROM " + DATABASE_NAME + ".Users";
-	private final static String getAllStakeholders = "SELECT * FROM" + DATABASE_NAME + ".Users JOIN" + DATABASE_NAME + ".StakeholderInfo ON stakeholder_id = user_id JOIN" + DATABASE_NAME + "Organizations ON organization_id = org_id";
+	private final static String getAllStakeholders = "SELECT * FROM " + DATABASE_NAME + ".Users JOIN" + DATABASE_NAME + ".StakeholderInfo ON stakeholder_id = user_id JOIN" + DATABASE_NAME + "Organizations ON organization_id = org_id";
 	private final static String getAllProjects = "SELECT * FROM " + DATABASE_NAME + ".Projects";
 	private final static String getProjectByName = "SELECT * FROM " + DATABASE_NAME + ".Projects WHERE NAME=?";
 	private final static String getUserProjectRankings = "SELECT * FROM " + DATABASE_NAME + ".ProjectRankings WHERE STUDENT_ID=?";
 	private final static String updatePassword = "UPDATE " + DATABASE_NAME + ".USERS SET PASSWORD=? WHERE EMAIL=?";
 	private final static String getEncryptedPassword = "SELECT * FROM " + DATABASE_NAME + ".USERS WHERE EMAIL=?";
 //	private final static String updateUserEntry = "UPDATE " + DATABASE_NAME + ".USERS SET FIRST_NAME = ?, LAST_NAME = ?, year = ?, email =?, user_type=? WHERE Full_name=?";
-	private final static String getRankingsCount = "SELECT COUNT(*) FROM" + DATABASE_NAME + ".ProjectRankings";
+	private final static String getRankingsCount = "SELECT COUNT(*) FROM " + DATABASE_NAME + ".ProjectRankings";
 	private final static String updateApprovalStatus = "UPDATE " + DATABASE_NAME + ".Projects SET status_id=? WHERE Project_id=?";
 	
 //	private final static String addWeeklyReport = "INSERT INTO " + DATABASE_NAME + 
@@ -44,17 +45,15 @@ public class SQLDriver {
 //			+ "thisWeeksTasksH1, thisWeeksTasksH2, thisWeeksTasksH3, thisWeeksTasksH4, thisWeeksTasksH5, thisWeeksTasksH6, thisWeeksTasksH7, "
 //			+ "nextWeeksTasksD1, nextWeeksTasksD2, nextWeeksTasksD3, nextWeeksTasksD4, nextWeeksTasksD5, nextWeeksTasksD6, nextWeeksTasksD7,"
 //			+ "nextWeeksTasksH1, nextWeeksTasksH2, nextWeeksTasksH3, nextWeeksTasksH4, nextWeeksTasksH5, nextWeeksTasksH6, nextWeeksTasksH7 ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-//
+
 //	private final static String addPeerReview = "INSERT INTO " + DATABASE_NAME + 
 //			".PeerReviewsTable(id, uscusername, uscidnumber, teammateaddress, teamcount, positivefeedback, negativefeedback)"
 //			+ "VALUES(?,?,?,?,?,?,?)";
-
 	
-	
-	private final static String addProjectEntry = "INSERT INTO " + DATABASE_NAME + ".Projects(Project_id, Project_name, Project_status, Max_size, Min_size) \n" + 
-			"VALUES (?,?,?,?,?,?)";
+	private final static String addProjectEntry = "INSERT INTO " + DATABASE_NAME + ".Projects(project_name, status_id, max_size, min_size) \n" + 
+			"VALUES (?,?,?,?)";
 	private final static String addProjectRankingEntry = "INSERT INTO " + DATABASE_NAME + ".ProjectRankings(student_id, project_id, rank)\n" + 
-			"VALUES (?,?,?,?,?)";
+			"VALUES (?,?,?)";
 	
 	private static int NUM_RANKED;
 	
@@ -121,19 +120,18 @@ public class SQLDriver {
 			while(result.next())
 			{
 				User u = new User();
-				u.setId(result.getInt(1));
+				u.setUserId(result.getInt(1));
 				u.setUserType(result.getString("USER_TYPE"));
-				u.setFullName(result.getString("FIRST_NAME") + result.getString("LAST_NAME"));
-				//u.setYear(result.getString("YEAR"));
+				u.setFirstName(result.getString("FIRST_NAME"));
+				u.setLastName(result.getString("LAST_NAME"));
 				u.setEmail(result.getString("EMAIL"));
 				u.setPassword(result.getString("PASSWORD"));
 				u.setPhone(result.getString("PHONE_NUM"));
-				//do more u.set for other columns in the table.
 				
 				returnVector.addElement(u);	
 			}		
 		}catch (SQLException e){e.printStackTrace();}
-		return returnVector; //returns true if the user name is in use in the DB
+		return returnVector; // returns true if the user name is in use in the DB
 	}
 	
 	public Vector<User> getAllStakeholders()
@@ -146,17 +144,66 @@ public class SQLDriver {
 			{
 				User u = new User();
 				
-				u.setId(result.getInt(1));
-				u.setFullName(result.getString("FIRST_NAME") + result.getString("LAST_NAME"));
-				u.setCompanyName(result.getString("ORGANIZATION"));
+				u.setUserId(result.getInt(1));
+				u.setFirstName(result.getString("FIRST_NAME"));
+				u.setLastName(result.getString("LAST_NAME"));
 				u.setUserType("Stakeholder");
 				u.setEmail(result.getString("EMAIL"));
+//				u.setCompanyName(result.getString("ORGANIZATION"));
 				
 				returnVector.addElement(u);	
 			}		
 		}catch (SQLException e){e.printStackTrace();}
 		return returnVector; //returns true if the user name is in use in the DB
 	}
+	
+	public void addWeeklyReportEntry(WeeklyReportData weeklyreportdata) {
+//		try {
+//	        PreparedStatement ps = con.prepareStatement(addWeeklyReport);
+//	        ps.setInt(1,  (int)weeklyreportdata.getId());
+//	        ps.setString(2, weeklyreportdata.getName());
+//	        ps.setString(3, weeklyreportdata.getUscusername());
+//	        ps.setString(4,  weeklyreportdata.getProject());
+//	        ps.setString(5, weeklyreportdata.getReportdate());
+//	        ps.setString(6, weeklyreportdata.getLastWeekTasksD1());
+//	        ps.setString(7, weeklyreportdata.getLastWeekTasksD2());
+//	        ps.setString(8, weeklyreportdata.getLastWeekTasksD3());
+//	        ps.setString(9, weeklyreportdata.getLastWeekTasksD4());
+//	        ps.setString(10, weeklyreportdata.getLastWeekTasksD5());
+//	        ps.setString(11, weeklyreportdata.getLastWeekTasksD6());
+//	        ps.setString(12, weeklyreportdata.getLastWeekTasksD7());
+//	        
+//	        ps.setString(13, weeklyreportdata.getLastWeekTasksH1());
+//	        ps.setString(14, weeklyreportdata.getLastWeekTasksH2());
+//	        ps.setString(15, weeklyreportdata.getLastWeekTasksH3());
+//	        ps.setString(16, weeklyreportdata.getLastWeekTasksH4());
+//	        ps.setString(17, weeklyreportdata.getLastWeekTasksH5());
+//	        ps.setString(18, weeklyreportdata.getLastWeekTasksH6());
+//	        ps.setString(19, weeklyreportdata.getLastWeekTasksH7());
+//	        
+//	        ps.setString(20, weeklyreportdata.getNextWeekTasksD1());
+//	        ps.setString(21, weeklyreportdata.getNextWeekTasksD2());
+//	        ps.setString(22, weeklyreportdata.getLastWeekTasksD3());
+//	        ps.setString(23, weeklyreportdata.getLastWeekTasksD4());
+//	        ps.setString(24, weeklyreportdata.getLastWeekTasksD5());
+//	        ps.setString(25, weeklyreportdata.getLastWeekTasksD6());
+//	        ps.setString(26, weeklyreportdata.getLastWeekTasksD7());
+//			ps.setString(27, weeklyreportdata.getLastWeekTasksH1());
+//			ps.setString(28, weeklyreportdata.getLastWeekTasksH2());
+//			ps.setString(29, weeklyreportdata.getLastWeekTasksH3());
+//			ps.setString(30, weeklyreportdata.getLastWeekTasksH4());
+//			ps.setString(31, weeklyreportdata.getLastWeekTasksH5());
+//			ps.setString(32, weeklyreportdata.getLastWeekTasksH6());
+//			ps.setString(33, weeklyreportdata.getLastWeekTasksH7());
+//			
+//			ps.executeUpdate();
+//			System.out.println("Added WEEKLYREPORTENTRY to SQL DATABASE!");
+//		} catch(SQLException e){
+//		e.printStackTrace();
+//		}
+	}
+
+
 	
 	public Vector<Project> getAllProjects()
 	{
@@ -230,54 +277,18 @@ public class SQLDriver {
 			e.printStackTrace();
 		}
 	}
-	
-	public void addWeeklyReportEntry(WeeklyReportData weeklyreportdata)
-	{
-//		try
-//		{
-//			PreparedStatement ps = con.prepareStatement(addWeeklyReport);
-//			ps.setInt(1,  (int)weeklyreportdata.getId());
-//			ps.setString(2, weeklyreportdata.getName());
-//			ps.setString(3, weeklyreportdata.getUscusername());
-//			ps.setString(4,  weeklyreportdata.getProject());
-//			ps.setString(5, weeklyreportdata.getReportdate());
-//			ps.setString(6, weeklyreportdata.getLastWeekTasksD1());
-//			ps.setString(7, weeklyreportdata.getLastWeekTasksD2());
-//			ps.setString(8, weeklyreportdata.getLastWeekTasksD3());
-//			ps.setString(9, weeklyreportdata.getLastWeekTasksD4());
-//			ps.setString(10, weeklyreportdata.getLastWeekTasksD5());
-//			ps.setString(11, weeklyreportdata.getLastWeekTasksD6());
-//			ps.setString(12, weeklyreportdata.getLastWeekTasksD7());
-//			
-//			ps.setString(13, weeklyreportdata.getLastWeekTasksH1());
-//			ps.setString(14, weeklyreportdata.getLastWeekTasksH2());
-//			ps.setString(15, weeklyreportdata.getLastWeekTasksH3());
-//			ps.setString(16, weeklyreportdata.getLastWeekTasksH4());
-//			ps.setString(17, weeklyreportdata.getLastWeekTasksH5());
-//			ps.setString(18, weeklyreportdata.getLastWeekTasksH6());
-//			ps.setString(19, weeklyreportdata.getLastWeekTasksH7());
-//			
-//			ps.setString(20, weeklyreportdata.getNextWeekTasksD1());
-//			ps.setString(21, weeklyreportdata.getNextWeekTasksD2());
-//			ps.setString(22, weeklyreportdata.getLastWeekTasksD3());
-//			ps.setString(23, weeklyreportdata.getLastWeekTasksD4());
-//			ps.setString(24, weeklyreportdata.getLastWeekTasksD5());
-//			ps.setString(25, weeklyreportdata.getLastWeekTasksD6());
-//			ps.setString(26, weeklyreportdata.getLastWeekTasksD7());
-//			
-//			ps.setString(27, weeklyreportdata.getLastWeekTasksH1());
-//			ps.setString(28, weeklyreportdata.getLastWeekTasksH2());
-//			ps.setString(29, weeklyreportdata.getLastWeekTasksH3());
-//			ps.setString(30, weeklyreportdata.getLastWeekTasksH4());
-//			ps.setString(31, weeklyreportdata.getLastWeekTasksH5());
-//			ps.setString(32, weeklyreportdata.getLastWeekTasksH6());
-//			ps.setString(33, weeklyreportdata.getLastWeekTasksH7());
-//
-//			ps.executeUpdate();
-//			System.out.println("Added WEEKLYREPORTENTRY to SQL DATABASE!");
-//		}catch(SQLException e){
-//			e.printStackTrace();
-//		}
+
+	public void addUserEntry(int user_type, String first_name, String last_name){
+		
+		try{
+			PreparedStatement ps = con.prepareStatement(addUserEntry);
+			ps.setInt(1, user_type);
+			ps.setString(2, first_name);
+			ps.setString(3, last_name);
+			ps.executeUpdate();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
 	}
 	
 	public void addPeerReviewEntry(PeerReviewData peerreviewdata)
@@ -299,24 +310,17 @@ public class SQLDriver {
 //			e.printStackTrace();
 //		}
 	}
-	
-	
-	
-	//XXXXXXXXXXXXXX
-	
-	public void addProjectEntry(int project_id, int project_number, String project_name, String project_status, int max_size, int min_size)
-	{
+		
+	public void addProjectEntry(String project_name, String project_status, int max_size, int min_size)
+	{		
 		try
 		{
 			PreparedStatement ps = con.prepareStatement(addProjectEntry);
-			ps.setInt(1, project_id);
-			ps.setString(2, project_name);
-			ps.setInt(3, 1); // pending
-			ps.setInt(4, max_size);
-			ps.setInt(5, min_size);
-
-			ps.executeUpdate();
-			System.out.println("Added projectEntry to SQL!");
+			ps.setString(1, project_name);
+			ps.setInt(2, 1); // TODO: "pending"
+			ps.setInt(3, max_size);
+			ps.setInt(4, min_size);
+			ps.executeUpdate();			
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
@@ -324,17 +328,16 @@ public class SQLDriver {
 	
 	
 	
-	public void addProjectRankingEntry(int studentNumber, String studentName, int projectNumber, int projectRank, String projectName)
+	public void addProjectRankingEntry(int studentId,  int projectId, int projectRank)
 	{
 		try
 		{
 			PreparedStatement ps = con.prepareStatement(addProjectRankingEntry);
-			ps.setInt(1, studentNumber);
-			ps.setInt(2, projectNumber);
+			ps.setInt(1, studentId);
+			ps.setInt(2, projectId);
 			ps.setInt(3,  projectRank);
-
 			ps.executeUpdate();
-			System.out.println("Added projectRankingEntry to SQL!");
+			
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
@@ -354,7 +357,7 @@ public class SQLDriver {
 				p.setProjectName(result.getString("PROJECT_NAME"));
 				p.setMaxSize(result.getInt(6));
 				p.setMinSize(result.getInt(7));
-				p.setStatus(result.getString("STATUS_ID"));
+				p.setStatusType(result.getString("STATUS_ID"));
 				
 				returnVector.addElement(p);				
 			}		
@@ -373,7 +376,8 @@ public class SQLDriver {
 		for (int studentId = 1; studentId <= numStudents; studentId++) { // for each student
 
 			Student newStudent = new Student();
-			newStudent.studentId = studentId;
+			newStudent.setUserId(studentId);
+			newStudent.setStudentId(studentId); // TODO
 			
 			try {		
 	    			
@@ -382,18 +386,21 @@ public class SQLDriver {
 	    			ResultSet result = ps.executeQuery();
 	    			
 	    			PreparedStatement ps2 = con.prepareStatement(getName);
-	    			ps.setInt(1, studentId);
+	    			ps2.setInt(1, studentId);
 	    			ResultSet result2 = ps2.executeQuery();
+	    			while (result2.next()) {
+		    			newStudent.setFirstName(result2.getString("FIRST_NAME"));
+		    			newStudent.setLastName(result2.getString("LAST_NAME"));
+	    			}
 	    			
 	    			while(result.next()) { // for each ranking...
 	                
-		    			newStudent.name = result2.getString("FIRST_NAME") + result2.getString("LAST_NAME");
 	            		int projectId = result.getInt(2);
 	            		int rank = result.getInt(3);
 	            		
 	            		// add rankedProject:
             			Project rankedProject = projects.elementAt(projectId - 1); // !!! SUBTRACT 1, as the ranking's indices skip 0 for readability
-	            		String projectName = rankedProject.getName();
+	            		String projectName = rankedProject.getProjectName();
 	            		newStudent.rankings.put(projectName, rank);
 	            		newStudent.orderedRankings.addElement(projectName);				
 				}

@@ -53,12 +53,11 @@ public class UserSessionManager
 				if(u.getEmail().equals(email))
 				{
 //					System.out.println("EMAILS MATCHED!");
-					newactive.setId(u.getId());
-					newactive.setYear(u.getYear());
-					newactive.setFullName(u.getFullName());
+					newactive.setUserId(u.getUserId());
+					newactive.setFirstName(u.getFirstName());
 					newactive.setUserType(u.getUserType());
 					newactive.setEmail(email);
-					newactive.setIpaddress(ip);
+					newactive.setIpAddress(ip);
 				}
 			}
 //			System.out.println("NEW ACTIVE ADDRESS = " + newactive.getIpaddress());
@@ -77,7 +76,7 @@ public class UserSessionManager
 	{
 		for(User u: activeUsers)
 		{
-			if(u.getIpaddress().equals(addr))
+			if(u.getIpAddress().equals(addr))
 			{
 				activeUsersEmails.remove(u.getEmail());
 				activeUsers.remove(u);
@@ -92,8 +91,8 @@ public class UserSessionManager
 		System.out.println(address);
 		for(User u: activeUsers)
 		{
-			System.out.println(u.getIpaddress());
-			if(u.getIpaddress().equals(address))
+			System.out.println(u.getIpAddress());
+			if(u.getIpAddress().equals(address))
 			{
 				return u;
 			}
