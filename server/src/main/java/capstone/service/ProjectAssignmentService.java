@@ -29,10 +29,35 @@ public class ProjectAssignmentService {
 		return ( ( (NUM_RANKED-i+1) * (NUM_RANKED-i)) / 2 ) + 1;
 	}
 	
-	// populates vectors from text file data
-	public void importDataLocally() {
-		
-		// projects
+	private void populateProjectsTable() {
+		for(Project p : projects) {
+			driver.addProjectEntry(p.getProjectName(), p.getStatusType(), p.getMaxSize(), p.getMinSize());
+		}
+	}
+	
+	private void populateRankingsTable() {
+		for(Student s: students) {
+			for (Map.Entry<String, Integer> entry : s.rankings.entrySet()) {
+				Project p  = GetProjectWithName(entry.getKey());
+				int projectId = p.getProjectId()+1;
+				int studentId = s.getStudentId() + 1;
+				
+				driver.addProjectRankingEntry(studentId, projectId, entry.getValue());
+			}
+		}
+	}
+	
+	private void populateUsersTable() {
+		for(Student s: students) {
+			driver.addUserEntry(3, s.getFirstName(), s.getLastName());
+		}
+		driver.addUserEntry(1, "admin", "holderson");
+	}
+	
+	// Imports data from local text files, populates the database tables for Projects, Users, and Project Rankings, and terminates the program.
+	public void importDataLocallyAndPopulateDatabase() {
+				
+		// import projects from text file
         String line = null;
         try {
             BufferedReader projectsBR = new BufferedReader(new FileReader(folder_name + "/projects.txt"));
@@ -41,11 +66,10 @@ public class ProjectAssignmentService {
                 String[] elements = line.split(" ");
                 
                 Project newProject = new Project(getStudentSatScore(1));
-                newProject.name = elements[0];
-                newProject.projectId = projects.size();
-                newProject.minSize = Integer.parseInt(elements[1]);
-                newProject.maxSize = Integer.parseInt(elements[2]);
-                
+                newProject.setProjectName(elements[0]);
+                newProject.setProjectId(projects.size()); // TODO: MAKE THIS DYNAMIC WITH AUTOINCREMENT
+                newProject.setMinSize(Integer.parseInt(elements[1]));
+                newProject.setMaxSize(Integer.parseInt(elements[2]));
                 projects.addElement(newProject);
                 
                 writer.println(newProject);
@@ -56,10 +80,9 @@ public class ProjectAssignmentService {
         catch(Exception e) {
             e.printStackTrace();
         }
-        
         writer.println("");
         
-        // rankings
+        // import users and rankings from text file
         try {
             BufferedReader studentsBR = new BufferedReader(new FileReader(folder_name + "/rankings.txt"));
 
@@ -67,22 +90,23 @@ public class ProjectAssignmentService {
                 String[] elements = line.split(" ");
                 
                 Student newStudent = new Student();
-                newStudent.name = elements[0];
-                newStudent.studentId = students.size();
+                newStudent.setFirstName(elements[0]);
+                newStudent.setStudentId(students.size());
+                newStudent.setUserId(students.size());
                 
                 for (int i = 1; i <= NUM_RANKED; i++) { // for the student's Top 3 projects...
             		int projectId = Integer.parseInt(elements[i]);
             		Project rankedProject = projects.elementAt(projectId - 1); // !!! SUBTRACT 1, as the ranking's indices skip 0 for readability
                 		
                 		// add rankedProject to the Student data structure:
-                    String projectName = rankedProject.name;
+                    String projectName = rankedProject.getProjectName();
                     newStudent.rankings.put(projectName, i);
                     newStudent.orderedRankings.addElement(projectName);
                     
                     // popularity metrics:
                     Integer p = getStudentSatScore(i);
-                    rankedProject.sum_p += p;
-                    rankedProject.n += 1;     
+                    rankedProject.incSum_p();
+                    rankedProject.incN();
                 }
 
                 students.addElement(newStudent);
@@ -95,6 +119,17 @@ public class ProjectAssignmentService {
         catch(Exception e) {
             e.printStackTrace();
         }
+        
+        
+        populateProjectsTable();
+        
+		populateUsersTable();
+        
+		populateRankingsTable();
+		
+		System.out.println("DATABASE POPULATION COMPLETED. ENDING PROGRAM.");
+		System.exit(0);
+        
 	}
 	
 	// populates vectors from SQL DB
@@ -120,20 +155,22 @@ public class ProjectAssignmentService {
 
 		// calculate popularity metrics:
 		for (Student s : students) {
+			
 		    Iterator it = s.rankings.entrySet().iterator();
 		    while (it.hasNext()) {
 		        Map.Entry pair = (Map.Entry)it.next();
 		        String projectName = (String) pair.getKey();
 		        int rank = (int) pair.getValue();
-		        
+		        		        
 		        Project rankedProject = GetProjectWithName(projectName);
 	            Integer p = getStudentSatScore(rank);
-	            rankedProject.sum_p += p;
-	            rankedProject.n += 1;
+	            rankedProject.incSum_p();
+	            rankedProject.incN();
 		    }
 		}
         
 	}
+	
 	public ProjectAssignmentService() {
 		
 	}
@@ -160,19 +197,16 @@ public class ProjectAssignmentService {
 		// import data
 		projects = new Vector<Project>();
 		students = new Vector<Student>();
-//		importDataLocally();
-		importDataFromDatabase();
 
-		// commented out once SQL table was populated
-//		populateProjectTable();
-		
-		// commented out once SQL table was populated
-//		populateRankingsTable();
-		
+		// !!! KEEP COMMENTED UNLESS YOUR DATABASE IS EMPTY !!!
+//		importDataLocallyAndPopulateDatabase();
+
+		importDataFromDatabase();	
+				
 		// calculate each project's popularity scores
 		writer.println("Project Popularity Scores:");
 		for (Project p : projects) {
-			writer.println(p.name + " " + p.returnPopularity());
+			writer.println(p.getProjectName() + " " + p.returnPopularity());
 		}
 		writer.println("");
 		
@@ -197,36 +231,10 @@ public class ProjectAssignmentService {
 
 		PlaceUnassignedStudents();
 	}
-	
-	private void populateRankingsTable() 
-	{
-		for(Student s: students)
-		{
-			System.out.println("Student name" + s.name + " " + s.studentId+1);
-			for (Map.Entry<String, Integer> entry : s.rankings.entrySet()) 
-			{
-				System.out.println("Key : " + entry.getKey() + " Value : " + entry.getValue());
-				Project p  = GetProjectWithName(entry.getKey());
-				int projectNumber = p.projectId+1;
-				int studentID = s.studentId+1;
-				driver.addProjectRankingEntry(studentID, s.name, projectNumber, entry.getValue(), entry.getKey());
-			}
-		}		
-	}
-
-	private void populateProjectTable() 
-	{
-		System.out.println("Number of project entries in vector = "+ projects.size());
-		for(Project p : projects)
-		{
-			System.out.println("ADDED PROJECT "+ p.name);
-			driver.addProjectEntry(p.projectId, p.projectId, p.name, "Pending Approval", p.maxSize, p.minSize);
-		}
-	}
 
 	void PrintProjects() {
 		for (Project p : projects) {
-			writer.print(p.name + " ");
+			writer.print(p.getProjectName() + " ");
 			p.printMembers(writer);
 		}		
 		writer.println("");
@@ -277,7 +285,7 @@ public class ProjectAssignmentService {
 			for (Student s: unassignedStudents) {
 				String projname = s.orderedRankings.elementAt(choice);
 				Project p = GetProjectWithName(projname);
-				if (p.members.size() < p.maxSize) {
+				if (p.members.size() < p.getMaxSize()) {
 					p.members.addElement(s);
 					toRemove.add(s);
 				}
@@ -289,8 +297,8 @@ public class ProjectAssignmentService {
 	void EliminateProjects() {
 		for (int i=projects.size()-1; i>0; i--) {
 			Project p = projects.elementAt(i);
-			if (p.members.size() < p.minSize && (GetTotalMaxSpots()-p.maxSize) >= students.size()) {
-				writer.println("Eliminated " + p.name);
+			if (p.members.size() < p.getMinSize() && (GetTotalMaxSpots()-p.getMaxSize()) >= students.size()) {
+				writer.println("Eliminated " + p.getProjectName());
 				for (Student s: p.members) {
 					unassignedStudents.add(s);
 				}
@@ -315,7 +323,7 @@ public class ProjectAssignmentService {
 			return false;
 		for (int i=0; i<s.orderedRankings.size(); i++) {
 			Project p = GetProjectWithName(s.orderedRankings.elementAt(i));
-			if (p!=null && p.members.size() < p.maxSize) { //found a spot for them
+			if (p!=null && p.members.size() < p.getMaxSize()) { //found a spot for them
 				p.members.add(s);
 				return true;
 			}
@@ -341,7 +349,7 @@ public class ProjectAssignmentService {
 	
 	Project GetProjectWithName(String projname) {
 		for (int j=0; j<projects.size(); j++) {
-			if (projects.elementAt(j).name.equals(projname))
+			if (projects.elementAt(j).getProjectName().equals(projname))
 				return projects.elementAt(j);
 		}
 		return null;
@@ -350,7 +358,7 @@ public class ProjectAssignmentService {
 	int GetTotalMaxSpots() {
 		int maxspots = 0;
 		for (Project p: projects)
-			maxspots+= p.maxSize;
+			maxspots+= p.getMaxSize();
 		return maxspots;
 	}
 	
@@ -358,7 +366,7 @@ public class ProjectAssignmentService {
 		int numstudents = 0;
 		for (Project p: projects) {
 			if (!p.members.isEmpty() && 
-				(p.members.size() < p.minSize || p.members.size() > p.maxSize))
+				(p.members.size() < p.getMinSize() || p.members.size() > p.getMaxSize()))
 				return false;
 			numstudents+= p.members.size();
 		}
@@ -370,7 +378,7 @@ public class ProjectAssignmentService {
 	void PlaceUnassignedStudents() {
 		if (!unassignedStudents.isEmpty()) {
 			Project unassignedProj = new Project();
-			unassignedProj.setName("Unassigned");
+			unassignedProj.setProjectName("Unassigned");
 			for (Student s: unassignedStudents) {
 				unassignedProj.members = new Vector<Student>();
 				unassignedProj.members.add(s);

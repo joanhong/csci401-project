@@ -21,13 +21,14 @@ interface ProjectMatchingState {
 
 export type StudentInfo = {
   studentId: number;
-  name: string;
+  firstName: string;
+  lastName: string;
   rankings: Array<{}>;
 }
 
 export type Project = {
   projectId: number;
-  name: string;
+  projectName: string;
   minSize: number;
   maxSize: number;
   members: Array<StudentInfo>;
@@ -114,13 +115,13 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
         <tbody>
       {projects.map((project: Project) =>
         <tr key={project.projectId}>
-          <td>{project.name}</td>
+          <td>{project.projectName}</td>
           <td>{project.minSize}</td>
           <td>{project.maxSize}</td>
           <td>
           {project.members.map((student: StudentInfo) =>
             <div key={student.studentId}>
-              {student.name}
+              {student.firstName + ' ' + student.lastName}
             </div>
           )}
           </td>
