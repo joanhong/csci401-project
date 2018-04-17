@@ -1,4 +1,5 @@
 import * as React from 'react';
+import ProjectsList from './ProjectsList';
 import {
   Table,
   Button,
@@ -13,18 +14,18 @@ interface ProjectMatchingProps {
 }
 
 interface ProjectMatchingState {
-  projects: Array<{}>;
+  projects: Array<Project>;
   isLoading: boolean;
   isLaunched: boolean;
 }
 
-interface StudentInfo {
+export type StudentInfo = {
   studentId: number;
   name: string;
   rankings: Array<{}>;
 }
 
-interface Project {
+export type Project = {
   projectId: number;
   name: string;
   minSize: number;
@@ -74,7 +75,7 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
                 <FormGroup controlId="formBasicText">
                   <FormControl
                     type="text"
-                    placeholder="Enter NUM_RANKED"
+                    placeholder="Enter number of ranked projects to consider"
                   />
                   <FormControl.Feedback />
                   <Button onClick={this.launch} style={{margin: 5}}>
