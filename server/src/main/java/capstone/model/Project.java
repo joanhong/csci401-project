@@ -4,110 +4,39 @@ import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.Vector;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import capstone.service.ProjectAssignmentService;
 
+@SuppressWarnings("rawtypes")
 @Entity
 public class Project implements Comparable {
 	
-	@Id
-	@GeneratedValue
-	private long id;
-	
-	public int projectId;
-	public String name;
-	public int minSize;
-	public int maxSize;
-	public Vector<Student> members;
 	
 	// popularity metrics:
-	public double sum_p; // sum of all students' satisfaction scores
-	public double p_max; // maximum satisfaction score for a single student (if NUM_RANKED = 3, this is 4)
-	public double n; // number of students interested in this project
-	public double c; // cutoff
-	public double popularity;
+	double sum_p; // sum of all students' satisfaction scores
+	double p_max; // maximum satisfaction score for a single student (if NUM_RANKED = 3, this is 4)
+	double n; // number of students interested in this project
+	double c; // cutoff
+	double popularity;
+	double projSatScore;
 	
-	public double projSatScore;
+	public Vector<Student> members;
 	
-	//other data variables - SQL
-	int projectNumber;
+	// information that correlates directly to db.Projects
+	@Id
+	int projectId;
 	String projectName;
-	int stakeholderNumber;
-	String stakeholderName;
-	String teamLeaderName;
-	int teamLeaderStudentNumber;
-	Vector<String> membersList;
-	String status;
-	String dueDate;
-	String semester;
-	String technologiesExpected;
+	int stakeholderId;
+	int statusId;
+	String statusType; // not in db table
+	int semester;
+	int maxSize;
+	int minSize;
+	String description;
 	String backgroundRequested;
-	String projectDescription;
-	public String getTechnologiesExpected() {
-		return technologiesExpected;
-	}
-
-	public void setTechnologiesExpected(String technologiesExpected) {
-		this.technologiesExpected = technologiesExpected;
-	}
-
-	public String getBackgroundRequested() {
-		return backgroundRequested;
-	}
-
-	public void setBackgroundRequested(String backgroundRequested) {
-		this.backgroundRequested = backgroundRequested;
-	}
-
-	public String getProjectDescription() {
-		return projectDescription;
-	}
-
-	public void setProjectDescription(String projectDescription) {
-		this.projectDescription = projectDescription;
-	}
-
-	public int getProjectId() {
-		return projectId;
-	}
-
-	public void setProjectId(int projectId) {
-		this.projectId = projectId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public int getMinSize() {
-		return minSize;
-	}
-
-	public void setMinSize(int minSize) {
-		this.minSize = minSize;
-	}
-
-	public int getMaxSize() {
-		return maxSize;
-	}
-
-	public void setMaxSize(int maxSize) {
-		this.maxSize = maxSize;
-	}
-
-	public Vector<Student> getMembers() {
-		return members;
-	}
-
-	public void setMembers(Vector<Student> members) {
-		this.members = members;
-	}
+	String technologiesExpected;
+	String adminComments;
 
 	public double getSum_p() {
 		return sum_p;
@@ -115,6 +44,10 @@ public class Project implements Comparable {
 
 	public void setSum_p(double sum_p) {
 		this.sum_p = sum_p;
+	}
+	
+	public void incSum_p() {
+		this.sum_p = sum_p + 1;
 	}
 
 	public double getP_max() {
@@ -131,6 +64,10 @@ public class Project implements Comparable {
 
 	public void setN(double n) {
 		this.n = n;
+	}
+	
+	public void incN() {
+		this.n = n + 1;
 	}
 
 	public double getC() {
@@ -157,12 +94,12 @@ public class Project implements Comparable {
 		this.projSatScore = projSatScore;
 	}
 
-	public int getProjectNumber() {
-		return projectNumber;
+	public int getProjectId() {
+		return projectId;
 	}
 
-	public void setProjectNumber(int projectNumber) {
-		this.projectNumber = projectNumber;
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
 	}
 
 	public String getProjectName() {
@@ -173,72 +110,100 @@ public class Project implements Comparable {
 		this.projectName = projectName;
 	}
 
-	public int getStakeholderNumber() {
-		return stakeholderNumber;
+	public int getStakeholderId() {
+		return stakeholderId;
 	}
 
-	public void setStakeholderNumber(int stakeholderNumber) {
-		this.stakeholderNumber = stakeholderNumber;
+	public void setStakeholderId(int stakeholderId) {
+		this.stakeholderId = stakeholderId;
+	}
+	
+
+	public int getStatusId() {
+		return statusId;
 	}
 
-	public String getStakeholderName() {
-		return stakeholderName;
+	public void setStatusId(int statusId) {
+		this.statusId = statusId;
+	}
+	
+	public String getStatusType() {
+		return statusType;
 	}
 
-	public void setStakeholderName(String stakeholderName) {
-		this.stakeholderName = stakeholderName;
+	public void setStatusType(String status) {
+		switch (status) {
+			case "1": this.statusType = "Pending Approval";
+			break;
+			
+			case "2": this.statusType = "Approved";
+			break;
+			
+			case "3": this.statusType = "Rejected";
+			break;
+			
+			case "4": this.statusType = "Changes Requested";
+			break;
+		}
 	}
-
-	public String getTeamLeaderName() {
-		return teamLeaderName;
-	}
-
-	public void setTeamLeaderName(String teamLeaderName) {
-		this.teamLeaderName = teamLeaderName;
-	}
-
-	public int getTeamLeaderStudentNumber() {
-		return teamLeaderStudentNumber;
-	}
-
-	public void setTeamLeaderStudentNumber(int teamLeaderStudentNumber) {
-		this.teamLeaderStudentNumber = teamLeaderStudentNumber;
-	}
-
-	public Vector<String> getMembersList() {
-		return membersList;
-	}
-
-	public void setMembersList(Vector<String> membersList) {
-		this.membersList = membersList;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getDueDate() {
-		return dueDate;
-	}
-
-	public void setDueDate(String dueDate) {
-		this.dueDate = dueDate;
-	}
-
-	public String getSemester() {
+	
+	public int getSemester() {
 		return semester;
 	}
 
-	public void setSemester(String semester) {
+	public void setSemester(int semester) {
 		this.semester = semester;
 	}
 
+	public int getMaxSize() {
+		return maxSize;
+	}
+
+	public void setMaxSize(int maxSize) {
+		this.maxSize = maxSize;
+	}
+
+	public int getMinSize() {
+		return minSize;
+	}
+
+	public void setMinSize(int minSize) {
+		this.minSize = minSize;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getBackgroundRequested() {
+		return backgroundRequested;
+	}
+
+	public void setBackgroundRequested(String backgroundRequested) {
+		this.backgroundRequested = backgroundRequested;
+	}
+
+	public String getTechnologiesExpected() {
+		return technologiesExpected;
+	}
+
+	public void setTechnologiesExpected(String technologiesExpected) {
+		this.technologiesExpected = technologiesExpected;
+	}
 	
+	public String getAdminComments() {
+		return adminComments;
+	}
+
+	public void setAdminComments(String adminComments) {
+		this.adminComments = adminComments;
+	}
 	
+	// RANKING ALGORITHM FUNCTIONALITY:
 
 	public Project(int _p_max) {
 		members = new Vector<Student>();
@@ -259,7 +224,7 @@ public class Project implements Comparable {
 		
 		double totalScore = 0;
 		for (Student student : members) {
-			int ranking = student.rankings.get(this.name);
+			int ranking = student.rankings.get(this.projectName);
 			totalScore += ProjectAssignmentService.getStudentSatScore(ranking);
 		}
 		
@@ -276,12 +241,12 @@ public class Project implements Comparable {
 	}
 	
 	public String toString() {
-		return ("Project #" + this.projectId + ": '" + this.name + "' | " + this.minSize + "-" + this.maxSize + " " + this.p_max);
+		return ("Project #" + this.projectId + ": '" + this.projectName + "' | " + this.minSize + "-" + this.maxSize + " " + this.p_max);
 	}
 	
 	public void printMembers(PrintWriter writer) {
 		for (Student s : this.members) {
-			writer.print(s.name + " ");
+			writer.print(s.getFirstName() + " " + s.getLastName() + " ");
 		}
 		writer.println("");
 	}
@@ -295,7 +260,7 @@ public class Project implements Comparable {
 
 		Project p = (Project) o;
 
-		return (this.name).compareTo(p.name);
+		return (this.projectName).compareTo(p.projectName);
 	}
 	
 	// sorts by popularity in descending order

@@ -69,59 +69,50 @@ public class ProjectServiceController
 	
 	@RequestMapping(value = "/projectData",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody ProjectData saveData(@RequestBody ProjectData projectdata)
+	public @ResponseBody Project saveData(@RequestBody Project project)
 	{
 		System.out.println("Received HTTP POST");
-		System.out.println(projectdata);
-		System.out.println(projectdata.getProjectName());
-		System.out.println(projectdata.getProjectSize());
-		System.out.println(projectdata.getTechnologiesExpected());
-		System.out.println(projectdata.getBackgroundRequested());
-		System.out.println(projectdata.getProjectDescription());
+		System.out.println(project);
+		System.out.println(project.getProjectName());
+//		System.out.println(project.getProjectSize());
+		System.out.println(project.getTechnologiesExpected());
+		System.out.println(project.getBackgroundRequested());
+		System.out.println(project.getDescription());
 
 //	   String projectName = request.getParameter("projectName");
 //	   int projectSize = Integer.valueOf(request.getParameter("projectSize"));
 //	   String technologiesExpected = request.getParameter("technologiesExpected");
 //	   String backgroundRequested = request.getParameter("backgroundRequested");
 //	   String projectDescription = request.getParameter("projectDescription");
-//	   
+
 	   Project p = new Project();
-	   p.name = projectdata.getProjectName();
-	   p.setProjectNumber((int)repository.count());
-	   p.setProjectName(projectdata.getProjectName());
-	   p.setMaxSize(projectdata.getProjectSize());
+	   p.setProjectId((int)repository.count()); // TODO: fix
+	   p.setProjectName(project.getProjectName());
+//	   p.setMaxSize(project.getProjectSize());
 	   p.setMinSize(3); //HARDCODED MIN_SIZE = 3
-	   p.setProjectDescription(projectdata.getProjectDescription());
-	   p.setTechnologiesExpected(projectdata.getTechnologiesExpected());
-	   p.setBackgroundRequested(projectdata.getBackgroundRequested());
-	   p.setStatus("Pending Approval");
+	   p.setDescription(project.getDescription());
+	   p.setTechnologiesExpected(project.getTechnologiesExpected());
+	   p.setBackgroundRequested(project.getBackgroundRequested());
+	   p.setStatusType("Pending Approval");
 //	   
 	   //add project to project repository
 	   repository.save(p);
-		
-		
 	   
-//	   System.out.println("Received HTTP POST, saved to REPO");
-	   //add project to SQL table using driver.addProject();
-	   driver.addProjectEntry(p.getProjectNumber(), p.getProjectNumber(), p.getProjectName(), p.getStatus(), p.getMaxSize(), p.getMinSize());
-		String timeStamp = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss").format(new Date());
+	   driver.addProjectEntry(p.getProjectName(), p.getStatusType(), p.getMaxSize(), p.getMinSize());
+	   							String timeStamp = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss").format(new Date());
+	   	
 	   mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
-		
-		String reportConfirmation = "A new project proposal was submitted for " + projectdata.getProjectName() +".\n\n"
+	   String reportConfirmation = "A new project proposal was submitted for " + project.getProjectName() +".\n\n"
 															  + "TIME: " + timeStamp + "\n"
-															  + "PROJECT NAME: " + projectdata.getProjectName() + "\n"
-															  + "PROJECT DESCRIPTION: " + projectdata.getProjectDescription() + "\n"
-															  + "TEAM MEMBER NAME: " + projectdata.getProjectSize() + "\n"
-															  + "TECHNOLOGIES EXPECTED: "+ projectdata.getTechnologiesExpected() + "\n"
-															  + "BACKGROUND REQUESTED: " + projectdata.getBackgroundRequested() + "\n\n"
+															  + "PROJECT NAME: " + project.getProjectName() + "\n"
+															  + "PROJECT DESCRIPTION: " + project.getDescription() + "\n"
+															  + "TECHNOLOGIES EXPECTED: "+ project.getTechnologiesExpected() + "\n"
+															  + "BACKGROUND REQUESTED: " + project.getBackgroundRequested() + "\n\n"
 															  + "For more information, visit the CSCI401 website or reply to this email.";
-																
-		maildriver.sendEmail("New Project Proposal Submitted for " + projectdata.getProjectName(), reportConfirmation, "csci401server@gmail.com");
+	   maildriver.sendEmail("New Project Proposal Submitted for " + project.getProjectName(), reportConfirmation, "csci401server@gmail.com");
 
 	   
-	   
-	   
-		return projectdata; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
+		return project; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
 	}
 	//XXXXXXXXXXXX
 	@RequestMapping(value = "/peerReviewForm",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
@@ -253,7 +244,7 @@ public class ProjectServiceController
 			
 			for(String s : approvedProjects)
 			{
-				driver.updateProjectStatus(s, "Approved");
+				driver.updateProjectStatus(s, 2);
 			}
 
 			return "OK";
@@ -343,23 +334,23 @@ public class ProjectServiceController
 		{
 			if(p.getProjectName().equals(rankingdata.getProject1()))
 			{
-				driver.addProjectRankingEntry(studentNumber, u1.getFullName(), p.getProjectNumber()+1, 1, p.getProjectName());
+				driver.addProjectRankingEntry(studentNumber, p.getProjectId()+1, 1);
 			}
 			if(p.getProjectName().equals(rankingdata.getProject2()))
 			{
-				driver.addProjectRankingEntry(studentNumber, u1.getFullName(), p.getProjectNumber()+1, 2, p.getProjectName());
+				driver.addProjectRankingEntry(studentNumber, p.getProjectId()+1, 2);
 			}
 			if(p.getProjectName().equals(rankingdata.getProject3()))
 			{
-				driver.addProjectRankingEntry(studentNumber, u1.getFullName(), p.getProjectNumber()+1, 3, p.getProjectName());
+				driver.addProjectRankingEntry(studentNumber, p.getProjectId()+1, 3);
 			}
 			if(p.getProjectName().equals(rankingdata.getProject4()))
 			{
-				driver.addProjectRankingEntry(studentNumber, u1.getFullName(), p.getProjectNumber()+1, 4, p.getProjectName());
+				driver.addProjectRankingEntry(studentNumber, p.getProjectId()+1, 4);
 			}
 			if(p.getProjectName().equals(rankingdata.getProject5()))
 			{
-				driver.addProjectRankingEntry(studentNumber, u1.getFullName(), p.getProjectNumber()+1, 5, p.getProjectName());
+				driver.addProjectRankingEntry(studentNumber, p.getProjectId()+1, 5);
 			}
 		}
 		
@@ -367,7 +358,7 @@ public class ProjectServiceController
 		mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
 		
 		
-		maildriver.sendEmail("Project Rankings Submitted!", "Hi "+ u1.getFullName() + ", \nWe have received your project rankings. \n\nYou will be assigned a project shortly.", u1.getEmail());
+		maildriver.sendEmail("Project Rankings Submitted!", "Hi "+ u1.getFirstName() + " " + u1.getLastName() + ", \nWe have received your project rankings. \n\nYou will be assigned a project shortly.", u1.getEmail());
 		
 //		use sql to send this data to users table
 //		driver.adduser(user email); //preferably do this when the user goes to the link in the email
@@ -423,8 +414,8 @@ public class ProjectServiceController
 					{
 						for(User ux : usm.getActiveUsers())
 						{
-							System.out.println("IP WAS = "+ ux.getIpaddress());
-							if(ux.getIpaddress().equals(addr))
+							System.out.println("IP WAS = "+ ux.getIpAddress());
+							if(ux.getIpAddress().equals(addr))
 							{
 								System.out.println("A login already exists from this origin.");
 								return "MultipleLogins";
@@ -454,25 +445,28 @@ public class ProjectServiceController
 	}
 
 	//////
-	@RequestMapping(value = "/getProjectByUser",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody Project getProjectByUser(@RequestBody String name, HttpServletRequest request)
-	{
-		System.out.println("Received HTTP POST");
-		String addr = request.getHeader(HttpHeaders.ORIGIN);
-		System.out.println(addr);
-		User user = usm.getUser(addr);
-		if (user==null) {
-			return null;
-		}
-		Vector<Project> allProjects = driver.getAllProjects();
-		for (Project p: allProjects) {
-			if (p.getProjectId()==user.getProjectNumber()) {
-				return p;
-			}
-		}
-		return null; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
-	}
+//	@RequestMapping(value = "/getProjectByUser",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+//	@CrossOrigin(origins = "http://localhost:3000")
+//	public @ResponseBody Project getProjectByUser(@RequestBody String name, HttpServletRequest request)
+//	{
+//		System.out.println("Received HTTP POST");
+//		String addr = request.getHeader(HttpHeaders.ORIGIN);
+//		System.out.println(addr);
+//		User user = usm.getUser(addr);
+//		if (user==null) {
+//			return null;
+//		}
+//		Vector<Project> allProjects = driver.getAllProjects();
+//		System.out.println(user.getFirstName()); 
+////		System.out.println(user.getProjectNumber());
+//		for (Project p: allProjects) {
+//			if (p.getProjectId()==user.getProjectNumber()) {
+//				System.out.println(p.getProjectId());
+//				return p;
+//			}
+//		}
+//		return null; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
+//	}
 
 	//////
 	@RequestMapping(value = "/loggedInUser",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)

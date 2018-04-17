@@ -33,10 +33,10 @@ interface UserListState {
 }
 
 interface User {
-    id: number;
-    fullName: string;
+    userId: number;
+    firstName: string;
+    lastName: string;
     userType: string;
-    year: string;
     email: string;
 }
 
@@ -116,15 +116,14 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         this.setState({
             userIndexToEdit: index,
             userToEdit: user,
-            editName: user.fullName,
+            editName: user.firstName,
             editUserType: user.userType,
             editEmail: user.email,
-            editYear: user.year
         });
     }
 
     deleteUser(user: User) {
-        const name = user.fullName;
+        const name = user.firstName;
         var submit = confirm('Are you sure you want to delete ' + name + '?');
         if (submit) {
             this.setState({userToDelete: user});
@@ -238,19 +237,19 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
                 <Table bordered={true} condensed={true}>
                     <thead>
                         <tr>
-                            <th>Full Name</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
                             <th>User Type</th>
-                            <th>Year</th>
                             <th>Email</th>
                             <th>Edit/Delete</th>
                         </tr>
                     </thead>
                     <tbody>
                         {usersToDisplay.map((user: User, index: number) =>
-                            <tr key={user.id}>
-                                <td>{user.fullName}</td>
+                            <tr key={user.userId}>
+                                <td>{user.firstName}</td>
+                                <td>{user.lastName}</td>
                                 <td>{user.userType}</td>
-                                <td>{user.year}</td>
                                 <td>{user.email}</td>
                                 <td>
                                     <Button style={{margin: 3}} bsSize="small" onClick={() => this.editUser(index, user)}>
