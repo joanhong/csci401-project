@@ -81,7 +81,16 @@ public class User
 	
 	public void setUserType(String userType) 
 	{
-		this.userType = userType;
+		switch (userType) {
+			case "1": this.userType = "Admin";
+			break;
+			
+			case "2": this.userType = "Stakeholder";
+			break;
+			
+			case "3": this.userType = "Student";
+			break;
+		}
 	}
 	public String getFullName() 
 	{

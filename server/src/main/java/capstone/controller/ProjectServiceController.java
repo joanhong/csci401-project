@@ -253,7 +253,7 @@ public class ProjectServiceController
 			
 			for(String s : approvedProjects)
 			{
-				driver.updateProjectStatus(s, "Approved");
+				driver.updateProjectStatus(s, 2);
 			}
 
 			return "OK";
@@ -466,8 +466,11 @@ public class ProjectServiceController
 			return null;
 		}
 		Vector<Project> allProjects = driver.getAllProjects();
+		System.out.println(user.getFullName()); 
+		System.out.println(user.getProjectNumber());
 		for (Project p: allProjects) {
 			if (p.getProjectId()==user.getProjectNumber()) {
+				System.out.println(p.getProjectId());
 				return p;
 			}
 		}

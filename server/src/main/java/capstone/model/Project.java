@@ -218,7 +218,19 @@ public class Project implements Comparable {
 	}
 
 	public void setStatus(String status) {
-		this.status = status;
+		switch (status) {
+			case "1": this.status = "Pending Approval";
+			break;
+			
+			case "2": this.status = "Approved";
+			break;
+			
+			case "3": this.status = "Rejected";
+			break;
+			
+			case "4": this.status = "Changes Requested";
+			break;
+		}
 	}
 
 	public String getDueDate() {
