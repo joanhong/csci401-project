@@ -12,10 +12,11 @@ interface ProjectProps {
 }
 interface ProjectState {
 projectName: string;
-projectSize: string;
+minSize: number;
+maxSize: number;
 technologiesExpected: string;
 backgroundRequested: string;
-projectDescription: string;
+description: string;
 }
 
 class ProposalForm extends React.Component<ProjectProps, ProjectState> {
@@ -23,10 +24,11 @@ constructor(props: ProjectProps) {
     super(props);
     this.state = {
     projectName: '',
-    projectSize: '',
+    minSize: 0,
+    maxSize: 0,
     technologiesExpected: '',
     backgroundRequested: '',
-    projectDescription: ''
+    description: ''
     };
     this.submitClicked = this.submitClicked.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -39,10 +41,11 @@ constructor(props: ProjectProps) {
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
         projectName: this.state.projectName,
-        projectSize: this.state.projectSize,
+        minSize: this.state.minSize,
+        maxSize: this.state.maxSize,
         technologiesExpected: this.state.technologiesExpected,
         backgroundRequested: this.state.backgroundRequested,
-        projectDescription: this.state.projectDescription,
+        description: this.state.description,
         });
         request.setRequestHeader('Cache-Control', 'no-cache');
         request.send(data);
@@ -87,21 +90,36 @@ constructor(props: ProjectProps) {
                 </Col>
             </FormGroup>
 
-            <FormGroup controlId="formHorizontalNumberStudents">
+            <FormGroup controlId="formHorizontalMinStudents">
                 <Col componentClass={ControlLabel} sm={2}>
-                    <b>Number of Students</b>
+                    <b>Min Number of Students</b>
                 </Col>
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="projectSize"
-                    placeholder="Number of Students"
+                    id="minSize"
+                    placeholder="Min Number of Students"
                     onChange={e => this.handleChange(e)}
-                    value={this.state.projectSize}
+                    value={this.state.minSize}
                 />
                 </Col>
             </FormGroup>
-            
+
+            <FormGroup controlId="formHorizontalMaxStudents">
+                <Col componentClass={ControlLabel} sm={2}>
+                    <b>Max Number of Students</b>
+                </Col>
+                <Col sm={10}>
+                <FormControl
+                    type="text"
+                    id="maxSize"
+                    placeholder="Max Number of Students"
+                    onChange={e => this.handleChange(e)}
+                    value={this.state.maxSize}
+                />
+                </Col>
+            </FormGroup>
+
             <FormGroup controlId="formHorizontalTechnologies">
                 <Col componentClass={ControlLabel} sm={2}>
                     <b>Technologies Expected</b>
@@ -140,8 +158,8 @@ constructor(props: ProjectProps) {
                 <FormControl
                     componentClass="textarea"
                     type="text"
-                    id="projectDescription"
-                    value={this.state.projectDescription}
+                    id="description"
+                    value={this.state.description}
                     placeholder="Description"
                     onChange={e => this.handleChange(e)}
                 />

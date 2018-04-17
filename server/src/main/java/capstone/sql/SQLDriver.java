@@ -50,8 +50,8 @@ public class SQLDriver {
 //			".PeerReviewsTable(id, uscusername, uscidnumber, teammateaddress, teamcount, positivefeedback, negativefeedback)"
 //			+ "VALUES(?,?,?,?,?,?,?)";
 	
-	private final static String addProjectEntry = "INSERT INTO " + DATABASE_NAME + ".Projects(project_name, status_id, max_size, min_size) \n" + 
-			"VALUES (?,?,?,?)";
+	private final static String addProjectEntry = "INSERT INTO " + DATABASE_NAME + ".Projects(project_name, status_id, min_size, max_size, technologies, background, description) \n" + 
+			"VALUES (?,?,?,?,?,?,?)";
 	private final static String addProjectRankingEntry = "INSERT INTO " + DATABASE_NAME + ".ProjectRankings(student_id, project_id, rank)\n" + 
 			"VALUES (?,?,?)";
 	
@@ -311,15 +311,18 @@ public class SQLDriver {
 //		}
 	}
 		
-	public void addProjectEntry(String project_name, String project_status, int max_size, int min_size)
+	public void addProjectEntry(Project project)
 	{		
 		try
 		{
 			PreparedStatement ps = con.prepareStatement(addProjectEntry);
-			ps.setString(1, project_name);
-			ps.setInt(2, 1); // TODO: "pending"
-			ps.setInt(3, max_size);
-			ps.setInt(4, min_size);
+			ps.setString(1, project.getProjectName());
+			ps.setInt(2, 1); // "pending approval"
+			ps.setInt(3, project.getMinSize());
+			ps.setInt(4, project.getMaxSize());
+			ps.setString(5,  project.getTechnologiesExpected());
+			ps.setString(6,  project.getBackgroundRequested());
+			ps.setString(7,  project.getDescription());
 			ps.executeUpdate();			
 		}catch(SQLException e){
 			e.printStackTrace();
