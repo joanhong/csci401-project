@@ -17,7 +17,7 @@ import capstone.model.UserData;
 import capstone.model.WeeklyReportData;
 
 public class SQLDriver {
-	private final static String DATABASE_NAME = "401ProjectPlatform";
+	private final static String DATABASE_NAME = "401_Platform";
 	private final static String PASSWORD = "";
 	
 	private Connection con;
@@ -29,13 +29,13 @@ public class SQLDriver {
 	private final static String getUsername = "SELECT USERNAME FROM " + DATABASE_NAME + ".Users WHERE USER_ID=?";
 	private final static String getName = "SELECT FIRST_NAME, LAST_NAME FROM " + DATABASE_NAME + ".Users WHERE USER_ID=?";
 	private final static String getAllUsers = "SELECT * FROM " + DATABASE_NAME + ".Users";
-	private final static String getAllStakeholders = "SELECT * FROM " + DATABASE_NAME + ".Users JOIN" + DATABASE_NAME + ".StakeholderInfo ON stakeholder_id = user_id JOIN" + DATABASE_NAME + "Organizations ON organization_id = org_id";
+	private final static String getAllStakeholders = "SELECT * FROM " + DATABASE_NAME + ".Users JOIN " + DATABASE_NAME + ".StakeholderInfo ON stakeholder_id = user_id JOIN" + DATABASE_NAME + "Organizations ON organization_id = org_id";
 	private final static String getAllProjects = "SELECT * FROM " + DATABASE_NAME + ".Projects";
 	private final static String getProjectByName = "SELECT * FROM " + DATABASE_NAME + ".Projects WHERE NAME=?";
 	private final static String getUserProjectRankings = "SELECT * FROM " + DATABASE_NAME + ".ProjectRankings WHERE STUDENT_ID=?";
 	private final static String updatePassword = "UPDATE " + DATABASE_NAME + ".USERS SET PASSWORD=? WHERE EMAIL=?";
 	private final static String getEncryptedPassword = "SELECT * FROM " + DATABASE_NAME + ".USERS WHERE EMAIL=?";
-//	private final static String updateUserEntry = "UPDATE " + DATABASE_NAME + ".USERS SET FIRST_NAME = ?, LAST_NAME = ?, year = ?, email =?, user_type=? WHERE Full_name=?";
+	private final static String updateUserEntry = "UPDATE " + DATABASE_NAME + ".USERS SET first_name = ?, last_name = ?, email =?, user_type=? WHERE user_id=?";
 	private final static String getRankingsCount = "SELECT COUNT(*) FROM " + DATABASE_NAME + ".ProjectRankings";
 	private final static String updateApprovalStatus = "UPDATE " + DATABASE_NAME + ".Projects SET status_id=? WHERE Project_id=?";
 	
@@ -50,8 +50,8 @@ public class SQLDriver {
 //			".PeerReviewsTable(id, uscusername, uscidnumber, teammateaddress, teamcount, positivefeedback, negativefeedback)"
 //			+ "VALUES(?,?,?,?,?,?,?)";
 	
-	private final static String addProjectEntry = "INSERT INTO " + DATABASE_NAME + ".Projects(project_name, status_id, max_size, min_size) \n" + 
-			"VALUES (?,?,?,?)";
+	private final static String addProjectEntry = "INSERT INTO " + DATABASE_NAME + ".Projects(project_name, status_id, min_size, max_size, technologies, background, description) \n" + 
+			"VALUES (?,?,?,?,?,?,?)";
 	private final static String addProjectRankingEntry = "INSERT INTO " + DATABASE_NAME + ".ProjectRankings(student_id, project_id, rank)\n" + 
 			"VALUES (?,?,?)";
 	
@@ -121,7 +121,7 @@ public class SQLDriver {
 			{
 				User u = new User();
 				u.setUserId(result.getInt(1));
-				u.setUserType(result.getString("USER_TYPE"));
+				u.setUserTypeWithInt(result.getInt(2));
 				u.setFirstName(result.getString("FIRST_NAME"));
 				u.setLastName(result.getString("LAST_NAME"));
 				u.setEmail(result.getString("EMAIL"));
@@ -311,15 +311,18 @@ public class SQLDriver {
 //		}
 	}
 		
-	public void addProjectEntry(String project_name, String project_status, int max_size, int min_size)
+	public void addProjectEntry(Project project)
 	{		
 		try
 		{
 			PreparedStatement ps = con.prepareStatement(addProjectEntry);
-			ps.setString(1, project_name);
-			ps.setInt(2, 1); // TODO: "pending"
-			ps.setInt(3, max_size);
-			ps.setInt(4, min_size);
+			ps.setString(1, project.getProjectName());
+			ps.setInt(2, 1); // "pending approval"
+			ps.setInt(3, project.getMinSize());
+			ps.setInt(4, project.getMaxSize());
+			ps.setString(5,  project.getTechnologiesExpected());
+			ps.setString(6,  project.getBackgroundRequested());
+			ps.setString(7,  project.getDescription());
 			ps.executeUpdate();			
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -447,23 +450,24 @@ public class SQLDriver {
 	}
 	
 	///
-	public void addUserInfoUpdate(UserData userdata)
+	public void addUserInfoUpdate(User userdata)
 	{
-//		//UPDATE 401_Platform.USERS SET Full_name = ?, year = ?, email =?, user_type=? WHERE Full_name=?;
-//		//If name was updated then how will you find it? BUG
-//		try
-//		{
-//			PreparedStatement ps = con.prepareStatement(updateUserEntry);
-//			ps.setString(1, userdata.getName());
-//			ps.setString(2, userdata.getYear());
-//			ps.setString(3, userdata.getEmail());
-//			ps.setString(4, userdata.getUserType());
-//			ps.setString(5, userdata.getName());
-//			ps.executeUpdate();
-//			System.out.println("Updated info for user: "+ userdata.getName());
-//		}catch(SQLException e){
-//			e.printStackTrace();
-//		}
+		//UPDATE 401_Platform.USERS SET Full_name = ?, year = ?, email =?, user_type=? WHERE Full_name=?;
+		//If name was updated then how will you find it? BUG
+		try
+		{
+			PreparedStatement ps = con.prepareStatement(updateUserEntry);
+			ps.setString(1, userdata.getFirstName());
+			ps.setString(2, userdata.getLastName());
+			ps.setString(3, userdata.getEmail());
+			ps.setInt(4, userdata.getUserTypeWithInt());
+			ps.setInt(5, userdata.getUserId());
+			ps.executeUpdate();
+			
+			System.out.println("Updated info for user: "+ userdata.getFirstName() + " " + userdata.getLastName());
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
 	}
 	///
 	

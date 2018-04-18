@@ -74,7 +74,8 @@ public class ProjectServiceController
 		System.out.println("Received HTTP POST");
 		System.out.println(project);
 		System.out.println(project.getProjectName());
-//		System.out.println(project.getProjectSize());
+		System.out.println(project.getMinSize());
+		System.out.println(project.getMaxSize());
 		System.out.println(project.getTechnologiesExpected());
 		System.out.println(project.getBackgroundRequested());
 		System.out.println(project.getDescription());
@@ -85,20 +86,13 @@ public class ProjectServiceController
 //	   String backgroundRequested = request.getParameter("backgroundRequested");
 //	   String projectDescription = request.getParameter("projectDescription");
 
-	   Project p = new Project();
-	   p.setProjectId((int)repository.count()); // TODO: fix
-	   p.setProjectName(project.getProjectName());
-//	   p.setMaxSize(project.getProjectSize());
-	   p.setMinSize(3); //HARDCODED MIN_SIZE = 3
-	   p.setDescription(project.getDescription());
-	   p.setTechnologiesExpected(project.getTechnologiesExpected());
-	   p.setBackgroundRequested(project.getBackgroundRequested());
-	   p.setStatusType("Pending Approval");
+	   project.setProjectId((int)repository.count()); // TODO: fix
+	   project.setStatusType("Pending Approval");
 //	   
 	   //add project to project repository
-	   repository.save(p);
+	   repository.save(project);
 	   
-	   driver.addProjectEntry(p.getProjectName(), p.getStatusType(), p.getMaxSize(), p.getMinSize());
+	   driver.addProjectEntry(project);
 	   							String timeStamp = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss").format(new Date());
 	   	
 	   mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
@@ -153,17 +147,17 @@ public class ProjectServiceController
 	//XXXXXXXXXXXX
 		@RequestMapping(value = "/userInfoUpdate",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
 		@CrossOrigin(origins = "http://localhost:3000")
-		public @ResponseBody UserData userInfoUpdateAttempt(@RequestBody UserData userdata)
+		public @ResponseBody User userInfoUpdateAttempt(@RequestBody User userdata)
 		{
 			System.out.println("Received HTTP POST");
 			String timeStamp = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss").format(new Date());
 			String timeCode = new SimpleDateFormat("MMddHHmmss").format(new Date());
 //			timeCode.replaceAll(".", "");
 			
-			userdata.setId(Integer.parseInt(timeCode));
-			System.out.println(userdata.getId());
-			System.out.println(userdata.getName());
-			System.out.println(userdata.getYear());
+			System.out.println(userdata.getUserId());
+			System.out.println(userdata.getFirstName());
+			System.out.println(userdata.getLastName());
+			System.out.println(userdata.getSemester());
 			System.out.println(userdata.getEmail());
 			System.out.println(userdata.getUserType());
 			
@@ -484,13 +478,6 @@ public class ProjectServiceController
 		return null; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
 	}
 	
-	
-//	@RequestMapping(value = "/projectData", method = RequestMethod.POST, headers="content-type=application/json")
-//	public String post(@ModelAttribute("Project") Project project, ModelMap modelMap) 
-//	{
-//		System.out.println("RECEIVED POST REQUEST!");
-//		return "";
-//	}
 	String encryptPassword(String textPassword)
 	{
 		String encryptedPassword;
