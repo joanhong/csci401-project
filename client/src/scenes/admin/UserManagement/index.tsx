@@ -55,7 +55,12 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
     componentDidMount() {
         this.setState({isLoading: true});
         
-        fetch('http://localhost:8080/users')
+        fetch('http://localhost:8080/users', {
+            method: 'get', 
+            headers: new Headers({
+                'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+            })
+        })
             .then(response => response.json())
             .then(data => this.setState({allUsers: data, usersToDisplay: data, isLoading: false}));
     }

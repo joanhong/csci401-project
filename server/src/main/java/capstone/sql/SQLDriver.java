@@ -17,8 +17,8 @@ import capstone.model.UserData;
 import capstone.model.WeeklyReportData;
 
 public class SQLDriver {
-	private final static String DATABASE_NAME = "401ProjectPlatform";
-	private final static String PASSWORD = "";
+	private final static String DATABASE_NAME = "401_Platform";
+	private final static String PASSWORD = "password";
 	
 	private Connection con;
 	private final static String confirmLoginAttempt ="SELECT COUNT(*) FROM " + DATABASE_NAME + ".Users WHERE EMAIL=? AND PASSWORD=?";
@@ -28,6 +28,7 @@ public class SQLDriver {
 	private final static String addUserEntry = "INSERT INTO " + DATABASE_NAME + ".Users(USER_TYPE, FIRST_NAME, LAST_NAME) VALUES(?,?,?)";
 	private final static String getUsername = "SELECT USERNAME FROM " + DATABASE_NAME + ".Users WHERE USER_ID=?";
 	private final static String getName = "SELECT FIRST_NAME, LAST_NAME FROM " + DATABASE_NAME + ".Users WHERE USER_ID=?";
+	private final static String getUserByEmail = "SELECT * FROM " + DATABASE_NAME + ".Users WHERE EMAIL=?";
 	private final static String getAllUsers = "SELECT * FROM " + DATABASE_NAME + ".Users";
 	private final static String getAllStakeholders = "SELECT * FROM " + DATABASE_NAME + ".Users JOIN" + DATABASE_NAME + ".StakeholderInfo ON stakeholder_id = user_id JOIN" + DATABASE_NAME + "Organizations ON organization_id = org_id";
 	private final static String getAllProjects = "SELECT * FROM " + DATABASE_NAME + ".Projects";
@@ -108,6 +109,29 @@ public class SQLDriver {
 			}		
 		}catch (SQLException e){e.printStackTrace();}
 		return username; //returns true if the user name is in use in the DB
+	}
+	
+	public User getUserByEmail(String email)
+	{
+		String username = null;
+		User u = null;
+		try{
+			PreparedStatement ps = con.prepareStatement(getUserByEmail);
+			ps.setString(1, email);
+			ResultSet result = ps.executeQuery();
+			while(result.next())
+			{
+				u = new User();
+				u.setUserId(result.getInt(1));
+				u.setUserType(result.getString("USER_TYPE"));
+				u.setFirstName(result.getString("FIRST_NAME"));
+				u.setLastName(result.getString("LAST_NAME"));
+				u.setEmail(result.getString("EMAIL"));
+				u.setPassword(result.getString("PASSWORD"));
+				u.setPhone(result.getString("PHONE_NUM"));
+			}		
+		}catch (SQLException e){e.printStackTrace();}
+		return u; // returns true if the user name is in use in the DB
 	}
 	
 	public Vector<User> getAllUsers()

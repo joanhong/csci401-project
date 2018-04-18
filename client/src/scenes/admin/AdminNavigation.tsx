@@ -1,12 +1,15 @@
 import * as React from 'react';
 import {
   Route,
-  BrowserRouter
+  BrowserRouter,
+  Redirect
 } from 'react-router-dom';
 import {
   Navbar,
   Nav,
-  NavItem
+  NavItem,
+  FormGroup,
+  Button
 } from 'react-bootstrap';
 import {
   LinkContainer
@@ -19,7 +22,31 @@ import Stakeholders from './Stakeholders/index';
 import ProjectMatching from './ProjectMatching/index';
 const logo = require('../../svg/logo.svg');
 
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route 
+    {...rest} 
+    render={(props) => (
+    sessionStorage.getItem('jwt') !== null
+      ? <Component {...props} />
+      : 
+      <Redirect 
+          to={{
+          pathname: '/',
+          state: { from: props.location }
+          }} 
+      />
+  )} 
+  />
+);
+
 class AdminNavigation extends React.Component {
+  
+  logOutClicked() {
+    sessionStorage.removeItem('jwt');
+    sessionStorage.removeItem('userType');
+    window.location.href = '/';  
+  }
+
   render() {
     return (
       <BrowserRouter>
@@ -63,15 +90,21 @@ class AdminNavigation extends React.Component {
                 Project Matching
               </NavItem>
               </LinkContainer>
+
+              <NavItem eventKey={6}>
+                <FormGroup>
+                  <Button type="submit" onClick={this.logOutClicked}>Log Out</Button>
+              </FormGroup>
+              </NavItem>
             </Nav>
           </Navbar>
           <div className="content">
-            <Route exact={true} path="/admin" component={AdminHome}/>
-            <Route path="/admin/users" component={UserManagement}/>
-            <Route path="/admin/proposals" component={ProjectProposals}/>
-            <Route path="/admin/class" component={ClassOverview}/>
-            <Route path="/admin/stakeholders" component={Stakeholders}/>
-            <Route path="/admin/matching" component={ProjectMatching}/>
+            <PrivateRoute exact={true} path="/admin" component={AdminHome}/>
+            <PrivateRoute path="/admin/users" component={UserManagement}/>
+            <PrivateRoute path="/admin/proposals" component={ProjectProposals}/>
+            <PrivateRoute path="/admin/class" component={ClassOverview}/>
+            <PrivateRoute path="/admin/stakeholders" component={Stakeholders}/>
+            <PrivateRoute path="/admin/matching" component={ProjectMatching}/>
           </div>
         </div>
       </BrowserRouter>

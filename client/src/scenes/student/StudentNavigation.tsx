@@ -21,6 +21,12 @@ import PeerReviewForm from './PeerReviewForm/index';
 const logo = require('../../svg/logo.svg');
 
 class StudentNavigation extends React.Component {
+  logOutClicked() {
+    sessionStorage.removeItem('jwt');
+    sessionStorage.removeItem('userType');
+    window.location.href = '/';  
+  }
+  
   render() {
     return (
       <BrowserRouter>
