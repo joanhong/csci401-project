@@ -24,7 +24,7 @@ export type StudentInfo = {
   firstName: string;
   lastName: string;
   rankings: Array<{}>;
-}
+};
 
 export type Project = {
   projectId: number;
@@ -32,10 +32,10 @@ export type Project = {
   minSize: number;
   maxSize: number;
   members: Array<StudentInfo>;
-}
+};
 
 class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatchingState> {
-  
+
   constructor(props: ProjectMatchingProps) {
     super(props);
 
@@ -56,7 +56,7 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
       .then(response => response.json())
       .then(data => this.setState({projects: data}));
   }
-  
+
   render() {
     const isLoading = this.state.isLoading;
     const isLaunched = this.state.isLaunched;
@@ -99,36 +99,20 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
       return header;
     }
 
+    if (isLaunched && !projects.length) {
+      return (
+        <div>
+          {header}
+          <p>Loading...</p>
+        </div>
+      );
+    }
+
     return (
       <div>
       {header}
 
-      <Table bordered={true}>
-        <thead>
-        <tr>
-          <th>Project Name</th>
-          <th>Min Size</th>
-          <th>Max Size</th>
-          <th>Members</th>
-        </tr>
-        </thead>
-        <tbody>
-      {projects.map((project: Project) =>
-        <tr key={project.projectId}>
-          <td>{project.projectName}</td>
-          <td>{project.minSize}</td>
-          <td>{project.maxSize}</td>
-          <td>
-          {project.members.map((student: StudentInfo) =>
-            <div key={student.studentId}>
-              {student.firstName + ' ' + student.lastName}
-            </div>
-          )}
-          </td>
-        </tr>      
-        )}
-        </tbody>
-      </Table>
+      <ProjectsList projects={this.state.projects} />
 
       </div>
     );
