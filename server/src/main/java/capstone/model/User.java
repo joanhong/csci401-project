@@ -77,6 +77,10 @@ public class User
 	}
 	
 	public int getUserTypeWithInt() {
+		if (userType==null) {
+			return -1;
+		}
+		
 		switch (userType) {
 			case "Admin": return 1;
 			
