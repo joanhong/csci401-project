@@ -20,7 +20,7 @@ public class Project implements Comparable<Object> {
 	
 	@Id
 	@GeneratedValue
-	private long id;
+	private long projectId;
 	
 	@MapsId("leader_id")
 	@OneToOne(fetch = FetchType.LAZY)
@@ -38,9 +38,9 @@ public class Project implements Comparable<Object> {
 	@OneToOne(fetch = FetchType.LAZY)
 	private Stakeholder stakeholder;
 	private String name;
-	private String technologiesExpected;
-	private String backgroundRequested;
-	private String projectDescription;
+	private String technologies;
+	private String background;
+	private String description;
 	private int minSize;
 	private int maxSize;
 	
@@ -58,30 +58,6 @@ public class Project implements Comparable<Object> {
 	@Transient
 	private double projSatScore;
 	
-	public String getTechnologiesExpected() {
-		return technologiesExpected;
-	}
-
-	public void setTechnologiesExpected(String technologiesExpected) {
-		this.technologiesExpected = technologiesExpected;
-	}
-
-	public String getBackgroundRequested() {
-		return backgroundRequested;
-	}
-
-	public void setBackgroundRequested(String backgroundRequested) {
-		this.backgroundRequested = backgroundRequested;
-	}
-
-	public String getProjectDescription() {
-		return projectDescription;
-	}
-
-	public void setProjectDescription(String projectDescription) {
-		this.projectDescription = projectDescription;
-	}
-
 	public int getMinSize() {
 		return minSize;
 	}
@@ -169,6 +145,14 @@ public class Project implements Comparable<Object> {
 	public void setSemester(String semester) {
 		this.semester = semester;
 	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public Project(int _p_max) {
 		members = new Vector<Student>();
@@ -201,7 +185,7 @@ public class Project implements Comparable<Object> {
 	}
 	
 	public String toString() {
-		return ("Project #" + this.id + ": '" + this.getName() + "' | " + this.minSize + "-" + this.maxSize + " " + this.p_max);
+		return ("Project #" + this.projectId + ": '" + this.getName() + "' | " + this.minSize + "-" + this.maxSize + " " + this.p_max);
 	}
 	
 	/* Comparator Stuff */
@@ -214,14 +198,6 @@ public class Project implements Comparable<Object> {
 		Project p = (Project) o;
 
 		return (this.getName()).compareTo(p.getName());
-	}
-	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	// sorts by popularity in descending order

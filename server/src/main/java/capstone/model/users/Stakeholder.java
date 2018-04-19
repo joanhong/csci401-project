@@ -7,21 +7,26 @@ import javax.persistence.Id;
 @Entity
 public class Stakeholder extends User {
 	
-	private String companyName; //only valid if userType = Stakeholder
-	private int projectNumber;
+	private String organization; //only valid if userType = Stakeholder
+	private int projectId;
+	private int avgRating;
 	
-	public String getCompanyName() {
-		return companyName;
+	public String getOrganization() {
+		return organization;
 	}
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
+	public void setOrganization(String organization) {
+		this.organization = organization;
 	}
-	public int getProjectNumber() 
-	{
-		return projectNumber;
+	public int getProjectId() {
+		return projectId;
 	}
-	public void setProjectNumber(int projectNumber) 
-	{
-		this.projectNumber = projectNumber;
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
+	}
+	public int getAvgRating() {
+		return avgRating;
+	}
+	public void setAvgRating(int avgRating) {
+		this.avgRating = avgRating;
 	}
 }

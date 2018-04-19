@@ -13,10 +13,9 @@ import javax.persistence.Transient;
 @Entity
 public class Student extends User {
 	
-	public String USC_ID; // only valid if userType = Student
-	public String year; //only valid if userType = Student
+	public String uscid; // only valid if userType = Student
 	public String semester;
-	int projectNumber;
+	int projectId;
 	
 	@Transient
 	private Map<String, Integer> rankings;
@@ -28,17 +27,10 @@ public class Student extends User {
 		setOrderedRankings(new Vector<String>());
 	}
 	
-	public int getProjectNumber() 
-	{
-		return projectNumber;
-	}
-	public void setProjectNumber(int projectNumber) 
-	{
-		this.projectNumber = projectNumber;
-	}
+	
 	
 	public String toString() {
-		return ("Student #" + this.USC_ID + ": '" + this.getName() + "' | " + this.getRankings());
+		return ("Student #" + this.uscid + ": '" + this.getName() + "' | " + this.getRankings());
 	}
 
 	public Map<String, Integer> getRankings() {
