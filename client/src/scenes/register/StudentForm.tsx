@@ -8,6 +8,12 @@ import {
     ControlLabel
 } from 'react-bootstrap';
 
+const style = {
+    width: 600,
+    float: 'none',
+    margin: 'auto',
+};
+
 interface StudentRegistrationProps {
 }
 interface StudentRegistrationState {
@@ -34,10 +40,10 @@ class StudentRegistrationForm extends React.Component<StudentRegistrationProps, 
     submitClicked() {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/users/studentRegistrationAttempt/');
+        request.open('POST', 'http://localhost:8080/studentRegistrationAttempt/');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
-            name: this.state.name,
+            firstName: this.state.name,
             email: this.state.email,
             phone: this.state.phone,
             password: this.state.password
@@ -59,7 +65,7 @@ class StudentRegistrationForm extends React.Component<StudentRegistrationProps, 
     this.setState({ [e.target.id]: e.target.value });
     }
 
-    formGroup(controlId: string, id: string, placeholder: string, value: any) {
+    formGroup(controlId: string, type: string, id: string, placeholder: string, value: any) {
         return (
             <FormGroup controlId={controlId}>
                 <Col componentClass={ControlLabel} sm={2}>
@@ -67,7 +73,7 @@ class StudentRegistrationForm extends React.Component<StudentRegistrationProps, 
                 </Col>
                 <Col sm={10}>
                 <FormControl
-                    type="text"
+                    type={type}
                     id={id}
                     value={value}
                     placeholder={placeholder}
@@ -81,21 +87,22 @@ class StudentRegistrationForm extends React.Component<StudentRegistrationProps, 
 
     render() {
         return (
-            <div>
-            <Form horizontal={true} >
-            {this.formGroup('formHorizontalName', 'name', 'Name', this.state.name)}
-            {this.formGroup('formHorizontalEmail', 'email', 'Email', this.state.email)}
-            {this.formGroup('formHorizontalPhone', 'phone', 'Phone', this.state.phone)}
-            {this.formGroup('formHorizontalPassword', 'password', 'Password', this.state.password)}
-            {this.formGroup('formHorizontalConfirm', 'confirm', 'Confirm Password', this.state.confirm)}
+            <div style={style}>
+                <h2>Student Registration</h2>
+                <Form horizontal={true} >
+                    {this.formGroup('formHorizontalName', 'text', 'name', 'Name', this.state.name)}
+                    {this.formGroup('formHorizontalEmail', 'text', 'email', 'Email', this.state.email)}
+                    {this.formGroup('formHorizontalPhone', 'text', 'phone', 'Phone', this.state.phone)}
+                    {this.formGroup('formHorizontalPassword', 'password', 'password', 'Password', this.state.password)}
+                    {this.formGroup('formHorizontalConfirm', 'password', 'confirm', 'Confirm Password', this.state.confirm)}
 
-            <FormGroup>
-                <Col smOffset={2} sm={10}>
-                <Button type="submit" onClick={this.submitClicked}>Register</Button>
-                </Col>
-            </FormGroup>
-        </Form>
-        </div>
+                    <FormGroup>
+                        <Col smOffset={2} sm={10}>
+                        <Button type="submit" onClick={this.submitClicked}>Register</Button>
+                        </Col>
+                    </FormGroup>
+                </Form>
+            </div>
         );
     }
 }

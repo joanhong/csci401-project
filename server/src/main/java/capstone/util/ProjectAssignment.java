@@ -258,7 +258,7 @@ public class ProjectAssignment {
 				String projname = s.getOrderedRankings().get(choice); //elementAt(choice);
 				Project p = GetProjectWithName(projname);
 				if (p.getMembers().size() < p.getMaxSize()) {
-					p.getMembers().addElement(s);
+					((Vector<Student>) p.getMembers()).addElement(s);
 					toRemove.add(s);
 				}
 			}
@@ -310,7 +310,7 @@ public class ProjectAssignment {
 		
 		Random rand = new Random();
 		int index = rand.nextInt(p.getMembers().size());
-		Student displaced = p.getMembers().elementAt(index);
+		Student displaced = ((Vector<Student>) p.getMembers()).elementAt(index);
 		if (BumpHelper(displaced, level+1)) {
 			p.getMembers().remove(index);
 			p.getMembers().add(s);

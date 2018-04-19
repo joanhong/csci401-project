@@ -9,7 +9,7 @@ public class Proposal
 {
 	@Id
 	@GeneratedValue
-	private long id;
+	private Long id;
 	String projectName;
 	int projectSize;
 	String technologiesExpected;

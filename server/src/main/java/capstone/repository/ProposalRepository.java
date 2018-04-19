@@ -7,5 +7,7 @@ import capstone.model.Proposal;
 
 @RepositoryRestResource
 public interface ProposalRepository extends CrudRepository<Proposal, Long>{
+
+	Proposal findById(Long id);
 	
 }

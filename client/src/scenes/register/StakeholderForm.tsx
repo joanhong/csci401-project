@@ -42,10 +42,10 @@ class StakeholderRegistrationForm extends React.Component<StakeholderRegistratio
     submitClicked() {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/users/stakeholderRegistrationAttempt/');
+        request.open('POST', 'http://localhost:8080/stakeholderRegistrationAttempt/');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
-            name: this.state.name,
+            firstName: this.state.name,
             email: this.state.email,
             phone: this.state.phone,
             company: this.state.company,
@@ -68,7 +68,7 @@ handleChange(e: any) {
 this.setState({ [e.target.id]: e.target.value });
 }
 
-formGroup(controlId: string, id: string, placeholder: string, value: any) {
+formGroup(controlId: string, type: string, id: string, placeholder: string, value: any) {
     return (
         <FormGroup controlId={controlId}>
             <Col componentClass={ControlLabel} sm={3}>
@@ -76,7 +76,7 @@ formGroup(controlId: string, id: string, placeholder: string, value: any) {
             </Col>
             <Col sm={8}>
             <FormControl
-                type="text"
+                type={type}
                 id={id}
                 value={value}
                 placeholder={placeholder}
@@ -96,12 +96,12 @@ formGroup(controlId: string, id: string, placeholder: string, value: any) {
                 <Col>
                 <div>
                 <Form horizontal={true} >
-                    {this.formGroup('formHorizontalName', 'name', 'Name', this.state.name)}
-                    {this.formGroup('formHorizontalEmail', 'email', 'Email', this.state.email)}
-                    {this.formGroup('formHorizontalPhone', 'phone', 'Phone', this.state.phone)}
-                    {this.formGroup('formHorizontalCompany', 'company', 'Company/Organization', this.state.company)}
-                    {this.formGroup('formHorizontalPassword', 'password', 'Password', this.state.password)}
-                    {this.formGroup('formHorizontalConfirm', 'confirm', 'Confirm Password', this.state.confirm)}
+                    {this.formGroup('formHorizontalName', 'text', 'name', 'Name', this.state.name)}
+                    {this.formGroup('formHorizontalEmail', 'text', 'email', 'Email', this.state.email)}
+                    {this.formGroup('formHorizontalPhone', 'text', 'phone', 'Phone', this.state.phone)}
+                    {this.formGroup('formHorizontalCompany', 'text', 'company', 'Company/Organization', this.state.company)}
+                    {this.formGroup('formHorizontalPassword', 'password', 'password', 'Password', this.state.password)}
+                    {this.formGroup('formHorizontalConfirm', 'password', 'confirm', 'Confirm Password', this.state.confirm)}
 
                     <FormGroup>
                         <Col smOffset={3} sm={10}>

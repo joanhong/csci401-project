@@ -7,49 +7,28 @@ import {
   Navbar,
   Nav,
   NavItem,
+  FormGroup,
   Button
 } from 'react-bootstrap';
 import {
   LinkContainer
 } from 'react-router-bootstrap';
+import Home from './Home/index';
 import Profile from './Profile/index';
 import ProjectRanking from './ProjectRanking/index';
 import YourProject from './YourProject/index';
-import SubmitDeliverable from './YourProject/Deliverable/index';
 import FinalPresentationReviews from './FinalPresentationReviews/index';
 import WeeklyReportForm from './WeeklyReportForm/index';
 import PeerReviewForm from './PeerReviewForm/index';
 const logo = require('../../svg/logo.svg');
 
 class StudentNavigation extends React.Component {
-
   logOutClicked() {
-    var request = new XMLHttpRequest();
-    request.withCredentials = true;
-    request.open('POST', 'http://localhost:8080/users/logoutAttempt/');
-    request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-    var data = 'logout';
-    request.setRequestHeader('Cache-Control', 'no-cache');
-    request.send(data);
-    alert(request.responseText + 'Logging you out...');
-    request.onreadystatechange = function() {
-        if (request.readyState === 4) {
-            if (request.responseText.length > 4) {
-                if (request.responseText === 'LoggedOut') {
-                    alert('Logged out succesfully!');
-                    window.location.href = '/';
-                    return;
-                }
-                if (request.responseText === 'Failed') {
-                    alert('No one is logged in.');
-                }
-            } else {
-                    alert('Error communicating with server.');
-            }
-        }
-    };
-    
-}
+    sessionStorage.removeItem('jwt');
+    sessionStorage.removeItem('userType');
+    window.location.href = '/';  
+  }
+  
   render() {
     return (
       <BrowserRouter>
@@ -67,6 +46,11 @@ class StudentNavigation extends React.Component {
                 </Navbar.Brand> 
               </Navbar.Header>
               <Nav>
+                <LinkContainer to="/student/profile">
+                  <NavItem eventKey={1}>
+                    Profile
+                  </NavItem>
+                </LinkContainer>
                 
                 <LinkContainer to="/student/ranking">
                   <NavItem eventKey={2}>
@@ -83,16 +67,19 @@ class StudentNavigation extends React.Component {
                     Final Presentation Reviews
                   </NavItem>
                 </LinkContainer>
-                <NavItem eventKey={5}>
-                  <Button onClick={this.logOutClicked}>Logout</Button>
-                </NavItem>
+
+                <NavItem eventKey={6}>
+                <FormGroup>
+                  <Button type="submit" onClick={this.logOutClicked}>Log Out</Button>
+              </FormGroup>
+              </NavItem>
               </Nav>
             </Navbar>
             <div className="content">
-              <Route exact={true} path="/student" component={Profile}/>
+              <Route exact={true} path="/student" component={Home}/>
+              <Route path="/student/profile" component={Profile}/>
               <Route path="/student/ranking" component={ProjectRanking}/>
-              <Route exact={true} path="/student/project" component={YourProject}/>
-              <Route path="/student/project/deliverable" component={SubmitDeliverable}/>
+              <Route path="/student/project" component={YourProject}/>
               <Route path="/student/reviews" component={FinalPresentationReviews}/>
               <Route path="/student/weeklyreport/" component={WeeklyReportForm}/>
               <Route path="/student/peerreview/" component={PeerReviewForm}/>

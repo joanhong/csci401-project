@@ -3,7 +3,10 @@ import {
   Table,
   Button,
   FormGroup,
-  FormControl
+  FormControl,
+  Grid,
+  Row,
+  Col,
 } from 'react-bootstrap';
 
 interface ProjectMatchingProps {
@@ -11,21 +14,26 @@ interface ProjectMatchingProps {
 
 interface ProjectMatchingState {
   projects: Array<{}>;
-  isLoading: boolean; 
+  isLoading: boolean;
   isLaunched: boolean;
 }
 
 interface StudentInfo {
-  studentId: number;
-  name: string;
+  userId: number;
+  firstName: string;
+  lastName: string;
   rankings: Array<{}>;
 }
 
 interface Project {
   projectId: number;
   name: string;
-  minSize: number;
-  maxSize: number;
+  status: string;
+  minSize: string;
+  maxSize: string;
+  technologies: string;
+  background: string;
+  description: string;
   members: Array<StudentInfo>;
 }
 
@@ -61,44 +69,42 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
       return <p>Loading...</p>;
     }
 
-    if (!isLaunched) {
-      return (
-        <div>
+    const header = (
+      <div>
         <h2>Project Matching</h2>
-
         <form>
-          <FormGroup controlId="formBasicText">
-            <FormControl
-              type="text"
-              placeholder="Enter NUM_RANKED"
-            />
-          <FormControl.Feedback />
-          <Button onClick={this.launch} bsStyle="primary">
-            Let the games begin.
-          </Button>
-        </FormGroup>
-      </form>
-
+          <Grid>
+            <Row>
+                <Col lg={8}>
+                <FormGroup controlId="formBasicText">
+                  <FormControl
+                    type="text"
+                    placeholder="Enter NUM_RANKED"
+                  />
+                  <FormControl.Feedback />
+                  <Button onClick={this.launch} style={{margin: 5}}>
+                    Let the games begin.
+                  </Button>
+                </FormGroup>
+                </Col>
+                <Col lg={4}>
+                  <Button bsStyle="primary" disabled={projects.length === 0}>
+                      Assign Projects
+                  </Button>
+                </Col>
+            </Row>
+          </Grid>
+        </form>
       </div>
-      );
+    );
+
+    if (!isLaunched) {
+      return header;
     }
 
     return (
       <div>
-      <h2>Project Matching</h2> 
-
-      <form>
-        <FormGroup controlId="formBasicText">
-          <FormControl
-            type="text"
-            placeholder="Enter NUM_RANKED"
-          />
-        <FormControl.Feedback />
-        <Button onClick={this.launch} bsStyle="primary">
-          Let the games begin.
-        </Button>
-        </FormGroup>
-      </form>
+      {header}
 
       <Table bordered={true}>
         <thead>
@@ -117,8 +123,8 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
           <td>{project.maxSize}</td>
           <td>
           {project.members.map((student: StudentInfo) =>
-            <div key={student.studentId}>
-              {student.name}
+            <div key={student.userId}>
+              {student.firstName + ' ' + student.lastName}
             </div>
           )}
           </td>

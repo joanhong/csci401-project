@@ -19,11 +19,14 @@ selected: boolean;
 }
 
 interface Project {
-    id: number;
-    projectName: string;
-    projectNumber: number;
+    projectId: number;
+    name: string;
     status: string;
-    projectSize: number;
+    minSize: string;
+    maxSize: string;
+    technologies: string;
+    background: string;
+    description: string;
 }
 
 class ProjectProposalApprovalForm extends React.Component<ProjectListProps, ProjectListState> {
@@ -40,15 +43,24 @@ class ProjectProposalApprovalForm extends React.Component<ProjectListProps, Proj
         this.toggleCheckboxes = this.toggleCheckboxes.bind(this);
     }
     submitClicked() {
-        var request = new XMLHttpRequest();
+        /*var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/proposals/save');
+        request.open('POST', 'http://localhost:8080/projectApprovalAttempt/');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
         projects: this.state.projects,
         });
         request.setRequestHeader('Cache-Control', 'no-cache');
-        request.send(data); 
+        request.send(data); */
+        var request = new XMLHttpRequest();
+        request.withCredentials = true;
+        request.open('POST', 'http://localhost:8080/projects/approve');
+        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        var data = JSON.stringify({
+        projects: this.state.projects,
+        });
+        request.setRequestHeader('Cache-Control', 'no-cache');
+        request.send(data);
         alert('Projects have been approved!');
 
     }
@@ -56,9 +68,9 @@ class ProjectProposalApprovalForm extends React.Component<ProjectListProps, Proj
         let projects = this.state.projects;
         let name = e.target.value;
         {projects.map((project: Project) => {
-            if (project.projectName === name && e.target.checked) {
+            if (project.name === name && e.target.checked) {
                 project.status = 'Approved';
-            } else if (project.projectName === name && !e.target.checked) {
+            } else if (project.name === name && !e.target.checked) {
                 project.status = 'Pending Approval';
             }
         }); }
@@ -81,7 +93,7 @@ class ProjectProposalApprovalForm extends React.Component<ProjectListProps, Proj
     componentDidMount() {
         this.setState({isLoading: true});
         
-        fetch('http://localhost:8080/proposals')
+        fetch('http://localhost:8080/projects')
             .then(response => response.json())
             .then(data => this.setState({projects: data, isLoading: false}));
     }
@@ -105,7 +117,6 @@ class ProjectProposalApprovalForm extends React.Component<ProjectListProps, Proj
                         <tr>
                             <th>Select</th>
                             <th>Project Name</th>
-                            <th>Project Number</th>
                             <th>Project Status</th>
                             <th>Min Size</th>
                             <th>Max Size</th>
@@ -113,20 +124,20 @@ class ProjectProposalApprovalForm extends React.Component<ProjectListProps, Proj
                     </thead>
                     <tbody>
                         {projects.map((project: Project) =>
-                            <tr key={project.projectNumber}>
+                            <tr key={project.projectId}>
                                 <td>               
                                     <FormControl
                                         type="checkbox"
                                         id="select"
-                                        checked={this.state.selected[project.projectNumber]}
-                                        value={project.projectName}
+                                        checked={this.state.selected[project.projectId]}
+                                        value={project.projectId}
                                         onChange={e => this.handleChange(e)}
                                     />
                                 </td>
-                                <td>{project.projectName}</td>
-                                <td>{project.projectNumber}</td>
+                                <td>{project.name}</td>
                                 <td>{project.status}</td>
-                                <td>{project.projectSize}</td>
+                                <td>{project.minSize}</td>
+                                <td>{project.maxSize}</td>
                             </tr>
                         )}
                     </tbody>

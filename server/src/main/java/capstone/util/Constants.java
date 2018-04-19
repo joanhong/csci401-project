@@ -6,15 +6,16 @@ public class Constants {
 	public static String EMPTY = "";
 	
 	/* Login */
-	public static String STUDENT = "student";
-	public static String STAKEHOLDER = "stakeholder";
-	public static String ADMIN = "admin";
+	public static String STUDENT = "Student";
+	public static String STAKEHOLDER = "Stakeholder";
+	public static String ADMIN = "Admin";
 
 	/* Registration */
 	public static String EMAIL = "email";
 	public static String EMAILS = "emails";
 	public static String PASSWORD = "password";
-	public static String NAME = "name";
+	public static String FIRST_NAME = "firstName";
+	public static String LAST_NAME = "lastName";
 	public static String PHONE = "phone";
 	public static String CONFIRM = "confirm";
 	public static String COMPANY = "company";

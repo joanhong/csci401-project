@@ -1,14 +1,23 @@
 package capstone.model.users;
 
+import java.util.Collection;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import capstone.model.Project;
+import capstone.model.Proposal;
 
 @Entity
 public class Stakeholder extends User {
 	
 	private String organization; //only valid if userType = Stakeholder
-	private int projectId;
+	
+	@OneToMany(targetEntity=Project.class)
+	private Collection<Project> projectIds;
+	@OneToMany(targetEntity=Proposal.class)
+	private Collection<Proposal> proposalIds;
+	
 	private int avgRating;
 	
 	public String getOrganization() {
@@ -17,11 +26,17 @@ public class Stakeholder extends User {
 	public void setOrganization(String organization) {
 		this.organization = organization;
 	}
-	public int getProjectId() {
-		return projectId;
+	public Collection<Proposal> getProposalIds() {
+		return proposalIds;
 	}
-	public void setProjectId(int projectId) {
-		this.projectId = projectId;
+	public void setProposalIds(Collection<Proposal> proposalIds) {
+		this.proposalIds = proposalIds;
+	}
+	public void setProjectIds(Collection<Project> projectIds) {
+		this.projectIds = projectIds;
+	}
+	public Collection<Project> getProjectIds() {
+		return projectIds;
 	}
 	public int getAvgRating() {
 		return avgRating;

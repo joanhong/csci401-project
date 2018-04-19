@@ -2,29 +2,39 @@ import * as React from 'react';
 import {
     Panel,
     Button,
+    Table,
     Form,
     FormGroup,
     Col,
     FormControl,
     ControlLabel    
 } from 'react-bootstrap';
-
+const style = {
+    width: 1000,
+    float: 'none',
+    margin: 'auto'
+};
 interface ProfileProps {
 }
-interface ProfileState {
-    name: string;
+interface User {
+    firstName: string;
     email: string;
     phone: string;
+}
+interface ProfileState {
+    user: User;
     isLoading: boolean;
 }
+var studentName = '';
 
 class StudentProfile extends React.Component<ProfileProps, ProfileState> {
     constructor(props: ProfileProps) {
         super(props);
         this.state = {
-            name: '',
+            user: {
+            firstName: '',
             email: '',
-            phone: '',
+            phone: ''},
             isLoading: false,
         };
         this.submitClicked = this.submitClicked.bind(this);
@@ -32,30 +42,11 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
     }
     componentDidMount() {
         this.setState({isLoading: true});
-
-        var request = new XMLHttpRequest();
-        request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/users/loggedInUser');
-        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        var data = 'loggedIn';
-        request.setRequestHeader('Cache-Control', 'no-cache');
-        request.send(data);
-        var that = this;
-        request.onreadystatechange = function() {
-            if (request.readyState === 4) {
-                var response = request.responseText;
-                var jsonResponse = JSON.parse(response);
-                var nameLiteral = 'name';
-                var emailLiteral = 'email';
-                var phoneLiteral = 'phone';
-                that.setState({
-                    name: jsonResponse[nameLiteral], 
-                    email: jsonResponse[emailLiteral],
-                    phone: jsonResponse[phoneLiteral],
-                    isLoading: false
-                });
-            }
-        };
+        this.setState({isLoading: true});
+        fetch('http://localhost:8080/users/' + sessionStorage.getItem('email'))
+        .then(response => response.json())
+        .then(data => this.setState({user: data, isLoading: false}));
+        
     }
     submitClicked() {
    /*     var request = new XMLHttpRequest();
@@ -84,7 +75,7 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
         }
 
         return (
-            <div>
+            <div style={style}>
             <Panel>
             <Panel.Heading>
                 Profile
@@ -99,7 +90,7 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
                         <FormControl 
                             type="text" 
                             id="name"
-                            value={this.state.name}
+                            value={this.state.user.firstName}
                             onChange={e => this.handleChange(e)} 
                         />
                     </Col>             
@@ -113,7 +104,7 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
                         <FormControl 
                             type="email" 
                             id="email"
-                            value={this.state.email} 
+                            value={this.state.user.email} 
                             onChange={e => this.handleChange(e)} 
                         />
                     </Col>             
@@ -127,7 +118,7 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
                         <FormControl 
                             type="tel" 
                             id="phone"
-                            value={this.state.phone}
+                            value={this.state.user.phone}
                             onChange={e => this.handleChange(e)} 
                         />
                     </Col>             
@@ -142,8 +133,8 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
             </Panel.Body>
             </Panel>
         </div>
-);
-}
+        );
+    }
 }
 
 export default StudentProfile;

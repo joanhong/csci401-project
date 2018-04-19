@@ -11,4 +11,4 @@ class AdminProposalApprovalForm extends React.Component {
     }
 }
 
-export default AdminProposalApprovalForm;
+export default ProjectProposalApprovalForm;

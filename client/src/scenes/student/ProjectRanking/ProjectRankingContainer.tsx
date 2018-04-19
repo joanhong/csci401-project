@@ -35,14 +35,14 @@ interface State {
 }
 
 interface Project {
-    projectNumber: number;
-    projectName: string;
+    projectId: number;
+    name: string;
     status: string;
-    minSize: number;
-    maxSize: number;
-    technologiesExpected: string;
-    backgroundRequested: string;
-    projectDescription: string;
+    minSize: string;
+    maxSize: string;
+    technologies: string;
+    background: string;
+    description: string;
 }
 
 @DragDropContext(HTML5Backend)
@@ -72,11 +72,11 @@ class ProjectRankingContainer extends React.Component<Props, State> {
         request.open('POST', 'http://localhost:8080/projectRankingsSubmitAttempt/');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
-        project1: this.state.projectCards[0].projectName,
-        project2: this.state.projectCards[1].projectName,
-        project3: this.state.projectCards[2].projectName,
-        project4: this.state.projectCards[3].projectName,
-        project5: this.state.projectCards[4].projectName
+        project1: this.state.projectCards[0].name,
+        project2: this.state.projectCards[1].name,
+        project3: this.state.projectCards[2].name,
+        project4: this.state.projectCards[3].name,
+        project5: this.state.projectCards[4].name
         });
         request.setRequestHeader('Cache-Control', 'no-cache');
         request.send(data);
@@ -106,7 +106,7 @@ class ProjectRankingContainer extends React.Component<Props, State> {
 
     findCard(id: number) {
         const { projectCards } = this.state;
-        const projectCard = projectCards.filter(c => c.projectNumber === id)[0];
+        const projectCard = projectCards.filter(c => c.projectId === id)[0];
 
         return {
             projectCard,
@@ -163,15 +163,15 @@ class ProjectRankingContainer extends React.Component<Props, State> {
                 <br />
                 {projectCards.map((projectCard: Project, index: number) => (
                     <ProjectCard
-                        key={projectCard.projectNumber}
+                        key={projectCard.projectId}
                         rank={index + 1}
-                        id={projectCard.projectNumber}
-                        name={projectCard.projectName}
+                        id={projectCard.projectId}
+                        name={projectCard.name}
                         minSize={projectCard.minSize}
                         maxSize={projectCard.maxSize}
-                        technologiesExpected={projectCard.technologiesExpected}
-                        backgroundRequested={projectCard.backgroundRequested}
-                        projectDescription={projectCard.projectDescription}
+                        technologiesExpected={projectCard.technologies}
+                        backgroundRequested={projectCard.background}
+                        projectDescription={projectCard.description}
                         moveCard={this.moveCard}
                         findCard={this.findCard}
                     />

@@ -6,16 +6,19 @@ import java.util.Map;
 import java.util.Vector;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+
+import capstone.model.Project;
 
 @Entity
 public class Student extends User {
 	
 	public String uscid; // only valid if userType = Student
 	public String semester;
-	int projectId;
+	
+	@OneToOne(targetEntity=Project.class)
+	Project project;
 	
 	@Transient
 	private Map<String, Integer> rankings;
@@ -26,13 +29,19 @@ public class Student extends User {
 		setRankings(new HashMap<String, Integer>());
 		setOrderedRankings(new Vector<String>());
 	}
-	
-	
-	
+
 	public String toString() {
-		return ("Student #" + this.uscid + ": '" + this.getName() + "' | " + this.getRankings());
+		return ("Student #" + this.uscid + ": '" + this.getFirstName() + "' | " + this.getRankings());
 	}
 
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+	
 	public Map<String, Integer> getRankings() {
 		return rankings;
 	}

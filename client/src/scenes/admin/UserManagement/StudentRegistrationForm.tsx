@@ -5,19 +5,22 @@ import {
     Col,
     FormControl,
     Button,
-    ControlLabel
+    ControlLabel,
+    Row
 } from 'react-bootstrap';
 
 interface StudentRegistrationProps {
 }
 interface StudentRegistrationState {
-emails: string;
+studentEmails: string;
+adminEmails: string;
 }
 class StudentRegistrationForm extends React.Component<StudentRegistrationProps, StudentRegistrationState> {
 constructor(props: StudentRegistrationProps) {
 super(props);
 this.state = {
-emails: ''
+studentEmails: '',
+adminEmails: ''
 };
 this.submitClicked = this.submitClicked.bind(this);
 this.handleChange = this.handleChange.bind(this);
@@ -25,10 +28,10 @@ this.handleChange = this.handleChange.bind(this);
 submitClicked() {
 var request = new XMLHttpRequest();
 request.withCredentials = true;
-request.open('POST', 'http://localhost:8080/users/studentEmailsRegistrationAttempt/');
+request.open('POST', 'http://localhost:8080/studentEmailsRegistrationAttempt/');
 request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 var data = JSON.stringify({
-emails: this.state.emails,
+emails: this.state.studentEmails,
 });
 request.setRequestHeader('Cache-Control', 'no-cache');
 request.send(data);
@@ -47,18 +50,25 @@ this.setState({ [e.target.id]: e.target.value });
 formGroup(controlId: string, id: string, placeholder: string, value: any) {
     return (
         <FormGroup controlId={controlId}>
+            <Row>
             <Col componentClass={ControlLabel} sm={2}>
             {placeholder}
             </Col>
-            <Col sm={10}>
+            <Col sm={7}>
             <FormControl
                 type="text"
+                componentClass="textarea"
                 id={id}
-                value={value}
                 placeholder={placeholder}
+                value={value}
                 onChange={e => this.handleChange(e)}
+                style={{height: 100}}
             />
             </Col>
+            <Col sm={1}>
+                <Button type="submit" onClick={this.submitClicked}>Send Invites</Button>
+            </Col>
+            </Row>
         </FormGroup>
     );
     
@@ -68,27 +78,8 @@ formGroup(controlId: string, id: string, placeholder: string, value: any) {
         return (
             <div>
             <Form horizontal={true} >
-            <FormGroup controlId="formHorizontalEmails">
-            <Col componentClass={ControlLabel} sm={2}>
-            Emails
-            </Col>
-            <Col sm={10}>
-            <FormControl
-                type="text"
-                id="emails"
-                value={this.state.emails}
-                placeholder="Emails"
-                onChange={e => this.handleChange(e)}
-                componentClass="textarea"
-                style={{height: '500px', width: '750px'}}
-            />
-            </Col>
-            </FormGroup>
-            <FormGroup>
-                <Col smOffset={2} sm={10}>
-                <Button type="submit" onClick={this.submitClicked}>Send Invites</Button>
-                </Col>
-            </FormGroup>
+            {this.formGroup('formHorizontalEmails', 'studentEmails', 'Student Emails', this.state.studentEmails)}
+            {this.formGroup('formHorizontalAdminEmails', 'adminEmails', 'Admin Emails', this.state.adminEmails)}
         </Form>
         </div>
         );

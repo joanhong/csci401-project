@@ -12,7 +12,7 @@ interface ProjectProps {
 }
 interface ProjectState {
 projectName: string;
-projectSize: string;
+projectSize: number;
 technologiesExpected: string;
 backgroundRequested: string;
 projectDescription: string;
@@ -23,7 +23,7 @@ constructor(props: ProjectProps) {
     super(props);
     this.state = {
     projectName: '',
-    projectSize: '',
+    projectSize: 0,
     technologiesExpected: '',
     backgroundRequested: '',
     projectDescription: ''
@@ -35,14 +35,15 @@ constructor(props: ProjectProps) {
     submitClicked() {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/proposals/save');
+        request.open('POST', 'http://localhost:8080/projects/save/' + sessionStorage.getItem('email'));
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
-        projectName: this.state.projectName,
-        projectSize: this.state.projectSize,
-        technologiesExpected: this.state.technologiesExpected,
-        backgroundRequested: this.state.backgroundRequested,
-        projectDescription: this.state.projectDescription,
+            name: this.state.projectName,
+            minSize: this.state.projectSize,
+            maxSize: this.state.projectSize,
+            technologies: this.state.technologiesExpected,
+            background: this.state.backgroundRequested,
+            description: this.state.projectDescription,
         });
         request.setRequestHeader('Cache-Control', 'no-cache');
         request.send(data);

@@ -28,12 +28,20 @@ public class User
 	private Long userId;
 	
 	// Basic information
-	private String name;
+	private String firstName;
+	private String lastName;
 	@Email(message = "Please provide a valid e-mail")
 	@NotEmpty(message = "Please provide an e-mail")
 	private String email;
 	private String phone;
+	private String userType;
 	
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
 	// Temporary
 	private String addr;
 	
@@ -49,11 +57,17 @@ public class User
 	{
 		this.userId = id;
 	}
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String name) {
+		this.firstName = name;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String name) {
+		this.lastName = name;
 	}
 	public String getEmail() 
 	{

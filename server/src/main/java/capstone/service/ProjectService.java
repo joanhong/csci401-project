@@ -2,17 +2,22 @@ package capstone.service;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import capstone.model.Project;
 import capstone.model.users.Student;
+import capstone.repository.ProjectsRepository;
 import capstone.util.ProjectAssignment;
 
 @Service
 public class ProjectService {
+	@Autowired
+	ProjectsRepository repository;
 	private ProjectAssignment maxIteration;
 	private static String folder_name = "src/main/java/capstone/algorithm/real_data";
 	private static int NUM_RANKED = 5; // number of projects that each student can rank
@@ -32,5 +37,13 @@ public class ProjectService {
 		
 		System.out.println(maxIteration.JSONOutputWeb());
 		return maxIteration.JSONOutputWeb();
+	}
+	
+	public void save(Project project) {
+		repository.save(project);
+	}
+	
+	public List<Project> findAll() {
+		return (List<Project>) repository.findAll();
 	}
 }

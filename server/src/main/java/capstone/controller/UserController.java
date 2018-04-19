@@ -1,17 +1,16 @@
 package capstone.controller;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
-import java.util.Vector;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.ServletException;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,9 +27,10 @@ import capstone.repository.RegisteredStudentEmailRepository;
 import capstone.service.EmailService;
 import capstone.service.UserService;
 import capstone.util.Constants;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @RestController
-@RequestMapping("/users")
 public class UserController 
 {
 	@Autowired
@@ -40,16 +40,34 @@ public class UserController
 	@Autowired
 	private EmailService emailService;
 	
-	
 	public UserController()
 	{
 	}
 	
-	@GetMapping("/all")
+	@GetMapping("/init")
+	public String setAdmin() {
+		Admin admin = new Admin();
+		admin.setFirstName("Jeffrey");
+		admin.setLastName("Miller");
+		admin.setEmail("admin@usc.edu");
+		admin.setPassword(encryptPassword("admin"));
+		userService.saveUser(admin);
+		return Constants.SUCCESS;
+	}
+	
+	@GetMapping("/users")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public Collection<User> getUsers()
 	{
 		return userService.getUsers();
+	}
+	
+	@GetMapping("/users/{email:.+}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public User getUser(@PathVariable("email") String email)
+	{
+		System.out.println(email);
+		return userService.findUserByEmail(email);
 	}
 	
 	@GetMapping("/stakeholders")
@@ -71,24 +89,6 @@ public class UserController
 		return userService.findUserByAddr(addr);
 	}
 	
-	@RequestMapping(value = "/loggedInUser",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody User loggedInUser(@RequestBody String name, HttpServletRequest request)
-	{
-		System.out.println("Logged in user");
-		System.out.println("Received HTTP POST");
-		String addr = request.getHeader(HttpHeaders.ORIGIN);
-		System.out.println(addr);
-		User curr = findUserByAddr(addr);
-		String[] user = new String[2];
-		user[0] = curr.getName();
-		user[1] = curr.getEmail();
-		if (curr != null) {
-			return curr;
-		}
-		return null; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
-	}
-	
 	/* Registration */
 	
 	// Admin registration
@@ -96,7 +96,8 @@ public class UserController
 	@CrossOrigin(origins = "http://localhost:3000")
 	public @ResponseBody String adminRegistrationAttempt(@RequestBody Map<String, String> info) {
 		String email = info.get(Constants.EMAIL);
-		String name = info.get(Constants.NAME);
+		String firstName = info.get(Constants.FIRST_NAME);
+		String lastName = info.get(Constants.LAST_NAME);
 		String phone = info.get(Constants.PHONE);
 		String encryptedPassword = encryptPassword(info.get(Constants.PASSWORD));
 		
@@ -104,10 +105,12 @@ public class UserController
 		if (regRepo.findByEmail(email) != null && 
 				userService.findStudentByEmail(email) == null) {
 			Admin admin = new Admin();
-			admin.setName(name);
+			admin.setFirstName(firstName);
+			admin.setLastName(lastName);
 			admin.setEmail(email);
 			admin.setPhone(phone);
 			admin.setPassword(encryptedPassword);
+			admin.setUserType(Constants.ADMIN);
 			userService.saveUser(admin);
 			System.out.println("New admin created");
 			return Constants.SUCCESS;
@@ -120,17 +123,18 @@ public class UserController
 	@CrossOrigin(origins = "http://localhost:3000")
 	public @ResponseBody String studentRegistrationAttempt(@RequestBody Map<String, String> info) {
 		String email = info.get(Constants.EMAIL);
-		String name = info.get(Constants.NAME);
+		String name = info.get(Constants.FIRST_NAME);
 		String phone = info.get(Constants.PHONE);
 		String encryptedPassword = encryptPassword(info.get(Constants.PASSWORD));
 		
 		// Check if email is a registered student email and not already registered
 		if (regRepo.findByEmail(email) != null && userService.findStudentByEmail(email) == null) {
 			Student s = new Student();
-			s.setName(name);
+			s.setFirstName(name);
 			s.setEmail(email);
 			s.setPhone(phone);
 			s.setPassword(encryptedPassword);
+			s.setUserType(Constants.STUDENT);
 			userService.saveUser(s);
 			System.out.println("New student created");
 			return Constants.SUCCESS;
@@ -142,8 +146,9 @@ public class UserController
 	@PostMapping("/stakeholderRegistrationAttempt")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public @ResponseBody String stakeholderRegistrationAttempt(@RequestBody Map<String, String> info) {
+		System.out.println("Start reg");
 		String email = info.get(Constants.EMAIL);
-		String name = info.get(Constants.NAME);
+		String name = info.get(Constants.FIRST_NAME);
 		String phone = info.get(Constants.PHONE);
 		String companyName = info.get(Constants.COMPANY);
 		String encryptedPassword = encryptPassword(info.get(Constants.PASSWORD));
@@ -151,11 +156,12 @@ public class UserController
 		// Check if email has already been registered
 		if (userService.findStakeholderByEmail(email) == null) {
 			Stakeholder s = new Stakeholder();
-			s.setName(name);
+			s.setFirstName(name);
 			s.setEmail(email);
 			s.setPhone(phone);
 			s.setOrganization(companyName);
 			s.setPassword(encryptedPassword);
+			s.setUserType(Constants.STAKEHOLDER);
 			userService.saveUser(s);
 			System.out.println("New stakeholder created");
 			return Constants.SUCCESS;
@@ -184,6 +190,39 @@ public class UserController
 	}
 	
 	/* Login */
+	
+	@PostMapping("/login")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public String login(@RequestBody User login) throws ServletException {
+
+	    String jwtToken = "";
+
+	    if (login.getEmail() == null || login.getPassword() == null) {
+	        return "";
+	    }
+
+	    String email = login.getEmail();
+	    String password = login.getPassword();
+
+	    User user = userService.findUserByEmail(email);
+
+	    if (user == null) {
+	        throw new ServletException("Invalid login");
+	    }
+
+	    String pwd = user.getPassword();
+
+	    if (!checkPassword(password, pwd)) {
+	        throw new ServletException("Invalid login");
+	    }
+	    
+	    String userType = userService.getUserType(user);
+
+	    jwtToken = Jwts.builder().setSubject(email).claim("roles", "user").setIssuedAt(new Date())
+	            .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
+	    // System.out.println("Jwt: " + jwtToken);
+	    return jwtToken + "," + userType;
+	}
 	
 	String encryptPassword(String textPassword)
 	{

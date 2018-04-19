@@ -1,12 +1,15 @@
 import * as React from 'react';
 import {
   Route,
-  BrowserRouter
+  BrowserRouter,
+  Redirect
 } from 'react-router-dom';
 import {
   Navbar,
   Nav,
-  NavItem
+  NavItem,
+  FormGroup,
+  Button
 } from 'react-bootstrap';
 import {
   LinkContainer
@@ -15,11 +18,17 @@ import AdminHome from './Home/index';
 import UserManagement from './UserManagement/index';
 import ProjectProposals from './ProjectProposals/index';
 import ClassOverview from './ClassOverview/index';
-import Stakeholders from './Stakeholders/index';
 import ProjectMatching from './ProjectMatching/index';
 const logo = require('../../svg/logo.svg');
 
 class AdminNavigation extends React.Component {
+  
+  logOutClicked() {
+    sessionStorage.removeItem('jwt');
+    sessionStorage.removeItem('userType');
+    window.location.href = '/';  
+  }
+
   render() {
     return (
       <BrowserRouter>
@@ -48,21 +57,22 @@ class AdminNavigation extends React.Component {
                   Project Proposals
                 </NavItem>
               </LinkContainer>
-              <LinkContainer to="/admin/class">
+              {/* <LinkContainer to="/admin/class">
                 <NavItem eventKey={3}>
                   Class Overview
                 </NavItem>
-              </LinkContainer>
-              <LinkContainer to="/admin/stakeholders">
-                <NavItem eventKey={4}>
-                  Stakeholders
-                </NavItem>
-              </LinkContainer>
+              </LinkContainer> */}
               <LinkContainer to="/admin/matching">
               <NavItem eventKey={5}>
                 Project Matching
               </NavItem>
               </LinkContainer>
+
+              <NavItem eventKey={6}>
+                <FormGroup>
+                  <Button type="submit" onClick={this.logOutClicked}>Log Out</Button>
+              </FormGroup>
+              </NavItem>
             </Nav>
           </Navbar>
           <div className="content">
@@ -70,7 +80,6 @@ class AdminNavigation extends React.Component {
             <Route path="/admin/users" component={UserManagement}/>
             <Route path="/admin/proposals" component={ProjectProposals}/>
             <Route path="/admin/class" component={ClassOverview}/>
-            <Route path="/admin/stakeholders" component={Stakeholders}/>
             <Route path="/admin/matching" component={ProjectMatching}/>
           </div>
         </div>

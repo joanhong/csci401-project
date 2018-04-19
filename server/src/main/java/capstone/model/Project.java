@@ -1,13 +1,14 @@
 package capstone.model;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Vector;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
@@ -20,23 +21,24 @@ public class Project implements Comparable<Object> {
 	
 	@Id
 	@GeneratedValue
-	private long projectId;
+	private Long projectId;
 	
-	@MapsId("leader_id")
-	@OneToOne(fetch = FetchType.LAZY)
-	private Student teamLeader;
+	/*@MapsId("leader_id")
+	@OneToOne(targetEntity=Student.class)
+	private Student teamLeader = null;*/
 	
 	//@MapsId("member_id")
-	//@OneToMany(fetch = FetchType.LAZY)
-	private Vector<Student> members;
+	@OneToMany(targetEntity=Student.class)
+	private Collection<Student> members;
 	
-	private String status;
+	private String status = "Pending Approval";
 	private String semester;
 	
 	// From proposal
-	@MapsId("stakeholder_id")
-	@OneToOne(fetch = FetchType.LAZY)
-	private Stakeholder stakeholder;
+	/*@MapsId("stakeholder_id")
+	@OneToOne(targetEntity=Stakeholder.class)
+	private Stakeholder stakeholder = null;*/
+
 	private String name;
 	private String technologies;
 	private String background;
@@ -58,6 +60,17 @@ public class Project implements Comparable<Object> {
 	@Transient
 	private double projSatScore;
 	
+	public Project() {
+		
+	}
+	
+	public Long getProjectId() {
+		return projectId;
+	}
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
+	}
+	
 	public int getMinSize() {
 		return minSize;
 	}
@@ -74,11 +87,11 @@ public class Project implements Comparable<Object> {
 		this.maxSize = maxSize;
 	}
 
-	public Vector<Student> getMembers() {
+	public Collection<Student> getMembers() {
 		return members;
 	}
 
-	public void setMembers(Vector<Student> members) {
+	public void setMembers(Collection<Student> members) {
 		this.members = members;
 	}
 
@@ -198,6 +211,30 @@ public class Project implements Comparable<Object> {
 		Project p = (Project) o;
 
 		return (this.getName()).compareTo(p.getName());
+	}
+
+	public String getTechnologies() {
+		return technologies;
+	}
+
+	public void setTechnologies(String technologies) {
+		this.technologies = technologies;
+	}
+
+	public String getBackground() {
+		return background;
+	}
+
+	public void setBackground(String background) {
+		this.background = background;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	// sorts by popularity in descending order

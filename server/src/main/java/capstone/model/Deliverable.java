@@ -12,7 +12,6 @@ import javax.persistence.Table;
 @Table(name = "deliverables")
 public class Deliverable {//extends Assignment {
 	@Id
-	@GeneratedValue
 	public Long id;
 	public String name;
 	public String description;
@@ -21,9 +20,20 @@ public class Deliverable {//extends Assignment {
 	//@MapsId("project_id")
 	//@OneToOne(fetch = FetchType.LAZY)
 	public Long projectId;
-	
 	public String fileName;
 	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Long getProjectId() {
+		return projectId;
+	}
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
+	}
 	public String getName() {
 		return name;
 	}

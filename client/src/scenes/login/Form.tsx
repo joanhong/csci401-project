@@ -10,70 +10,70 @@ import {
 
 interface LoginProps {
 }
-
 interface LoginState {
     email: string;
     password: string;
+    token: string;
 }
-
 class LoginForm extends React.Component<LoginProps, LoginState> {
     constructor(props: LoginProps) {
-    super(props);
-    this.state = {
-        email: '',
-        password: ''
-    };
-    this.submitClicked = this.submitClicked.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-}
-
-submitClicked() {
-    var request = new XMLHttpRequest();
-    request.withCredentials = true;
-    request.open('POST', 'http://localhost:8080/users/loginAttempt/');
-    request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-    var data = JSON.stringify({
-        email: this.state.email,
-        password: this.state.password
-    });
-    request.setRequestHeader('Cache-Control', 'no-cache');
-    request.send(data);
-    alert('Logging you in...');
-    request.onreadystatechange = function() {
-        if (request.readyState === 4) {
-            if (request.responseText.length > 4) {
-                if (request.responseText === 'student') {
-                    window.location.href = '/student';
-                } else if (request.responseText === 'stakeholder') {
-                    window.location.href = '/stakeholder';
-                } else if (request.responseText === 'admin') {
-                    window.location.href = '/admin';
-                } 
-            } else {
-                alert('LOGIN FAILED.');
-            }
+        super(props);
+        this.state = {
+            email: '',
+            password: '',
+            token: ''
+        };
+        this.submitClicked = this.submitClicked.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
+    submitClicked() {
+        { this.getToken( 
+                function(token: string) {
+                    sessionStorage.setItem('jwt', token);
+                }
+            );
         }
-    };
-
-    var requestUser = new XMLHttpRequest();
-    requestUser.withCredentials = true;
-    requestUser.open('POST', 'http://localhost:8080/users/loginUser');
-    requestUser.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-    requestUser.setRequestHeader('Cache-Control', 'no-cache');
-    requestUser.send(data);
-    requestUser.onreadystatechange = function() {
-        if (requestUser.readyState === 4) {
-            if (requestUser.responseText.length > 4) {
-                // alert(requestUser.responseText);
+    }
+    getToken(callback: any) {
+        var request = new XMLHttpRequest();
+        request.withCredentials = true;
+        request.open('POST', 'http://localhost:8080/login');
+        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        var data = JSON.stringify({
+            email: this.state.email,
+            password: this.state.password
+        });
+        request.setRequestHeader('Cache-Control', 'no-cache');
+        request.send(data);
+        alert('Logging you in...');
+        sessionStorage.setItem('email', this.state.email);
+        request.onreadystatechange = function() {
+            if (request.readyState === 4) {
+                if (request.responseText.length > 4) {
+                    var resp = request.responseText.split(',', 2);
+                    if (resp.length === 2) {
+                        var type = resp[1];
+                        sessionStorage.setItem('userType', type);
+                        if (type === 'Student') {
+                            window.location.href = '/student';
+                        }
+                        if (type === 'Admin') {
+                            window.location.href = '/admin';
+                        }
+                        if (type === 'Stakeholder') {
+                            window.location.href = '/stakeholder';
+                        }
+                        var token = resp[0];
+                        callback.apply(this, [token]);
+                    }
+                }
             }
-        }
-    };
-    return false;
-}
-
-handleChange(e: any) {
-this.setState({ [e.target.id]: e.target.value });
-}
+        };
+    }
+    
+    handleChange(e: any) {
+        this.setState({ [e.target.id]: e.target.value });
+    }
 
     render() {
         return (
@@ -111,9 +111,10 @@ this.setState({ [e.target.id]: e.target.value });
 
             <FormGroup>
                 <Col smOffset={2} sm={10}>
-                <Button type="reset" onClick={this.submitClicked}>Sign in</Button>
+                <Button type="submit" onClick={this.submitClicked}>Sign in</Button>
                 </Col>
             </FormGroup>
+
         </Form>
         </div>
         );
