@@ -29,7 +29,7 @@ public class SQLDriver {
 	private final static String getUsername = "SELECT USERNAME FROM " + DATABASE_NAME + ".Users WHERE USER_ID=?";
 	private final static String getName = "SELECT FIRST_NAME, LAST_NAME FROM " + DATABASE_NAME + ".Users WHERE USER_ID=?";
 	private final static String getAllUsers = "SELECT * FROM " + DATABASE_NAME + ".Users";
-	private final static String getAllStakeholders = "SELECT * FROM " + DATABASE_NAME + ".Users JOIN " + DATABASE_NAME + ".StakeholderInfo ON stakeholder_id = user_id JOIN" + DATABASE_NAME + "Organizations ON organization_id = org_id";
+	private final static String getAllStakeholders = "SELECT * FROM " + DATABASE_NAME + ".Users JOIN " + DATABASE_NAME + ".StakeholderInfo ON stakeholder_id = user_id JOIN " + DATABASE_NAME + ".Organizations ON organization_id = org_id";
 	private final static String getAllProjects = "SELECT * FROM " + DATABASE_NAME + ".Projects";
 	private final static String getProjectByName = "SELECT * FROM " + DATABASE_NAME + ".Projects WHERE NAME=?";
 	private final static String getUserProjectRankings = "SELECT * FROM " + DATABASE_NAME + ".ProjectRankings WHERE STUDENT_ID=?";

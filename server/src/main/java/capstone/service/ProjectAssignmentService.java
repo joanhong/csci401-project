@@ -31,7 +31,7 @@ public class ProjectAssignmentService {
 	
 	private void populateProjectsTable() {
 		for(Project p : projects) {
-			driver.addProjectEntry(p.getProjectName(), p.getStatusType(), p.getMaxSize(), p.getMinSize());
+			driver.addProjectEntry(p);
 		}
 	}
 	
