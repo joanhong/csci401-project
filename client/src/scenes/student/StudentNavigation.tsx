@@ -65,6 +65,11 @@ class StudentNavigation extends React.Component {
                     Final Presentation Reviews
                   </NavItem>
                 </LinkContainer>
+                <NavItem eventKey={6}>
+                <FormGroup>
+                  <Button type="submit" onClick={this.logOutClicked}>Log Out</Button>
+              </FormGroup>
+              </NavItem>
               </Nav>
             </Navbar>
             <div className="content">
