@@ -6,6 +6,13 @@ import {
     StudentInfo,
 } from './index';
 
+const style = {
+    cursor: 'move',
+    backgroundColor: 'lightgray',
+    margin: 5,
+    padding: 5
+};
+
 interface StudentCardProps {
     student: StudentInfo;
     key: number;
@@ -45,8 +52,8 @@ class StudentCard extends React.Component<StudentCardProps, StudentCardState> {
             <div 
                 key={key} 
                 style={{
-                    cursor: 'move',
-                    opacity: isDragging ? 0.5 : 1
+                    ...style,
+                    opacity: isDragging ? 0.5 : 1,
                 }}
             >
                 {student.firstName + ' ' + student.lastName}

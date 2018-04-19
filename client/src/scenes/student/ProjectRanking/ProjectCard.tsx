@@ -30,7 +30,7 @@ const cardSource = {
             originalIndex: props.findCard(props.id).index,
         };
     },
-
+    
     endDrag(props: any, monitor: any) {
         const { id: droppedId, originalIndex } = monitor.getItem();
         const didDrop = monitor.didDrop();

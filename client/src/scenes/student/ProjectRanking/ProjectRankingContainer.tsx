@@ -64,25 +64,26 @@ class ProjectRankingContainer extends React.Component<Props, State> {
             email: ''
         };
     }
+
     submitClicked() {
-    var submit = confirm('Are you sure you want to submit rankings?');
-    if (submit) {
-        var request = new XMLHttpRequest();
-        request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/projectRankingsSubmitAttempt/');
-        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        var data = JSON.stringify({
-        project1: this.state.projectCards[0].projectName,
-        project2: this.state.projectCards[1].projectName,
-        project3: this.state.projectCards[2].projectName,
-        project4: this.state.projectCards[3].projectName,
-        project5: this.state.projectCards[4].projectName
-        });
-        request.setRequestHeader('Cache-Control', 'no-cache');
-        request.send(data);
-        alert('Project rankings have been submitted!');
-        this.setState({submitted: true});
-    }
+        var submit = confirm('Are you sure you want to submit rankings?');
+        if (submit) {
+            var request = new XMLHttpRequest();
+            request.withCredentials = true;
+            request.open('POST', 'http://localhost:8080/projectRankingsSubmitAttempt/');
+            request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+            var data = JSON.stringify({
+            project1: this.state.projectCards[0].projectName,
+            project2: this.state.projectCards[1].projectName,
+            project3: this.state.projectCards[2].projectName,
+            project4: this.state.projectCards[3].projectName,
+            project5: this.state.projectCards[4].projectName
+            });
+            request.setRequestHeader('Cache-Control', 'no-cache');
+            request.send(data);
+            alert('Project rankings have been submitted!');
+            this.setState({submitted: true});
+        }
     }
 
     componentDidMount() {
@@ -112,14 +113,6 @@ class ProjectRankingContainer extends React.Component<Props, State> {
             projectCard,
             index: projectCards.indexOf(projectCard),
         };
-    }
-
-    submitRankings = () => {
-        var submit = confirm('Are you sure you want to submit rankings?');
-        if (submit) {
-            // submit here!!
-            this.setState({submitted: true});
-        }
     }
 
     render() {

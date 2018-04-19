@@ -13,6 +13,8 @@ interface ProjectCardProps {
     key: number;
     canDrop?: PropTypes.bool.isRequired;
     connectDropTarget?: PropTypes.func.isRequired;
+    moveCard: PropTypes.func.isRequired;
+    findCard: PropTypes.func.isRequired;
 }
 
 interface ProjectCardState {
@@ -21,11 +23,21 @@ interface ProjectCardState {
 
 const cardTarget = {
     canDrop(props: any) {
-        return {};
+        return false;
     },
 
     drop(props: any) {
         return {};
+    },
+
+    hover(props: any, monitor: any) {
+        const { id: draggedId } = monitor.getItem();
+        const { id: overId } = props;
+
+        if (draggedId !== overId) {
+            const { index: overIndex } = props.findCard(overId);
+            props.moveCard(draggedId, overIndex);
+        }
     },
 };
 
@@ -33,7 +45,6 @@ function collect(connect: any, monitor: any) {
     return {
         connectDropTarget: connect.dropTarget(),
         isOver: monitor.isOver(),
-        canDrop: monitor.canDrop(),
     };
 }
 
