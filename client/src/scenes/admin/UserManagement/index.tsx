@@ -15,6 +15,7 @@ import {
   ToggleButton
 
 } from 'react-bootstrap';
+import StudentRegistrationForm from './StudentRegistrationForm';
 
 interface UserListProps {
 }
@@ -212,12 +213,9 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         return(
             <div>
                 <h2>User Management</h2>
-                
-                <div>
-                <Button bsStyle="primary" href="/register/student" style={{margin: 10}}>Add New User</Button>
-                </div>
 
                 <div>
+                <StudentRegistrationForm/>
                 <ButtonToolbar>
                     <ToggleButtonGroup
                         onChange={this.handleUserFilterChange}

@@ -7,12 +7,19 @@ import {
     Button,
     ControlLabel
 } from 'react-bootstrap';
+const style = {
+    width: 600,
+    float: 'none',
+    margin: 'auto',
+};
 
 interface AdminRegistrationProps {
 }
 interface AdminRegistrationState {
-name: string;
+firstName: string;
+lastName: string;
 email: string;
+phone: string;
 password: string;
 confirm: string;
 }
@@ -20,8 +27,10 @@ class AdminRegistrationForm extends React.Component<AdminRegistrationProps, Admi
 constructor(props: AdminRegistrationProps) {
 super(props);
 this.state = {
-name: '',
+firstName: '',
+lastName: '',
 email: '',
+phone: '',
 password: '',
 confirm: ''
 };
@@ -31,11 +40,14 @@ this.handleChange = this.handleChange.bind(this);
 submitClicked() {
 var request = new XMLHttpRequest();
 request.withCredentials = true;
-request.open('POST', 'http://localhost:8080/AdminRegistrationAttempt/');
+request.open('POST', 'http://localhost:8080/adminRegistrationAttempt/');
 request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 var data = JSON.stringify({
-email: this.state.email,
-password: this.state.password
+    firstName: this.state.firstName,
+    lastName: this.state.lastName,
+    email: this.state.email,
+    phone: this.state.phone,
+    password: this.state.password
 });
 request.setRequestHeader('Cache-Control', 'no-cache');
 request.send(data);
@@ -55,7 +67,7 @@ handleChange(e: any) {
 this.setState({ [e.target.id]: e.target.value });
 }
 
-formGroup(controlId: string, id: string, placeholder: string, value: any) {
+formGroup(controlId: string, type: string, id: string, placeholder: string, value: any) {
     return (
         <FormGroup controlId={controlId}>
             <Col componentClass={ControlLabel} sm={2}>
@@ -63,7 +75,7 @@ formGroup(controlId: string, id: string, placeholder: string, value: any) {
             </Col>
             <Col sm={10}>
             <FormControl
-                type="text"
+                type={type}
                 id={id}
                 value={value}
                 placeholder={placeholder}
@@ -77,12 +89,15 @@ formGroup(controlId: string, id: string, placeholder: string, value: any) {
 
     render() {
         return (
-            <div>
+            <div style={style}>
+            <h2>Admin Registration</h2>
             <Form horizontal={true} >
-            {this.formGroup('formHorizontalName', 'name', 'Name', this.state.name)}
-            {this.formGroup('formHorizontalEmail', 'email', 'Email', this.state.email)}
-            {this.formGroup('formHorizontalPassword', 'password', 'Password', this.state.password)}
-            {this.formGroup('formHorizontalConfirm', 'confirm', 'Confirm Password', this.state.confirm)}
+            {this.formGroup('formHorizontalName', 'text', 'name', 'First Name', this.state.firstName)}
+            {this.formGroup('formHorizontalName', 'text', 'name', 'Last Name', this.state.lastName)}
+            {this.formGroup('formHorizontalEmail', 'text', 'email', 'Email', this.state.email)}
+            {this.formGroup('formHorizontalPhone', 'phone', 'phone', 'Phone', this.state.phone)}
+            {this.formGroup('formHorizontalPassword', 'password', 'password', 'Password', this.state.password)}
+            {this.formGroup('formHorizontalConfirm', 'text', 'confirm', 'Confirm Password', this.state.confirm)}
 
             <FormGroup>
                 <Col smOffset={2} sm={10}>

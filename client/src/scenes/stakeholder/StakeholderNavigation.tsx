@@ -6,7 +6,9 @@ import {
 import {
   Navbar,
   Nav,
-  NavItem
+  NavItem,
+  FormGroup,
+  Button
 } from 'react-bootstrap';
 import {
   LinkContainer
@@ -17,6 +19,12 @@ import ProjectProposal from './ProjectProposal/index';
 const logo = require('../../svg/logo.svg');
 
 class StakeholderNavigation extends React.Component {
+  logOutClicked() {
+    sessionStorage.removeItem('jwt');
+    sessionStorage.removeItem('userType');
+    window.location.href = '/';  
+  }
+
   render() {
     return (
       <BrowserRouter>
@@ -45,6 +53,11 @@ class StakeholderNavigation extends React.Component {
                   Project Proposal
                 </NavItem>
               </LinkContainer>
+              <NavItem eventKey={6}>
+                <FormGroup>
+                  <Button type="submit" onClick={this.logOutClicked}>Log Out</Button>
+              </FormGroup>
+              </NavItem>
             </Nav>
           </Navbar>
           <div className="content">

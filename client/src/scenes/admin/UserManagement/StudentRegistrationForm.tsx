@@ -28,7 +28,7 @@ this.handleChange = this.handleChange.bind(this);
 submitClicked() {
 var request = new XMLHttpRequest();
 request.withCredentials = true;
-request.open('POST', 'http://localhost:8080/studentEmailsRegistrationAttempt/');
+request.open('POST', 'http://localhost:8080/StudentRegistrationAttempt');
 request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 var data = JSON.stringify({
 emails: this.state.studentEmails,

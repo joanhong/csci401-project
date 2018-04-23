@@ -13,21 +13,31 @@ interface LoginProps {
 interface LoginState {
     email: string;
     password: string;
+    token: string;
 }
 class LoginForm extends React.Component<LoginProps, LoginState> {
     constructor(props: LoginProps) {
         super(props);
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            token: ''
         };
         this.submitClicked = this.submitClicked.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
     submitClicked() {
+        { this.getToken( 
+                function(token: string) {
+                    sessionStorage.setItem('jwt', token);
+                }
+            );
+        }
+    }
+    getToken(callback: any) {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/loginAttempt/');
+        request.open('POST', 'http://localhost:8080/login');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
             email: this.state.email,
@@ -35,52 +45,29 @@ class LoginForm extends React.Component<LoginProps, LoginState> {
         });
         request.setRequestHeader('Cache-Control', 'no-cache');
         request.send(data);
-        alert(request.responseText + 'Logging you in...');
+        alert('Logging you in...');
         request.onreadystatechange = function() {
             if (request.readyState === 4) {
                 if (request.responseText.length > 4) {
-                    if (request.responseText === 'MultipleLogins') {
-                    alert('Please log out of existing login.');
-                    return;
-                    }
-                    alert('LOGIN SUCCESSFUL!');
-                    if (request.responseText === 'Student') {
-                        window.location.href = '/student';
-                    }
-                    if (request.responseText === 'Admin') {
-                        window.location.href = '/admin';
-                    }
-                    if (request.responseText === 'Stakeholder') {
-                        window.location.href = '/stakeholder';
+                    var resp = request.responseText.split(',', 2);
+                    if (resp.length === 2) {
+                        var token = resp[0];
+                        callback.apply(this, [token]);
+
+                        var type = resp[1];
+                        sessionStorage.setItem('userType', type);
+                        if (type === '3') {
+                            window.location.href = '/student';
+                        }
+                        if (type === '1') {
+                            window.location.href = '/admin';
+                        }
+                        if (type === '2') {
+                            window.location.href = '/stakeholder';
+                        }
                     }
                 } else {
                         alert('LOGIN FAILED.');
-                }
-            }
-        };
-    }
-    
-    logOutClicked() {
-        var request = new XMLHttpRequest();
-        request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/logoutAttempt/');
-        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        var data = 'logout';
-        request.setRequestHeader('Cache-Control', 'no-cache');
-        request.send(data);
-        alert(request.responseText + 'Logging you out...');
-        request.onreadystatechange = function() {
-            if (request.readyState === 4) {
-                if (request.responseText.length > 4) {
-                    if (request.responseText === 'LoggedOut') {
-                        alert('Logged out succesfully!');
-                        return;
-                    }
-                    if (request.responseText === 'Failed') {
-                        alert('No one is logged in.');
-                    }
-                } else {
-                        alert('Error communicating with server.');
                 }
             }
         };
@@ -127,11 +114,6 @@ class LoginForm extends React.Component<LoginProps, LoginState> {
             <FormGroup>
                 <Col smOffset={2} sm={10}>
                 <Button type="submit" onClick={this.submitClicked}>Sign in</Button>
-                </Col>
-            </FormGroup>
-            <FormGroup>
-                <Col smOffset={2} sm={10}>
-                <Button type="submit" onClick={this.logOutClicked}>Log Out</Button>
                 </Col>
             </FormGroup>
 
