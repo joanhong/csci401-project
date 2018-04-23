@@ -29,6 +29,9 @@ class ProjectsList extends React.Component<ProjectsListProps, ProjectsListState>
     }
 
     moveCard(student: StudentInfo, oldProjectIndex: number, newProjectIndex: number) {
+        if (oldProjectIndex === newProjectIndex) {
+            return;
+        }
         const { projectCard, index } = this.findCard(newProjectIndex);
         const { projects } = this.state;
         const newMembers = projects[index].members.concat(student);

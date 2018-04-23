@@ -35,7 +35,7 @@ interface State {
 }
 
 interface Project {
-    projectNumber: number;
+    projectId: number;
     projectName: string;
     status: string;
     minSize: number;
@@ -103,7 +103,7 @@ class ProjectRankingContainer extends React.Component<Props, State> {
 
     findCard(id: number) {
         const { projectCards } = this.state;
-        const projectCard = projectCards.filter(c => c.projectNumber === id)[0];
+        const projectCard = projectCards.filter(c => c.projectId === id)[0];
 
         return {
             projectCard,
@@ -152,9 +152,9 @@ class ProjectRankingContainer extends React.Component<Props, State> {
                 <br />
                 {projectCards.map((projectCard: Project, index: number) => (
                     <ProjectCard
-                        key={projectCard.projectNumber}
+                        key={projectCard.projectId}
                         rank={index + 1}
-                        id={projectCard.projectNumber}
+                        id={projectCard.projectId}
                         name={projectCard.projectName}
                         minSize={projectCard.minSize}
                         maxSize={projectCard.maxSize}
