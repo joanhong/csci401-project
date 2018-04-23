@@ -316,7 +316,6 @@ public class ProjectServiceController
 		User u1 = usm.getUser(addr);
 		//get user from addr using usm
 		//find projects from sqldriver and then populate projectRankings table with 5 entries
-		Vector<Project> allProjects = driver.getAllProjects();
 
 		int studentNumber = driver.getRankingsTableCount();
 		studentNumber = studentNumber/5;
@@ -324,6 +323,11 @@ public class ProjectServiceController
 		System.out.println("STUDENT NUMBER ADDED= "+ studentNumber);
 		//find rankingtable count divide by 5 and add 1 to get next student number
 
+		//get a list of all projects
+		Vector<Project> allProjects = driver.getAllProjects();
+
+		//find the ordered list of rankings
+		
 		for(Project p : allProjects)
 		{
 			if(p.getProjectName().equals(rankingdata.getProject1()))
