@@ -121,7 +121,7 @@ class ProjectCard extends React.Component<Props, State> {
                         <Glyphicon glyph={this.state.open ? 'menu-up' : 'menu-down'} style={{padding}}/>
                     </Button>
                     <br />
-                    <Panel expanded={this.state.open} style={panelStyle}>
+                    <Panel expanded={this.state.open} style={panelStyle} onToggle={() => this.setState({ open: !this.state.open })}>
                         <Panel.Collapse>
                             <Panel.Body>
                                 <strong>Project Description</strong>
