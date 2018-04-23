@@ -6,7 +6,9 @@ import {
 import {
   Navbar,
   Nav,
-  NavItem
+  NavItem,
+  FormGroup,
+  Button
 } from 'react-bootstrap';
 import {
   LinkContainer
@@ -21,6 +23,12 @@ import PeerReviewForm from './PeerReviewForm/index';
 const logo = require('../../svg/logo.svg');
 
 class StudentNavigation extends React.Component {
+  logOutClicked() {
+    sessionStorage.removeItem('jwt');
+    sessionStorage.removeItem('userType');
+    window.location.href = '/';  
+  }
+
   render() {
     return (
       <BrowserRouter>
@@ -59,6 +67,11 @@ class StudentNavigation extends React.Component {
                     Final Presentation Reviews
                   </NavItem>
                 </LinkContainer>
+                <NavItem eventKey={6}>
+                <FormGroup>
+                  <Button type="submit" onClick={this.logOutClicked}>Log Out</Button>
+              </FormGroup>
+              </NavItem>
               </Nav>
             </Navbar>
             <div className="content">

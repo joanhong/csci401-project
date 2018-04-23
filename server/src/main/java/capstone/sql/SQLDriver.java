@@ -38,6 +38,7 @@ public class SQLDriver {
 	private final static String updateUserEntry = "UPDATE " + DATABASE_NAME + ".USERS SET first_name = ?, last_name = ?, email =?, user_type=? WHERE user_id=?";
 	private final static String getRankingsCount = "SELECT COUNT(*) FROM " + DATABASE_NAME + ".ProjectRankings";
 	private final static String updateApprovalStatus = "UPDATE " + DATABASE_NAME + ".Projects SET status_id=? WHERE Project_id=?";
+	private final static String getUserByEmail = "SELECT * FROM " + DATABASE_NAME + ".Users WHERE EMAIL=?";
 	
 //	private final static String addWeeklyReport = "INSERT INTO " + DATABASE_NAME + 
 //			".WeeklyReportsTable(idWeeklyReportsTable, studentName, studentuscusername, projectNumber, date, "
@@ -366,6 +367,28 @@ public class SQLDriver {
 			}		
 		}catch (SQLException e){e.printStackTrace();}
 		return returnVector; //returns true if the user name is in use in the DB
+	}
+	public User getUserByEmail(String email)
+	{
+		String username = null;
+		User u = null;
+		try{
+			PreparedStatement ps = con.prepareStatement(getUserByEmail);
+			ps.setString(1, email);
+			ResultSet result = ps.executeQuery();
+			while(result.next())
+			{
+				u = new User();
+				u.setUserId(result.getInt(1));
+				u.setUserType(result.getString("USER_TYPE"));
+				u.setFirstName(result.getString("FIRST_NAME"));
+				u.setLastName(result.getString("LAST_NAME"));
+				u.setEmail(result.getString("EMAIL"));
+				u.setPassword(result.getString("PASSWORD"));
+				u.setPhone(result.getString("PHONE_NUM"));
+			}		
+		}catch (SQLException e){e.printStackTrace();}
+		return u; // returns true if the user name is in use in the DB
 	}
 	
 	
