@@ -308,19 +308,44 @@ public class ProjectServiceController
 	@RequestMapping(value = "/projectRankingsSubmitAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:3000")
 	
-	public @ResponseBody RankingData projectRankingsSubmitAttempt(@RequestBody RankingData rankingdata, HttpServletRequest request)
+	public @ResponseBody String projectRankingsSubmitAttempt(@RequestBody String rankingdata, HttpServletRequest request)
 	{
 		System.out.println("Received HTTP POST");
-		System.out.println(rankingdata.getProject1());
-		String addr = request.getHeader(HttpHeaders.ORIGIN);
-		User u1 = usm.getUser(addr);
+		System.out.println(rankingdata);
+		//STEPS
+		//HOW TO GET USERID WITH NEW JWT SYSTEM??
+		//GET STUDENT ID
+		//GET PROJECT ID OF ALL PROJECTS RANKED
+		//ADD ENTRY WITH STUDENTID, PROJECTID, RANK INTO PROJECTRANKINGS TABLE.
+		
+		
+//		String addr = request.getHeader(HttpHeaders.ORIGIN);
+//		User u1 = usm.getUser(addr);
+		
+		/* TO EXTRACT STRING
+		int startindex = projectlist.indexOf("name");
+				int endindex = projectlist.indexOf("minSize");
+				if(startindex == -1 || endindex == -1)
+				{
+					break;
+				}
+				String dirtyString = projectlist.substring(startindex, endindex);
+				dirtyString = dirtyString.replace('"', ' ');
+				dirtyString = dirtyString.replace(':', ' ');
+				dirtyString = dirtyString.replace(',', ' ');
+				dirtyString = dirtyString.replaceAll("name", " ");
+				dirtyString = dirtyString.trim();
+//				System.out.println(dirtyString);
+				projectNames.add(dirtyString);
+		*/
+		
 		//get user from addr using usm
 		//find projects from sqldriver and then populate projectRankings table with 5 entries
 
-		int studentNumber = driver.getRankingsTableCount();
-		studentNumber = studentNumber/5;
-		studentNumber++;
-		System.out.println("STUDENT NUMBER ADDED= "+ studentNumber);
+//		int studentNumber = driver.getRankingsTableCount();
+//		studentNumber = studentNumber/5;
+//		studentNumber++;
+//		System.out.println("STUDENT NUMBER ADDED= "+ studentNumber);
 		//find rankingtable count divide by 5 and add 1 to get next student number
 
 		//get a list of all projects
@@ -330,33 +355,14 @@ public class ProjectServiceController
 		
 		for(Project p : allProjects)
 		{
-			if(p.getProjectName().equals(rankingdata.getProject1()))
-			{
-				driver.addProjectRankingEntry(studentNumber, p.getProjectId()+1, 1);
-			}
-			if(p.getProjectName().equals(rankingdata.getProject2()))
-			{
-				driver.addProjectRankingEntry(studentNumber, p.getProjectId()+1, 2);
-			}
-			if(p.getProjectName().equals(rankingdata.getProject3()))
-			{
-				driver.addProjectRankingEntry(studentNumber, p.getProjectId()+1, 3);
-			}
-			if(p.getProjectName().equals(rankingdata.getProject4()))
-			{
-				driver.addProjectRankingEntry(studentNumber, p.getProjectId()+1, 4);
-			}
-			if(p.getProjectName().equals(rankingdata.getProject5()))
-			{
-				driver.addProjectRankingEntry(studentNumber, p.getProjectId()+1, 5);
-			}
+				driver.addProjectRankingEntry(0, p.getProjectId()+1, 5);
 		}
 		
 		
-		mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
+//		mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
 		
 		
-		maildriver.sendEmail("Project Rankings Submitted!", "Hi "+ u1.getFirstName() + " " + u1.getLastName() + ", \nWe have received your project rankings. \n\nYou will be assigned a project shortly.", u1.getEmail());
+//		maildriver.sendEmail("Project Rankings Submitted!", "Hi "+ u1.getFirstName() + " " + u1.getLastName() + ", \nWe have received your project rankings. \n\nYou will be assigned a project shortly.", u1.getEmail());
 		
 //		use sql to send this data to users table
 //		driver.adduser(user email); //preferably do this when the user goes to the link in the email
