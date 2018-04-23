@@ -20,7 +20,7 @@ selected: boolean;
 
 interface Project {
     projectId: number;
-    name: string;
+    projectName: string;
     status: string;
     minSize: string;
     maxSize: string;
@@ -68,9 +68,9 @@ class ProjectProposalApprovalForm extends React.Component<ProjectListProps, Proj
         let projects = this.state.projects;
         let name = e.target.value;
         {projects.map((project: Project) => {
-            if (project.name === name && e.target.checked) {
+            if (project.projectName === name && e.target.checked) {
                 project.status = 'Approved';
-            } else if (project.name === name && !e.target.checked) {
+            } else if (project.projectName === name && !e.target.checked) {
                 project.status = 'Pending Approval';
             }
         }); }
@@ -134,7 +134,7 @@ class ProjectProposalApprovalForm extends React.Component<ProjectListProps, Proj
                                         onChange={e => this.handleChange(e)}
                                     />
                                 </td>
-                                <td>{project.name}</td>
+                                <td>{project.projectName}</td>
                                 <td>{project.status}</td>
                                 <td>{project.minSize}</td>
                                 <td>{project.maxSize}</td>

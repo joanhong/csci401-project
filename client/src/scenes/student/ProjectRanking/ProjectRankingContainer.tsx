@@ -35,14 +35,14 @@ interface State {
 }
 
 interface Project {
-    projectId: number;
-    name: string;
+    projectNumber: number;
+    projectName: string;
     status: string;
-    minSize: string;
-    maxSize: string;
-    technologies: string;
-    background: string;
-    description: string;
+    minSize: number;
+    maxSize: number;
+    technologiesExpected: string;
+    backgroundRequested: string;
+    projectDescription: string;
 }
 
 @DragDropContext(HTML5Backend)
@@ -64,25 +64,26 @@ class ProjectRankingContainer extends React.Component<Props, State> {
             email: ''
         };
     }
+
     submitClicked() {
-    var submit = confirm('Are you sure you want to submit rankings?');
-    if (submit) {
-        var request = new XMLHttpRequest();
-        request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/projectRankingsSubmitAttempt/');
-        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        var data = JSON.stringify({
-        project1: this.state.projectCards[0].name,
-        project2: this.state.projectCards[1].name,
-        project3: this.state.projectCards[2].name,
-        project4: this.state.projectCards[3].name,
-        project5: this.state.projectCards[4].name
-        });
-        request.setRequestHeader('Cache-Control', 'no-cache');
-        request.send(data);
-        alert('Project rankings have been submitted!');
-        this.setState({submitted: true});
-    }
+        var submit = confirm('Are you sure you want to submit rankings?');
+        if (submit) {
+            var request = new XMLHttpRequest();
+            request.withCredentials = true;
+            request.open('POST', 'http://localhost:8080/projectRankingsSubmitAttempt/');
+            request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+            var data = JSON.stringify({
+            project1: this.state.projectCards[0].projectName,
+            project2: this.state.projectCards[1].projectName,
+            project3: this.state.projectCards[2].projectName,
+            project4: this.state.projectCards[3].projectName,
+            project5: this.state.projectCards[4].projectName
+            });
+            request.setRequestHeader('Cache-Control', 'no-cache');
+            request.send(data);
+            alert('Project rankings have been submitted!');
+            this.setState({submitted: true});
+        }
     }
 
     componentDidMount() {
@@ -106,20 +107,12 @@ class ProjectRankingContainer extends React.Component<Props, State> {
 
     findCard(id: number) {
         const { projectCards } = this.state;
-        const projectCard = projectCards.filter(c => c.projectId === id)[0];
+        const projectCard = projectCards.filter(c => c.projectNumber === id)[0];
 
         return {
             projectCard,
             index: projectCards.indexOf(projectCard),
         };
-    }
-
-    submitRankings = () => {
-        var submit = confirm('Are you sure you want to submit rankings?');
-        if (submit) {
-            // submit here!!
-            this.setState({submitted: true});
-        }
     }
 
     render() {
@@ -163,15 +156,15 @@ class ProjectRankingContainer extends React.Component<Props, State> {
                 <br />
                 {projectCards.map((projectCard: Project, index: number) => (
                     <ProjectCard
-                        key={projectCard.projectId}
+                        key={projectCard.projectNumber}
                         rank={index + 1}
-                        id={projectCard.projectId}
-                        name={projectCard.name}
+                        id={projectCard.projectNumber}
+                        name={projectCard.projectName}
                         minSize={projectCard.minSize}
                         maxSize={projectCard.maxSize}
-                        technologiesExpected={projectCard.technologies}
-                        backgroundRequested={projectCard.background}
-                        projectDescription={projectCard.description}
+                        technologiesExpected={projectCard.technologiesExpected}
+                        backgroundRequested={projectCard.backgroundRequested}
+                        projectDescription={projectCard.projectDescription}
                         moveCard={this.moveCard}
                         findCard={this.findCard}
                     />

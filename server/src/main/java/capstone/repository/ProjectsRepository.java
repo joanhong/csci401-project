@@ -9,6 +9,6 @@ import capstone.model.Project;
 @RepositoryRestResource
 public interface ProjectsRepository extends JpaRepository<Project, Long> {
 
-	Project findByProjectId(Long id);
+	Project findByProjectId(int i);
 	
 }

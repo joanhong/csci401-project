@@ -1,5 +1,9 @@
 package capstone.repository;
 
-public interface RankingRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import capstone.model.Ranking;
+
+public interface RankingRepository extends JpaRepository<Ranking, Long> {
 
 }

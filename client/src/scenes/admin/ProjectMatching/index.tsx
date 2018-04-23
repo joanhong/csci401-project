@@ -1,4 +1,5 @@
 import * as React from 'react';
+import ProjectsList from './ProjectsList';
 import {
   Table,
   Button,
@@ -13,32 +14,28 @@ interface ProjectMatchingProps {
 }
 
 interface ProjectMatchingState {
-  projects: Array<{}>;
+  projects: Array<Project>;
   isLoading: boolean;
   isLaunched: boolean;
 }
 
-interface StudentInfo {
+export type StudentInfo = {
   userId: number;
   firstName: string;
   lastName: string;
   rankings: Array<{}>;
-}
+};
 
-interface Project {
+export type Project = {
   projectId: number;
-  name: string;
-  status: string;
-  minSize: string;
-  maxSize: string;
-  technologies: string;
-  background: string;
-  description: string;
+  projectName: string;
+  minSize: number;
+  maxSize: number;
   members: Array<StudentInfo>;
-}
+};
 
 class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatchingState> {
-  
+
   constructor(props: ProjectMatchingProps) {
     super(props);
 
@@ -55,11 +52,11 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
 
   launch = () => {
     this.setState({isLaunched: true});
-    fetch('http://localhost:8080/projects')
+    fetch('http://localhost:8080/projects/assignment')
       .then(response => response.json())
       .then(data => this.setState({projects: data}));
   }
-  
+
   render() {
     const isLoading = this.state.isLoading;
     const isLaunched = this.state.isLaunched;
@@ -79,7 +76,7 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
                 <FormGroup controlId="formBasicText">
                   <FormControl
                     type="text"
-                    placeholder="Enter NUM_RANKED"
+                    placeholder="Enter number of ranked projects to consider"
                   />
                   <FormControl.Feedback />
                   <Button onClick={this.launch} style={{margin: 5}}>
@@ -102,36 +99,20 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
       return header;
     }
 
+    if (isLaunched && !projects.length) {
+      return (
+        <div>
+          {header}
+          <p>Loading...</p>
+        </div>
+      );
+    }
+
     return (
       <div>
       {header}
 
-      <Table bordered={true}>
-        <thead>
-        <tr>
-          <th>Project Name</th>
-          <th>Min Size</th>
-          <th>Max Size</th>
-          <th>Members</th>
-        </tr>
-        </thead>
-        <tbody>
-      {projects.map((project: Project) =>
-        <tr key={project.projectId}>
-          <td>{project.name}</td>
-          <td>{project.minSize}</td>
-          <td>{project.maxSize}</td>
-          <td>
-          {project.members.map((student: StudentInfo) =>
-            <div key={student.userId}>
-              {student.firstName + ' ' + student.lastName}
-            </div>
-          )}
-          </td>
-        </tr>      
-        )}
-        </tbody>
-      </Table>
+      <ProjectsList projects={this.state.projects} />
 
       </div>
     );

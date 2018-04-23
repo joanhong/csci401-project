@@ -83,6 +83,7 @@ public class UserService {
 	}
 	
 	public void saveUser(User user) {
+		user.setUserType(getUserType(user));
 		if (user.getClass() == Stakeholder.class) {
 			stakeholderRepo.save((Stakeholder)user);
 		} else if (user.getClass() == Student.class) {
@@ -133,5 +134,9 @@ public class UserService {
 				studentRepo.save((Student) user);
 			}
 		}
+	}
+
+	public Student findByUserId(Long studentId) {
+		return studentRepo.findByUserId(studentId);
 	}
  }

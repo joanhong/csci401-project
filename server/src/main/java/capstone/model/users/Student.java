@@ -21,9 +21,9 @@ public class Student extends User {
 	Project project;
 	
 	@Transient
-	private Map<String, Integer> rankings;
+	public Map<String, Integer> rankings;
 	@Transient
-	private List<String> orderedRankings;
+	public List<String> orderedRankings;
 	
 	public Student() {
 		setRankings(new HashMap<String, Integer>());
@@ -54,7 +54,7 @@ public class Student extends User {
 		return orderedRankings;
 	}
 
-	public void setOrderedRankings(Vector<String> orderedRankings) {
+	public void setOrderedRankings(List<String> orderedRankings) {
 		this.orderedRankings = orderedRankings;
 	}
 }

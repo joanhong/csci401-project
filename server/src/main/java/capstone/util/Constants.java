@@ -19,6 +19,8 @@ public class Constants {
 	public static String PHONE = "phone";
 	public static String CONFIRM = "confirm";
 	public static String COMPANY = "company";
+	public static String USER_TYPE = "userType";
+	public static String ORIGINAL_EMAIL = "originalEmail";
 
 	/* Email */
 	public static String CSCI401_EMAIL = "csci401server";

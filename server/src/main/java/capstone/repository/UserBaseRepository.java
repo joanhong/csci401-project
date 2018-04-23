@@ -10,4 +10,5 @@ import capstone.model.users.User;
 public interface UserBaseRepository<T extends User> extends JpaRepository<T, Long> {
 	public T findByAddr(String addr);
 	public T findByEmail(String email);
+	public T findByUserId(Long userId);
 }

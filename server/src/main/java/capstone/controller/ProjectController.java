@@ -2,6 +2,8 @@ package capstone.controller;
 
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.List;
 import java.util.Vector;
 
@@ -21,6 +23,7 @@ import capstone.model.users.Student;
 import capstone.model.users.User;
 import capstone.service.ProjectService;
 import capstone.service.UserService;
+import capstone.util.ProjectAssignment;
 
 @RestController
 @RequestMapping("/projects")
@@ -34,6 +37,11 @@ public class ProjectController
 	public ProjectController()
 	{
 	}
+	@GetMapping("/init")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public void initTables() {
+		projectService.initTables();
+	}
 	
 	@GetMapping("")
 	@CrossOrigin(origins = "http://localhost:3000")
@@ -42,11 +50,13 @@ public class ProjectController
 		return projectService.findAll();
 	}	
 
-	@PostMapping("/assignment")
+	@GetMapping("/assignment")
 	@CrossOrigin(origins = "http://localhost:3000")
-	public String projectAssignment()
+	public List<Project> projectAssignment()
 	{
-		return projectService.runAlgorithm((Vector<Project>)getProjects(), (Vector<Student>)userService.getStudents());
+		System.out.println("running assignment");
+		return projectService.runAlgorithm();
+		//return projectService.runAlgorithm(getProjects(), (List<Student>)userService.getStudents());
 	}
 	
 	@GetMapping("/{email:.+}")
@@ -78,7 +88,7 @@ public class ProjectController
 	{
 		System.out.println("Received HTTP POST");
 		System.out.println(project);
-		System.out.println(project.getName());
+		System.out.println(project.getProjectName());
 
 	    projectService.save(project);
 	    User user = userService.findUserByEmail(email);

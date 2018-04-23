@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.ServletException;
 
-import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +26,7 @@ import capstone.repository.RegisteredStudentEmailRepository;
 import capstone.service.EmailService;
 import capstone.service.UserService;
 import capstone.util.Constants;
+import capstone.util.EncryptPassword;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -50,7 +50,7 @@ public class UserController
 		admin.setFirstName("Jeffrey");
 		admin.setLastName("Miller");
 		admin.setEmail("admin@usc.edu");
-		admin.setPassword(encryptPassword("admin"));
+		admin.setPassword(EncryptPassword.encryptPassword("admin"));
 		userService.saveUser(admin);
 		return Constants.SUCCESS;
 	}
@@ -82,6 +82,23 @@ public class UserController
 		return userService.getStudents(); 
 	}
 	
+	@PostMapping("/userInfoUpdate")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public void updateUserInfo(@RequestBody Map<String, String> info) {
+		String originalEmail = info.get(Constants.ORIGINAL_EMAIL);
+		String newEmail = info.get(Constants.EMAIL);
+		String firstName = info.get(Constants.FIRST_NAME);
+		String lastName = info.get(Constants.LAST_NAME);
+		String userType = info.get(Constants.USER_TYPE);
+		
+		User user = findUser(originalEmail);
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setEmail(newEmail);
+		user.setUserType(userType);
+		userService.saveUser(user);
+	}
+	
 	public User findUser(String email) {
 		return userService.findUserByEmail(email);
 	}
@@ -99,7 +116,7 @@ public class UserController
 		String firstName = info.get(Constants.FIRST_NAME);
 		String lastName = info.get(Constants.LAST_NAME);
 		String phone = info.get(Constants.PHONE);
-		String encryptedPassword = encryptPassword(info.get(Constants.PASSWORD));
+		String encryptedPassword = EncryptPassword.encryptPassword(info.get(Constants.PASSWORD));
 		
 		// Check if email is a registered student email and not already registered
 		if (regRepo.findByEmail(email) != null && 
@@ -125,7 +142,7 @@ public class UserController
 		String email = info.get(Constants.EMAIL);
 		String name = info.get(Constants.FIRST_NAME);
 		String phone = info.get(Constants.PHONE);
-		String encryptedPassword = encryptPassword(info.get(Constants.PASSWORD));
+		String encryptedPassword = EncryptPassword.encryptPassword(info.get(Constants.PASSWORD));
 		
 		// Check if email is a registered student email and not already registered
 		if (regRepo.findByEmail(email) != null && userService.findStudentByEmail(email) == null) {
@@ -151,7 +168,7 @@ public class UserController
 		String name = info.get(Constants.FIRST_NAME);
 		String phone = info.get(Constants.PHONE);
 		String companyName = info.get(Constants.COMPANY);
-		String encryptedPassword = encryptPassword(info.get(Constants.PASSWORD));
+		String encryptedPassword = EncryptPassword.encryptPassword(info.get(Constants.PASSWORD));
 		
 		// Check if email has already been registered
 		if (userService.findStakeholderByEmail(email) == null) {
@@ -212,7 +229,7 @@ public class UserController
 
 	    String pwd = user.getPassword();
 
-	    if (!checkPassword(password, pwd)) {
+	    if (!EncryptPassword.checkPassword(password, pwd)) {
 	        throw new ServletException("Invalid login");
 	    }
 	    
@@ -222,19 +239,5 @@ public class UserController
 	            .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
 	    // System.out.println("Jwt: " + jwtToken);
 	    return jwtToken + "," + userType;
-	}
-	
-	String encryptPassword(String textPassword)
-	{
-		String encryptedPassword;
-		StrongPasswordEncryptor bte = new StrongPasswordEncryptor();
-		encryptedPassword = bte.encryptPassword(textPassword);
-		return encryptedPassword;
-	}
-	
-	Boolean checkPassword(String plainPassword, String encryptedPassword)
-	{
-		StrongPasswordEncryptor bte = new StrongPasswordEncryptor();
-		return bte.checkPassword(plainPassword,encryptedPassword);
 	}
 }

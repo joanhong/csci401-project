@@ -32,10 +32,12 @@ interface UserListState {
     userIndexToEdit: number;
     userToEdit?: User;
     userToDelete?: User;
-    editName?: string;
+    editFirstName?: string;
+    editLastName?: string;
     editUserType?: string;
     editYear?: string;
     editEmail?: string;
+    originalEmail?: string;
     isLoading: boolean;
 }
 
@@ -82,10 +84,12 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         request.open('POST', 'http://localhost:8080/userInfoUpdate/');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
-        name: this.state.editName,
-        userType: this.state.editUserType,
-        year: this.state.editYear,
-        email: this.state.editEmail
+            firstName: this.state.editFirstName,
+            lastName: this.state.editLastName,
+            userType: this.state.editUserType,
+            year: this.state.editYear,
+            email: this.state.editEmail,
+            originalEmail: this.state.originalEmail
         });
         request.setRequestHeader('Cache-Control', 'no-cache');
         request.send(data);
@@ -128,9 +132,11 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         this.setState({
             userIndexToEdit: index,
             userToEdit: user,
-            editName: user.firstName,
+            editFirstName: user.firstName,
+            editLastName: user.lastName,
             editUserType: user.userType,
             editEmail: user.email,
+            originalEmail: user.email
         });
     }
 
@@ -142,6 +148,11 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         }
     }
 
+    setOriginalEmail(email: string) {
+        this.setState({
+            originalEmail: email
+        });
+    }
     render() {
         const {allUsers, usersToDisplay, isLoading, userIndexToEdit, userToEdit} = this.state;
         
@@ -158,23 +169,37 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
                     </Modal.Header>
                     <Modal.Body>
                         <Form horizontal={true} >
-                            <FormGroup controlId="formHorizontalName">
+                            <FormGroup controlId="formHorizontalFirstName">
                                 <Col componentClass={ControlLabel} sm={2}>
-                                Name
+                                First Name
                                 </Col>
                                 <Col sm={10}>
                                 <FormControl
                                     type="text"
-                                    id="editName"
-                                    value={this.state.editName}
-                                    placeholder="Name"
+                                    id="editFirstName"
+                                    value={this.state.editFirstName}
+                                    placeholder="First Name"
+                                    onChange={e => this.handleChange(e)}
+                                />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup controlId="formHorizontalLastName">
+                                <Col componentClass={ControlLabel} sm={2}>
+                                Last Name
+                                </Col>
+                                <Col sm={10}>
+                                <FormControl
+                                    type="text"
+                                    id="editLastName"
+                                    value={this.state.editLastName}
+                                    placeholder="Last Name"
                                     onChange={e => this.handleChange(e)}
                                 />
                                 </Col>
                             </FormGroup>
                             <FormGroup controlId="formHorizontalEmail">
                                 <Col componentClass={ControlLabel} sm={2}>
-                                Year
+                                Email
                                 </Col>
                                 <Col sm={10}>
                                 <FormControl
