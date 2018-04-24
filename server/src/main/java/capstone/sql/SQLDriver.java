@@ -13,7 +13,6 @@ import capstone.model.PeerReviewData;
 import capstone.model.Project;
 import capstone.model.Student;
 import capstone.model.User;
-import capstone.model.UserData;
 import capstone.model.WeeklyReportData;
 
 public class SQLDriver {
@@ -32,7 +31,7 @@ public class SQLDriver {
 	private final static String getAllStakeholders = "SELECT * FROM " + DATABASE_NAME + ".Users JOIN " + DATABASE_NAME + ".StakeholderInfo ON stakeholder_id = user_id JOIN " + DATABASE_NAME + ".Organizations ON organization_id = org_id";
 	private final static String getAllProjects = "SELECT * FROM " + DATABASE_NAME + ".Projects";
 	private final static String getProjectByName = "SELECT * FROM " + DATABASE_NAME + ".Projects WHERE NAME=?";
-	private final static String getUserProjectRankings = "SELECT * FROM " + DATABASE_NAME + ".ProjectRankings WHERE STUDENT_ID=?";
+	private final static String getUserProjectRankings = "SELECT * FROM " + DATABASE_NAME + ".ProjectRankings WHERE STUDENT_ID=? ORDER BY rank";
 	private final static String updatePassword = "UPDATE " + DATABASE_NAME + ".USERS SET PASSWORD=? WHERE EMAIL=?";
 	private final static String getEncryptedPassword = "SELECT * FROM " + DATABASE_NAME + ".USERS WHERE EMAIL=?";
 	private final static String updateUserEntry = "UPDATE " + DATABASE_NAME + ".USERS SET first_name = ?, last_name = ?, email =?, user_type=? WHERE user_id=?";
@@ -353,25 +352,28 @@ public class SQLDriver {
 	
 	public Vector<Project> getProjectsTable()
 	{
-		Vector<Project> returnVector = new Vector<Project>();
+		Vector<Project> projects = new Vector<Project>();
+
 		try{
 			PreparedStatement ps = con.prepareStatement(getAllProjects);
 			ResultSet result = ps.executeQuery();
 			while(result.next())
 			{
-				Project p = new Project(getStudentSatScore(1));
+				Project newProject = new Project(getStudentSatScore(1));
 				
-				p.setProjectId(result.getInt(1));
-				p.setProjectName(result.getString("PROJECT_NAME"));
-				p.setMaxSize(result.getInt(6));
-				p.setMinSize(result.getInt(7));
-				p.setStatusType(result.getString("STATUS_ID"));
+				newProject.setProjectId(result.getInt(1));
+				newProject.setProjectName(result.getString("PROJECT_NAME"));
+				newProject.setMaxSize(result.getInt(6));
+				newProject.setMinSize(result.getInt(7));
+				newProject.setStatusType(result.getString("STATUS_ID"));
 				
-				returnVector.addElement(p);				
+				projects.addElement(newProject);				
 			}		
-		}catch (SQLException e){e.printStackTrace();}
-		return returnVector; //returns true if the user name is in use in the DB
+		} catch (SQLException e) {e.printStackTrace();}
+		
+		return projects;
 	}
+	
 	public User getUserByEmail(String email)
 	{
 		String username = null;
@@ -394,8 +396,6 @@ public class SQLDriver {
 		}catch (SQLException e){e.printStackTrace();}
 		return u; // returns true if the user name is in use in the DB
 	}
-	
-	
 	
 	// returns vector of all Students and their rankings
 	// requires vector of existing Projects
