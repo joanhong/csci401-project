@@ -14,10 +14,12 @@ import capstone.service.ProjectAssignmentService;
 @RestController
 public class ProjectAssignmentController
 {
-	private ProjectAssignmentService maxIteration;
+	private ProjectAssignmentService maxAlgorithm;
 	private static String folder_name = "src/main/java/capstone/algorithm/real_data";
 	private static int NUM_RANKED = 5; // number of projects that each student can rank
-	public static Map<Double, ProjectAssignmentService> iterations = new HashMap<>();
+	
+	public static Map<Double, ProjectAssignmentService> algorithms = new HashMap<>();
+	public static Map<Double, Integer> iterations = new HashMap<>();
 	
 	public ProjectAssignmentController() {
 	}
@@ -30,21 +32,25 @@ public class ProjectAssignmentController
 		File dir = new File(folder_name + "/iterations");
 		dir.mkdir();
 		
-		//if (maxIteration == null) {
-			// run algorithm 30 times
-			for (int iteration = 0; iteration < 30; iteration++) {
-				 ProjectAssignmentService a = new ProjectAssignmentService();
-				 a.run(iteration, NUM_RANKED, folder_name);
-				 double groupSatScore = a.algoSatScore;
-				 iterations.put(groupSatScore, a);
-			}
+		// run algorithm 30 times
+		for (int iteration = 0; iteration < 30; iteration++) {
+			 ProjectAssignmentService algorithm = new ProjectAssignmentService();
+			 algorithm.run(iteration, NUM_RANKED, folder_name);
+			 double groupSatScore = algorithm.algoSatScore;
+			 
+			 algorithms.put(groupSatScore, algorithm);
+			 iterations.put(groupSatScore, iteration);
+		}
 
-			Double maxScore = Collections.max(iterations.keySet());
-			System.out.println("maxScore: " + maxScore);
-			maxIteration = iterations.get(maxScore);
-		//}
-		System.out.println(maxIteration.JSONOutputWeb());
-		return maxIteration.JSONOutputWeb();
+		Double maxScore = Collections.max(algorithms.keySet());
+		maxAlgorithm = algorithms.get(maxScore);
+		Double _maxScore = Collections.max(algorithms.keySet());
+		Integer maxIteration = iterations.get(_maxScore);
+		
+		System.out.println("maxScore: " + maxScore + ". maxIteration: " + maxIteration + ".");
+		
+		System.out.println(maxAlgorithm.JSONOutputWeb());
+		return maxAlgorithm.JSONOutputWeb();
 	}
 	
 	/* This is how running the algorithm 30 times used to be implemented.

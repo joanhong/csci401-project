@@ -51,7 +51,6 @@ var data = JSON.stringify({
 });
 request.setRequestHeader('Cache-Control', 'no-cache');
 request.send(data);
-alert(request.responseText + 'Logging you in...');
 request.onreadystatechange = function() {
 if (request.readyState === 4) {
         if (request.responseText.length > 4) {
@@ -92,12 +91,12 @@ formGroup(controlId: string, type: string, id: string, placeholder: string, valu
             <div style={style}>
             <h2>Admin Registration</h2>
             <Form horizontal={true} >
-            {this.formGroup('formHorizontalName', 'text', 'name', 'First Name', this.state.firstName)}
-            {this.formGroup('formHorizontalName', 'text', 'name', 'Last Name', this.state.lastName)}
+            {this.formGroup('formHorizontalFirstName', 'text', 'firstName', 'First Name', this.state.firstName)}
+            {this.formGroup('formHorizontalLastName', 'text', 'lastName', 'Last Name', this.state.lastName)}
             {this.formGroup('formHorizontalEmail', 'text', 'email', 'Email', this.state.email)}
             {this.formGroup('formHorizontalPhone', 'phone', 'phone', 'Phone', this.state.phone)}
             {this.formGroup('formHorizontalPassword', 'password', 'password', 'Password', this.state.password)}
-            {this.formGroup('formHorizontalConfirm', 'text', 'confirm', 'Confirm Password', this.state.confirm)}
+            {this.formGroup('formHorizontalConfirm', 'password', 'confirm', 'Confirm Password', this.state.confirm)}
 
             <FormGroup>
                 <Col smOffset={2} sm={10}>

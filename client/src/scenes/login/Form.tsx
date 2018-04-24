@@ -46,6 +46,7 @@ class LoginForm extends React.Component<LoginProps, LoginState> {
         request.setRequestHeader('Cache-Control', 'no-cache');
         request.send(data);
         alert('Logging you in...');
+        sessionStorage.setItem('email', this.state.email);
         request.onreadystatechange = function() {
             if (request.readyState === 4) {
                 if (request.responseText.length > 4) {

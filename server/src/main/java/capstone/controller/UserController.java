@@ -2,6 +2,7 @@ package capstone.controller;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
@@ -72,5 +73,44 @@ public class UserController {
 				.signWith(SignatureAlgorithm.HS256, "secretkey").compact();
 		// System.out.println("Jwt: " + jwtToken);
 		return jwtToken + "," + userType;
+	}
+	
+	@PostMapping("/adminRegistrationAttempt")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public String registerAdmin(@RequestBody Map<String, String> info) {
+		System.out.println("Admin registered");
+		String firstName = info.get("firstName");
+		String lastName = info.get("lastName");
+		String phone = info.get("phone");
+		String email = info.get("email");
+		String password = info.get("password");
+		driver.addUserEntry(1, firstName, lastName, phone, email, password);
+		return "SUCCESS";
+	}
+	
+	@PostMapping("/studentRegistrationAttempt")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public String registerStudent(@RequestBody Map<String, String> info) {
+		System.out.println("Student registered");
+		String firstName = info.get("firstName");
+		String lastName = info.get("lastName");
+		String phone = info.get("phone");
+		String email = info.get("email");
+		String password = info.get("password");
+		driver.addUserEntry(3, firstName, lastName, phone, email, password);
+		return "SUCCESS";
+	}
+	
+	@PostMapping("/stakeholderRegistrationAttempt")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public String registerStakeholder(@RequestBody Map<String, String> info) {
+		System.out.println("Stakeholder registered");
+		String firstName = info.get("firstName");
+		String lastName = info.get("lastName");
+		String phone = info.get("phone");
+		String email = info.get("email");
+		String password = info.get("password");
+		driver.addUserEntry(2, firstName, lastName, phone, email, password);
+		return "SUCCESS";
 	}
 }

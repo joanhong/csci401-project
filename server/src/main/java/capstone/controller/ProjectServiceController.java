@@ -5,6 +5,7 @@ package capstone.controller;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,10 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import capstone.model.LoginData;
 import capstone.model.PeerReviewData;
 import capstone.model.Project;
-import capstone.model.ProjectData;
-import capstone.model.RankingData;
 import capstone.model.User;
-import capstone.model.UserData;
 import capstone.model.UserEmailsData;
 import capstone.model.WeeklyReportData;
 import capstone.repository.ProjectsRepository;
@@ -161,12 +160,27 @@ public class ProjectServiceController
 			System.out.println(userdata.getEmail());
 			System.out.println(userdata.getUserType());
 			
-			//use sql to send this data to weeklyreportstable
 			driver.addUserInfoUpdate(userdata);
 //			mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
 			return userdata;
 		}
 		//XXXXXXXXXX
+		
+		@RequestMapping(value = "/userProfileUpdate",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+		@CrossOrigin(origins = "http://localhost:3000")
+		public @ResponseBody User userProfileUpdateAttempt(@RequestBody User userdata)
+		{
+			System.out.println("Received HTTP POST");
+			
+			System.out.println(userdata.getFirstName());
+			System.out.println(userdata.getLastName());
+			System.out.println(userdata.getPhone());
+			System.out.println(userdata.getEmail());
+			
+			driver.updateUserProfile(userdata);
+//			mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
+			return userdata;
+		}		
 	
 		//XXXXXXXXXXXX
 		@RequestMapping(value = "/projectApprovalAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
@@ -303,6 +317,7 @@ public class ProjectServiceController
 		
 		return emailsdata;
 	}
+	
 	
 	//////
 	@RequestMapping(value = "/projectRankingsSubmitAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
@@ -475,18 +490,22 @@ public class ProjectServiceController
 	//////
 	@RequestMapping(value = "/loggedInUser",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody User loggedInUser(@RequestBody String name, HttpServletRequest request)
+	public @ResponseBody User loggedInUser(@RequestBody String email)
 	{
-		System.out.println("Logged in user");
-		System.out.println("Received HTTP POST");
-		String addr = request.getHeader(HttpHeaders.ORIGIN);
-		System.out.println(addr);
-		User user = usm.getUser(addr);
-		if (user != null) {
-			return user;
-		}
-		return null; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
-	}
+		System.out.println("Received HTTP POST: loggedInUser");
+		
+		User user = driver.getUserByEmail(email);
+		System.out.println(user.getFirstName());
+		return user;
+		
+//		String addr = request.getHeader(HttpHeaders.ORIGIN);
+//		System.out.println(addr);
+//		User user = usm.getUser(addr);
+//		if (user != null) {
+//			return user;
+//		}
+//		return null; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
+	}	
 	
 	String encryptPassword(String textPassword)
 	{

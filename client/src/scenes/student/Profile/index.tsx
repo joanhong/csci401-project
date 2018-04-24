@@ -7,24 +7,25 @@ import {
     FormGroup,
     Col,
     FormControl,
-    ControlLabel    
+    ControlLabel,
 } from 'react-bootstrap';
 
 interface ProfileProps {
 }
 interface ProfileState {
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     phone: string;
     isLoading: boolean;
 }
-var studentName = '';
 
 class StudentProfile extends React.Component<ProfileProps, ProfileState> {
     constructor(props: ProfileProps) {
         super(props);
         this.state = {
-            name: '',
+            firstName: '',
+            lastName: '',
             email: '',
             phone: '',
             isLoading: false,
@@ -39,7 +40,7 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
         request.withCredentials = true;
         request.open('POST', 'http://localhost:8080/loggedInUser/');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        var data = 'loggedIn';
+        var data = sessionStorage.getItem('email');
         request.setRequestHeader('Cache-Control', 'no-cache');
         request.send(data);
 
@@ -48,14 +49,14 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
             if (request.readyState === 4) {
                 var response = request.responseText;
                 var jsonResponse = JSON.parse(response);
-                var fullNameLiteral = 'fullName';
+                var firstNameLiteral = 'firstName';
+                var lastNameLiteral = 'lastName';
                 var emailLiteral = 'email';
                 var phoneLiteral = 'phone';
 
-                studentName = jsonResponse[fullNameLiteral];
-
                 that.setState({
-                    name: jsonResponse[fullNameLiteral], 
+                    firstName: jsonResponse[firstNameLiteral], 
+                    lastName: jsonResponse[lastNameLiteral],
                     email: jsonResponse[emailLiteral],
                     phone: jsonResponse[phoneLiteral],
                     isLoading: false
@@ -64,22 +65,24 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
         };
     }
     submitClicked() {
-   /*     var request = new XMLHttpRequest();
+        var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080//');
+        request.open('POST', 'http://localhost:8080/userProfileUpdate/');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
-            fullName: this.state.name,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
             email: this.state.email,
             phone: this.state.phone
         });
         request.setRequestHeader('Cache-Control', 'no-cache');
         request.send(data);
-        alert(request.responseText + 'Logging you in...');
+        alert(request.responseText + 'Profile updating ...');
         request.onreadystatechange = function() {
             if (request.readyState === 4) {
+                alert('Profile update submission SUCCESSFUL!');
             }
-        }; */
+        }; 
     }
     handleChange(e: any) {
         this.setState({ [e.target.id]: e.target.value });
@@ -101,14 +104,22 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
                     <Col componentClass={ControlLabel} sm={2}>
                         Name:
                     </Col>
-                    <Col sm={10}>
+                    <Col sm={5}>
                         <FormControl 
                             type="text" 
-                            id="name"
-                            value={studentName}
+                            id="firstName"
+                            value={this.state.firstName}
                             onChange={e => this.handleChange(e)} 
                         />
-                    </Col>             
+                    </Col>  
+                    <Col sm={5}>
+                        <FormControl 
+                            type="text" 
+                            id="lastName"
+                            value={this.state.lastName}
+                            onChange={e => this.handleChange(e)} 
+                        />
+                    </Col>                                 
                 </FormGroup>
                 
                 <FormGroup controlId="formHorizontalStudentEmail">
@@ -120,7 +131,7 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
                             type="email" 
                             id="email"
                             value={this.state.email} 
-                            onChange={e => this.handleChange(e)} 
+                            disabled={true} 
                         />
                     </Col>             
                 </FormGroup>
