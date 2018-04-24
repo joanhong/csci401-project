@@ -2,10 +2,8 @@ package capstone.controller;
 
 
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.List;
-import java.util.Vector;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,11 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import capstone.model.Project;
 import capstone.model.users.Stakeholder;
-import capstone.model.users.Student;
 import capstone.model.users.User;
 import capstone.service.ProjectService;
 import capstone.service.UserService;
-import capstone.util.ProjectAssignment;
+import capstone.util.Constants;
 
 @RestController
 @RequestMapping("/projects")
@@ -94,6 +91,16 @@ public class ProjectController
 	    User user = userService.findUserByEmail(email);
 	    userService.saveProject(user, project);
 		return project; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
+	}
+	
+	@PostMapping("/rankingsSubmitAttempt/{email:.+}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody String projectRankingsSubmission(@PathVariable("email") String email, @RequestBody List<Integer> projects) {
+		User user = userService.findUserByEmail(email);
+		for (int rank = 1; rank <= 5; rank++) {
+			projectService.saveRanking(projects.get(rank-1), user.getUserId(), rank);
+		}
+		return Constants.SUCCESS;
 	}
 }
 

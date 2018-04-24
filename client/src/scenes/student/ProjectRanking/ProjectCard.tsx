@@ -70,9 +70,9 @@ interface Props {
     name: PropTypes.string.isRequired;
     minSize: PropTypes.any.isRequired;
     maxSize: PropTypes.any.isRequired;
-    technologiesExpected: PropTypes.any.isRequired;
-    backgroundRequested: PropTypes.any.isRequired;
-    projectDescription: PropTypes.any.isRequired;
+    technologies: PropTypes.any.isRequired;
+    background: PropTypes.any.isRequired;
+    description: PropTypes.any.isRequired;
     moveCard: PropTypes.func.isRequired;
     findCard: PropTypes.func.isRequired;
 }
@@ -125,13 +125,13 @@ class ProjectCard extends React.Component<Props, State> {
                         <Panel.Collapse>
                             <Panel.Body>
                                 <strong>Project Description</strong>
-                                <p>{this.props.projectDescription}</p>
+                                <p>{this.props.description}</p>
                                 <br/>
                                 <strong>Technologies Expected</strong>
-                                <p>{this.props.technologiesExpected}</p>
+                                <p>{this.props.technologies}</p>
                                 <br/>
                                 <strong>Background Requested</strong>
-                                <p>{this.props.backgroundRequested}</p>
+                                <p>{this.props.background}</p>
                             </Panel.Body>
                         </Panel.Collapse>
                     </Panel>

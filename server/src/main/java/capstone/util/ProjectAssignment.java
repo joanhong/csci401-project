@@ -176,6 +176,10 @@ PrintWriter writer;
 	public void run(int iteration, int _NUM_RANKED, String _folder_name) {
 		
 		NUM_RANKED = _NUM_RANKED;
+		if (projects.size() < NUM_RANKED) {
+			NUM_RANKED = projects.size();
+			System.out.println(NUM_RANKED);
+		}
 		folder_name = _folder_name;
 		
 		// set up output text file for this iteration

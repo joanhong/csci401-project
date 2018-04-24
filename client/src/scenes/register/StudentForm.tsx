@@ -17,7 +17,8 @@ const style = {
 interface StudentRegistrationProps {
 }
 interface StudentRegistrationState {
-name: string;
+firstName: string;
+lastName: string;
 email: string;
 phone: string;
 password: string;
@@ -27,7 +28,8 @@ class StudentRegistrationForm extends React.Component<StudentRegistrationProps, 
     constructor(props: StudentRegistrationProps) {
     super(props);
     this.state = {
-        name: '',
+        firstName: '',
+        lastName: '',
         email: '',
         phone: '',
         password: '',
@@ -43,7 +45,8 @@ class StudentRegistrationForm extends React.Component<StudentRegistrationProps, 
         request.open('POST', 'http://localhost:8080/studentRegistrationAttempt/');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
-            firstName: this.state.name,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
             email: this.state.email,
             phone: this.state.phone,
             password: this.state.password
@@ -59,6 +62,7 @@ class StudentRegistrationForm extends React.Component<StudentRegistrationProps, 
         }
         }*/
         };
+        window.location.href = '/';
     }
 
     handleChange(e: any) {
@@ -90,7 +94,8 @@ class StudentRegistrationForm extends React.Component<StudentRegistrationProps, 
             <div style={style}>
                 <h2>Student Registration</h2>
                 <Form horizontal={true} >
-                    {this.formGroup('formHorizontalName', 'text', 'name', 'Name', this.state.name)}
+                    {this.formGroup('formHorizontalFirstName', 'text', 'firstName', 'First Name', this.state.firstName)}
+                    {this.formGroup('formHorizontalLastName', 'text', 'lastName', 'Last Name', this.state.lastName)}
                     {this.formGroup('formHorizontalEmail', 'text', 'email', 'Email', this.state.email)}
                     {this.formGroup('formHorizontalPhone', 'text', 'phone', 'Phone', this.state.phone)}
                     {this.formGroup('formHorizontalPassword', 'password', 'password', 'Password', this.state.password)}

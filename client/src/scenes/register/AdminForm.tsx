@@ -38,29 +38,30 @@ this.submitClicked = this.submitClicked.bind(this);
 this.handleChange = this.handleChange.bind(this);
 }
 submitClicked() {
-var request = new XMLHttpRequest();
-request.withCredentials = true;
-request.open('POST', 'http://localhost:8080/adminRegistrationAttempt/');
-request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-var data = JSON.stringify({
-    firstName: this.state.firstName,
-    lastName: this.state.lastName,
-    email: this.state.email,
-    phone: this.state.phone,
-    password: this.state.password
-});
-request.setRequestHeader('Cache-Control', 'no-cache');
-request.send(data);
-alert(request.responseText + 'Logging you in...');
-request.onreadystatechange = function() {
-if (request.readyState === 4) {
-        if (request.responseText.length > 4) {
-            alert('Admin registration SUCCESSFUL!');
-        } else {
-            alert('Admin registration FAILED.');
-}
-}
-};
+    var request = new XMLHttpRequest();
+    request.withCredentials = true;
+    request.open('POST', 'http://localhost:8080/adminRegistrationAttempt/');
+    request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+    var data = JSON.stringify({
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        email: this.state.email,
+        phone: this.state.phone,
+        password: this.state.password
+    });
+    request.setRequestHeader('Cache-Control', 'no-cache');
+    request.send(data);
+    alert(request.responseText + 'Logging you in...');
+    request.onreadystatechange = function() {
+    if (request.readyState === 4) {
+            if (request.responseText.length > 4) {
+                alert('Admin registration SUCCESSFUL!');
+            } else {
+                alert('Admin registration FAILED.');
+            }
+    }
+    };
+    window.location.href = '/';
 }
 
 handleChange(e: any) {

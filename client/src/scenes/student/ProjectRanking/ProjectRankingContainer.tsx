@@ -30,6 +30,7 @@ interface Props {
 interface State {
     isLoading: boolean;
     projectCards: Array<Project>;
+    rankingData: Array<number>;
     submitted: boolean;
     email: string;
 }
@@ -37,12 +38,12 @@ interface State {
 interface Project {
     projectId: number;
     projectName: string;
-    status: string;
+    statusId: number;
     minSize: number;
     maxSize: number;
-    technologiesExpected: string;
-    backgroundRequested: string;
-    projectDescription: string;
+    technologies: string;
+    background: string;
+    description: string;
 }
 
 @DragDropContext(HTML5Backend)
@@ -60,6 +61,7 @@ class ProjectRankingContainer extends React.Component<Props, State> {
         this.state = {
             isLoading: false,
             projectCards: [],
+            rankingData: [],
             submitted: false,
             email: ''
         };
@@ -70,15 +72,22 @@ class ProjectRankingContainer extends React.Component<Props, State> {
         if (submit) {
             var request = new XMLHttpRequest();
             request.withCredentials = true;
-            request.open('POST', 'http://localhost:8080/projectRankingsSubmitAttempt/');
+            request.open('POST', 'http://localhost:8080/projects/rankingsSubmitAttempt/' + sessionStorage.getItem('email'));
             request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-            var data = JSON.stringify({
+            /*var data = JSON.stringify({
             project1: this.state.projectCards[0].projectName,
             project2: this.state.projectCards[1].projectName,
             project3: this.state.projectCards[2].projectName,
             project4: this.state.projectCards[3].projectName,
             project5: this.state.projectCards[4].projectName
-            });
+            });*/
+            
+            this.state.projectCards.map((project: Project) => (
+                this.state.rankingData.push(project.projectId)
+            ));
+            var data = JSON.stringify(
+               this.state.rankingData
+            );
             request.setRequestHeader('Cache-Control', 'no-cache');
             request.send(data);
             alert('Project rankings have been submitted!');
@@ -162,9 +171,9 @@ class ProjectRankingContainer extends React.Component<Props, State> {
                         name={projectCard.projectName}
                         minSize={projectCard.minSize}
                         maxSize={projectCard.maxSize}
-                        technologiesExpected={projectCard.technologiesExpected}
-                        backgroundRequested={projectCard.backgroundRequested}
-                        projectDescription={projectCard.projectDescription}
+                        technologies={projectCard.technologies}
+                        background={projectCard.background}
+                        description={projectCard.description}
                         moveCard={this.moveCard}
                         findCard={this.findCard}
                     />

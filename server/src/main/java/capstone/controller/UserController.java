@@ -141,6 +141,7 @@ public class UserController
 	public @ResponseBody String studentRegistrationAttempt(@RequestBody Map<String, String> info) {
 		String email = info.get(Constants.EMAIL);
 		String name = info.get(Constants.FIRST_NAME);
+		String lastName = info.get(Constants.LAST_NAME);
 		String phone = info.get(Constants.PHONE);
 		String encryptedPassword = EncryptPassword.encryptPassword(info.get(Constants.PASSWORD));
 		
@@ -148,6 +149,7 @@ public class UserController
 		if (regRepo.findByEmail(email) != null && userService.findStudentByEmail(email) == null) {
 			Student s = new Student();
 			s.setFirstName(name);
+			s.setLastName(lastName);
 			s.setEmail(email);
 			s.setPhone(phone);
 			s.setPassword(encryptedPassword);
@@ -166,6 +168,7 @@ public class UserController
 		System.out.println("Start reg");
 		String email = info.get(Constants.EMAIL);
 		String name = info.get(Constants.FIRST_NAME);
+		String lastName = info.get(Constants.LAST_NAME);
 		String phone = info.get(Constants.PHONE);
 		String companyName = info.get(Constants.COMPANY);
 		String encryptedPassword = EncryptPassword.encryptPassword(info.get(Constants.PASSWORD));
@@ -174,6 +177,7 @@ public class UserController
 		if (userService.findStakeholderByEmail(email) == null) {
 			Stakeholder s = new Stakeholder();
 			s.setFirstName(name);
+			s.setLastName(lastName);
 			s.setEmail(email);
 			s.setPhone(phone);
 			s.setOrganization(companyName);

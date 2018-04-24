@@ -167,4 +167,8 @@ public class ProjectService {
 	public List<Project> findAll() {
 		return (List<Project>) repository.findAll();
 	}
+
+	public void saveRanking(int projectId, Long userId, int ranking) {
+		rankRepo.save(new Ranking(userId, projectId, ranking));
+	}
 }

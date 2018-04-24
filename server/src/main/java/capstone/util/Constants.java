@@ -24,4 +24,9 @@ public class Constants {
 
 	/* Email */
 	public static String CSCI401_EMAIL = "csci401server";
+	
+	/* Projects */
+	public static String PROJECTS = "projects";
+	public static String PROJECT_NAME = "projectName";
+	public static String PROJECT_ID = "projectId";
 }
