@@ -172,4 +172,16 @@ public class User
 		this.semester = semester;
 	}
 	
+	public Boolean hasEmail()
+	{
+		if(!this.email.isEmpty())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 }

@@ -375,18 +375,20 @@ public class ProjectServiceController
 //					break;
 //				}
 				n--;
-				System.out.println("GOT HEREH!!!!");
+//				System.out.println("GOT HEREH!!!!");
 				if(n<0)
 				{
 					break;
 				}
 		}
-		System.out.println("GOT HERE");
-		for(String s : rankingsIds)
+//		System.out.println("GOT HERE");
+		
+		int userid = driver.getUserIDFromEmail(emailStr);
+		
+		for(int i=0; i< rankingsIds.size(); i++)
 		{
-			System.out.println("ProjectId : " + s);
+			driver.addProjectRankingEntry(userid, Integer.valueOf(rankingsIds.get(i)), i+1);
 		}
-				
 				
 		//get user from addr using usm
 		//find projects from sqldriver and then populate projectRankings table with 5 entries

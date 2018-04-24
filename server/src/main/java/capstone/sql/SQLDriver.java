@@ -23,7 +23,7 @@ public class SQLDriver {
 	private Connection con;
 	private final static String confirmLoginAttempt ="SELECT COUNT(*) FROM " + DATABASE_NAME + ".Users WHERE EMAIL=? AND PASSWORD=?";
 	private final static String findIfUserExists = "SELECT COUNT(*) FROM " + DATABASE_NAME + ".Users WHERE EMAIL=?";
-	private final static String getUserID = "SELECT ID FROM " + DATABASE_NAME + ".Users WHERE USERNAME=?";
+	private final static String getUserID = "SELECT USER_ID FROM " + DATABASE_NAME + ".Users WHERE EMAIL=?";
 	private final static String addUser = "INSERT INTO " + DATABASE_NAME + ".Users(USERNAME,PASSWORD) VALUES(?,?)";
 	private final static String addUserEntry = "INSERT INTO " + DATABASE_NAME + ".Users(USER_TYPE, FIRST_NAME, LAST_NAME, PHONE_NUM, EMAIL, PASSWORD) VALUES(?,?,?,?,?,?)";
 	private final static String getUsername = "SELECT USERNAME FROM " + DATABASE_NAME + ".Users WHERE USER_ID=?";
@@ -53,6 +53,9 @@ public class SQLDriver {
 //	private final static String addPeerReview = "INSERT INTO " + DATABASE_NAME + 
 //			".PeerReviewsTable(id, uscusername, uscidnumber, teammateaddress, teamcount, positivefeedback, negativefeedback)"
 //			+ "VALUES(?,?,?,?,?,?,?)";
+	
+	private final static String addRanking = "INSERT INTO " + DATABASE_NAME + ".ProjectRankings(student_id,project_id, rank) VALUES(?,?, ?)";
+
 	
 	private final static String addProjectEntry = "INSERT INTO " + DATABASE_NAME + ".Projects(project_name, status_id, min_size, max_size, technologies, background, description) \n" + 
 			"VALUES (?,?,?,?,?,?,?)";
@@ -113,6 +116,20 @@ public class SQLDriver {
 		}catch (SQLException e){e.printStackTrace();}
 		return username; //returns true if the user name is in use in the DB
 	}
+	
+	public int getUserIDFromEmail(String email){
+		int userid = 0;
+		try{
+			PreparedStatement ps = con.prepareStatement(getUserID);
+			ps.setString(1,email);
+			ResultSet result = ps.executeQuery();			
+			while(result.next()){
+				userid = result.getInt(1);	
+			}		
+		}catch (SQLException e){e.printStackTrace();}
+		return userid; //returns true if the user name is in use in the DB
+	}
+	
 	
 	public Vector<User> getAllUsers()
 	{
@@ -299,6 +316,23 @@ public class SQLDriver {
 			e.printStackTrace();
 		}
 	}
+	
+	///
+	
+	public void addRanking(int student_id, int project_id, int rank){
+		try{
+			PreparedStatement ps = con.prepareStatement(addUser);
+			ps.setInt(1, student_id);
+			ps.setInt(2, project_id);
+			ps.setInt(3, rank);
+			ps.executeUpdate();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
+	///
+	
 
 	public void addUserEntry(int user_type, String first_name, String last_name, String phone, String email, String password){
 		
