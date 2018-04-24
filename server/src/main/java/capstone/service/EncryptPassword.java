@@ -10,9 +10,9 @@ public class EncryptPassword {
 		encryptedPassword = bte.encryptPassword(textPassword);
 		return encryptedPassword;
 	}
-	public static Boolean checkPassword(String plainPassword, String encryptedPassword)
-	{
-		StrongPasswordEncryptor bte = new StrongPasswordEncryptor();
-		return bte.checkPassword(plainPassword,encryptedPassword);
-	}
+//	public static Boolean checkPassword(String plainPassword, String encryptedPassword)
+//	{
+//		StrongPasswordEncryptor bte = new StrongPasswordEncryptor();
+//		return bte.checkPassword(plainPassword,encryptedPassword);
+//	}
 }

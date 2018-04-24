@@ -62,9 +62,9 @@ public class UserController {
 			throw new ServletException("Invalid login");
 		}
 		
-		if (!EncryptPassword.checkPassword(password, user.getPassword())) {
-			throw new ServletException("Invalid login");
-		}
+//		if (!EncryptPassword.checkPassword(password, user.getPassword())) {
+//			throw new ServletException("Invalid login");
+//		}
 
 		String userType = user.getUserType();
 

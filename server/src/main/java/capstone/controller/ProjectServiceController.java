@@ -26,7 +26,7 @@ import capstone.model.User;
 import capstone.model.UserEmailsData;
 import capstone.model.WeeklyReportData;
 import capstone.repository.ProjectsRepository;
-import capstone.service.EncryptPassword;
+//import capstone.service.EncryptPassword;
 import capstone.session.UserSessionManager;
 import capstone.sql.SQLDriver;
 import mail.mailDriver;
@@ -364,7 +364,7 @@ public class ProjectServiceController
 					break;
 				}
 				trimindex = trimindex +22;
-//				if(trimindex < rankingdata.length())
+				if(trimindex < rankingdata.length())
 				{
 //					System.out.println("Trimming ......!");
 					rankingdata = rankingdata.substring(trimindex, rankingdata.length()-1);
@@ -375,8 +375,13 @@ public class ProjectServiceController
 //					break;
 //				}
 				n--;
+				System.out.println("GOT HEREH!!!!");
+				if(n<0)
+				{
+					break;
+				}
 		}
-		
+		System.out.println("GOT HERE");
 		for(String s : rankingsIds)
 		{
 			System.out.println("ProjectId : " + s);
@@ -456,7 +461,7 @@ public class ProjectServiceController
 			System.out.println("USER EMAIL EXISTS, CHECKING PASSWORD...");
 			//IF IT DOES, CHECK IF USERNAME PASSWORD COMBO IS VALID
 			String encryptedPassword = driver.getEncryptedPassword(logindata.getEmail());
-			if(EncryptPassword.checkPassword(logindata.getPassword(), encryptedPassword))
+//			if(EncryptPassword.checkPassword(logindata.getPassword(), encryptedPassword))
 			{
 				if(driver.confirmLoginAttempt(logindata.getEmail(), encryptedPassword))
 					{
@@ -478,10 +483,10 @@ public class ProjectServiceController
 						return u1.getUserType();
 					}
 			}		
-			else
-			{
-				System.out.println("INVALID PASSWORD");
-			}
+//			else
+//			{
+//				System.out.println("INVALID PASSWORD");
+//			}
 		}
 		else
 		{
@@ -543,9 +548,9 @@ public class ProjectServiceController
 		{
 			System.out.println("INITIAL PASSWORD = " + u.getPassword());
 			System.out.println("INITIAL EMAIL = " + u.getEmail());
-			String encryptedPass = EncryptPassword.encryptPassword(u.getPassword());
-			System.out.println("ENCRYPTEDPASS= " + encryptedPass);
-			driver.updatePassword(u.getEmail(), encryptedPass);
+//			String encryptedPass = EncryptPassword.encryptPassword(u.getPassword());
+//			System.out.println("ENCRYPTEDPASS= " + encryptedPass);
+//			driver.updatePassword(u.getEmail(), encryptedPass);
 		}
 	}
 	
