@@ -7,7 +7,7 @@ import {
     FormGroup,
     Col,
     FormControl,
-    ControlLabel    
+    ControlLabel,
 } from 'react-bootstrap';
 
 interface ProfileProps {
@@ -65,24 +65,24 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
         };
     }
     submitClicked() {
-        // var request = new XMLHttpRequest();
-        // request.withCredentials = true;
-        // request.open('POST', 'http://localhost:8080/userInfoUpdate/');
-        // request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        // var data = JSON.stringify({
-        //     firstName: this.state.firstName,
-        //     lastName: this.state.lastName,
-        //     email: this.state.email,
-        //     phone: this.state.phone
-        // });
-        // request.setRequestHeader('Cache-Control', 'no-cache');
-        // request.send(data);
-        // alert(request.responseText + 'Profile updating ...');
-        // request.onreadystatechange = function() {
-        //     if (request.readyState === 4) {
-        //         alert('Profile update submission SUCCESSFUL!');
-        //     }
-        // }; 
+        var request = new XMLHttpRequest();
+        request.withCredentials = true;
+        request.open('POST', 'http://localhost:8080/userProfileUpdate/');
+        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        var data = JSON.stringify({
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+            phone: this.state.phone
+        });
+        request.setRequestHeader('Cache-Control', 'no-cache');
+        request.send(data);
+        alert(request.responseText + 'Profile updating ...');
+        request.onreadystatechange = function() {
+            if (request.readyState === 4) {
+                alert('Profile update submission SUCCESSFUL!');
+            }
+        }; 
     }
     handleChange(e: any) {
         this.setState({ [e.target.id]: e.target.value });
@@ -131,7 +131,7 @@ class StudentProfile extends React.Component<ProfileProps, ProfileState> {
                             type="email" 
                             id="email"
                             value={this.state.email} 
-                            onChange={e => this.handleChange(e)} 
+                            disabled={true} 
                         />
                     </Col>             
                 </FormGroup>

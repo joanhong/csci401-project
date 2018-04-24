@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 import capstone.model.LoginData;
 import capstone.model.PeerReviewData;
 import capstone.model.Project;
-import capstone.model.ProjectData;
-import capstone.model.RankingData;
 import capstone.model.User;
-import capstone.model.UserData;
 import capstone.model.UserEmailsData;
 import capstone.model.WeeklyReportData;
 import capstone.repository.ProjectsRepository;
+import capstone.service.EncryptPassword;
 import capstone.session.UserSessionManager;
 import capstone.sql.SQLDriver;
 import mail.mailDriver;
@@ -161,12 +158,27 @@ public class ProjectServiceController
 			System.out.println(userdata.getEmail());
 			System.out.println(userdata.getUserType());
 			
-			//use sql to send this data to weeklyreportstable
 			driver.addUserInfoUpdate(userdata);
 //			mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
 			return userdata;
 		}
 		//XXXXXXXXXX
+		
+		@RequestMapping(value = "/userProfileUpdate",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+		@CrossOrigin(origins = "http://localhost:3000")
+		public @ResponseBody User userProfileUpdateAttempt(@RequestBody User userdata)
+		{
+			System.out.println("Received HTTP POST");
+			
+			System.out.println(userdata.getFirstName());
+			System.out.println(userdata.getLastName());
+			System.out.println(userdata.getPhone());
+			System.out.println(userdata.getEmail());
+			
+			driver.updateUserProfile(userdata);
+//			mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
+			return userdata;
+		}		
 	
 		//XXXXXXXXXXXX
 		@RequestMapping(value = "/projectApprovalAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
@@ -303,6 +315,7 @@ public class ProjectServiceController
 		
 		return emailsdata;
 	}
+	
 	
 	//////
 	@RequestMapping(value = "/projectRankingsSubmitAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
@@ -443,7 +456,7 @@ public class ProjectServiceController
 			System.out.println("USER EMAIL EXISTS, CHECKING PASSWORD...");
 			//IF IT DOES, CHECK IF USERNAME PASSWORD COMBO IS VALID
 			String encryptedPassword = driver.getEncryptedPassword(logindata.getEmail());
-			if(checkPassword(logindata.getPassword(), encryptedPassword))
+			if(EncryptPassword.checkPassword(logindata.getPassword(), encryptedPassword))
 			{
 				if(driver.confirmLoginAttempt(logindata.getEmail(), encryptedPassword))
 					{
@@ -508,8 +521,7 @@ public class ProjectServiceController
 	@CrossOrigin(origins = "http://localhost:3000")
 	public @ResponseBody User loggedInUser(@RequestBody String email)
 	{
-		System.out.println("Logged in user");
-		System.out.println("Received HTTP POST");
+		System.out.println("Received HTTP POST: loggedInUser");
 		
 		User user = driver.getUserByEmail(email);
 		System.out.println(user.getFirstName());
@@ -524,18 +536,6 @@ public class ProjectServiceController
 //		return null; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
 	}	
 	
-	String encryptPassword(String textPassword)
-	{
-		String encryptedPassword;
-		StrongPasswordEncryptor bte = new StrongPasswordEncryptor();
-		encryptedPassword = bte.encryptPassword(textPassword);
-		return encryptedPassword;
-	}
-	Boolean checkPassword(String plainPassword, String encryptedPassword)
-	{
-		StrongPasswordEncryptor bte = new StrongPasswordEncryptor();
-		return bte.checkPassword(plainPassword,encryptedPassword);
-	}
 	void encryptUserPasswords()
 	{
 		Vector<User> allUsers = driver.getAllUsers();
@@ -543,7 +543,7 @@ public class ProjectServiceController
 		{
 			System.out.println("INITIAL PASSWORD = " + u.getPassword());
 			System.out.println("INITIAL EMAIL = " + u.getEmail());
-			String encryptedPass = encryptPassword(u.getPassword());
+			String encryptedPass = EncryptPassword.encryptPassword(u.getPassword());
 			System.out.println("ENCRYPTEDPASS= " + encryptedPass);
 			driver.updatePassword(u.getEmail(), encryptedPass);
 		}

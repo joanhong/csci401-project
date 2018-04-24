@@ -46,8 +46,8 @@ public class Project implements Comparable {
 		this.sum_p = sum_p;
 	}
 	
-	public void incSum_p() {
-		this.sum_p = sum_p + 1;
+	public void incSum_p(int p) {
+		this.sum_p = sum_p + p;
 	}
 
 	public double getP_max() {
@@ -232,7 +232,7 @@ public class Project implements Comparable {
 		return this.projSatScore;
 	}
 	
-	public double returnPopularity() {
+	public double calculatePopularity() {
 		double first = (2 * this.sum_p) / (this.n * this.p_max);
 		double _popularity = ( first + (this.n / this.c) ) / 3;
 		
@@ -241,7 +241,7 @@ public class Project implements Comparable {
 	}
 	
 	public String toString() {
-		return ("Project #" + this.projectId + ": '" + this.projectName + "' | " + this.minSize + "-" + this.maxSize + " " + this.p_max);
+		return ("Project #" + this.projectId + ": '" + this.projectName + "' | " + this.minSize + "-" + this.maxSize + " " + this.sum_p);
 	}
 	
 	public void printMembers(PrintWriter writer) {
@@ -272,8 +272,8 @@ public class Project implements Comparable {
 			Project p1 = (Project) o1;
 			Project p2 = (Project) o2;
 						
-	        if (p1.returnPopularity() > p2.returnPopularity()) return -1;
-	        else if (p1.returnPopularity() < p2.returnPopularity()) return 1;
+	        if (p1.calculatePopularity() > p2.calculatePopularity()) return -1;
+	        else if (p1.calculatePopularity() < p2.calculatePopularity()) return 1;
 	        else return 0;
 		}
 	}

@@ -9,11 +9,11 @@ import java.util.Vector;
 
 import com.mysql.jdbc.Driver;
 
+import capstone.model.Organization;
 import capstone.model.PeerReviewData;
 import capstone.model.Project;
 import capstone.model.Student;
 import capstone.model.User;
-import capstone.model.UserData;
 import capstone.model.WeeklyReportData;
 
 public class SQLDriver {
@@ -25,21 +25,24 @@ public class SQLDriver {
 	private final static String findIfUserExists = "SELECT COUNT(*) FROM " + DATABASE_NAME + ".Users WHERE EMAIL=?";
 	private final static String getUserID = "SELECT ID FROM " + DATABASE_NAME + ".Users WHERE USERNAME=?";
 	private final static String addUser = "INSERT INTO " + DATABASE_NAME + ".Users(USERNAME,PASSWORD) VALUES(?,?)";
-	private final static String addUserEntry = "INSERT INTO " + DATABASE_NAME + ".Users(USER_TYPE, FIRST_NAME, LAST_NAME) VALUES(?,?,?)";
+	private final static String addUserEntry = "INSERT INTO " + DATABASE_NAME + ".Users(USER_TYPE, FIRST_NAME, LAST_NAME, PHONE_NUM, EMAIL, PASSWORD) VALUES(?,?,?,?,?,?)";
 	private final static String getUsername = "SELECT USERNAME FROM " + DATABASE_NAME + ".Users WHERE USER_ID=?";
 	private final static String getName = "SELECT FIRST_NAME, LAST_NAME FROM " + DATABASE_NAME + ".Users WHERE USER_ID=?";
 	private final static String getAllUsers = "SELECT * FROM " + DATABASE_NAME + ".Users";
 	private final static String getAllStakeholders = "SELECT * FROM " + DATABASE_NAME + ".Users JOIN " + DATABASE_NAME + ".StakeholderInfo ON stakeholder_id = user_id JOIN " + DATABASE_NAME + ".Organizations ON organization_id = org_id";
 	private final static String getAllProjects = "SELECT * FROM " + DATABASE_NAME + ".Projects";
 	private final static String getProjectByName = "SELECT * FROM " + DATABASE_NAME + ".Projects WHERE NAME=?";
-	private final static String getUserProjectRankings = "SELECT * FROM " + DATABASE_NAME + ".ProjectRankings WHERE STUDENT_ID=?";
+	private final static String getUserProjectRankings = "SELECT * FROM " + DATABASE_NAME + ".ProjectRankings WHERE STUDENT_ID=? ORDER BY rank";
 	private final static String updatePassword = "UPDATE " + DATABASE_NAME + ".USERS SET PASSWORD=? WHERE EMAIL=?";
 	private final static String getEncryptedPassword = "SELECT * FROM " + DATABASE_NAME + ".USERS WHERE EMAIL=?";
 	private final static String updateUserEntry = "UPDATE " + DATABASE_NAME + ".USERS SET first_name = ?, last_name = ?, email =?, user_type=? WHERE user_id=?";
+	private final static String updateUserEntryWithEmail = "UPDATE " + DATABASE_NAME + ".USERS SET first_name = ?, last_name = ?, phone_num=? WHERE email=?";
 	private final static String getRankingsCount = "SELECT COUNT(*) FROM " + DATABASE_NAME + ".ProjectRankings";
 	private final static String updateApprovalStatus = "UPDATE " + DATABASE_NAME + ".Projects SET status_id=? WHERE Project_id=?";
 	private final static String getUserByEmail = "SELECT * FROM " + DATABASE_NAME + ".Users WHERE EMAIL=?";
-	
+	private final static String addOrganizationEntry = "INSERT INTO " + DATABASE_NAME + ".Organizations(ORG_ID, ORGANIZATION) VALUES(?,?)";
+	private final static String getAllOrganizations = "SELECT * FROM " + DATABASE_NAME + ".Organizations";
+	private final static String addStakeholderInfoEntry = "INSERT INTO " + DATABASE_NAME + ".StakeholderInfo(STAKEHOLDER_ID, ORGANIZATION_ID) VALUES(?,?)";
 //	private final static String addWeeklyReport = "INSERT INTO " + DATABASE_NAME + 
 //			".WeeklyReportsTable(idWeeklyReportsTable, studentName, studentuscusername, projectNumber, date, "
 //			+ "thisWeeksTasksD1,thisWeeksTasksD2, thisWeeksTasksD3, thisWeeksTasksD4, thisWeeksTasksD5, thisWeeksTasksD6, thisWeeksTasksD7, "
@@ -156,6 +159,24 @@ public class SQLDriver {
 			}		
 		}catch (SQLException e){e.printStackTrace();}
 		return returnVector; //returns true if the user name is in use in the DB
+	}
+	
+	public Vector<Organization> getAllOrganizations()
+	{
+		Vector<Organization> returnVector = new Vector<>();
+		try{
+			PreparedStatement ps = con.prepareStatement(getAllOrganizations);
+			ResultSet result = ps.executeQuery();
+			while(result.next())
+			{
+				Organization o = new Organization();
+				o.setOrgId(Integer.valueOf(result.getInt(1)));
+				o.setOrganization(result.getString(2));
+				
+				returnVector.addElement(o);	
+			}		
+		}catch (SQLException e){e.printStackTrace();}
+		return returnVector; // returns true if the user name is in use in the DB
 	}
 	
 	public void addWeeklyReportEntry(WeeklyReportData weeklyreportdata) {
@@ -279,13 +300,16 @@ public class SQLDriver {
 		}
 	}
 
-	public void addUserEntry(int user_type, String first_name, String last_name){
+	public void addUserEntry(int user_type, String first_name, String last_name, String phone, String email, String password){
 		
 		try{
 			PreparedStatement ps = con.prepareStatement(addUserEntry);
 			ps.setInt(1, user_type);
 			ps.setString(2, first_name);
 			ps.setString(3, last_name);
+			ps.setString(4, phone);
+			ps.setString(5, email);
+			ps.setString(6, password);
 			ps.executeUpdate();
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -349,25 +373,28 @@ public class SQLDriver {
 	
 	public Vector<Project> getProjectsTable()
 	{
-		Vector<Project> returnVector = new Vector<Project>();
+		Vector<Project> projects = new Vector<Project>();
+
 		try{
 			PreparedStatement ps = con.prepareStatement(getAllProjects);
 			ResultSet result = ps.executeQuery();
 			while(result.next())
 			{
-				Project p = new Project(getStudentSatScore(1));
+				Project newProject = new Project(getStudentSatScore(1));
 				
-				p.setProjectId(result.getInt(1));
-				p.setProjectName(result.getString("PROJECT_NAME"));
-				p.setMaxSize(result.getInt(6));
-				p.setMinSize(result.getInt(7));
-				p.setStatusType(result.getString("STATUS_ID"));
+				newProject.setProjectId(result.getInt(1));
+				newProject.setProjectName(result.getString("PROJECT_NAME"));
+				newProject.setMaxSize(result.getInt(6));
+				newProject.setMinSize(result.getInt(7));
+				newProject.setStatusType(result.getString("STATUS_ID"));
 				
-				returnVector.addElement(p);				
+				projects.addElement(newProject);				
 			}		
-		}catch (SQLException e){e.printStackTrace();}
-		return returnVector; //returns true if the user name is in use in the DB
+		} catch (SQLException e) {e.printStackTrace();}
+		
+		return projects;
 	}
+	
 	public User getUserByEmail(String email)
 	{
 		String username = null;
@@ -390,8 +417,6 @@ public class SQLDriver {
 		}catch (SQLException e){e.printStackTrace();}
 		return u; // returns true if the user name is in use in the DB
 	}
-	
-	
 	
 	// returns vector of all Students and their rankings
 	// requires vector of existing Projects
@@ -494,6 +519,25 @@ public class SQLDriver {
 	}
 	///
 	
+	public void updateUserProfile(User userdata)
+	{
+		//UPDATE 401_Platform.USERS SET Full_name = ?, year = ?, email =?, user_type=? WHERE Full_name=?;
+		//If name was updated then how will you find it? BUG
+		try
+		{
+			PreparedStatement ps = con.prepareStatement(updateUserEntryWithEmail);
+			ps.setString(1, userdata.getFirstName());
+			ps.setString(2, userdata.getLastName());
+			ps.setString(3, userdata.getPhone());
+			ps.setString(4, userdata.getEmail());
+			ps.executeUpdate();
+			
+			System.out.println("Updated info for user: "+ userdata.getFirstName() + " " + userdata.getLastName());
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
 	public String getEncryptedPassword(String email)
 	{
 			try{
@@ -505,6 +549,31 @@ public class SQLDriver {
 				}		
 			}catch (SQLException e){e.printStackTrace();}
 			return null;
+	}
+	
+	public void addStakeholderInfoEntry(Integer userId, Integer orgId) {
+		try {
+			PreparedStatement ps = con.prepareStatement(addStakeholderInfoEntry);
+			ps.setInt(1, userId);
+			ps.setInt(2, orgId);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Integer addOrganization(String organization) {
+		try {
+			PreparedStatement ps = con.prepareStatement(addOrganizationEntry);
+			Integer orgId = getAllOrganizations().size()+1;
+			ps.setInt(1, orgId);
+			ps.setString(2, organization);
+			ps.executeUpdate();
+			return orgId;
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 	
 }

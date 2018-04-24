@@ -18,7 +18,8 @@ const style = {
 interface StakeholderRegistrationProps {
 }
 interface StakeholderRegistrationState {
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     phone: string;
     company: string;
@@ -29,7 +30,8 @@ class StakeholderRegistrationForm extends React.Component<StakeholderRegistratio
     constructor(props: StakeholderRegistrationProps) {
         super(props);
         this.state = {
-            name: '',
+            firstName: '',
+            lastName: '',
             email: '',
             phone: '',
             company: '',
@@ -45,7 +47,8 @@ class StakeholderRegistrationForm extends React.Component<StakeholderRegistratio
         request.open('POST', 'http://localhost:8080/stakeholderRegistrationAttempt/');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
-            firstName: this.state.name,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
             email: this.state.email,
             phone: this.state.phone,
             company: this.state.company,
@@ -54,13 +57,7 @@ class StakeholderRegistrationForm extends React.Component<StakeholderRegistratio
         request.setRequestHeader('Cache-Control', 'no-cache');
         request.send(data);
         request.onreadystatechange = function() {
-        /*if (request.readyState === 4) {
-            if (request.responseText.length > 4) {
-                alert('Stakeholder registration SUCCESSFUL!');
-            } else {
-                alert('Stakeholder registration FAILED.');
-            }
-        }*/
+            window.location.href = '/';
         };
     }
 
@@ -96,7 +93,8 @@ formGroup(controlId: string, type: string, id: string, placeholder: string, valu
                 <Col>
                 <div>
                 <Form horizontal={true} >
-                    {this.formGroup('formHorizontalName', 'text', 'name', 'Name', this.state.name)}
+                    {this.formGroup('formHorizontalFirstName', 'text', 'firstName', 'First Name', this.state.firstName)}
+                    {this.formGroup('formHorizontalLastName', 'text', 'lastName', 'Last Name', this.state.lastName)}
                     {this.formGroup('formHorizontalEmail', 'text', 'email', 'Email', this.state.email)}
                     {this.formGroup('formHorizontalPhone', 'text', 'phone', 'Phone', this.state.phone)}
                     {this.formGroup('formHorizontalCompany', 'text', 'company', 'Company/Organization', this.state.company)}
@@ -105,7 +103,7 @@ formGroup(controlId: string, type: string, id: string, placeholder: string, valu
 
                     <FormGroup>
                         <Col smOffset={3} sm={10}>
-                        <Button type="submit" onClick={this.submitClicked}>Register</Button>
+                        <Button type="reset" onClick={this.submitClicked}>Register</Button>
                         </Col>
                     </FormGroup>
                 </Form>
