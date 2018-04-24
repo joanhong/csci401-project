@@ -16,43 +16,100 @@ interface ProjectsListProps {
 
 interface ProjectsListState {
     projects: Array<Project>;
+    students: Array<StudentInfo>;
 }
 
 @DragDropContext(HTML5Backend)
 class ProjectsList extends React.Component<ProjectsListProps, ProjectsListState> {
     constructor(props: ProjectsListProps) {
         super(props);
+        this.moveCard = this.moveCard.bind(this);
+        this.findOldProjectCard = this.findOldProjectCard.bind(this);
+
+        let students: StudentInfo[] = [];
+        props.projects.forEach(project => {
+            project.members.forEach(student => {
+                students.push(student);
+            });
+        });
     
         this.state = {
-            projects: props.projects
+            projects: props.projects,
+            students: students
         };
     }
 
-    moveCard(student: StudentInfo, oldProjectIndex: number, newProjectIndex: number) {
-        if (oldProjectIndex === newProjectIndex) {
+    moveCard(studentId: number, newProjectId: number) {
+        const { projects } = this.state;
+
+        // find and remove student from former project
+        const { studentInfo, projectCard, index, error } = this.findOldProjectCard(studentId);
+
+        if (error !== 0) {
+            // couldn't find student or project
             return;
         }
-        const { projectCard, index } = this.findCard(newProjectIndex);
-        const { projects } = this.state;
-        const newMembers = projects[index].members.concat(student);
-        projectCard.members = newMembers;
-        var newProjects = projects.splice(index, 1, projectCard);
 
-        const result = this.findCard(oldProjectIndex);
-        const oldProjectCard = result.projectCard;
-        const oldIndex = result.index;
-        const oldMembersUpdated = projects[oldIndex].members.filter((s: StudentInfo) => 
-            s.studentId !== student.studentId
-        ); // fix this
-        oldProjectCard.members = oldMembersUpdated;
-    
-        newProjects.splice(oldProjectIndex, 1, oldProjectCard);
+        if (projectCard.projectId === newProjectId) {
+            // dropping into same project
+            return;
+        }
+
+        const updatedOldProjectCard = {
+            projectId: projectCard.projectId,
+            projectName: projectCard.projectName,
+            minSize: projectCard.minSize,
+            maxSize: projectCard.maxSize,
+            members: projectCard.members.filter((s: StudentInfo) => 
+                s.studentId !== studentInfo.studentId
+            )
+        };
+        let newProjects = projects;
+        newProjects.splice(index, 1, updatedOldProjectCard);
+
+        // find and add student to new project
+        const newProjectResult = this.findCard(newProjectId);
+        const newProjectCard = newProjectResult.projectCard;
+        newProjectCard.members = newProjectCard.members.concat(studentInfo);
+        newProjects.splice(newProjectResult.index, 1, newProjectCard);
+
         this.setState({projects: newProjects});
+    }
+
+    findOldProjectCard(studentId: number) {
+        const { projects, students } = this.state;
+        const { projectCard, error } = this.findProjectByStudent(studentId);
+
+        return {
+            projectCard,
+            index: projects.indexOf(projectCard),
+            studentInfo: students.filter(student => student.studentId === studentId)[0],
+            error
+        };
+    }
+
+    findProjectByStudent(studentId: number) {
+        const { projects } = this.state;
+        let projectCard = projects[0];
+        let error = 1;
+        projects.forEach(project => {
+            project.members.forEach(member => {
+                if (member.studentId === studentId) {
+                    projectCard = project;
+                    error = 0;
+                }
+            });
+        });
+
+        return {
+            projectCard,
+            error
+        };
     }
 
     findCard(projectId: number) {
         const { projects } = this.state;
-        const projectCard = projects.filter(c => c.projectId === projectId)[0];
+        const projectCard = projects.filter(project => project.projectId === projectId)[0];
 
         return {
             projectCard,
@@ -61,7 +118,7 @@ class ProjectsList extends React.Component<ProjectsListProps, ProjectsListState>
     }
 
     render() {
-        const {projects} = this.props;
+        const {projects} = this.state;
         return (
             <Table bordered={true}>
             <thead>
@@ -77,8 +134,8 @@ class ProjectsList extends React.Component<ProjectsListProps, ProjectsListState>
                 <ProjectCard 
                     project={project}
                     key={project.projectId}
+                    id={project.projectId}
                     moveCard={this.moveCard}
-                    findCard={this.findCard} 
                 />      
             )}
             </tbody>

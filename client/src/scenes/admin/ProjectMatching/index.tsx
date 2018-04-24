@@ -24,6 +24,7 @@ export type StudentInfo = {
   firstName: string;
   lastName: string;
   rankings: Array<{}>;
+  orderedRankings: Array<{}>;
 };
 
 export type Project = {
@@ -73,7 +74,7 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
           <Grid>
             <Row>
                 <Col lg={8}>
-                <FormGroup controlId="formBasicText">
+                <FormGroup>
                   <FormControl
                     type="text"
                     placeholder="Enter number of ranked projects to consider"
