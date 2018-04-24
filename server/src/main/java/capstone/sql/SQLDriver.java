@@ -36,9 +36,10 @@ public class SQLDriver {
 	private final static String updatePassword = "UPDATE " + DATABASE_NAME + ".USERS SET PASSWORD=? WHERE EMAIL=?";
 	private final static String getEncryptedPassword = "SELECT * FROM " + DATABASE_NAME + ".USERS WHERE EMAIL=?";
 	private final static String updateUserEntry = "UPDATE " + DATABASE_NAME + ".USERS SET first_name = ?, last_name = ?, email =?, user_type=? WHERE user_id=?";
+	private final static String updateUserEntryWithEmail = "UPDATE " + DATABASE_NAME + ".USERS SET first_name = ?, last_name = ?, phone_num=? WHERE email=?";
 	private final static String getRankingsCount = "SELECT COUNT(*) FROM " + DATABASE_NAME + ".ProjectRankings";
 	private final static String updateApprovalStatus = "UPDATE " + DATABASE_NAME + ".Projects SET status_id=? WHERE Project_id=?";
-	private final static String getUserByEmail = "SELECT * FROM " + DATABASE_NAME + ".Users WHERE EMAIL=?";
+	private final static String getUserByEmail = "SELECT * FROM " + DATABASE_NAME + ".Users WHERE EMAIL=?";	
 	
 //	private final static String addWeeklyReport = "INSERT INTO " + DATABASE_NAME + 
 //			".WeeklyReportsTable(idWeeklyReportsTable, studentName, studentuscusername, projectNumber, date, "
@@ -493,6 +494,25 @@ public class SQLDriver {
 		}
 	}
 	///
+	
+	public void updateUserProfile(User userdata)
+	{
+		//UPDATE 401_Platform.USERS SET Full_name = ?, year = ?, email =?, user_type=? WHERE Full_name=?;
+		//If name was updated then how will you find it? BUG
+		try
+		{
+			PreparedStatement ps = con.prepareStatement(updateUserEntryWithEmail);
+			ps.setString(1, userdata.getFirstName());
+			ps.setString(2, userdata.getLastName());
+			ps.setString(3, userdata.getPhone());
+			ps.setString(4, userdata.getEmail());
+			ps.executeUpdate();
+			
+			System.out.println("Updated info for user: "+ userdata.getFirstName() + " " + userdata.getLastName());
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
 	
 	public String getEncryptedPassword(String email)
 	{

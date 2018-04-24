@@ -66,22 +66,24 @@ class StakeholderProfile extends React.Component<ProfileProps, ProfileState> {
         };
     }
     submitClicked() {
-   /*     var request = new XMLHttpRequest();
+        var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080//');
+        request.open('POST', 'http://localhost:8080/stakeholderProfileUpdate/');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
-            fullName: this.state.name,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
             email: this.state.email,
             phone: this.state.phone
         });
         request.setRequestHeader('Cache-Control', 'no-cache');
         request.send(data);
-        alert(request.responseText + 'Logging you in...');
+        alert(request.responseText + 'Profile updating ...');
         request.onreadystatechange = function() {
             if (request.readyState === 4) {
+                alert('Profile update submission SUCCESSFUL!');
             }
-        }; */
+        };         
     }
     handleChange(e: any) {
         this.setState({ [e.target.id]: e.target.value });
@@ -130,7 +132,7 @@ class StakeholderProfile extends React.Component<ProfileProps, ProfileState> {
                             type="email" 
                             id="email"
                             value={this.state.email} 
-                            onChange={e => this.handleChange(e)}  
+                            disabled={true}
                         />
                     </Col>             
                 </FormGroup>
@@ -144,7 +146,7 @@ class StakeholderProfile extends React.Component<ProfileProps, ProfileState> {
                             type="text"
                             id="company" 
                             value={this.state.company}
-                            onChange={e => this.handleChange(e)} 
+                            disabled={true}
                         />
                     </Col>             
                 </FormGroup>                

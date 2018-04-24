@@ -161,12 +161,27 @@ public class ProjectServiceController
 			System.out.println(userdata.getEmail());
 			System.out.println(userdata.getUserType());
 			
-			//use sql to send this data to weeklyreportstable
 			driver.addUserInfoUpdate(userdata);
 //			mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
 			return userdata;
 		}
 		//XXXXXXXXXX
+		
+		@RequestMapping(value = "/userProfileUpdate",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+		@CrossOrigin(origins = "http://localhost:3000")
+		public @ResponseBody User userProfileUpdateAttempt(@RequestBody User userdata)
+		{
+			System.out.println("Received HTTP POST");
+			
+			System.out.println(userdata.getFirstName());
+			System.out.println(userdata.getLastName());
+			System.out.println(userdata.getPhone());
+			System.out.println(userdata.getEmail());
+			
+			driver.updateUserProfile(userdata);
+//			mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");
+			return userdata;
+		}		
 	
 		//XXXXXXXXXXXX
 		@RequestMapping(value = "/projectApprovalAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
@@ -477,8 +492,7 @@ public class ProjectServiceController
 	@CrossOrigin(origins = "http://localhost:3000")
 	public @ResponseBody User loggedInUser(@RequestBody String email)
 	{
-		System.out.println("Logged in user");
-		System.out.println("Received HTTP POST");
+		System.out.println("Received HTTP POST: loggedInUser");
 		
 		User user = driver.getUserByEmail(email);
 		System.out.println(user.getFirstName());
