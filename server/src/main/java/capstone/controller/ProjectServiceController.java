@@ -312,6 +312,9 @@ public class ProjectServiceController
 	{
 		System.out.println("Received HTTP POST");
 		System.out.println(rankingdata);
+		int emailIndex = rankingdata.indexOf("email");
+		String emailStr = rankingdata.substring(emailIndex, rankingdata.length()-1);
+		System.out.println("THE EMAIL IS = " + emailStr);
 		//STEPS
 		//HOW TO GET USERID WITH NEW JWT SYSTEM??
 		//GET STUDENT ID
@@ -321,24 +324,52 @@ public class ProjectServiceController
 		
 //		String addr = request.getHeader(HttpHeaders.ORIGIN);
 //		User u1 = usm.getUser(addr);
-		
-		/* TO EXTRACT STRING
-		int startindex = projectlist.indexOf("name");
-				int endindex = projectlist.indexOf("minSize");
+		Vector<String> rankingsIds = new Vector<String>();
+		int n=20;	
+		while(rankingdata.indexOf("projectId") != -1)
+		{
+				int startindex = rankingdata.indexOf("projectId");
+				int endindex = rankingdata.indexOf("stakeholderId");
 				if(startindex == -1 || endindex == -1)
 				{
 					break;
 				}
-				String dirtyString = projectlist.substring(startindex, endindex);
+				String dirtyString = rankingdata.substring(startindex, endindex);
+//				System.out.println("SUBSTRING string WAS : " + dirtyString);
 				dirtyString = dirtyString.replace('"', ' ');
 				dirtyString = dirtyString.replace(':', ' ');
 				dirtyString = dirtyString.replace(',', ' ');
-				dirtyString = dirtyString.replaceAll("name", " ");
+				dirtyString = dirtyString.replaceAll("projectId", " ");
+//				System.out.println("dirty string WAS : " + dirtyString);
+				dirtyString = dirtyString.substring(0, 6);
 				dirtyString = dirtyString.trim();
-//				System.out.println(dirtyString);
-				projectNames.add(dirtyString);
-		*/
+//				System.out.println("project id WAS : " + dirtyString);
+				rankingsIds.add(dirtyString);
+				int trimindex = rankingdata.indexOf("adminComments");
+				if(trimindex == -1)
+				{
+					break;
+				}
+				trimindex = trimindex +22;
+//				if(trimindex < rankingdata.length())
+				{
+//					System.out.println("Trimming ......!");
+					rankingdata = rankingdata.substring(trimindex, rankingdata.length()-1);
+//					System.out.println("TRIMMED NOW IS - " + rankingdata);
+				}
+//				else
+//				{
+//					break;
+//				}
+				n--;
+		}
 		
+		for(String s : rankingsIds)
+		{
+			System.out.println("ProjectId : " + s);
+		}
+				
+				
 		//get user from addr using usm
 		//find projects from sqldriver and then populate projectRankings table with 5 entries
 
@@ -349,14 +380,14 @@ public class ProjectServiceController
 		//find rankingtable count divide by 5 and add 1 to get next student number
 
 		//get a list of all projects
-		Vector<Project> allProjects = driver.getAllProjects();
-
-		//find the ordered list of rankings
-		
-		for(Project p : allProjects)
-		{
-				driver.addProjectRankingEntry(0, p.getProjectId()+1, 5);
-		}
+//		Vector<Project> allProjects = driver.getAllProjects();
+//
+//		//find the ordered list of rankings
+//		
+//		for(Project p : allProjects)
+//		{
+//				driver.addProjectRankingEntry(0, p.getProjectId()+1, 5);
+//		}
 		
 		
 //		mailDriver maildriver = new mailDriver("csci401server", "drowssap$$$");

@@ -17,7 +17,7 @@ import capstone.model.UserData;
 import capstone.model.WeeklyReportData;
 
 public class SQLDriver {
-	private final static String DATABASE_NAME = "401_Platform";
+	private final static String DATABASE_NAME = "401Platform";
 	private final static String PASSWORD = "";
 	
 	private Connection con;
