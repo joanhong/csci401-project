@@ -51,17 +51,10 @@ submitClicked() {
     });
     request.setRequestHeader('Cache-Control', 'no-cache');
     request.send(data);
-    alert(request.responseText + 'Logging you in...');
     request.onreadystatechange = function() {
-    if (request.readyState === 4) {
-            if (request.responseText.length > 4) {
-                alert('Admin registration SUCCESSFUL!');
-            } else {
-                alert('Admin registration FAILED.');
-            }
-    }
+        window.location.href = '/';
     };
-    window.location.href = '/';
+    
 }
 
 handleChange(e: any) {
@@ -102,7 +95,7 @@ formGroup(controlId: string, type: string, id: string, placeholder: string, valu
 
             <FormGroup>
                 <Col smOffset={2} sm={10}>
-                <Button type="submit" onClick={this.submitClicked}>Register</Button>
+                <Button type="reset" onClick={this.submitClicked}>Register</Button>
                 </Col>
             </FormGroup>
         </Form>

@@ -29,6 +29,16 @@ public class Student extends User {
 		setRankings(new HashMap<String, Integer>());
 		setOrderedRankings(new Vector<String>());
 	}
+	
+	public Student(Student orig) {
+		this.setFirstName(orig.getFirstName());
+		this.setLastName(orig.getLastName());
+		this.setEmail(orig.getEmail());
+		this.setUserId(orig.getUserId());
+		this.project = orig.project;
+		this.rankings = orig.rankings;
+		this.orderedRankings = orig.orderedRankings;
+	}
 
 	public String toString() {
 		return ("Student #" + this.uscid + ": '" + this.getFirstName() + "' | " + this.getRankings());

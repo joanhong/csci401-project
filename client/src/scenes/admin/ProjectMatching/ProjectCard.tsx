@@ -8,36 +8,15 @@ import {
     Project,
 } from './index';
 
-interface ProjectCardProps {
-    project: Project;
-    key: number;
-    canDrop?: PropTypes.bool.isRequired;
-    connectDropTarget?: PropTypes.func.isRequired;
-    moveCard: PropTypes.func.isRequired;
-    findCard: PropTypes.func.isRequired;
-}
-
-interface ProjectCardState {
-
-}
-
 const cardTarget = {
     canDrop(props: any) {
-        return false;
+        return true;
     },
 
-    drop(props: any) {
-        return {};
-    },
-
-    hover(props: any, monitor: any) {
-        const { id: draggedId } = monitor.getItem();
-        const { id: overId } = props;
-
-        if (draggedId !== overId) {
-            const { index: overIndex } = props.findCard(overId);
-            props.moveCard(draggedId, overIndex);
-        }
+    drop(props: any, monitor: any) {
+        const { student } = monitor.getItem();
+        const { id: thisId } = props;
+        props.moveCard(student.userId, thisId);
     },
 };
 
@@ -48,6 +27,19 @@ function collect(connect: any, monitor: any) {
     };
 }
 
+interface ProjectCardProps {
+    project: PropTypes.any.isRequired;
+    key: PropTypes.any.isRequired;
+    id: PropTypes.any.isRequired;
+    canDrop?: PropTypes.bool.isRequired;
+    connectDropTarget?: PropTypes.func.isRequired;
+    moveCard: PropTypes.func.isRequired;
+}
+
+interface ProjectCardState {
+
+}
+
 @DropTarget(ItemTypes.STUDENT, cardTarget, collect)
 class ProjectCard extends React.Component<ProjectCardProps, ProjectCardState> {
     constructor(props: ProjectCardProps) {
@@ -56,7 +48,7 @@ class ProjectCard extends React.Component<ProjectCardProps, ProjectCardState> {
         this.state = {
         };
     }
-    
+
     render() {
         const {project, key, connectDropTarget} = this.props;
         return connectDropTarget(

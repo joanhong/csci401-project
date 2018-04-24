@@ -1,11 +1,15 @@
 package capstone.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 
 
@@ -14,7 +18,7 @@ public class AdminConfiguration {
 	
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer id;
+	private Long id;
 	
 	public Date deliverableOneDate;
 	public Date deliverableTwoDate;
@@ -25,10 +29,22 @@ public class AdminConfiguration {
 	public Date deliverableSevenDate;
 	public Long numRankedProjects;
 	
-	public Integer getId() {
+	@OneToMany(targetEntity=Project.class, cascade=CascadeType.MERGE)
+	public List<Project> assignment; 
+	
+	public AdminConfiguration() {
+		this.assignment = new ArrayList<>();
+	}
+	public List<Project> getAssignment() {
+		return assignment;
+	}
+	public void setAssignment(List<Project> assignment) {
+		this.assignment = assignment;
+	}
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public Date getDeliverableOneDate() {

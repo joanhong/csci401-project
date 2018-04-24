@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import capstone.model.Project;
 import capstone.model.Proposal;
@@ -15,6 +16,9 @@ public class Stakeholder extends User {
 	
 	@OneToMany(targetEntity=Project.class)
 	private Collection<Project> projectIds;
+	//@OneToOne(targetEntity=Project.class)
+	//private Project project;
+	
 	@OneToMany(targetEntity=Proposal.class)
 	private Collection<Proposal> proposalIds;
 	
@@ -38,6 +42,12 @@ public class Stakeholder extends User {
 	public Collection<Project> getProjectIds() {
 		return projectIds;
 	}
+	/*public Project getProject() {
+		return project;
+	}
+	public void setProject(Project project) {
+		this.project = project;
+	}*/
 	public int getAvgRating() {
 		return avgRating;
 	}

@@ -1,16 +1,21 @@
 package capstone.model;
 
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import capstone.model.users.Stakeholder;
 import capstone.model.users.Student;
 import capstone.util.ProjectAssignment;
 
@@ -24,8 +29,8 @@ public class Project implements Comparable<Object> {
 		double c; // cutoff
 		double popularity;
 		double projSatScore;
-		
-		@OneToMany(targetEntity=Student.class)
+
+		@OneToMany(targetEntity=Student.class, cascade=CascadeType.ALL)
 		public List<Student> members;
 		
 		// information that correlates directly to db.Projects
@@ -42,6 +47,7 @@ public class Project implements Comparable<Object> {
 			this.members = members;
 		}
 
+		@JsonIgnore
 		@Transient
 		String statusType; // not in db table
 		int semester;
@@ -51,7 +57,7 @@ public class Project implements Comparable<Object> {
 		String background;
 		String technologies;
 		String adminComments;
-
+		
 		public double getSum_p() {
 			return sum_p;
 		}
@@ -60,8 +66,8 @@ public class Project implements Comparable<Object> {
 			this.sum_p = sum_p;
 		}
 		
-		public void incSum_p() {
-			this.sum_p = sum_p + 1;
+		public void incSum_p(int p) {
+			this.sum_p = sum_p + p;
 		}
 
 		public double getP_max() {
@@ -222,7 +228,25 @@ public class Project implements Comparable<Object> {
 		
 		public Project()
 		{
-			
+			this.members = new ArrayList<Student>();
+		}
+		
+		public Project(Project orig) {
+			this.members = new ArrayList<Student>();
+			for (Student s : orig.members) {
+				this.members.add(new Student(s));
+			}
+			this.sum_p = orig.sum_p;
+			this.p_max = orig.p_max;
+			this.n = orig.n;
+			this.c = orig.c;
+			this.popularity = orig.popularity;
+			this.projSatScore = orig.projSatScore;
+			this.projectId = orig.projectId;
+			this.projectName = orig.projectName;
+			this.statusId = orig.statusId;
+			this.minSize = orig.minSize;
+			this.maxSize = orig.maxSize;
 		}
 		
 		public double returnProjSatScore() {
@@ -250,7 +274,7 @@ public class Project implements Comparable<Object> {
 			return ("Project #" + this.projectId + ": '" + this.projectName + "' | " + this.minSize + "-" + this.maxSize + " " + this.p_max);
 		}
 		
-		public void printMembers(PrintWriter writer) {
+		public void printMembers() {
 			for (Student s : this.members) {
 				System.out.print(s.getFirstName() + " " + s.getLastName() + " ");
 			}

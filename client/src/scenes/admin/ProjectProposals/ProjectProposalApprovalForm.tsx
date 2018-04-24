@@ -21,7 +21,7 @@ selected: boolean;
 interface Project {
     projectId: number;
     projectName: string;
-    status: string;
+    statusId: number;
     minSize: string;
     maxSize: string;
     technologies: string;
@@ -42,7 +42,7 @@ class ProjectProposalApprovalForm extends React.Component<ProjectListProps, Proj
         this.handleChange = this.handleChange.bind(this);
         this.toggleCheckboxes = this.toggleCheckboxes.bind(this);
     }
-    submitClicked() {
+    submitClicked(projectId: number, type: number) {
         /*var request = new XMLHttpRequest();
         request.withCredentials = true;
         request.open('POST', 'http://localhost:8080/projectApprovalAttempt/');
@@ -54,24 +54,29 @@ class ProjectProposalApprovalForm extends React.Component<ProjectListProps, Proj
         request.send(data); */
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/projects/approve');
+        if (type === 1) {
+            request.open('POST', 'http://localhost:8080/projects/pending/' + projectId);
+        } else if (type === 2) {
+            request.open('POST', 'http://localhost:8080/projects/approve/' + projectId);
+        } else if (type === 3) {
+            request.open('POST', 'http://localhost:8080/projects/reject/' + projectId);
+        } else if (type === 4) {
+            request.open('POST', 'http://localhost:8080/projects/change/' + projectId);
+        }
+        
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        var data = JSON.stringify({
-        projects: this.state.projects,
-        });
         request.setRequestHeader('Cache-Control', 'no-cache');
-        request.send(data);
-        alert('Projects have been approved!');
-
+        request.send();
     }
+
     handleChange(e: any) {
         let projects = this.state.projects;
         let name = e.target.value;
         {projects.map((project: Project) => {
             if (project.projectName === name && e.target.checked) {
-                project.status = 'Approved';
+                project.statusId = 2;
             } else if (project.projectName === name && !e.target.checked) {
-                project.status = 'Pending Approval';
+                project.statusId = 1;
             }
         }); }
 
@@ -97,6 +102,17 @@ class ProjectProposalApprovalForm extends React.Component<ProjectListProps, Proj
             .then(response => response.json())
             .then(data => this.setState({projects: data, isLoading: false}));
     }
+
+    getStatus(id: number) {
+        if (id === 0 || id === 1) {
+            return 'Pending Approval';
+        } else if (id === 2) {
+            return 'Approved';
+        } else if (id === 3) {
+            return 'Rejected';
+        }
+        return 'Changes Requested';
+    }
     
     render() {
         const {projects, isLoading} = this.state;
@@ -109,9 +125,6 @@ class ProjectProposalApprovalForm extends React.Component<ProjectListProps, Proj
             <div>
                 <h2>Project Proposals</h2>
                 <Form>
-                    <FormGroup>
-                        <Button type="submit" onClick={this.submitClicked}>Approve Projects</Button>
-                    </FormGroup>
                 <Table bordered={true}>
                     <thead>
                         <tr>
@@ -120,24 +133,23 @@ class ProjectProposalApprovalForm extends React.Component<ProjectListProps, Proj
                             <th>Project Status</th>
                             <th>Min Size</th>
                             <th>Max Size</th>
+                            <th>Description</th>
                         </tr>
                     </thead>
                     <tbody>
                         {projects.map((project: Project) =>
                             <tr key={project.projectId}>
                                 <td>               
-                                    <FormControl
-                                        type="checkbox"
-                                        id="select"
-                                        checked={this.state.selected[project.projectId]}
-                                        value={project.projectId}
-                                        onChange={e => this.handleChange(e)}
-                                    />
+                                    <Button type="submit" bsStyle="success" onClick={() => this.submitClicked(project.projectId, 2)}>Approve</Button>
+                                    <Button type="submit" bsStyle="danger" onClick={() => this.submitClicked(project.projectId, 3)}>Reject</Button>
+                                    <Button type="submit" bsStyle="warning" onClick={() => this.submitClicked(project.projectId, 4)}>Changes</Button>
+
                                 </td>
                                 <td>{project.projectName}</td>
-                                <td>{project.status}</td>
+                                <td>{this.getStatus(project.statusId)}</td>
                                 <td>{project.minSize}</td>
                                 <td>{project.maxSize}</td>
+                                <td>{project.description}</td>
                             </tr>
                         )}
                     </tbody>

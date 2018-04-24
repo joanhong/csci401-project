@@ -45,7 +45,6 @@ class LoginForm extends React.Component<LoginProps, LoginState> {
         });
         request.setRequestHeader('Cache-Control', 'no-cache');
         request.send(data);
-        alert('Logging you in...');
         sessionStorage.setItem('email', this.state.email);
         request.onreadystatechange = function() {
             if (request.readyState === 4) {
@@ -65,6 +64,8 @@ class LoginForm extends React.Component<LoginProps, LoginState> {
                         }
                         var token = resp[0];
                         callback.apply(this, [token]);
+
+                        alert('Logging you in...');
                     }
                 }
             }
@@ -111,7 +112,7 @@ class LoginForm extends React.Component<LoginProps, LoginState> {
 
             <FormGroup>
                 <Col smOffset={2} sm={10}>
-                <Button type="submit" onClick={this.submitClicked}>Sign in</Button>
+                <Button type="reset" onClick={this.submitClicked}>Sign in</Button>
                 </Col>
             </FormGroup>
 

@@ -2,8 +2,8 @@ package capstone.controller;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import capstone.model.Project;
 import capstone.model.users.Stakeholder;
+import capstone.model.users.Student;
 import capstone.model.users.User;
 import capstone.service.ProjectService;
 import capstone.service.UserService;
@@ -30,6 +31,7 @@ public class ProjectController
 	private ProjectService projectService;
 	@Autowired
 	private UserService userService;
+	
 	
 	public ProjectController()
 	{
@@ -52,8 +54,21 @@ public class ProjectController
 	public List<Project> projectAssignment()
 	{
 		System.out.println("running assignment");
+		/*List<Project> existing = projectService.getExistingAssignments();
+		if (existing != null && existing.size() > 0) {
+			return existing;
+		}*/
 		return projectService.runAlgorithm();
 		//return projectService.runAlgorithm(getProjects(), (List<Student>)userService.getStudents());
+	}
+	
+	@GetMapping("/assignment/exists")
+	public String assignmentExists() {
+		List<Project> existing = projectService.getExistingAssignments();
+		if (existing != null && existing.size() > 0) {
+			return "true";
+		}
+		return "false";
 	}
 	
 	@GetMapping("/{email:.+}")
@@ -87,8 +102,8 @@ public class ProjectController
 		System.out.println(project);
 		System.out.println(project.getProjectName());
 		project.setStatusId(1);
+		User user = userService.findUserByEmail(email);
 	    projectService.save(project);
-	    User user = userService.findUserByEmail(email);
 	    userService.saveProject(user, project);
 		return project; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
 	}
@@ -102,6 +117,93 @@ public class ProjectController
 		}
 		return Constants.SUCCESS;
 	}
+	
+	@PostMapping("/assignToStudents")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody String assignProjectsToStudents(@RequestBody ArrayList<Project> projects) {
+		for (Project project : projects) {
+			//projectService.save(project);
+			if (project.getProjectId() > 0) {
+				Project saveProject = projectService.findByProjectId(project.getProjectId());
+				//List<Student> saveMembers = new ArrayList<Student>();
+				for (Student student : project.getMembers()) {
+					Student saveStudent = userService.findByUserId(student.getUserId());
+					//saveMembers.add(saveStudent);
+					saveStudent.setProject(project);
+					userService.saveUser(saveStudent);
+				}
+				//saveProject.setMembers(saveMembers);
+			}
+		}
+		projectService.saveAssignment(projects);
+		return Constants.SUCCESS;
+	}
+	
+	@GetMapping("/user/{email:.+}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody Project getUserProject(@PathVariable("email") String email) {
+		Student user = (Student) userService.findUserByEmail(email);
+		System.out.println(user.getProject().getProjectName());
+		return user.getProject();
+	}
+	
+	@GetMapping("/students/{projectId}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody List<User> getAllStudentsOnProject(@PathVariable("projectId") int projectId) {
+		return userService.findAllByProject(projectService.findByProjectId(projectId));
+	}
+	
+	@GetMapping("/stakeholder/{projectId}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody User getStakeholderOnProject(@PathVariable("projectId") int projectId) {
+		List<Stakeholder> stakeholders = (List<Stakeholder>) userService.getStakeholders();
+		for (Stakeholder s : stakeholders) {
+			for (Project p : s.getProjectIds()) {
+				if (p.getProjectId() == projectId) {
+					return s;
+				}
+			}
+		}
+		return null;
+	}
+	
+	@PostMapping("/pending/{projectId}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody String pendingProjects(@PathVariable("projectId") int projectId) {
+		Project project = projectService.findByProjectId(projectId);
+		project.setStatusId(1);
+		projectService.save(project);
+		return Constants.SUCCESS;
+	}
+	
+	@PostMapping("/approve/{projectId}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody String approveProjects(@PathVariable("projectId") int projectId) {
+		Project project = projectService.findByProjectId(projectId);
+		project.setStatusId(2);
+		projectService.save(project);
+		return Constants.SUCCESS;
+	}
+	
+	@PostMapping("/reject/{projectId}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody String rejectProjects(@PathVariable("projectId") int projectId) {
+		Project project = projectService.findByProjectId(projectId);
+		project.setStatusId(3);
+		projectService.save(project);
+		return Constants.SUCCESS;
+	}
+	
+	@PostMapping("/change/{projectId}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody String requestChangeProjects(@PathVariable("projectId") int projectId) {
+		Project project = projectService.findByProjectId(projectId);
+		project.setStatusId(4);
+		projectService.save(project);
+		return Constants.SUCCESS;
+	}
+	
+	
 }
 
 	

@@ -24,6 +24,7 @@ export type StudentInfo = {
   firstName: string;
   lastName: string;
   rankings: Array<{}>;
+  orderedRankings: Array<{}>;
 };
 
 export type Project = {
@@ -44,6 +45,9 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
       isLoading: false,
       isLaunched: false
     };
+    this.launch = this.launch.bind(this);
+    this.buttonTitle = this.buttonTitle.bind(this);
+    this.assignProjects = this.assignProjects.bind(this);
   }
 
   componentDidMount() {
@@ -55,6 +59,26 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
     fetch('http://localhost:8080/projects/assignment')
       .then(response => response.json())
       .then(data => this.setState({projects: data}));
+  }
+
+  buttonTitle() {
+    if (this.state.isLaunched) {
+      return 'Clear Matchings';
+    }
+    return 'Let the games begin.';
+  }
+
+  assignProjects() {
+    var request = new XMLHttpRequest();
+    request.withCredentials = true;
+    request.open('POST', 'http://localhost:8080/projects/assignToStudents');
+    var data = JSON.stringify(
+        this.state.projects
+    );
+    request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+    request.setRequestHeader('Cache-Control', 'no-cache');
+    request.send(data);
+    alert('Projects Assigned');
   }
 
   render() {
@@ -73,19 +97,19 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
           <Grid>
             <Row>
                 <Col lg={8}>
-                <FormGroup controlId="formBasicText">
+                <FormGroup>
                   <FormControl
                     type="text"
                     placeholder="Enter number of ranked projects to consider"
                   />
                   <FormControl.Feedback />
-                  <Button onClick={this.launch} style={{margin: 5}}>
-                    Let the games begin.
+                  <Button type="submit" onClick={this.launch} style={{margin: 5}}>
+                    {this.buttonTitle()}
                   </Button>
                 </FormGroup>
                 </Col>
                 <Col lg={4}>
-                  <Button bsStyle="primary" disabled={projects.length === 0}>
+                  <Button onClick={this.assignProjects} bsStyle="primary" disabled={projects.length === 0}>
                       Assign Projects
                   </Button>
                 </Col>

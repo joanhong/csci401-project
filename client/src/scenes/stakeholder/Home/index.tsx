@@ -49,9 +49,9 @@ class StakeholderHome extends React.Component<HomeProps, HomeState> {
         if (statusId === 1) {
             return 'Pending Approval';
         } else if (statusId === 2) {
-            return 'Approve';
+            return 'Approved';
         } else if (statusId === 3) {
-            return 'Reject';
+            return 'Rejected';
         } else {
             return 'Changes Requested';
         }

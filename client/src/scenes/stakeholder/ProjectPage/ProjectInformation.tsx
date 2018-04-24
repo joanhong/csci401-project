@@ -6,13 +6,15 @@ import {
     FormControl,
     Button,
     ControlLabel,
-    Panel
+    Panel,
+    Table
 } from 'react-bootstrap';
 
 interface ProjectProps {
     projectId: string;
 }
 interface Project {
+    projectId: number;
     projectName: string;
     minSize: string;
     technologies: string;
@@ -20,15 +22,26 @@ interface Project {
     description: string;
 }
 interface ProjectState {
+    students: Array<StudentInfo>;
     project: Project;
     isLoading: Boolean;
+}
+
+interface StudentInfo {
+    userId: number;
+    firstName: string;
+    lastName: string;
+    email: string;
 }
 
 class ProjectInformation extends React.Component<ProjectProps, ProjectState> {
 constructor(props: ProjectProps) {
     super(props);
     this.state = {
-        project: {projectName: '',
+        students: [],
+        project: {
+        projectId: 0,
+        projectName: '',
         minSize: '',
         technologies: '',
         background: '',
@@ -50,6 +63,10 @@ constructor(props: ProjectProps) {
     }
 
     render() {
+        fetch('http://localhost:8080/projects/students/' + this.state.project.projectId)
+            .then(response => response.json())
+            .then(data => this.setState({students: data}));
+
         return (
         <Panel>
         <Panel.Heading>Project Information</Panel.Heading>
@@ -138,7 +155,36 @@ constructor(props: ProjectProps) {
             </FormGroup>
         </Form>
         </Panel.Body>
+        <Panel>
+                    <Panel.Heading>
+                        Team Contact Information
+                    </Panel.Heading>
+                    <Panel.Body>
+                        <div>
+                        <Table bordered={true}>
+                        <thead>
+                        <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {this.state.students.map((student: StudentInfo) =>
+                            <tr key={student.userId}>
+                            <td> {student.firstName} </td>
+                            <td> {student.lastName} </td>
+                            <td> {student.email} </td>
+                            </tr>
+                        )}
+                        </tbody>
+                        </Table>
+                        </div>
+                    </Panel.Body>
+                </Panel>
         </Panel>
+        
         );
 
     }

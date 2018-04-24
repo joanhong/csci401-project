@@ -1,7 +1,18 @@
 package capstone.util;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.Vector;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -12,9 +23,9 @@ public class ProjectAssignment {
 
 PrintWriter writer;
 	
-	private Vector<Project> projects;
-	private Vector<Student> students;
-	private Vector<Student> unassignedStudents = new Vector<Student>();
+	private ArrayList<Project> projects;
+	private ArrayList<Student> students;
+	private ArrayList<Student> unassignedStudents;
 	
 	private static int NUM_RANKED;
 	private static String folder_name;
@@ -23,31 +34,6 @@ PrintWriter writer;
 	public static int getStudentSatScore(int i) { // i = project's rank
 		return ( ( (NUM_RANKED-i+1) * (NUM_RANKED-i)) / 2 ) + 1;
 	}
-	
-	/*private void populateProjectsTable() {
-		for(Project p : projects) {
-			driver.addProjectEntry(p);
-		}
-	}
-	
-	private void populateRankingsTable() {
-		for(Student s: students) {
-			for (Map.Entry<String, Integer> entry : s.rankings.entrySet()) {
-				Project p  = GetProjectWithName(entry.getKey());
-				int projectId = p.getProjectId()+1;
-				int studentId = s.getStudentId() + 1;
-				
-				driver.addProjectRankingEntry(studentId, projectId, entry.getValue());
-			}
-		}
-	}
-	
-	private void populateUsersTable() {
-		for(Student s: students) {
-			driver.addUserEntry(3, s.getFirstName(), s.getLastName());
-		}
-		driver.addUserEntry(1, "admin", "holderson");
-	}*/
 	
 	// Imports data from local text files, populates the database tables for Projects, Users, and Project Rankings, and terminates the program.
 	public void importDataLocallyAndPopulateDatabase() {
@@ -89,20 +75,20 @@ PrintWriter writer;
                 //newStudent.setStudentId(students.size());
                 //newStudent.setUserId(students.size());
                 
-                for (int i = 1; i <= NUM_RANKED; i++) { // for the student's Top 3 projects...
-            		int projectId = Integer.parseInt(elements[i]);
-            		Project rankedProject = projects.get(projectId - 1); // !!! SUBTRACT 1, as the ranking's indices skip 0 for readability
+                /*for (int rank = 1; rank <= NUM_RANKED; rank++) { // for the student's Top 3 projects...
+            			int projectId = Integer.parseInt(elements[rank]);
+            			Project rankedProject = projects.get(projectId - 1); // !!! SUBTRACT 1, as the ranking's indices skip 0 for readability
                 		
                 		// add rankedProject to the Student data structure:
                     String projectName = rankedProject.getProjectName();
-                    newStudent.rankings.put(projectName, i);
-                    ((Vector<String>) newStudent.orderedRankings).addElement(projectName);
+                    newStudent.rankings.put(projectName, rank);
+                    newStudent.orderedRankings.add(projectName);
                     
                     // popularity metrics:
-                    Integer p = getStudentSatScore(i);
-                    rankedProject.incSum_p();
+                    Integer p = getStudentSatScore(rank);
+                    rankedProject.incSum_p(p);
                     rankedProject.incN();
-                }
+                }*/
 
                 students.add(newStudent);
                 writer.println(newStudent);
@@ -149,7 +135,7 @@ PrintWriter writer;
 		writer.println("");
 
 		// calculate popularity metrics:
-		for (Student s : students) {
+		/*for (Student s : students) {
 			
 		    Iterator it = s.rankings.entrySet().iterator();
 		    while (it.hasNext()) {
@@ -159,19 +145,19 @@ PrintWriter writer;
 		        		        
 		        Project rankedProject = GetProjectWithName(projectName);
 	            Integer p = getStudentSatScore(rank);
-	            rankedProject.incSum_p();
+	            rankedProject.incSum_p(p);
 	            rankedProject.incN();
 		    }
-		}
+		}*/
         
 	}
 	
-	public ProjectAssignment(List<Project> projects, List<Student> students) {
-		this.projects = new Vector<Project>();
-		this.projects.addAll(projects);
-		this.students = new Vector<Student>();
-		this.students.addAll(students);
+	public ProjectAssignment(ArrayList<Project> projects, ArrayList<Student> students) {
+		this.projects = new ArrayList<Project>(projects);
+		this.students = new ArrayList<Student>(students);
+		this.unassignedStudents = new ArrayList<Student>();
 	}
+	
 	
 	public void run(int iteration, int _NUM_RANKED, String _folder_name) {
 		
@@ -206,20 +192,19 @@ PrintWriter writer;
 		importDataFromDatabase();	
 				
 		// calculate each project's popularity scores
-		writer.println("Project Popularity Scores:");
+		/*System.out.println("Project Popularity Scores:");
 		for (Project p : projects) {
 			System.out.println(p.getProjectName() + " " + p.returnPopularity());
-		}
-		writer.println("");
+		}*/
 		
 		// sort projects by popularity in descending order
 		Collections.sort(projects, new Project.popularityComparator());
-		
+
 		AssignInitial();
-		PrintProjects();
+		//PrintProjects();
 		EliminateProjects();
 		Bump();
-		PrintProjects();
+		//PrintProjects();
 		//JSONOutput();
 		
 		// calculate this iteration's overall sat score:
@@ -228,7 +213,7 @@ PrintWriter writer;
 			totalProjSatScores += p.returnProjSatScore();
 		}
 		algoSatScore = totalProjSatScores / projects.size();		
-		writer.println(algoSatScore);
+		System.out.print("Satisfaction: " + algoSatScore);
 		writer.close();
 
 		PlaceUnassignedStudents();
@@ -238,7 +223,7 @@ PrintWriter writer;
 		System.out.println("Projects: ");
 		for (Project p : projects) {
 			System.out.print(p.getProjectName() + " ");
-			p.printMembers(writer);
+			p.printMembers();
 		}		
 	}
 	
@@ -282,17 +267,17 @@ PrintWriter writer;
 		Collections.shuffle(unassignedStudents);
 		
 		for (int choice = 0; choice < NUM_RANKED; choice++) {
-			Vector<Student> toRemove = new Vector<Student>();
 			
-			for (Student s: unassignedStudents) {
-				String projname = ((Vector<String>) s.orderedRankings).elementAt(choice);
+			for (Iterator<Student> it = unassignedStudents.iterator(); it.hasNext();) {
+				Student s = it.next();
+				String projname = s.orderedRankings.get(choice);
 				Project p = GetProjectWithName(projname);
 				if (p.members.size() < p.getMaxSize()) {
+					System.out.println(s.getFirstName());
 					(p.members).add(s);
-					toRemove.add(s);
+					it.remove();
 				}
 			}
-			unassignedStudents.removeAll(toRemove);
 		}
 	}
 	
@@ -302,7 +287,9 @@ PrintWriter writer;
 			if (p.members.size() < p.getMinSize() && (GetTotalMaxSpots()-p.getMaxSize()) >= students.size()) {
 				writer.println("Eliminated " + p.getProjectName());
 				for (Student s: p.members) {
-					unassignedStudents.add(s);
+					if (!unassignedStudents.contains(s)) {
+						unassignedStudents.add(s);
+					}
 				}
 				projects.remove(i);
 			}
@@ -312,26 +299,25 @@ PrintWriter writer;
 
 	void Bump() {
 		Collections.shuffle(unassignedStudents);
-		Vector<Student> toRemove = new Vector<Student>();
-		for (Student s: unassignedStudents) {
+		for (Iterator<Student> it = unassignedStudents.iterator(); it.hasNext();) {
+			Student s = it.next();
 			if (BumpHelper(s, 0))
-				toRemove.add(s);
+				it.remove();
 		}
-		unassignedStudents.removeAll(toRemove);
 	}
 	
 	boolean BumpHelper(Student s, int level) {
 		if (level>3)
 			return false;
 		for (int i=0; i<s.orderedRankings.size(); i++) {
-			Project p = GetProjectWithName(((Vector<String>) s.orderedRankings).elementAt(i));
+			Project p = GetProjectWithName(s.orderedRankings.get(i));
 			if (p!=null && p.members.size() < p.getMaxSize()) { //found a spot for them
 				p.members.add(s);
 				return true;
 			}
 		}
 		
-		Project p = GetProjectWithName(((Vector<String>) s.orderedRankings).elementAt(0));
+		Project p = GetProjectWithName(s.orderedRankings.get(0));
 		
 		if (p == null) 
 		{
@@ -342,7 +328,7 @@ PrintWriter writer;
 		int index = rand.nextInt(p.members.size());
 		Student displaced = (p.members).get(index);
 		if (BumpHelper(displaced, level+1)) {
-			p.members.remove(index);
+			p.members.remove(displaced);
 			p.members.add(s);
 		}
 		
@@ -360,7 +346,7 @@ PrintWriter writer;
 	int GetTotalMaxSpots() {
 		int maxspots = 0;
 		for (Project p: projects)
-			maxspots+= p.getMaxSize();
+			maxspots += p.getMaxSize();
 		return maxspots;
 	}
 	
@@ -370,7 +356,7 @@ PrintWriter writer;
 			if (!p.members.isEmpty() && 
 				(p.members.size() < p.getMinSize() || p.members.size() > p.getMaxSize()))
 				return false;
-			numstudents+= p.members.size();
+			numstudents += p.members.size();
 		}
 		if (numstudents != students.size())
 			return false;
@@ -381,14 +367,14 @@ PrintWriter writer;
 		if (!unassignedStudents.isEmpty()) {
 			Project unassignedProj = new Project();
 			unassignedProj.setProjectName("Unassigned");
+			unassignedProj.members = new Vector<Student>();
 			for (Student s: unassignedStudents) {
-				unassignedProj.members = new Vector<Student>();
 				unassignedProj.members.add(s);
 			}
 			projects.add(unassignedProj);
 		}		
 	}
-
+	
 	public List<Project> assignedProjects() {
 		return projects;
 	}
