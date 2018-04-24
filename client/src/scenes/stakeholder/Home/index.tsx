@@ -16,8 +16,8 @@ const style = {
 };
 interface Project {
     projectId: number;
-    name: string;
-    status: string;
+    projectName: string;
+    statusId: number;
 }
 
 interface HomeState {
@@ -43,6 +43,18 @@ class StakeholderHome extends React.Component<HomeProps, HomeState> {
         fetch('http://localhost:8080/projects/' + sessionStorage.getItem('email'))
         .then(response => response.json())
         .then(data => this.setState({projects: data, isLoading: false}));
+    }
+
+    getStatus(statusId: number) {
+        if (statusId === 1) {
+            return 'Pending Approval';
+        } else if (statusId === 2) {
+            return 'Approve';
+        } else if (statusId === 3) {
+            return 'Reject';
+        } else {
+            return 'Changes Requested';
+        }
     }
 
     render() {
@@ -71,8 +83,8 @@ class StakeholderHome extends React.Component<HomeProps, HomeState> {
                         <tbody>
                             {projects.map((project: Project, index: number) =>
                                 <tr key={project.projectId}>
-                                    <td>{project.name}</td>
-                                    <td>{project.status}</td>
+                                    <td>{project.projectName}</td>
+                                    <td>{this.getStatus(project.statusId)}</td>
                                     <td>
                                         <LinkContainer to={{pathname: 'stakeholder/project/' + project.projectId}}>
                                         <img src={viewIcon}/>

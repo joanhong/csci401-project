@@ -13,9 +13,9 @@ interface ProjectProps {
 interface ProjectState {
 projectName: string;
 projectSize: number;
-technologiesExpected: string;
-backgroundRequested: string;
-projectDescription: string;
+technologies: string;
+background: string;
+description: string;
 }
 
 class ProposalForm extends React.Component<ProjectProps, ProjectState> {
@@ -24,9 +24,9 @@ constructor(props: ProjectProps) {
     this.state = {
     projectName: '',
     projectSize: 0,
-    technologiesExpected: '',
-    backgroundRequested: '',
-    projectDescription: ''
+    technologies: '',
+    background: '',
+    description: ''
     };
     this.submitClicked = this.submitClicked.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -38,12 +38,12 @@ constructor(props: ProjectProps) {
         request.open('POST', 'http://localhost:8080/projects/save/' + sessionStorage.getItem('email'));
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
-            name: this.state.projectName,
+            projectName: this.state.projectName,
             minSize: this.state.projectSize,
             maxSize: this.state.projectSize,
-            technologies: this.state.technologiesExpected,
-            background: this.state.backgroundRequested,
-            description: this.state.projectDescription,
+            technologies: this.state.technologies,
+            background: this.state.background,
+            description: this.state.description,
         });
         request.setRequestHeader('Cache-Control', 'no-cache');
         request.send(data);
@@ -110,8 +110,8 @@ constructor(props: ProjectProps) {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="technologiesExpected"
-                    value={this.state.technologiesExpected}
+                    id="technologies"
+                    value={this.state.technologies}
                     placeholder="Technologies expected"
                     onChange={e => this.handleChange(e)}
                 />
@@ -125,8 +125,8 @@ constructor(props: ProjectProps) {
                 <Col sm={10}>
                 <FormControl
                     type="text"
-                    id="backgroundRequested"
-                    value={this.state.backgroundRequested}
+                    id="background"
+                    value={this.state.background}
                     placeholder="Background requested"
                     onChange={e => this.handleChange(e)}
                 />
@@ -141,8 +141,8 @@ constructor(props: ProjectProps) {
                 <FormControl
                     componentClass="textarea"
                     type="text"
-                    id="projectDescription"
-                    value={this.state.projectDescription}
+                    id="description"
+                    value={this.state.description}
                     placeholder="Description"
                     onChange={e => this.handleChange(e)}
                 />

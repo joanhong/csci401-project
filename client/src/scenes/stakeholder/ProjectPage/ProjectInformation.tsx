@@ -13,7 +13,7 @@ interface ProjectProps {
     projectId: string;
 }
 interface Project {
-    name: string;
+    projectName: string;
     minSize: string;
     technologies: string;
     background: string;
@@ -28,7 +28,7 @@ class ProjectInformation extends React.Component<ProjectProps, ProjectState> {
 constructor(props: ProjectProps) {
     super(props);
     this.state = {
-        project: {name: '',
+        project: {projectName: '',
         minSize: '',
         technologies: '',
         background: '',
@@ -63,7 +63,7 @@ constructor(props: ProjectProps) {
                 <FormControl
                     type="text"
                     id="projectName"
-                    value={this.state.project.name}
+                    value={this.state.project.projectName}
                     onChange={e => this.handleChange(e)}
                     placeholder="Project Name"
                 />

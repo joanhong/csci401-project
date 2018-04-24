@@ -89,7 +89,7 @@ public class ProjectController
 		System.out.println("Received HTTP POST");
 		System.out.println(project);
 		System.out.println(project.getProjectName());
-
+		project.setStatusId(1);
 	    projectService.save(project);
 	    User user = userService.findUserByEmail(email);
 	    userService.saveProject(user, project);

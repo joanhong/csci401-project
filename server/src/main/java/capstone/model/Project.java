@@ -48,8 +48,8 @@ public class Project implements Comparable<Object> {
 		int maxSize;
 		int minSize;
 		String description;
-		String backgroundRequested;
-		String technologiesExpected;
+		String background;
+		String technologies;
 		String adminComments;
 
 		public double getSum_p() {
@@ -185,20 +185,20 @@ public class Project implements Comparable<Object> {
 			this.description = description;
 		}
 
-		public String getBackgroundRequested() {
-			return backgroundRequested;
+		public String getBackground() {
+			return background;
 		}
 
-		public void setBackgroundRequested(String backgroundRequested) {
-			this.backgroundRequested = backgroundRequested;
+		public void setBackground(String background) {
+			this.background = background;
 		}
 
-		public String getTechnologiesExpected() {
-			return technologiesExpected;
+		public String getTechnologies() {
+			return technologies;
 		}
 
-		public void setTechnologiesExpected(String technologiesExpected) {
-			this.technologiesExpected = technologiesExpected;
+		public void setTechnologies(String technologies) {
+			this.technologies = technologies;
 		}
 		
 		public String getAdminComments() {
