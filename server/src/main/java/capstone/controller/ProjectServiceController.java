@@ -475,18 +475,23 @@ public class ProjectServiceController
 	//////
 	@RequestMapping(value = "/loggedInUser",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody User loggedInUser(@RequestBody String name, HttpServletRequest request)
+	public @ResponseBody User loggedInUser(@RequestBody String email)
 	{
 		System.out.println("Logged in user");
 		System.out.println("Received HTTP POST");
-		String addr = request.getHeader(HttpHeaders.ORIGIN);
-		System.out.println(addr);
-		User user = usm.getUser(addr);
-		if (user != null) {
-			return user;
-		}
-		return null; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
-	}
+		
+		User user = driver.getUserByEmail(email);
+		System.out.println(user.getFirstName());
+		return user;
+		
+//		String addr = request.getHeader(HttpHeaders.ORIGIN);
+//		System.out.println(addr);
+//		User user = usm.getUser(addr);
+//		if (user != null) {
+//			return user;
+//		}
+//		return null; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
+	}	
 	
 	String encryptPassword(String textPassword)
 	{
