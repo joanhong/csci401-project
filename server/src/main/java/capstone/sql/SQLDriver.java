@@ -17,7 +17,7 @@ import capstone.model.User;
 import capstone.model.WeeklyReportData;
 
 public class SQLDriver {
-	private final static String DATABASE_NAME = "401Platform";
+	private final static String DATABASE_NAME = "401_Platform";
 	private final static String PASSWORD = "";
 	
 	private Connection con;
@@ -43,7 +43,9 @@ public class SQLDriver {
 	private final static String addOrganizationEntry = "INSERT INTO " + DATABASE_NAME + ".Organizations(ORG_ID, ORGANIZATION) VALUES(?,?)";
 	private final static String getAllOrganizations = "SELECT * FROM " + DATABASE_NAME + ".Organizations";
 	private final static String addStakeholderInfoEntry = "INSERT INTO " + DATABASE_NAME + ".StakeholderInfo(STAKEHOLDER_ID, ORGANIZATION_ID) VALUES(?,?)";
-//	private final static String addWeeklyReport = "INSERT INTO " + DATABASE_NAME + 
+	private final static String getStakeholderByStudentID = "SELECT * FROM " + DATABASE_NAME + ".Users JOIN " + DATABASE_NAME + ".Projects on Projects.stakeholder_id = Users.user_id JOIN " + DATABASE_NAME + ".StudentInfo ON StudentInfo.project_id = Projects.project_id WHERE StudentInfo.student_id = ?";
+
+	//	private final static String addWeeklyReport = "INSERT INTO " + DATABASE_NAME + 
 //			".WeeklyReportsTable(idWeeklyReportsTable, studentName, studentuscusername, projectNumber, date, "
 //			+ "thisWeeksTasksD1,thisWeeksTasksD2, thisWeeksTasksD3, thisWeeksTasksD4, thisWeeksTasksD5, thisWeeksTasksD6, thisWeeksTasksD7, "
 //			+ "thisWeeksTasksH1, thisWeeksTasksH2, thisWeeksTasksH3, thisWeeksTasksH4, thisWeeksTasksH5, thisWeeksTasksH6, thisWeeksTasksH7, "
@@ -450,6 +452,50 @@ public class SQLDriver {
 			}		
 		}catch (SQLException e){e.printStackTrace();}
 		return u; // returns true if the user name is in use in the DB
+	}
+
+	public User getStakeholderByStudent(int student_id)
+	{
+		User u = null;
+		try{
+			PreparedStatement ps = con.prepareStatement(getStakeholderByStudentID);
+			ps.setInt(1, student_id);
+			ResultSet result = ps.executeQuery();
+			while(result.next())
+			{
+				u = new User();
+				u.setUserId(result.getInt(1));
+				u.setUserType(result.getString("USER_TYPE"));
+				u.setFirstName(result.getString("FIRST_NAME"));
+				u.setLastName(result.getString("LAST_NAME"));
+				u.setUsername(result.getString("USERNAME"));
+				u.setEmail(result.getString("EMAIL"));
+				u.setPassword(result.getString("PASSWORD"));
+				u.setPhone(result.getString("PHONE_NUM"));
+			}		
+		}catch (SQLException e){e.printStackTrace();}
+		return u; // returns true if the user name is in use in the DB
+	}
+
+	public Project getProjectByStudent(int student_id)
+	{
+		Project p = null;
+		try{
+			PreparedStatement ps = con.prepareStatement(getStakeholderByStudentID);
+			ps.setInt(1, student_id);
+			ResultSet result = ps.executeQuery();
+			while(result.next())
+			{
+				p = new Project();
+				p.setProjectId(result.getInt(9));
+				p.setProjectName(result.getString("PROJECT_NAME"));
+				p.setDescription(result.getString("DESCRIPTION"));
+				p.setBackgroundRequested(result.getString("BACKGROUND"));
+				p.setTechnologiesExpected(result.getString("TECHNOLOGIES"));
+			}		
+		}catch (SQLException e){e.printStackTrace();}
+		System.out.println(p.getProjectName());
+		return p; // returns true if the user name is in use in the DB
 	}
 	
 	// returns vector of all Students and their rankings

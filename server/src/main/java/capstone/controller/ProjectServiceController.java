@@ -500,28 +500,27 @@ public class ProjectServiceController
 	}
 
 	//////
-//	@RequestMapping(value = "/getProjectByUser",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
-//	@CrossOrigin(origins = "http://localhost:3000")
-//	public @ResponseBody Project getProjectByUser(@RequestBody String name, HttpServletRequest request)
-//	{
-//		System.out.println("Received HTTP POST");
-//		String addr = request.getHeader(HttpHeaders.ORIGIN);
-//		System.out.println(addr);
-//		User user = usm.getUser(addr);
-//		if (user==null) {
-//			return null;
-//		}
-//		Vector<Project> allProjects = driver.getAllProjects();
-//		System.out.println(user.getFirstName()); 
-////		System.out.println(user.getProjectNumber());
-//		for (Project p: allProjects) {
-//			if (p.getProjectId()==user.getProjectNumber()) {
-//				System.out.println(p.getProjectId());
-//				return p;
-//			}
-//		}
-//		return null; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
-//	}
+	@RequestMapping(value = "/getStakeholderByStudent",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody User getStakeholderByStudent(@RequestBody String email)
+	{
+		System.out.println("Received HTTP POST: getStakeholderByStudent");
+		User student = driver.getUserByEmail(email);
+		User stakeholder = driver.getStakeholderByStudent(student.getUserId());
+		
+		return stakeholder; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getProjectByStudent",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody Project getProjectByStudent(@RequestBody String email)
+	{
+		System.out.println("Received HTTP POST: getProjectByStudent");
+		User student = driver.getUserByEmail(email);
+		Project project = driver.getProjectByStudent(student.getUserId());
+		
+		return project; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
+	}	
 
 	//////
 	@RequestMapping(value = "/loggedInUser",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)

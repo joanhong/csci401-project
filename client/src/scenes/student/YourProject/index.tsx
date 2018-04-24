@@ -8,8 +8,10 @@ interface ProjectProps {
 }
 
 interface ProjectState {
-   // groupMembers: Array<{}>;
-    stakeholder: string;
+    projectName: string;
+    stakeholderName: string;
+    stakeholderEmail: string;
+    stakeholderPhone: string;
     isLoading: boolean;
   }
   
@@ -18,24 +20,26 @@ interface User {
     email: string;
     phone: string;
 }
-var x = 'd';
 
 class StudentProject extends React.Component<ProjectProps, ProjectState> {
     constructor(props: ProjectProps) {
         super(props);
         this.state = {
-            stakeholder: '',
+            projectName: '',
+            stakeholderName: '',
+            stakeholderEmail: '',
+            stakeholderPhone: '',
             isLoading: false,
         };
     }
     componentDidMount() {
         this.setState({isLoading: true});
-/*
+
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/getProjectByUser/');
+        request.open('POST', 'http://localhost:8080/getStakeholderByStudent/');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        var data = 'getproject';
+        var data = sessionStorage.getItem('email');
         request.setRequestHeader('Cache-Control', 'no-cache');
         request.send(data);
 
@@ -45,14 +49,42 @@ class StudentProject extends React.Component<ProjectProps, ProjectState> {
                 var response = request.responseText;
                 if (response != null) {
                     var jsonResponse = JSON.parse(response);
-                    var stakeholderNameLiteral = 'stakeholderName';
+                    var firstNameLiteral = 'firstName';
+                    var lastNameLiteral = 'lastName';
+                    var emailLiteral = 'email';
+                    var phoneLiteral = 'phone';
                     that.setState({
-                        stakeholder: jsonResponse[stakeholderNameLiteral], 
+                        stakeholderName: jsonResponse[firstNameLiteral] + ' ' + jsonResponse[lastNameLiteral], 
+                        stakeholderEmail: jsonResponse[emailLiteral],
+                        stakeholderPhone: jsonResponse[phoneLiteral],
                         isLoading: false
                     });
                 }
             }
-        }; */
+        };
+
+        var request2 = new XMLHttpRequest();
+        request2.withCredentials = true;
+        request2.open('POST', 'http://localhost:8080/getProjectByStudent/');
+        request2.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        var data2 = sessionStorage.getItem('email');
+        request2.setRequestHeader('Cache-Control', 'no-cache');
+        request2.send(data2);
+
+        var that2 = this;
+        request2.onreadystatechange = function() {
+            if (request2.readyState === 4) {
+                var response2 = request2.responseText;
+                if (response2 != null) {
+                    var jsonResponse2 = JSON.parse(response2);
+                    var projectNameLiteral = 'projectName';
+                    that2.setState({
+                        projectName: jsonResponse2[projectNameLiteral],
+                        isLoading: false
+                    });
+                }
+            }
+        };
     }
     render() {
         return (
@@ -64,10 +96,10 @@ class StudentProject extends React.Component<ProjectProps, ProjectState> {
             <Panel.Body>
                 <Panel>
                     <Panel.Heading>
-                        Team Contact Information
+                        Project
                     </Panel.Heading>
                     <Panel.Body>
-                        {this.state.stakeholder};
+                        {this.state.projectName}
                     </Panel.Body>
                 </Panel>
                 <Panel>
@@ -75,7 +107,7 @@ class StudentProject extends React.Component<ProjectProps, ProjectState> {
                         Stakeholder Contact Information
                     </Panel.Heading>
                     <Panel.Body>
-                        {this.state.stakeholder};
+                        {this.state.stakeholderName}    {this.state.stakeholderEmail}   {this.state.stakeholderPhone}
                     </Panel.Body>
                 </Panel>
             </Panel.Body>
