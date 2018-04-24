@@ -49,9 +49,9 @@ public class ProjectAssignmentService {
 	
 	private void populateUsersTable() {
 		for(Student s: students) {
-			driver.addUserEntry(3, s.getFirstName(), s.getLastName());
+			driver.addUserEntry(3, s.getFirstName(), s.getLastName(), s.getPhone(), s.getEmail(), s.getPassword());
 		}
-		driver.addUserEntry(1, "admin", "holderson");
+		driver.addUserEntry(1, "admin", "holderson", "1234567890","admin@usc.edu", "admin");
 	}
 	
 	// Imports data from local text files, populates the database tables for Projects, Users, and Project Rankings, and terminates the program.

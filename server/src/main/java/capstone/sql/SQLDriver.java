@@ -25,7 +25,7 @@ public class SQLDriver {
 	private final static String findIfUserExists = "SELECT COUNT(*) FROM " + DATABASE_NAME + ".Users WHERE EMAIL=?";
 	private final static String getUserID = "SELECT ID FROM " + DATABASE_NAME + ".Users WHERE USERNAME=?";
 	private final static String addUser = "INSERT INTO " + DATABASE_NAME + ".Users(USERNAME,PASSWORD) VALUES(?,?)";
-	private final static String addUserEntry = "INSERT INTO " + DATABASE_NAME + ".Users(USER_TYPE, FIRST_NAME, LAST_NAME) VALUES(?,?,?)";
+	private final static String addUserEntry = "INSERT INTO " + DATABASE_NAME + ".Users(USER_TYPE, FIRST_NAME, LAST_NAME, PHONE_NUM, EMAIL, PASSWORD) VALUES(?,?,?,?,?,?)";
 	private final static String getUsername = "SELECT USERNAME FROM " + DATABASE_NAME + ".Users WHERE USER_ID=?";
 	private final static String getName = "SELECT FIRST_NAME, LAST_NAME FROM " + DATABASE_NAME + ".Users WHERE USER_ID=?";
 	private final static String getAllUsers = "SELECT * FROM " + DATABASE_NAME + ".Users";
@@ -280,13 +280,16 @@ public class SQLDriver {
 		}
 	}
 
-	public void addUserEntry(int user_type, String first_name, String last_name){
+	public void addUserEntry(int user_type, String first_name, String last_name, String phone, String email, String password){
 		
 		try{
 			PreparedStatement ps = con.prepareStatement(addUserEntry);
 			ps.setInt(1, user_type);
 			ps.setString(2, first_name);
 			ps.setString(3, last_name);
+			ps.setString(4, phone);
+			ps.setString(5, email);
+			ps.setString(6, password);
 			ps.executeUpdate();
 		}catch(SQLException e){
 			e.printStackTrace();
