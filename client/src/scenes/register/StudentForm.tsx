@@ -54,6 +54,7 @@ class StudentRegistrationForm extends React.Component<StudentRegistrationProps, 
         request.setRequestHeader('Cache-Control', 'no-cache');
         request.send(data);
         request.onreadystatechange = function() {
+            window.location.href = '/';
         /*if (request.readyState === 4) {
                 if (request.responseText.length > 4) {
                     alert('Student registration SUCCESSFUL!');
@@ -102,7 +103,7 @@ class StudentRegistrationForm extends React.Component<StudentRegistrationProps, 
 
                     <FormGroup>
                         <Col smOffset={2} sm={10}>
-                        <Button type="submit" onClick={this.submitClicked}>Register</Button>
+                        <Button type="reset" onClick={this.submitClicked}>Register</Button>
                         </Col>
                     </FormGroup>
                 </Form>

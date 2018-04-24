@@ -44,7 +44,7 @@ class StakeholderRegistrationForm extends React.Component<StakeholderRegistratio
     submitClicked() {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/stakeholderRegistrationAttempt');
+        request.open('POST', 'http://localhost:8080/stakeholderRegistrationAttempt/');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
             firstName: this.state.firstName,
@@ -57,13 +57,6 @@ class StakeholderRegistrationForm extends React.Component<StakeholderRegistratio
         request.setRequestHeader('Cache-Control', 'no-cache');
         request.send(data);
         request.onreadystatechange = function() {
-        /*if (request.readyState === 4) {
-            if (request.responseText.length > 4) {
-                alert('Stakeholder registration SUCCESSFUL!');
-            } else {
-                alert('Stakeholder registration FAILED.');
-            }
-        }*/
             window.location.href = '/';
         };
     }
@@ -110,7 +103,7 @@ formGroup(controlId: string, type: string, id: string, placeholder: string, valu
 
                     <FormGroup>
                         <Col smOffset={3} sm={10}>
-                        <Button type="submit" onClick={this.submitClicked}>Register</Button>
+                        <Button type="reset" onClick={this.submitClicked}>Register</Button>
                         </Col>
                     </FormGroup>
                 </Form>

@@ -5,17 +5,14 @@ package capstone.controller;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Map;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +26,7 @@ import capstone.model.User;
 import capstone.model.UserEmailsData;
 import capstone.model.WeeklyReportData;
 import capstone.repository.ProjectsRepository;
+import capstone.service.EncryptPassword;
 import capstone.session.UserSessionManager;
 import capstone.sql.SQLDriver;
 import mail.mailDriver;
@@ -427,7 +425,7 @@ public class ProjectServiceController
 			System.out.println("USER EMAIL EXISTS, CHECKING PASSWORD...");
 			//IF IT DOES, CHECK IF USERNAME PASSWORD COMBO IS VALID
 			String encryptedPassword = driver.getEncryptedPassword(logindata.getEmail());
-			if(checkPassword(logindata.getPassword(), encryptedPassword))
+			if(EncryptPassword.checkPassword(logindata.getPassword(), encryptedPassword))
 			{
 				if(driver.confirmLoginAttempt(logindata.getEmail(), encryptedPassword))
 					{
@@ -507,18 +505,6 @@ public class ProjectServiceController
 //		return null; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
 	}	
 	
-	String encryptPassword(String textPassword)
-	{
-		String encryptedPassword;
-		StrongPasswordEncryptor bte = new StrongPasswordEncryptor();
-		encryptedPassword = bte.encryptPassword(textPassword);
-		return encryptedPassword;
-	}
-	Boolean checkPassword(String plainPassword, String encryptedPassword)
-	{
-		StrongPasswordEncryptor bte = new StrongPasswordEncryptor();
-		return bte.checkPassword(plainPassword,encryptedPassword);
-	}
 	void encryptUserPasswords()
 	{
 		Vector<User> allUsers = driver.getAllUsers();
@@ -526,7 +512,7 @@ public class ProjectServiceController
 		{
 			System.out.println("INITIAL PASSWORD = " + u.getPassword());
 			System.out.println("INITIAL EMAIL = " + u.getEmail());
-			String encryptedPass = encryptPassword(u.getPassword());
+			String encryptedPass = EncryptPassword.encryptPassword(u.getPassword());
 			System.out.println("ENCRYPTEDPASS= " + encryptedPass);
 			driver.updatePassword(u.getEmail(), encryptedPass);
 		}

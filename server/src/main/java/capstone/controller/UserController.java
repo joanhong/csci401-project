@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import capstone.model.User;
 import capstone.repository.UserRepository;
+import capstone.service.EncryptPassword;
 import capstone.sql.SQLDriver;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -60,10 +61,8 @@ public class UserController {
 		if (user == null) {
 			throw new ServletException("Invalid login");
 		}
-
-		String pwd = user.getPassword();
-
-		if (!password.equals(pwd)) {
+		
+		if (!EncryptPassword.checkPassword(password, user.getPassword())) {
 			throw new ServletException("Invalid login");
 		}
 
@@ -83,7 +82,7 @@ public class UserController {
 		String lastName = info.get("lastName");
 		String phone = info.get("phone");
 		String email = info.get("email");
-		String password = info.get("password");
+		String password = EncryptPassword.encryptPassword(info.get("password"));
 		driver.addUserEntry(1, firstName, lastName, phone, email, password);
 		return "SUCCESS";
 	}
@@ -96,7 +95,7 @@ public class UserController {
 		String lastName = info.get("lastName");
 		String phone = info.get("phone");
 		String email = info.get("email");
-		String password = info.get("password");
+		String password = EncryptPassword.encryptPassword(info.get("password"));
 		driver.addUserEntry(3, firstName, lastName, phone, email, password);
 		return "SUCCESS";
 	}
@@ -109,8 +108,12 @@ public class UserController {
 		String lastName = info.get("lastName");
 		String phone = info.get("phone");
 		String email = info.get("email");
-		String password = info.get("password");
+		String password = EncryptPassword.encryptPassword(info.get("password"));
 		driver.addUserEntry(2, firstName, lastName, phone, email, password);
+		String organization = info.get("company");
+		Integer orgId = driver.addOrganization(organization);
+		User user = driver.getUserByEmail(email);
+		driver.addStakeholderInfoEntry(user.getUserId(), orgId);
 		return "SUCCESS";
 	}
 }
