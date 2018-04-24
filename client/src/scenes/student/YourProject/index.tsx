@@ -50,15 +50,25 @@ class StudentProject extends React.Component<ProjectProps, ProjectState> {
             stakeholder: {userId: 0, firstName: '', lastName: '', email: '', organization: ''},
             students: [],
             project: {projectId: 0, projectName: '', members: []},
-            isLoading: false,
+            isLoading: true,
         };
     }
-    componentDidMount() {
+
+    async componentDidMount() {
         this.setState({isLoading: true});
 
-        fetch('http://localhost:8080/projects/user/' + sessionStorage.getItem('email'))
+        await fetch('http://localhost:8080/projects/user/' + sessionStorage.getItem('email'))
             .then(response => response.json())
-            .then(data => this.setState({project: data}));
+            .then(data => this.setState({project: data, isLoading: false}));
+
+        await fetch('http://localhost:8080/projects/students/' + this.state.project.projectId)
+            .then(response => response.json())
+            .then(data => this.setState({students: data}));
+
+        fetch('http://localhost:8080/projects/stakeholder/' + this.state.project.projectId)
+            .then(response => response.json())
+            .then(data => this.setState({stakeholder: data}));
+
 /*
         var request = new XMLHttpRequest();
         request.withCredentials = true;
@@ -83,15 +93,8 @@ class StudentProject extends React.Component<ProjectProps, ProjectState> {
             }
         }; */
     }
+
     render() {
-        fetch('http://localhost:8080/projects/students/' + this.state.project.projectId)
-            .then(response => response.json())
-            .then(data => this.setState({students: data}));
-
-        fetch('http://localhost:8080/projects/stakeholder/' + this.state.project.projectId)
-            .then(response => response.json())
-            .then(data => this.setState({stakeholder: data}));
-
         return (
             <div>
             <Panel>
@@ -157,19 +160,20 @@ class StudentProject extends React.Component<ProjectProps, ProjectState> {
             </Panel>
 
             <Panel>
-              <Panel.Heading>
-                  Actions
-              </Panel.Heading>
-              <Panel.Body>
-                  <Button>Submit Deliverable</Button>
-                  <Button href="./weeklyreport">Submit Weekly Status Report</Button>
-                  <Button href="./peerreview">Submit Peer Review Form</Button>
-                  <Button>Submit Stakeholder Review Form</Button>
-              </Panel.Body>
-          </Panel>
+                <Panel.Heading>
+                    Actions
+                </Panel.Heading>
+                <Panel.Body>
+                    <Button>Submit Deliverable</Button>
+                    <Button href="./weeklyreport">Submit Weekly Status Report</Button>
+                    <Button href="./peerreview">Submit Peer Review Form</Button>
+                    <Button>Submit Stakeholder Review Form</Button>
+                </Panel.Body>
+            </Panel>
         </div>
         );
-    }
+            
+        }
 }
 
 export default StudentProject;
