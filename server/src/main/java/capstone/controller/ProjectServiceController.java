@@ -522,6 +522,17 @@ public class ProjectServiceController
 		return project; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
 	}	
 
+	@RequestMapping(value = "/getProjectByStakeholder",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody Project getProjectByStakeholder(@RequestBody String email)
+	{
+		System.out.println("Received HTTP POST: getProjectByStakeholder");
+		User stakeholder = driver.getUserByEmail(email);
+		Project project = driver.getProjectByStakeholder(stakeholder.getUserId());
+		
+		return project; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
+	}	
+
 	//////
 	@RequestMapping(value = "/loggedInUser",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:3000")

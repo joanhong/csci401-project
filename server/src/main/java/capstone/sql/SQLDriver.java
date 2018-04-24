@@ -44,6 +44,7 @@ public class SQLDriver {
 	private final static String getAllOrganizations = "SELECT * FROM " + DATABASE_NAME + ".Organizations";
 	private final static String addStakeholderInfoEntry = "INSERT INTO " + DATABASE_NAME + ".StakeholderInfo(STAKEHOLDER_ID, ORGANIZATION_ID) VALUES(?,?)";
 	private final static String getStakeholderByStudentID = "SELECT * FROM " + DATABASE_NAME + ".Users JOIN " + DATABASE_NAME + ".Projects on Projects.stakeholder_id = Users.user_id JOIN " + DATABASE_NAME + ".StudentInfo ON StudentInfo.project_id = Projects.project_id WHERE StudentInfo.student_id = ?";
+	private final static String getProjectByStakeholderID = "SELECT * FROM " + DATABASE_NAME + ".Projects WHERE stakeholder_id = ?";
 
 	//	private final static String addWeeklyReport = "INSERT INTO " + DATABASE_NAME + 
 //			".WeeklyReportsTable(idWeeklyReportsTable, studentName, studentuscusername, projectNumber, date, "
@@ -492,6 +493,28 @@ public class SQLDriver {
 				p.setDescription(result.getString("DESCRIPTION"));
 				p.setBackgroundRequested(result.getString("BACKGROUND"));
 				p.setTechnologiesExpected(result.getString("TECHNOLOGIES"));
+			}		
+		}catch (SQLException e){e.printStackTrace();}
+		System.out.println(p.getProjectName());
+		return p; // returns true if the user name is in use in the DB
+	}
+
+	public Project getProjectByStakeholder(int stakeholder_id)
+	{
+		Project p = null;
+		try{
+			PreparedStatement ps = con.prepareStatement(getProjectByStakeholderID);
+			ps.setInt(1, stakeholder_id);
+			ResultSet result = ps.executeQuery();
+			while(result.next())
+			{
+				p = new Project();
+				p.setProjectId(result.getInt(1));
+				p.setProjectName(result.getString("PROJECT_NAME"));
+				p.setDescription(result.getString("DESCRIPTION"));
+				p.setBackgroundRequested(result.getString("BACKGROUND"));
+				p.setTechnologiesExpected(result.getString("TECHNOLOGIES"));
+				p.setStatusId(result.getInt(4));
 			}		
 		}catch (SQLException e){e.printStackTrace();}
 		System.out.println(p.getProjectName());
