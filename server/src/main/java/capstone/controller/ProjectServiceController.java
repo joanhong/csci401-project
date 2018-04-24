@@ -5,6 +5,7 @@ package capstone.controller;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,10 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import capstone.model.LoginData;
 import capstone.model.PeerReviewData;
 import capstone.model.Project;
-import capstone.model.ProjectData;
-import capstone.model.RankingData;
 import capstone.model.User;
-import capstone.model.UserData;
 import capstone.model.UserEmailsData;
 import capstone.model.WeeklyReportData;
 import capstone.repository.ProjectsRepository;
@@ -303,6 +302,7 @@ public class ProjectServiceController
 		
 		return emailsdata;
 	}
+	
 	
 	//////
 	@RequestMapping(value = "/projectRankingsSubmitAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
