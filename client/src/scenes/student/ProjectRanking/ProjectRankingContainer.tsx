@@ -130,7 +130,7 @@ class ProjectRankingContainer extends React.Component<Props, State> {
 
         if (submitted) {
             return (
-                <div style={style}>
+                <div style={style as any}>
                     <div style={{width: 600}}>
                         You have already submitted your rankings.
                     </div>
@@ -143,7 +143,7 @@ class ProjectRankingContainer extends React.Component<Props, State> {
         }
 
         return connectDropTarget(
-            <div style={style}>
+            <div style={style as any}>
                 <div style={{width: 600}}>
                     <h3>Rank Projects</h3>
                     <Grid>

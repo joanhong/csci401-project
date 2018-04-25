@@ -15,7 +15,7 @@ const style = {
 class Login extends React.Component {
     render() {
         return (
-            <div style={style}>
+            <div style={style as any}>
                 <h3> Welcome to CSCI 401</h3>
                 <Row>
                     <Col>

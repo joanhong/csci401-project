@@ -84,7 +84,7 @@ class StudentRegistrationForm extends React.Component<StudentRegistrationProps, 
 
     render() {
         return (
-            <div style={style}>
+            <div style={style as any}>
                 <h2>Student Registration</h2>
                 <Form horizontal={true} >
                     {this.formGroup('formHorizontalFirstName', 'text', 'firstName', 'First Name', this.state.firstName)}

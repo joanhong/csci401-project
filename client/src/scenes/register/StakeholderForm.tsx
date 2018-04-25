@@ -87,7 +87,7 @@ formGroup(controlId: string, type: string, id: string, placeholder: string, valu
 
     render() {
         return (
-            <div style={style}>
+            <div style={style as any}>
             <h2>Stakeholder Registration</h2>
             <Row>
                 <Col>

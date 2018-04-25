@@ -112,7 +112,7 @@ class ProjectCard extends React.Component<Props, State> {
         return connectDragSource(
             connectDropTarget(
                 <div style={{ opacity }}>
-                    <Button onClick={() => this.setState({ open: !this.state.open })} style={cardStyle}>
+                    <Button onClick={() => this.setState({ open: !this.state.open })} style={cardStyle as any}>
                         <Glyphicon glyph="menu-hamburger" style={glyphStyle}/>
                         {rank <= 5
                             ? <strong>{rank + '. ' + title}</strong>

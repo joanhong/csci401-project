@@ -9,7 +9,7 @@ class StudentProjectRanking extends React.Component {
 
     render() {
         return (
-            <div style={{style}}>
+            <div style={style as any}>
                 <ProjectRankingContainer />
             </div>
         );
