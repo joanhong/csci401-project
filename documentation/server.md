@@ -58,14 +58,18 @@
 - For example, for a User object that has attributes "email" and "userId", you could create a UserBaseRepository (it is a UserBaseRepository since the Student, Stakeholder, and Admin types inherit from User, so we should create repositories for each user type).
 - **Saving to the database:** In order to save users (create entries in the database), we can use the built in **save** method. Use the @Autowire tag to automatically allow a Service or Controller access to the database methods. For example, in UserService, we could @Autowire the StudentRepository so that we can call repository functions from our Service layer. 
 - **Getting from the database:** In order to search and get Users in our database, we could create the following functions in UserBaseRepository:
-        User findByEmail(String email);
-        User findByUserId(Long userId);
+```java
+    User findByEmail(String email);
+    User findByUserId(Long userId);
+```
 - By following the **findByAttributeName** pattern, it automatically creates methods that will get all data points in the database that match, and return it as a Java Object.
 - **Other Queries to the database:** For other methods that are not already built in, we can create queries to the database. For example we could modify a Deliverable's status that matches a certain ID with the following:
-        @Modifying(clearAutomatically = true)
-        @Query("UPDATE Deliverable d SET d.status = :status WHERE d.id = :id")
-        @Transactional
-        void setStatusForId(@Param("status") String status, @Param("id") Long id);
+```java
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE Deliverable d SET d.status = :status WHERE d.id = :id")
+    @Transactional
+    void setStatusForId(@Param("status") String status, @Param("id") Long id);
+```
 
 #### What is in the util package?
 - **Constants:** Put any constants that you want to use throughout your application here. If there's a typo somewhere you only have to look through one file :)
@@ -75,7 +79,9 @@
 #### How do I send emails through the app?
 - First, modify the src/main/resources/application.properties file with the appropriate username and password for the email account (set up to use Gmail) that you'd like to send emails from.
 - In a Service or Controller class, @Autowire EmailService. EmailService allows you to send an email from the account that you specified in the application.properties file. By calling the following, you can send an email with a specific subject and message to a given email:
-        emailService.sendEmail("subject", "message", "emailto@usc.edu");
+```java
+    emailService.sendEmail("subject", "message", "emailto@usc.edu");
+```
 
 ### Some Helpful Links
 - [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
