@@ -1,6 +1,23 @@
 ## Server Documentation
 
-[TOCM]
+- [Technology Selection Process](#technology-selection-process)
+- [Set Up](#set-up)
+  * [Connect to MySQL Database](#connect-to-mysql-database)
+- [Running the Application](#running-the-application)
+  * [Initial Database Population](#initial-database-population)
+- [Code](#code)
+  * [Existing REST API Routes](#existing-rest-api-routes)
+    + [Projects](#projects)
+    + [Users](#users)
+  * [Application Start](#application-start)
+  * [Java Web Token Authentication](#java-web-token-authentication)
+  * [Controller](#controller)
+  * [Service](#service)
+  * [Model](#model)
+  * [Repository](#repository)
+  * [Util](#util)
+  * [Send Emails](#send-emails)
+- [Some Helpful Links](#some-helpful-links)
 
 ### Technology Selection Process
 
@@ -23,13 +40,14 @@
 `Run > Run Configurations > Spring Boot App` and create a new run configuration that sets server as the project and capstone.PlatformApplication as the Main Type.
 - Once the run configuration is set up, you can start by pressing the green play button.
 
-#### Initially Populating Database
+#### Initial Database Population
 - We can programmatically populate the database. To add an admin  with username "admin@usc.edu" and password "admin", navigate to the URL "localhost:8080/users/init". This code is in package *capstone.controller* in UserController.java.
 - To populate the database with some sample students and projects, navigate to URL "localhost:8080/projects/init".  
 
-### Code: src/main/java
+### Code
+src/main/java
 
-#### What are the existing REST API routes?
+#### Existing REST API Routes
 
 ##### Projects
 
@@ -67,34 +85,34 @@ POST | /users/stakeholder-registration | Register a stakeholder
 POST | /users/student-emails-registration | Register valid student emails from admin side and send invitation emails
 POST | /users/login | Handles login attempt for any user
 
-#### How does the application start?
+#### Application Start
 
 - In package *capstone* is PlatformApplication.java. This kicks off the entire Spring Application. In this class, you can enable "filters" that performs some action for a request to and/or a response from a resource. For example, the JWT Filter allows you to require JWT authentication for specified URLs. This is automatically wired in to the application via the @Bean annotation. These tags are very important throughtout the server code in connecting the Spring application.
 
-#### Where is JWT (Java Web Token) authentication implemented?
+#### Java Web Token Authentication
 
 - In package *capstone.controller* is JwtFilter.java. This filter performs a JWT authentication check on a request to a resource. If the request does not contain the correct token, the request is denied. 
 - Note: If the number of filters grow, feel free to create a new package such as *capstone.filters* to further organize. 
 
-#### What is a Controller?
+#### Controller
 - In package *capstone.controller* are the Controllers. A controller specifies the REST API URLs for the client to GET and POST to, and converts the client's request into a meaningful response.
 - Denoted by a @RestController tag.
 - @Autowired tags are used to automatically create instances of entities such as services.
 - Can specify type of request with @GetMapping or @PostMapping annotation.
 - Each endpoint requires a @CrossOrigin annotation with the client's URL. There is probably a better way to manage this than manually adding onto each method. This will need to be researched when the app goes in production and there are many clients.
 
-#### What is a Service?
+#### Service
 - In package *capstone.service* are the Services. A service contains business logic that you would like to use across multiple controllers. For example, if the Project controller needs to manipulate both Project and User data, it would @Autowire the ProjectService and UserService to call business logic for both resources.
 - A service manages a Repository, which translates MySQL data into Java Objects and vice versa.
 
-#### How do I specify what I want in the database?
+#### Model
 - In package *capstone.model* are the Models. A model specifies the Java Object representation of the data we want saved in the database. Spring Data JPA takes these Java Object representations and translates them into MySQL data tables.
 - @Id denotes the variable we want to use as an ID for a row in the data table. @GeneratedValue denotes that this ID is automatically generated when added to the table (this starts at 1 and increments).
 - Pay attention to how you name variables in each model class. These names will directly translate into names in the database unless specified through a tag. Each variable must have a getter and setter (can automatically generate these by `right clicking in the file > Source > Generate Getters and Setters`).
 - @Transient tag specifies variables that are needed for business logic but not necessary to store in the database.
 - You can create relationships between objects by tags such as @OneToOne. For example, a Student can have a Project reference, and by using the @OneToOne tag, the database saves this relationship by creating a column in Student of Project ID.
 
-#### What is a Repository?   
+#### Repository  
 - In package *capstone.repository* are the [Spring Repositories](https://docs.spring.io/spring-data/jpa/docs/1.4.3.RELEASE/reference/html/jpa.repositories.html). For each table that you'd like to create in the MySQL database, create a corresponding Interface that extends JpaRepository. This JpaRepository is the sauce that connects the Java Objects and MySQL database entries. By extending JpaRepository, you get some convenient functions for accessing data in the database.
 - For example, for a User object that has attributes "email" and "userId", you could create a UserBaseRepository (it is a UserBaseRepository since the Student, Stakeholder, and Admin types inherit from User, so we should create repositories for each user type).
 - **Saving to the database:** In order to save users (create entries in the database), we can use the built in **save** method. Use the @Autowire tag to automatically allow a Service or Controller access to the database methods. For example, in UserService, we could @Autowire the StudentRepository so that we can call repository functions from our Service layer. 
@@ -112,12 +130,12 @@ POST | /users/login | Handles login attempt for any user
     void setStatusForId(@Param("status") String status, @Param("id") Long id);
 ```
 
-#### What is in the util package?
+#### Util
 - **Constants:** Put any constants that you want to use throughout your application here. If there's a typo somewhere you only have to look through one file :)
 - **EncryptPassword:** Password encryption/decryption implementation.
 - **ProjectAssignment:** The project matching algorithm that matches students to projects is implemented here. See separate documentation for details.
 
-#### How do I send emails through the app?
+#### Send Emails
 - First, modify the src/main/resources/application.properties file with the appropriate username and password for the email account (set up to use Gmail) that you'd like to send emails from.
 - In a Service or Controller class, @Autowire EmailService. EmailService allows you to send an email from the account that you specified in the application.properties file. By calling the following, you can send an email with a specific subject and message to a given email:
 ```java
