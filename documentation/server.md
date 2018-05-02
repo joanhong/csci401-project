@@ -29,8 +29,8 @@
 - Note: Please use a different IDE for client code or look for a TypeScript plugin. You will be very sad if you try to use plain STS for frontend code.
 
 #### Connect to MySQL Database 
-- Create and start an empty database using the command line or MySQLWorkbench. If creating through MySQLWorkbench, create a new connection and start the server. Set the username and password.
-- Change **src/main/resources/application.properties** file with this database information (URL, username, password) and set edit permissions (create, update, etc.) to connect.
+- Create and start an empty database using the command line or MySQLWorkbench. If creating through MySQLWorkbench, create a new connection, create a new schema, and start the server. Set the username and password for the connection.
+- Change **src/main/resources/application.properties** file with this database information (URL, username, password) and set edit permissions (create, update, etc.) to connect. The URL would be formatted like: jdbc:mysql://localhost:PORT/SCHEMA_NAME.
 - The first time you populate the database tables, you should set spring.jpa.hibernate.ddl-auto to "create" and set to "update" after. **Setting to create will wipe the database.**
 
 ### Running the Application
