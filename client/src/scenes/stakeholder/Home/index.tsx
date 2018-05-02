@@ -65,7 +65,7 @@ class StakeholderHome extends React.Component<HomeProps, HomeState> {
         }
 
         return (
-            <div style={style}>
+            <div style={style as any}>
 
             <h3>Welcome back!</h3>
 

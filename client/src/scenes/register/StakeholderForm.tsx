@@ -44,7 +44,7 @@ class StakeholderRegistrationForm extends React.Component<StakeholderRegistratio
     submitClicked() {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/stakeholderRegistrationAttempt/');
+        request.open('POST', 'http://localhost:8080/users/stakeholder-registration');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
             firstName: this.state.firstName,

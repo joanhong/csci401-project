@@ -15,6 +15,10 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureException;
 
+/*
+ * JwtFilter implements JWT authentication on the server side. 
+ * This filter checks that the request has a valid token.
+ */
 public class JwtFilter extends GenericFilterBean {
 
 	public void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain)
@@ -23,14 +27,11 @@ public class JwtFilter extends GenericFilterBean {
 		final HttpServletRequest request = (HttpServletRequest) req;
 		final HttpServletResponse response = (HttpServletResponse) res;
 		final String authHeader = request.getHeader("authorization");
-		// System.out.println("Auth header: " + authHeader);
 
 		if ("OPTIONS".equals(request.getMethod())) {
 			response.setStatus(HttpServletResponse.SC_OK);
-
 			chain.doFilter(req, res);
 		} else {
-
 			if (authHeader == null || !authHeader.startsWith("Bearer ")) {
 				throw new ServletException("Missing or invalid Authorization header");
 			}
@@ -43,7 +44,6 @@ public class JwtFilter extends GenericFilterBean {
 			} catch (final SignatureException e) {
 				throw new ServletException("Invalid token");
 			}
-
 			chain.doFilter(req, res);
 		}
 	}

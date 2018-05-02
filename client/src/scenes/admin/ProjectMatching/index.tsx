@@ -71,7 +71,7 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
   assignProjects() {
     var request = new XMLHttpRequest();
     request.withCredentials = true;
-    request.open('POST', 'http://localhost:8080/projects/assignToStudents');
+    request.open('POST', 'http://localhost:8080/projects/assign-to-students');
     var data = JSON.stringify(
         this.state.projects
     );
@@ -91,7 +91,7 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
     }
 
     const header = (
-      <div>
+      <div style={{margin: 'auto', float: 'none', width: 1000}}>
         <h2>Project Matching</h2>
         <form>
           <Grid>
@@ -125,7 +125,7 @@ class ProjectMatching extends React.Component<ProjectMatchingProps, ProjectMatch
 
     if (isLaunched && !projects.length) {
       return (
-        <div>
+        <div style={{margin: 'auto', float: 'none', width: 1000}}>
           {header}
           <p>Loading...</p>
         </div>

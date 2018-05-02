@@ -81,7 +81,7 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
     submitEdit = () => {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/userInfoUpdate/');
+        request.open('POST', 'http://localhost:8080/users/update-info');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
             firstName: this.state.editFirstName,
@@ -248,7 +248,7 @@ class UserManagement extends React.Component<UserListProps, UserListState> {
         }
         
         return(
-            <div style={style}>
+            <div style={style as any}>
                 <h2>User Management</h2>
 
                 <div>

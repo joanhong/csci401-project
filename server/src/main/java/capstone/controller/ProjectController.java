@@ -32,45 +32,28 @@ public class ProjectController
 	@Autowired
 	private UserService userService;
 	
-	
 	public ProjectController()
 	{
 	}
+	
+	// Initialize database tables with sample students and projects taken from the Spring 2018 class.
 	@GetMapping("/init")
 	@CrossOrigin(origins = "http://localhost:3000")
-	public void initTables() {
+	public String initTables() {
 		projectService.initTables();
+		return Constants.SUCCESS;
 	}
+	
+	/* Getting projects from user information */
 	
 	@GetMapping("")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public List<Project> getProjects()
 	{
 		return projectService.findAll();
-	}	
-
-	@GetMapping("/assignment")
-	@CrossOrigin(origins = "http://localhost:3000")
-	public List<Project> projectAssignment()
-	{
-		System.out.println("running assignment");
-		/*List<Project> existing = projectService.getExistingAssignments();
-		if (existing != null && existing.size() > 0) {
-			return existing;
-		}*/
-		return projectService.runAlgorithm();
-		//return projectService.runAlgorithm(getProjects(), (List<Student>)userService.getStudents());
 	}
 	
-	@GetMapping("/assignment/exists")
-	public String assignmentExists() {
-		List<Project> existing = projectService.getExistingAssignments();
-		if (existing != null && existing.size() > 0) {
-			return "true";
-		}
-		return "false";
-	}
-	
+	// Get all projects that a stakeholder owns
 	@GetMapping("/{email:.+}")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public List<Project> getProjectsByEmail(@PathVariable("email") String email) {
@@ -79,6 +62,7 @@ public class ProjectController
 		return projects;
 	}
 	
+	// Get one project that a stakeholder owns
 	@GetMapping("/{email:.+}/{projectId}")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public Project getProjectByEmailAndId(@PathVariable("email") String email,
@@ -93,6 +77,95 @@ public class ProjectController
 		return null;
 	}
 	
+	// Get a student's project
+	@GetMapping("/student/{email:.+}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody Project getUserProject(@PathVariable("email") String email) {
+		Student user = (Student) userService.findUserByEmail(email);
+		System.out.println(user.getProject().getProjectName());
+		return user.getProject();
+	}
+	
+	/* Getting users from project information */
+	
+	@GetMapping("/{projectId}/students")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody List<User> getAllStudentsOnProject(@PathVariable("projectId") int projectId) {
+		return userService.findAllByProject(projectService.findByProjectId(projectId));
+	}
+	
+	@GetMapping("/{projectId}/stakeholder")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody User getStakeholderOnProject(@PathVariable("projectId") int projectId) {
+		List<Stakeholder> stakeholders = (List<Stakeholder>) userService.getStakeholders();
+		for (Stakeholder s : stakeholders) {
+			for (Project p : s.getProjectIds()) {
+				if (p.getProjectId() == projectId) {
+					return s;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/* Project Matching */
+
+	@GetMapping("/assignment")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public List<Project> projectAssignment()
+	{
+		System.out.println("running assignment");
+		/*// WIP: Return an existing matching if students have already been assigned to projects
+		 * List<Project> existing = projectService.getExistingAssignments();
+		if (existing != null && existing.size() > 0) {
+			return existing;
+		}*/
+		return projectService.runAlgorithm();
+	}
+	
+	@GetMapping("/assignment/exists")
+	public String assignmentExists() {
+		List<Project> existing = projectService.getExistingAssignments();
+		if (existing != null && existing.size() > 0) {
+			return "true";
+		}
+		return "false";
+	}
+	
+	// Assign projects to students
+	@PostMapping("/assign-to-students")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody String assignProjectsToStudents(@RequestBody ArrayList<Project> projects) {
+		for (Project project : projects) {
+			if (project.getProjectId() > 0) {
+				for (Student student : project.getMembers()) {
+					// Set the given project for each student
+					Student saveStudent = userService.findByUserId(student.getUserId());
+					saveStudent.setProject(project);
+					userService.saveUser(saveStudent);
+				}
+			}
+		}
+		projectService.saveAssignment(projects);
+		return Constants.SUCCESS;
+	}
+	
+	// Submit project ranking for a student
+	//@PostMapping("/rankingsSubmitAttempt/{email:.+}")
+	@PostMapping("/{email:.+}/submit-ranking")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody String projectRankingsSubmission(@PathVariable("email") String email, @RequestBody List<Integer> projects) {
+		User user = userService.findUserByEmail(email);
+		for (int rank = 1; rank <= 5; rank++) {
+			projectService.saveRanking(projects.get(rank-1), user.getUserId(), rank);
+		}
+		return Constants.SUCCESS;
+	}
+	
+	/* Project submission and status */
+	
+	// When a stakeholder submits a proposal
+	// Save a new project and attach a stakeholder to that project
 	@PostMapping("/save/{email:.+}")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public @ResponseBody Project saveData(@PathVariable("email") String email, 
@@ -105,66 +178,7 @@ public class ProjectController
 		User user = userService.findUserByEmail(email);
 	    projectService.save(project);
 	    userService.saveProject(user, project);
-		return project; //new ResponseEntity<Boolean>(uiRequestProcessor.saveData(a),HttpStatus.OK);
-	}
-	
-	@PostMapping("/rankingsSubmitAttempt/{email:.+}")
-	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody String projectRankingsSubmission(@PathVariable("email") String email, @RequestBody List<Integer> projects) {
-		User user = userService.findUserByEmail(email);
-		for (int rank = 1; rank <= 5; rank++) {
-			projectService.saveRanking(projects.get(rank-1), user.getUserId(), rank);
-		}
-		return Constants.SUCCESS;
-	}
-	
-	@PostMapping("/assignToStudents")
-	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody String assignProjectsToStudents(@RequestBody ArrayList<Project> projects) {
-		for (Project project : projects) {
-			//projectService.save(project);
-			if (project.getProjectId() > 0) {
-				Project saveProject = projectService.findByProjectId(project.getProjectId());
-				//List<Student> saveMembers = new ArrayList<Student>();
-				for (Student student : project.getMembers()) {
-					Student saveStudent = userService.findByUserId(student.getUserId());
-					//saveMembers.add(saveStudent);
-					saveStudent.setProject(project);
-					userService.saveUser(saveStudent);
-				}
-				//saveProject.setMembers(saveMembers);
-			}
-		}
-		projectService.saveAssignment(projects);
-		return Constants.SUCCESS;
-	}
-	
-	@GetMapping("/user/{email:.+}")
-	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody Project getUserProject(@PathVariable("email") String email) {
-		Student user = (Student) userService.findUserByEmail(email);
-		System.out.println(user.getProject().getProjectName());
-		return user.getProject();
-	}
-	
-	@GetMapping("/students/{projectId}")
-	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody List<User> getAllStudentsOnProject(@PathVariable("projectId") int projectId) {
-		return userService.findAllByProject(projectService.findByProjectId(projectId));
-	}
-	
-	@GetMapping("/stakeholder/{projectId}")
-	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody User getStakeholderOnProject(@PathVariable("projectId") int projectId) {
-		List<Stakeholder> stakeholders = (List<Stakeholder>) userService.getStakeholders();
-		for (Stakeholder s : stakeholders) {
-			for (Project p : s.getProjectIds()) {
-				if (p.getProjectId() == projectId) {
-					return s;
-				}
-			}
-		}
-		return null;
+		return project;
 	}
 	
 	@PostMapping("/pending/{projectId}")

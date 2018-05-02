@@ -63,7 +63,7 @@ constructor(props: ProjectProps) {
     }
 
     render() {
-        fetch('http://localhost:8080/projects/students/' + this.state.project.projectId)
+        fetch('http://localhost:8080/projects/' + this.state.project.projectId + '/students')
             .then(response => response.json())
             .then(data => this.setState({students: data}));
 

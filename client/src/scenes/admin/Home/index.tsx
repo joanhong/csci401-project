@@ -14,7 +14,7 @@ class AdminHome extends React.Component {
   
   render() {
     return (
-          <div style={style}>
+          <div style={style as any}>
             <h3>Welcome back!</h3>
           </div>
     );

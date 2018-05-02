@@ -40,7 +40,7 @@ this.handleChange = this.handleChange.bind(this);
 submitClicked() {
     var request = new XMLHttpRequest();
     request.withCredentials = true;
-    request.open('POST', 'http://localhost:8080/adminRegistrationAttempt/');
+    request.open('POST', 'http://localhost:8080/users/admin-registration');
     request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     var data = JSON.stringify({
         firstName: this.state.firstName,

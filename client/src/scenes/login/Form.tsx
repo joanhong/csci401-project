@@ -37,7 +37,7 @@ class LoginForm extends React.Component<LoginProps, LoginState> {
     getToken(callback: any) {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/login');
+        request.open('POST', 'http://localhost:8080/users/login');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
             email: this.state.email,

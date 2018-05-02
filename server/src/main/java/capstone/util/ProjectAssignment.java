@@ -21,7 +21,7 @@ import capstone.model.users.Student;
 
 public class ProjectAssignment {
 
-PrintWriter writer;
+//PrintWriter writer;
 	
 	private ArrayList<Project> projects;
 	private ArrayList<Student> students;
@@ -53,7 +53,7 @@ PrintWriter writer;
                 newProject.setMaxSize(Integer.parseInt(elements[2]));
                 projects.add(newProject);
                 
-                writer.println(newProject);
+                //writer.println(newProject);
             }
             
             projectsBR.close();         
@@ -61,7 +61,7 @@ PrintWriter writer;
         catch(Exception e) {
             e.printStackTrace();
         }
-        writer.println("");
+        //writer.println("");
         
         // import users and rankings from text file
         try {
@@ -91,10 +91,10 @@ PrintWriter writer;
                 }*/
 
                 students.add(newStudent);
-                writer.println(newStudent);
+                //writer.println(newStudent);
             }
             
-            writer.println("");
+           //writer.println("");
             studentsBR.close();         
         }
         catch(Exception e) {
@@ -120,9 +120,9 @@ PrintWriter writer;
 		//projects = driver.getProjectsTable();
 		
 		for(Project p : projects) {
-			writer.print(p);
+			//writer.print(p);
 		}
-		writer.println("");
+		//writer.println("");
         
         // rankings
 		// HARDCODING 5 (for now)
@@ -130,9 +130,9 @@ PrintWriter writer;
 		//students = driver.getUsersWithRankings(projects, num_students);
 		
 		for(Student s : students) {
-			writer.print(s);
+			//writer.print(s);
 		}
-		writer.println("");
+		//writer.println("");
 
 		// calculate popularity metrics:
 		/*for (Student s : students) {
@@ -169,14 +169,14 @@ PrintWriter writer;
 		folder_name = _folder_name;
 		
 		// set up output text file for this iteration
-		String filename = folder_name + "/iterations/" + Integer.toString(iteration) + ".txt";
+		/*String filename = folder_name + "/iterations/" + Integer.toString(iteration) + ".txt";
 		try {
 			writer = new PrintWriter(filename, "UTF-8");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 		// init SQL connection
 		//driver = new SQLDriver(NUM_RANKED);
@@ -214,7 +214,7 @@ PrintWriter writer;
 		}
 		algoSatScore = totalProjSatScores / projects.size();		
 		System.out.print("Satisfaction: " + algoSatScore);
-		writer.close();
+		//writer.close();
 
 		PlaceUnassignedStudents();
 	}
@@ -270,12 +270,14 @@ PrintWriter writer;
 			
 			for (Iterator<Student> it = unassignedStudents.iterator(); it.hasNext();) {
 				Student s = it.next();
-				String projname = s.orderedRankings.get(choice);
-				Project p = GetProjectWithName(projname);
-				if (p.members.size() < p.getMaxSize()) {
-					System.out.println(s.getFirstName());
-					(p.members).add(s);
-					it.remove();
+				if (s.orderedRankings.size() > choice) {
+					String projname = s.orderedRankings.get(choice);
+					Project p = GetProjectWithName(projname);
+					if (p.members.size() < p.getMaxSize()) {
+						System.out.println(s.getFirstName());
+						(p.members).add(s);
+						it.remove();
+					}
 				}
 			}
 		}
@@ -285,7 +287,7 @@ PrintWriter writer;
 		for (int i=projects.size()-1; i>0; i--) {
 			Project p = projects.get(i);
 			if (p.members.size() < p.getMinSize() && (GetTotalMaxSpots()-p.getMaxSize()) >= students.size()) {
-				writer.println("Eliminated " + p.getProjectName());
+				//writer.println("Eliminated " + p.getProjectName());
 				for (Student s: p.members) {
 					if (!unassignedStudents.contains(s)) {
 						unassignedStudents.add(s);
@@ -294,7 +296,7 @@ PrintWriter writer;
 				projects.remove(i);
 			}
 		}
-		writer.println("");
+		//writer.println("");
 	}
 
 	void Bump() {

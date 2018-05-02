@@ -11,18 +11,6 @@ import org.springframework.data.annotation.Transient;
 @Entity
 public class User 
 {	
-	public Long getUserId() {
-		return userId;
-	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-	public String getAddr() {
-		return addr;
-	}
-	public void setAddr(String addr) {
-		this.addr = addr;
-	}
 	@Id
 	@GeneratedValue
 	private Long userId;
@@ -35,6 +23,18 @@ public class User
 	private String email;
 	private String phone;
 	private String userType;
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+	public String getAddr() {
+		return addr;
+	}
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
 	
 	public String getUserType() {
 		return userType;

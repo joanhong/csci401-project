@@ -42,7 +42,7 @@ class StudentRegistrationForm extends React.Component<StudentRegistrationProps, 
     submitClicked() {
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.open('POST', 'http://localhost:8080/studentRegistrationAttempt/');
+        request.open('POST', 'http://localhost:8080/users/student-registration');
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         var data = JSON.stringify({
             firstName: this.state.firstName,

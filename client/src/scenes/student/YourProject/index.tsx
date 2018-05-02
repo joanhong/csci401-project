@@ -57,15 +57,15 @@ class StudentProject extends React.Component<ProjectProps, ProjectState> {
     async componentDidMount() {
         this.setState({isLoading: true});
 
-        await fetch('http://localhost:8080/projects/user/' + sessionStorage.getItem('email'))
+        await fetch('http://localhost:8080/projects/student/' + sessionStorage.getItem('email'))
             .then(response => response.json())
             .then(data => this.setState({project: data, isLoading: false}));
 
-        await fetch('http://localhost:8080/projects/students/' + this.state.project.projectId)
+        await fetch('http://localhost:8080/projects/' + this.state.project.projectId + '/students')
             .then(response => response.json())
             .then(data => this.setState({students: data}));
 
-        fetch('http://localhost:8080/projects/stakeholder/' + this.state.project.projectId)
+        fetch('http://localhost:8080/projects/' + this.state.project.projectId + '/stakeholder')
             .then(response => response.json())
             .then(data => this.setState({stakeholder: data}));
 

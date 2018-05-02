@@ -7,7 +7,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import capstone.model.Project;
-import capstone.model.Proposal;
 
 @Entity
 public class Stakeholder extends User {
@@ -19,9 +18,6 @@ public class Stakeholder extends User {
 	//@OneToOne(targetEntity=Project.class)
 	//private Project project;
 	
-	@OneToMany(targetEntity=Proposal.class)
-	private Collection<Proposal> proposalIds;
-	
 	private int avgRating;
 	
 	public String getOrganization() {
@@ -29,12 +25,6 @@ public class Stakeholder extends User {
 	}
 	public void setOrganization(String organization) {
 		this.organization = organization;
-	}
-	public Collection<Proposal> getProposalIds() {
-		return proposalIds;
-	}
-	public void setProposalIds(Collection<Proposal> proposalIds) {
-		this.proposalIds = proposalIds;
 	}
 	public void setProjectIds(Collection<Project> projectIds) {
 		this.projectIds = projectIds;

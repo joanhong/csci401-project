@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import capstone.model.Project;
-import capstone.model.Proposal;
 import capstone.model.users.Admin;
 import capstone.model.users.Stakeholder;
 import capstone.model.users.Student;
@@ -102,10 +101,6 @@ public class UserService {
 			return Constants.ADMIN;
 		}
 		return Constants.EMPTY;
-	}
-	
-	public List<Proposal> getStakeholderProposals(Stakeholder user) {
-		return (List<Proposal>) user.getProposalIds();
 	}
 	
 	public List<Project> getStakeholderProjects(Stakeholder user) {

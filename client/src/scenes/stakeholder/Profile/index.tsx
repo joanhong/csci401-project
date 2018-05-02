@@ -94,7 +94,7 @@ class StakeholderProfile extends React.Component<ProfileProps, ProfileState> {
         }
 
         return (
-            <div style={style}>
+            <div style={style as any}>
             <Panel>
             <Panel.Heading>
                 Profile

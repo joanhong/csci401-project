@@ -27,6 +27,9 @@ import capstone.repository.PeerReviewRepository;
 import capstone.repository.WeeklyReportRepository;
 import capstone.service.EmailService;
 
+/*
+ * This controller is a WIP. Deliverables is likely the closest to fully functional.
+ */
 @RestController
 @RequestMapping("")
 public class AssignmentController {
@@ -41,83 +44,9 @@ public class AssignmentController {
 
 	public AssignmentController() {
 	}
-
-	@RequestMapping(value = "/peerReviewForm", consumes = "application/json", produces = "application/json", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody PeerReview peerReviewSubmissionAttempt(@RequestBody PeerReview peerreviewdata) {
-		System.out.println("Received HTTP POST");
-		String timeStamp = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss").format(new Date());
-		String timeCode = new SimpleDateFormat("MMddHHmmss").format(new Date());
-		// timeCode.replaceAll(".", "");
-
-		// peerreviewdata.setId(Integer.parseInt(timeCode));
-		System.out.println(peerreviewdata.getId());
-		System.out.println(peerreviewdata.getUscidnumber());
-		System.out.println(peerreviewdata.getUscusername());
-		peerRepo.save(peerreviewdata);
-
-		// use sql to send this data to weeklyreportstable
-		/*
-		 * driver.addPeerReviewEntry(peerreviewdata); mailDriver maildriver = new
-		 * mailDriver("csci401server", "drowssap$$$");
-		 * 
-		 * String reportConfirmation = "A peer review was submitted for " +
-		 * peerreviewdata.getTeammateaddress() +".\n\n" + "TIME: " + timeStamp + "\n" +
-		 * "USC USERNAME: " + peerreviewdata.getUscusername() + "\n" + "USC ID: " +
-		 * peerreviewdata.getUscidnumber() + "\n" + "TEAM MEMBER NAME: " +
-		 * peerreviewdata.getTeammateaddress() + "\n" + "POSITIVE FEEDBACK: "+
-		 * peerreviewdata.getPositivefeedback() + "\n" + "NEED IMPROVEMENT: " +
-		 * peerreviewdata.getNegativefeedback() + "\n\n" +
-		 * "For more information, visit the CSCI401 website or reply to this email.";
-		 * 
-		 * maildriver.sendEmail("Peer Review Submitted for " +
-		 * peerreviewdata.getTeammateaddress(), reportConfirmation,
-		 * "csci401server@gmail.com"); maildriver.sendEmail("Peer Review Confirmation",
-		 * reportConfirmation, peerreviewdata.getUscusername()+"@usc.edu");
-		 */
-
-		return peerreviewdata;
-	}
-
-	/* Weekly Status Reports */
-	@RequestMapping(value = "/weeklyReportForm", consumes = "application/json", produces = "application/json", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:3000")
-	public @ResponseBody WeeklyReport weeklyReportSubmissionAttempt(@RequestBody WeeklyReport weeklyreportdata) {
-		System.out.println("Received HTTP POST");
-		String timeStamp = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss").format(new Date());
-		String timeCode = new SimpleDateFormat("MMddHHmmss").format(new Date());
-		// timeCode.replaceAll(".", "");
-
-		// weeklyreportdata.setId(Integer.parseInt(timeCode));
-		System.out.println(weeklyreportdata.getId());
-		// System.out.println(weeklyreportdata.getName());
-		// System.out.println(weeklyreportdata.getUscusername());
-
-		// use sql to send this data to weeklyreportstable
-		weeklyRepo.save(weeklyreportdata);
-
-		/*
-		 * String reportConfirmation = weeklyreportdata.getName() +
-		 * " submitted a weekly report.\n\n" + "TIME: " + timeStamp + "\n" +
-		 * "USC USERNAME: " + weeklyreportdata.getUscusername() + "\n" +
-		 * "PROJECT NAME: " + weeklyreportdata.getProject() + "\n\n" +
-		 * "For more information, visit the CSCI401 website or reply to this email.";
-		 * 
-		 * maildriver.sendEmail("Weekly Report Submitted by " +
-		 * weeklyreportdata.getName(), reportConfirmation, "csci401server@gmail.com");
-		 * maildriver.sendEmail("Weekly Report Confirmation", reportConfirmation,
-		 * weeklyreportdata.getUscusername()+"@usc.edu");
-		 */
-
-		return weeklyreportdata;
-	}
-
-	/* Peer Reviews */
-
+	
 	/* Deliverables */
 
-	// @RequestMapping(value = "/info",consumes= "application/json",produces=
-	// "application/json", method = RequestMethod.POST)
 	@PostMapping("/deliverables/info")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public void createDeliverableInfo(@RequestBody Deliverable deliverable) {
@@ -172,5 +101,78 @@ public class AssignmentController {
 				byte[] bytes = file.getBytes();
 			}
 		}
+	}
+
+	/* Weekly Status Reports */
+	
+	@PostMapping("/weeklyReportForm")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody WeeklyReport weeklyReportSubmissionAttempt(@RequestBody WeeklyReport weeklyreportdata) {
+		System.out.println("Received HTTP POST");
+		String timeStamp = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss").format(new Date());
+		String timeCode = new SimpleDateFormat("MMddHHmmss").format(new Date());
+		// timeCode.replaceAll(".", "");
+
+		// weeklyreportdata.setId(Integer.parseInt(timeCode));
+		System.out.println(weeklyreportdata.getId());
+		// System.out.println(weeklyreportdata.getName());
+		// System.out.println(weeklyreportdata.getUscusername());
+
+		// use sql to send this data to weeklyreportstable
+		weeklyRepo.save(weeklyreportdata);
+
+		/*
+		 * String reportConfirmation = weeklyreportdata.getName() +
+		 * " submitted a weekly report.\n\n" + "TIME: " + timeStamp + "\n" +
+		 * "USC USERNAME: " + weeklyreportdata.getUscusername() + "\n" +
+		 * "PROJECT NAME: " + weeklyreportdata.getProject() + "\n\n" +
+		 * "For more information, visit the CSCI401 website or reply to this email.";
+		 * 
+		 * maildriver.sendEmail("Weekly Report Submitted by " +
+		 * weeklyreportdata.getName(), reportConfirmation, "csci401server@gmail.com");
+		 * maildriver.sendEmail("Weekly Report Confirmation", reportConfirmation,
+		 * weeklyreportdata.getUscusername()+"@usc.edu");
+		 */
+
+		return weeklyreportdata;
+	}
+
+	/* Peer Reviews */
+	
+	@PostMapping("/peerReviewForm")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public @ResponseBody PeerReview peerReviewSubmissionAttempt(@RequestBody PeerReview peerreviewdata) {
+		System.out.println("Received HTTP POST");
+		String timeStamp = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss").format(new Date());
+		String timeCode = new SimpleDateFormat("MMddHHmmss").format(new Date());
+		// timeCode.replaceAll(".", "");
+
+		// peerreviewdata.setId(Integer.parseInt(timeCode));
+		System.out.println(peerreviewdata.getId());
+		System.out.println(peerreviewdata.getUscidnumber());
+		System.out.println(peerreviewdata.getUscusername());
+		peerRepo.save(peerreviewdata);
+
+		// use sql to send this data to weeklyreportstable
+		/*
+		 * driver.addPeerReviewEntry(peerreviewdata); mailDriver maildriver = new
+		 * mailDriver("csci401server", "drowssap$$$");
+		 * 
+		 * String reportConfirmation = "A peer review was submitted for " +
+		 * peerreviewdata.getTeammateaddress() +".\n\n" + "TIME: " + timeStamp + "\n" +
+		 * "USC USERNAME: " + peerreviewdata.getUscusername() + "\n" + "USC ID: " +
+		 * peerreviewdata.getUscidnumber() + "\n" + "TEAM MEMBER NAME: " +
+		 * peerreviewdata.getTeammateaddress() + "\n" + "POSITIVE FEEDBACK: "+
+		 * peerreviewdata.getPositivefeedback() + "\n" + "NEED IMPROVEMENT: " +
+		 * peerreviewdata.getNegativefeedback() + "\n\n" +
+		 * "For more information, visit the CSCI401 website or reply to this email.";
+		 * 
+		 * maildriver.sendEmail("Peer Review Submitted for " +
+		 * peerreviewdata.getTeammateaddress(), reportConfirmation,
+		 * "csci401server@gmail.com"); maildriver.sendEmail("Peer Review Confirmation",
+		 * reportConfirmation, peerreviewdata.getUscusername()+"@usc.edu");
+		 */
+
+		return peerreviewdata;
 	}
 }

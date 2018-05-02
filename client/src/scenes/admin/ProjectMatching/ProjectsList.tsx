@@ -126,7 +126,7 @@ class ProjectsList extends React.Component<ProjectsListProps, ProjectsListState>
     render() {
         const {projects} = this.state;
         return (
-            <div style={style}>
+            <div style={style as any}>
             <Table bordered={true}>
             <thead>
             <tr>

@@ -31,6 +31,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @RestController
+@RequestMapping("/users")
 public class UserController 
 {
 	@Autowired
@@ -55,14 +56,14 @@ public class UserController
 		return Constants.SUCCESS;
 	}
 	
-	@GetMapping("/users")
+	@GetMapping("")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public Collection<User> getUsers()
 	{
 		return userService.getUsers();
 	}
 	
-	@GetMapping("/users/{email:.+}")
+	@GetMapping("/{email:.+}")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public User getUser(@PathVariable("email") String email)
 	{
@@ -82,7 +83,7 @@ public class UserController
 		return userService.getStudents(); 
 	}
 	
-	@PostMapping("/userInfoUpdate")
+	@PostMapping("/update-info")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public void updateUserInfo(@RequestBody Map<String, String> info) {
 		String originalEmail = info.get(Constants.ORIGINAL_EMAIL);
@@ -109,7 +110,7 @@ public class UserController
 	/* Registration */
 	
 	// Admin registration
-	@PostMapping("/adminRegistrationAttempt")
+	@PostMapping("/admin-registration")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public @ResponseBody String adminRegistrationAttempt(@RequestBody Map<String, String> info) {
 		String email = info.get(Constants.EMAIL);
@@ -136,7 +137,7 @@ public class UserController
 	}
 	
 	// Student registration
-	@PostMapping("/studentRegistrationAttempt")
+	@PostMapping("/student-registration")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public @ResponseBody String studentRegistrationAttempt(@RequestBody Map<String, String> info) {
 		String email = info.get(Constants.EMAIL);
@@ -162,7 +163,7 @@ public class UserController
 	}
 	
 	// Stakeholder registration
-	@PostMapping("/stakeholderRegistrationAttempt")
+	@PostMapping("/stakeholder-registration")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public @ResponseBody String stakeholderRegistrationAttempt(@RequestBody Map<String, String> info) {
 		System.out.println("Start reg");
@@ -191,7 +192,7 @@ public class UserController
 	}
 	
 	// Admin can register student emails and send an invitation to the platform
-	@RequestMapping(value = "/studentEmailsRegistrationAttempt",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
+	@RequestMapping(value = "/student-emails-registration",consumes= "application/json",produces= "application/json", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:3000")
 	public void studentEmailRegistrationAttempt(@RequestBody Map<String, String> emailsData)
 	{

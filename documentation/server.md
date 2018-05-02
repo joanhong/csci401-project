@@ -1,5 +1,7 @@
 ## Server Documentation
 
+[TOCM]
+
 ### Technology Selection Process
 
 - **Language:** Java was selected because everyone in the group is familiar with it. Not all members were comfortable with other possibilities such as Python or Node.js.
@@ -19,12 +21,51 @@
 `Right click server > Run As > Spring Boot App` 
 - Alternatively: 
 `Run > Run Configurations > Spring Boot App` and create a new run configuration that sets server as the project and capstone.PlatformApplication as the Main Type.
+- Once the run configuration is set up, you can start by pressing the green play button.
 
 #### Initially Populating Database
-- We can programmatically populate the database. To add an admin  with username "admin@usc.edu" and password "admin", navigate to the URL "localhost:8080/init". This code is in package *capstone.controller* in UserController.java.
+- We can programmatically populate the database. To add an admin  with username "admin@usc.edu" and password "admin", navigate to the URL "localhost:8080/users/init". This code is in package *capstone.controller* in UserController.java.
 - To populate the database with some sample students and projects, navigate to URL "localhost:8080/projects/init".  
 
 ### Code: src/main/java
+
+#### What are the existing REST API routes?
+
+##### Projects
+
+Type | Route | Description
+---- | ----- | -----------
+GET | /projects/init | Initialize database tables with sample students and projects taken from Spring 2018 data
+GET | /projects | Get all projects
+GET | /projects/{email} | Get all projects that a stakeholder owns
+GET | /projects/{email}/{projectId} | Get one project that a stakeholder owns
+GET | /projects/student/{email} | Get a student's project
+GET | /projects/{projectId}/students | Get all students on a project
+GET | /projects/{projectId}/stakeholder | Get stakeholder on a project
+GET | /projects/assignment | Run project matching algorithm and get matchings
+POST | /projects/assign-to-students | Assign projects to students
+POST | /projects/{email}/submit-ranking | Submit project ranking for a student
+POST | /projects/save/{email} | Save a new project and attach a stakeholder to that project
+POST | /projects/pending/{projectId} | Set status of project to Pending Approval
+POST | /projects/approve/{projectId} | Set status of project to Approved
+POST | /projects/reject/{projectId} | Set status of project to Rejected
+POST | /projects/change/{projectId} | Set status of project to Changes Requested
+
+##### Users
+
+Type | Route | Description
+---- | ----- | -----------
+GET | /users/init | Initialize database with admin with username "admin@usc.edu" and password "admin"
+GET | /users | Get all users
+GET | /users/{email} | Get one user with given email
+GET | /users/stakeholders | Get all stakeholders
+GET | /users/students | Get all students
+POST | /users/update-info | Update info for a user
+POST | /users/admin-registration | Register an admin
+POST | /users/student-registration | Register a student
+POST | /users/stakeholder-registration | Register a stakeholder
+POST | /users/student-emails-registration | Register valid student emails from admin side and send invitation emails
+POST | /users/login | Handles login attempt for any user
 
 #### How does the application start?
 

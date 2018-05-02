@@ -122,7 +122,7 @@ class ProjectProposalApprovalForm extends React.Component<ProjectListProps, Proj
         }
 
         return(
-            <div>
+            <div style={{margin: 'auto', float: 'none', width: 1500}}>
                 <h2>Project Proposals</h2>
                 <Form>
                 <Table bordered={true}>

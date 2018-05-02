@@ -72,7 +72,7 @@ class ProjectRankingContainer extends React.Component<Props, State> {
         if (submit) {
             var request = new XMLHttpRequest();
             request.withCredentials = true;
-            request.open('POST', 'http://localhost:8080/projects/rankingsSubmitAttempt/' + sessionStorage.getItem('email'));
+            request.open('POST', 'http://localhost:8080/projects/' + sessionStorage.getItem('email') + '/submit-ranking');
             request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
             /*var data = JSON.stringify({
             project1: this.state.projectCards[0].projectName,
