@@ -25,11 +25,14 @@
 - **Framework:** [Spring Boot](https://projects.spring.io/spring-boot/) was selected because it is one of the most popular Java frameworks for web backend development. This implements a RESTful API.
 
 ### Set Up
-- Clone from the [CSCI 401 Project Platform Github repository](https://github.com/joanhong/csci401-project). Download [Spring Tool Suite](https://spring.io/tools/sts/all), which should feel familiar because it's built on Eclipse. Import as a Git project. 
-- Note: Please use a different IDE for client code or look for a TypeScript plugin. You will be very sad if you try to use plain STS for frontend code.
+- Clone from the [CSCI 401 Project Platform Github repository](https://github.com/joanhong/csci401-project). 
+- Download [Spring Tool Suite](https://spring.io/tools/sts/all), which should feel familiar because it's built on Eclipse. 
+- Import as a Git project. 
+- Note: Please use a different IDE for client code or look for a TypeScript plugin. You will be very sad if you try to use plain STS for frontend code :(
 
 #### Connect to MySQL Database 
-- Create and start an empty database using the command line or MySQLWorkbench. If creating through MySQLWorkbench, create a new connection, create a new schema, and start the server. Set the username and password for the connection.
+- Create and start an empty database and schema using the command line or MySQLWorkbench. 
+- Set the username and password for the connection.
 - Change **src/main/resources/application.properties** file with this database information (URL, username, password) and set edit permissions (create, update, etc.) to connect. The URL would be formatted like: jdbc:mysql://localhost:PORT/SCHEMA_NAME.
 - The first time you populate the database tables, you should set spring.jpa.hibernate.ddl-auto to "create" and set to "update" after. **Setting to create will wipe the database.**
 
@@ -87,7 +90,8 @@ POST | /users/login | Handles login attempt for any user
 
 #### Application Start
 
-- In package *capstone* is PlatformApplication.java. This kicks off the entire Spring Application. In this class, you can enable "filters" that performs some action for a request to and/or a response from a resource. For example, the JWT Filter allows you to require JWT authentication for specified URLs. This is automatically wired in to the application via the @Bean annotation. These tags are very important throughtout the server code in connecting the Spring application.
+- In package *capstone* is PlatformApplication.java. This kicks off the entire Spring Application. In this class, you can enable "filters" that performs some action for a request to and/or a response from a resource. For example, the JWT Filter allows you to require JWT authentication for specified URLs. 
+- This is automatically wired in to the application via the @Bean annotation. These tags are very important throughtout the server code in connecting the Spring application.
 
 #### Java Web Token Authentication
 
