@@ -15,6 +15,7 @@ The algorithm requires the following information in order to run:
 
 ### Ranking Projects
 - Each Project is evaluated based on a **Project Popularity** metric, which takes into account how many Students are interested in it, and how highly:
+
 ![](project_popularity.jpg)
   * **p = Student Satisfaction Score** (see below) of every Student who ranked this Project.
     * **p_max** = Maximum possible Student Satisfaction Score (a #1 ranking). This will depend on the # of Projects they are allowed to rank (see below).
