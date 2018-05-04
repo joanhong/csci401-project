@@ -1,4 +1,4 @@
-## Student User Guide
+## Student User Guide 
 
 - [Profile Page](#profile-page)
 - [Project Ranking](#project-ranking)
