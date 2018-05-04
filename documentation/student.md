@@ -2,7 +2,7 @@
 
 - [Profile Page](#profile-page)
 - [Project Ranking](#project-ranking)
-- [Your Project](#your-project)
+- [Your Project](#your-project-page)
 - [Final Presentation Reviews](#final-presentation-reviews)
 
 ### Profile Page
@@ -11,10 +11,10 @@
 ### Project Ranking
 - This page allows the student to drag and rank all the projects available in the class and submit them to the server for matching.
 
-#### Your Project Page
+### Your Project Page
 - This page displays information about the project assigned to the student, and whether one has been assigned. It also allows the student
 to submit weekly deliverables, status updates, and reviews.
 
-#### Final Presentation Reviews
+### Final Presentation Reviews
 - This page lets the student turn in their final presentation reviews for every group presenting.
 
